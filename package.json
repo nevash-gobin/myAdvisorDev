@@ -1,0 +1,30 @@
+{
+  "name": "myadvisor",
+  "version": "1.0.0",
+  "description": "myAdvisor is an automated self-advising and GPA management system created for the use of the University of the West Indies students.\r It aims to replace the current system of advising to an automated and faster system for greater convenience and efficiency.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nevash-gobin/myAdvisorDev.git"
+  },
+  "keywords": [],
+  "author": "Hypertext Assassins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nevash-gobin/myAdvisorDev/issues"
+  },
+  "homepage": "https://github.com/nevash-gobin/myAdvisorDev#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "mongoose": "^5.11.13",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
