@@ -1,8 +1,11 @@
-import Sequelize from "sequelize";
+const Sequelize = require("sequelize");
+
+// imports variable to enable the database url to be hidden
+require("dotenv").config();
 
 // connects database to server
 const db = new Sequelize(
-    "postgres://lnbdhmxy:t-d1hx...@ziggy.db.elephantsql.com:5432/lnbdhmxy"
+    process.env.DB_URL
 );
 
 // tests database connection on server start up
