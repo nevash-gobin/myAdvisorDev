@@ -10,7 +10,10 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-/* Routes */
+// models
+const User = require("./models/User");
+
+// routes
 app.get("/", (req, res) => {
     res.status(200).send("Server running...");
 });
