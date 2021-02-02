@@ -1,3 +1,4 @@
+// imports sequelize module
 const Sequelize = require("sequelize");
 
 // imports variable to enable the database url to be hidden

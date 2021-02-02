@@ -11,12 +11,14 @@ app.use(cors());
 app.use(express.json());
 
 // models
-const User = require("./models/User");
+const Student = require("./models/User");
 
 // routes
 app.get("/", (req, res) => {
     res.status(200).send("Server running...");
 });
+
+app.use("/admin", require("./routes/authorization"));
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);
