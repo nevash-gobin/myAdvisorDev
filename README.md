@@ -16,3 +16,15 @@ React
 NodeJS
 
 # Pre-requisites
+### Environment Dependencies
+1. nodemon
+2. express
+3. cors
+4. pg
+5. pg-store
+6. dotenv
+7. sequelize
+8. bcrypt
+9. jsonwebtoken
+10. passport
+11. passport-jwt
