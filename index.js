@@ -7,8 +7,9 @@ const pool = require("./db");
 const passport = require("passport");
 const port = process.env.PORT || 5000;
 
-//JWT Config
-require("./utilities/jwt")(passport);
+// JWT Configurations
+require("./utilities/jwtStaff")(passport);
+require("./utilities/jwtStudent")(passport);
 
 // app connection and resources
 app.use(cors());
@@ -25,6 +26,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/admin/accounts", require("./routes/accounts"));
+
+app.use("/student", require("./routes/student"));
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);
