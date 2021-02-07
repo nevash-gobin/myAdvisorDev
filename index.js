@@ -19,6 +19,7 @@ app.use(passport.initialize());
 // models
 const Student = require("./models/Student");
 const Staff = require("./models/Staff");
+const Course = require("./models/Course");
 
 // routes
 app.get("/", (req, res) => {
@@ -27,7 +28,7 @@ app.get("/", (req, res) => {
 
 app.use("/admin/accounts", require("./routes/accounts"));
 
-app.use("/student", require("./routes/student"));
+app.use("/student", require("./routes/student_auth"));
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);
