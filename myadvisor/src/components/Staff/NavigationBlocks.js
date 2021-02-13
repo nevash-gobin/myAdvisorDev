@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import {Link } from "react-router-dom";
-
 import NavigationBlock from './NavigationBlock';
 
 import { IconContext } from "react-icons";
 import { BsPeopleFill, BsFillLayersFill, BsPersonFill } from "react-icons/bs";
 import { HiDocumentReport, HiClipboardCheck, HiArchive, HiCollection } from "react-icons/hi";
-import { FaWrench, FaSquare } from "react-icons/fa";
+import { FaWrench } from "react-icons/fa";
 
 import "../../assets/css/StaffDashboard.css";
 

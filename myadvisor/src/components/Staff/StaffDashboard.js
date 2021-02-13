@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import NavigationBlocks from './NavigationBlocks'
+import NavigationBlocks from './NavigationBlocks';
+import StaffCalendar from './Calendar';
 
 class StaffDashboard extends Component {
   render() {
@@ -15,7 +16,7 @@ class StaffDashboard extends Component {
                 <div class="col">
                     <div class="card h-100">
                         <div class="card-body">
-                            Latest
+                            
                         </div>
                     </div>
                 </div>
@@ -25,16 +26,16 @@ class StaffDashboard extends Component {
                 <div class="col-8">
                     <div class="card">
                         <div class="card-body">
-                            Calender
+                            <StaffCalendar/>
                         </div>
                     </div>
                 </div>
 
                 {/* Feed */}
                 <div class="col">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-body">
-                            Feed
+                            
                         </div>
                     </div>
                 </div>
