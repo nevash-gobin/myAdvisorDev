@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import StaffMain from './components/StaffMain';
 import Main from './components/Main';
 import './App.css';
 import { Component } from "react";
@@ -6,13 +7,11 @@ import { Component } from "react";
 class App extends Component {
   render() {
     return (
-      <div className="wrapper">
         <Router>
           <Switch>
-            <Route path="/" component={Main} />
+            <Route path="/" component={StaffMain} />
           </Switch>
         </Router>
-      </div>
     );
   }
 }

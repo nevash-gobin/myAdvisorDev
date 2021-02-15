@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import NavigationBlock from './NavigationBlock';
 
 import { IconContext } from "react-icons";
@@ -6,18 +6,15 @@ import { BsPeopleFill, BsFillLayersFill, BsPersonFill } from "react-icons/bs";
 import { HiDocumentReport, HiClipboardCheck, HiArchive, HiCollection } from "react-icons/hi";
 import { FaWrench } from "react-icons/fa";
 
-import "../../assets/css/StaffDashboard.css";
+import "../../assets/css/Staff.css";
 
-
-
-class NavigationBlocks extends Component {
-  render() {
+function NavigationBlocks() {
     return (
         <IconContext.Provider value={{ color: "#2196F3", className: "nav-block-icon", size: 50 }}>
             <div>
                 <div class="row">
                     {/* Students */}
-                    <NavigationBlock componentToPassDown={<BsPeopleFill/>} title={"Students"}/>
+                    <NavigationBlock componentToPassDown={<BsPeopleFill/>} title={"Students"} link={"/staff/students"}/>
 
                     {/* Completed */}
                     <NavigationBlock componentToPassDown={<HiClipboardCheck/>} title={"Completed"}/>
@@ -26,7 +23,7 @@ class NavigationBlocks extends Component {
                     <NavigationBlock componentToPassDown={<HiDocumentReport/>} title={"Reports"}/>
 
                     {/* Edit Courses */}
-                    <NavigationBlock componentToPassDown={<HiCollection/>} title={"Courses"}/>
+                    <NavigationBlock componentToPassDown={<HiCollection/>} title={"Courses"} link={"/staff/courses"}/>
                 </div>
 
                 <div class="row mt-4">
@@ -45,7 +42,6 @@ class NavigationBlocks extends Component {
             </div>
         </IconContext.Provider>
     );
-  }
 }
 
 export default NavigationBlocks;

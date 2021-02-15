@@ -1,3 +1,5 @@
+/*Dashboard Blocks*/
+
 .zoom {
     transition: transform .1s;
 }
@@ -16,10 +18,24 @@
     fill: white;
 }
 
-
 .block-title{
     padding-top: 30px;
     margin-bottom: 5px;
     color: #45494d;
     font-size: 18px;
+}
+
+/*Nav*/
+
+.navbar{
+    background-color: #2196F3;
+    height: 60px;
+}
+
+.navbar-brand{
+    margin-left: 20px;
+}
+
+.link {
+    text-decoration: none;
 }
