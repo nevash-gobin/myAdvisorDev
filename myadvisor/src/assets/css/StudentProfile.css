@@ -17,12 +17,6 @@
     padding-bottom: 20px;
 }
 
-.details-header {
-    font-size: 36px;
-    font-weight: bold;
-    margin-left: 30px;
-}
-
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
     background-color: #dfe9fa;
 }
