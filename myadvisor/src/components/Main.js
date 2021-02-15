@@ -4,6 +4,7 @@ import StudentProfile from './StudentProfile';
 import CourseList from './CourseList';
 import CourseDetails from './CourseDetails';
 import TopBar from './TopBar';
+import StaffDashboard from './Staff/StaffDashboard';
 import "../App.css"
 
 
@@ -21,6 +22,7 @@ class Main extends Component {
                     <Route path="/home" component={StudentProfile} />
                     <Route path="/courses" component={CourseList} />
                     <Route path="/coursedetails" component={CourseDetails} />
+                    <Route path="/staff" component={StaffDashboard} />
                     <Redirect from="*" to="/home" />
                   </Switch>
                 </Router>

@@ -1,0 +1,25 @@
+.zoom {
+    transition: transform .1s;
+}
+
+.zoom:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    background-color: #2196F3;
+}
+
+.zoom:hover .block-title{
+    color: white;
+}
+
+.zoom:hover .nav-block-icon{
+    fill: white;
+}
+
+
+.block-title{
+    padding-top: 30px;
+    margin-bottom: 5px;
+    color: #45494d;
+    font-size: 18px;
+}
