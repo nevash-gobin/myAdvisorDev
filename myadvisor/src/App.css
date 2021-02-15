@@ -12,3 +12,48 @@ body {
 .blue-bg {
   background-color: #0066FF;
 }
+
+.logo-text {
+  margin-left: 190px;
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.top-bar {
+  margin-bottom: 30px;
+}
+
+.top-bar a:link{
+  text-decoration: none;
+}
+
+.top-bar a:hover{
+  color: white;
+}
+
+.top-bar a:visited{
+  color: white;
+}
+
+.header {
+  font-size: 36px;
+  font-weight: bold;
+  margin-left: 30px;
+}
+
+.blue-button {
+  background-color: #0066FF !important;
+  border-color: #0066FF !important;
+  color: white !important;
+  border-radius: 10px !important;
+  width: 100% !important;
+  height: 50px !important;
+  font-weight: bold !important;
+  margin-top: 20px;
+}
+
+.blue-button:hover {
+  background-color: #004bbd !important;
+  border-color: #004bbd !important;
+}
