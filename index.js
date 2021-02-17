@@ -30,6 +30,8 @@ app.use("/admin/accounts", require("./routes/accounts"));
 
 app.use("/student", require("./routes/student_auth"));
 
+app.use("/courses", require("./routes/courses"));
+
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);
 });
