@@ -3,6 +3,7 @@ import StaffMain from './components/StaffMain';
 import Main from './components/Main';
 import './App.css';
 import { Component } from "react";
+import SignInSide from "./components/login";
 
 class App extends Component {
   render() {
@@ -10,6 +11,8 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path="/" component={StaffMain} />
+            <Route path="/login" component={SignInSide}/>
+          
           </Switch>
         </Router>
     );

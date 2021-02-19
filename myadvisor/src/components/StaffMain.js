@@ -5,6 +5,7 @@ import StaffNavbar from './Staff/StaffNavbar';
 
 import Courses from './Staff/Courses';
 import Students from './Staff/Students';
+import SignInSide from "./login";
 
 function StaffMain() {
     return (
