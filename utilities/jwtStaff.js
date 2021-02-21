@@ -4,7 +4,7 @@ const Staff = require("../models/Staff");
 
 var opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = process.env.secret;
+opts.secretOrKey = process.env.staffSecret;
 
 module.exports = passport => {
     passport.use(
@@ -20,20 +20,3 @@ module.exports = passport => {
         })
     );
 };
-
-// const jwt = require("jsonwebtoken");
-
-// require("dotenv").config();
-
-// /**
-//  * Generates a JWT for a user upon lgoin and expires it after 24 hours
-//  * @param {int} id A user assigned id from the database
-//  */
-// function jwtGenerator(id) {
-//     const payload = {
-//         user: id,
-//     };
-//     return jwt.sign(payload, process.env.secret, { expiresIn: "24hr" });
-// }
-
-// module.exports = jwtGenerator;

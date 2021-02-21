@@ -1,22 +1,21 @@
 /* 
     constants to enable connectivity between components and encryption using bcrypt
     bcrypt and saltRounds enable authorization and encryption
-    jwtGenerator uses the function in jwt.js to create a jsonwebtoken
+    jwt uses the passport module to create and store a user token
 */
 const router = require("express").Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-//const jwtGenerator = require("../utilities/jwt");
-//const authorization = require("../middleware/authorization");
 
 // import models
 const Student = require("../models/Student");
 const Staff = require("../models/Staff");
 
 
-/* ADMIN */
+/* ADMIN ROUTES*/
+
 // add new student account
 router.post("/students/create", passport.authenticate("jwt", { session: false }), async (req, res) => {
     try {
@@ -109,13 +108,12 @@ router.post("/login", async (req, res) => {
                 };
                 jwt.sign(
                     payload,
-                    process.env.secret,
+                    process.env.staffSecret,
                     { expiresIn: "24hr" },
                     (err, token) => {
                         res.json({ token});
                     }
                 );
-                //return res.status(200).json({ token });
             }
             else {
                 res.send("Unauthorized Access");

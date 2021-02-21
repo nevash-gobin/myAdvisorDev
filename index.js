@@ -7,8 +7,9 @@ const pool = require("./db");
 const passport = require("passport");
 const port = process.env.PORT || 5000;
 
-//JWT Config
-require("./utilities/jwt")(passport);
+// JWT Configurations
+require("./utilities/jwtStaff")(passport);
+require("./utilities/jwtStudent")(passport);
 
 // app connection and resources
 app.use(cors());
@@ -18,6 +19,7 @@ app.use(passport.initialize());
 // models
 const Student = require("./models/Student");
 const Staff = require("./models/Staff");
+const Course = require("./models/Course");
 
 // routes
 app.get("/", (req, res) => {
@@ -25,6 +27,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/admin/accounts", require("./routes/accounts"));
+
+app.use("/student", require("./routes/student_auth"));
+
+app.use("/courses", require("./routes/courses"));
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);
