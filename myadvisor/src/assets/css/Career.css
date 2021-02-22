@@ -1,0 +1,15 @@
+.career-card-text {
+    font-weight: bold;
+    font-size: 24px;
+    margin-left: 15px;
+}
+
+.career-check {
+    margin-bottom: 20px;
+}
+
+.career-card {
+    max-height: 650px;
+    overflow-y: scroll;
+    border-color: white !important;
+}
