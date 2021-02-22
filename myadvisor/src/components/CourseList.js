@@ -11,7 +11,7 @@ class CourseList extends Component {
                 <div className="card details-card outer-card">
                     <div className="card-body">
                         <p className="courselist-card-text">Click on a course to see more details</p>
-                        <div className="card courselist-card">
+                        <div className="card courselist-card custom-scroll">
                             <div className="card-body">
                                 <CourseNode code="COMP 3608" title="Intelligent Systems" credits={3}></CourseNode>
                                 <CourseNode code="COMP 3609" title="Game Programming" credits={3}></CourseNode>
@@ -25,7 +25,7 @@ class CourseList extends Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-2">
-                            <button type="button" class="btn btn-custom course-next-button blue-button">Next</button>
+                      <button type="button" class="btn btn-custom course-next-button blue-button">Next</button>
                     </div>
                 </div>
             </div>

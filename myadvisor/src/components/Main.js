@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect} from "react-router-do
 import StudentProfile from './StudentProfile';
 import CourseList from './CourseList';
 import CourseDetails from './CourseDetails';
+import Career from './Career';
 import TopBar from './TopBar';
 import "../App.css"
 import SignInSide from "./login";
@@ -22,6 +23,7 @@ class Main extends Component {
                     <Route path="/home" component={StudentProfile} />
                     <Route path="/courses" component={CourseList} />
                     <Route path="/coursedetails" component={CourseDetails} />
+                    <Route path="/career" component={Career} />
                     <Route path="/login" component={SignInSide} />
                     <Redirect from="*" to="/home" />
                   </Switch>

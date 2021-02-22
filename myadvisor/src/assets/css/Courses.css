@@ -33,29 +33,6 @@
     margin-left: 15px;
 }
 
-/* width */
-div.courselist-card::-webkit-scrollbar {
-    width: 15px;
-}
-
-/* Track */
-div.courselist-card::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 200px;
-}
-
-/* Handle */
-div.courselist-card::-webkit-scrollbar-thumb {
-    background: #0066FF;
-    border-radius: 200px;
-    position: relative;
-}
-
-/* Handle on hover */
-div.courselist-card::-webkit-scrollbar-thumb:hover {
-    background: #004bbd;
-}
-
 .courselist-card a:link {
     text-decoration: none;
     color: inherit;
