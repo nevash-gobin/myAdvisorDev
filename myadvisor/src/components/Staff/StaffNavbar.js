@@ -7,7 +7,7 @@ function StaffNavbar() {
     return (
         <nav class="navbar navbar-dark shadow-sm" >
             <div class="container-fluid">
-                <Link to = "/staff" class="link"><a class="navbar-brand">myAdvisor</a></Link>
+                <Link to = "/staff" className="link"><p className="navbar-brand">myAdvisor</p></Link>
             </div>
         </nav>
     );

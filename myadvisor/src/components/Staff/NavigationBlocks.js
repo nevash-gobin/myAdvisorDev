@@ -17,10 +17,10 @@ function NavigationBlocks() {
                     <NavigationBlock componentToPassDown={<BsPeopleFill/>} title={"Students"} link={"/staff/students"}/>
 
                     {/* Completed */}
-                    <NavigationBlock componentToPassDown={<HiClipboardCheck/>} title={"Completed"}/>
+                    <NavigationBlock componentToPassDown={<HiClipboardCheck/>} title={"Completed"} link={"/staff"}/>
 
                     {/* Reports */}
-                    <NavigationBlock componentToPassDown={<HiDocumentReport/>} title={"Reports"}/>
+                    <NavigationBlock componentToPassDown={<HiDocumentReport/>} title={"Reports"} link={"/staff"}/>
 
                     {/* Edit Courses */}
                     <NavigationBlock componentToPassDown={<HiCollection/>} title={"Courses"} link={"/staff/courses"}/>
@@ -28,16 +28,16 @@ function NavigationBlocks() {
 
                 <div class="row mt-4">
                     {/* Programmes */}
-                    <NavigationBlock componentToPassDown={<BsFillLayersFill/>} title={"Programmes"}/>
+                    <NavigationBlock componentToPassDown={<BsFillLayersFill/>} title={"Programmes"} link={"/staff"}/>
 
                     {/* Archive */}
-                    <NavigationBlock componentToPassDown={<HiArchive/>} title={"Archive"}/>
+                    <NavigationBlock componentToPassDown={<HiArchive/>} title={"Archive"} link={"/staff"}/>
 
                     {/* Blank */}
-                    <NavigationBlock componentToPassDown={<FaWrench/>} title={"Settings"}/>
+                    <NavigationBlock componentToPassDown={<FaWrench/>} title={"Settings"} link={"/staff"}/>
 
                     {/* Blank */}
-                    <NavigationBlock componentToPassDown={<BsPersonFill/>} title={"Profile"}/>
+                    <NavigationBlock componentToPassDown={<BsPersonFill/>} title={"Profile"} link={"/staff"}/>
                 </div>
             </div>
         </IconContext.Provider>

@@ -39,3 +39,27 @@
 .link {
     text-decoration: none;
 }
+
+/*Courses*/
+
+.parent-expand{
+    background-color: #2196F3;
+    color: white;
+}
+
+.react-bootstrap-table {
+    height: 100%;
+    overflow: auto;
+}
+
+#search-bar-0{
+    margin-bottom: 20px;
+}
+
+.add-course{
+    width: 100%;
+}
+
+.btn-danger{
+    margin-left: 20px;
+}
