@@ -4,12 +4,19 @@ import paginationFactory, { PaginationProvider, PaginationListStandalone } from 
 import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
 import "../../assets/css/Staff.css";
 
+//TABLE SETUP
+
 const columns = [
-    { dataField: 'courseCode', text: 'Course Code', csvText: 'Course Code' },
+    { dataField: 'courseCode', text: 'Course Code', csvText: 'Course Code', sort: true },
     { dataField: 'courseTitle', text: 'Course Title', csvText: 'Course Title' },
-    { dataField: 'credits', text: 'Credits', csvText: 'Credits' },
-    { dataField: 'semester', text: 'Semester', csvText: 'Semester' },
+    { dataField: 'credits', text: 'Credits', csvText: 'Credits', sort: true },
+    { dataField: 'semester', text: 'Semester', csvText: 'Semester', sort: true },
 ]
+
+const defaultSorted = [{
+  dataField: 'courseCode',
+  order: 'asec'
+}];
 
 const { SearchBar } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -17,6 +24,8 @@ const { ExportCSVButton } = CSVExport;
 function CoursesTable() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    //REQUESTS
 
     async function getCourses() {
       try {
@@ -45,12 +54,14 @@ function CoursesTable() {
       getCourses();
     }, []);
 
+    //EXPANDED TABLE ROW
+
     const expandRow = {
-        parentClassName: 'parent-expand',
-        className: 'test',
         onlyOneExpanding: true,
         renderer: row => (
           <div>
+            <h3>{ `${row.courseCode}` } - { `${row.courseTitle}` }</h3>
+            <br/>
             <h4>Description</h4>
             <p>{ `${row.description}` }</p>
 
@@ -62,6 +73,8 @@ function CoursesTable() {
           </div>
         )
     };
+
+    //TABLE
 
     const table = ({ paginationProps, paginationTableProps }) => (
         <>
@@ -79,7 +92,7 @@ function CoursesTable() {
                     <div>
                         <SearchBar { ...props.searchProps } />
                         <ExportCSVButton { ...props.csvProps }>Export CSV</ExportCSVButton>
-                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } expandRow={ expandRow }/>
+                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } expandRow={ expandRow } defaultSorted={ defaultSorted }/>
                     </div>
                     )
                 }

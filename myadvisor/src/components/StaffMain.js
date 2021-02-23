@@ -15,6 +15,7 @@ function StaffMain() {
                 <Route exact path="/staff" component={StaffDashboard} />
                 <Route exact path="/staff/courses" component={Courses} />
                 <Route exact path="/staff/students" component={Students} />
+                <Route path="/login" component={SignInSide} />
                 <Redirect from="*" to="/staff" />
             </Switch>
         </Router>

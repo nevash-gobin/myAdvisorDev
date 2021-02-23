@@ -42,11 +42,6 @@
 
 /*Courses*/
 
-.parent-expand{
-    background-color: #2196F3;
-    color: white;
-}
-
 .react-bootstrap-table {
     height: 100%;
     overflow: auto;
@@ -63,3 +58,4 @@
 .btn-danger{
     margin-left: 20px;
 }
+
