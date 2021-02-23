@@ -84,46 +84,4 @@ router.post("/staff/create", passport.authenticate("jwt", { session: false }), a
     }
 });
 
-// login to staff account
-router.post("/login", async (req, res) => {
-    try {
-        const {username, password} = req.body
-
-        const user = await Staff.findOne({where: { username }});
-        if(!user) {
-            return res.status(401).send("This account does not exist.");
-        }
-        else {
-            // compares entered password and account password for match
-            const passCompare = await bcrypt.compare(password, user.password);
-            
-            if (!passCompare) {
-                return res.status(401).send("Invalid Password");
-            }
-            else if (passCompare) {
-                //const token = jwtGenerator(user.id);
-                const payload = {
-                    id: user.id,
-                    username: user.username
-                };
-                jwt.sign(
-                    payload,
-                    process.env.staffSecret,
-                    { expiresIn: "24hr" },
-                    (err, token) => {
-                        res.json({ token});
-                    }
-                );
-            }
-            else {
-                res.send("Unauthorized Access");
-            }
-        }
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
-
 module.exports = router;
