@@ -18,29 +18,25 @@ const defaultSorted = [{
   order: 'asec'
 }];
 
+const options = {
+  custom: true,
+  paginationSize: 5,
+  pageStartIndex: 1,
+  firstPageText: 'First',
+  prePageText: 'Back',
+  nextPageText: 'Next',
+  lastPageText: 'Last',
+  sizePerPage: 8,
+};
+
 const { SearchBar } = Search;
 const { ExportCSVButton } = CSVExport;
 
-function CoursesTable() {
-    const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(false);
+function CoursesTable({courses, loading}) {
+    //const [courses, setCourses] = useState([]);
+    //const [loading, setLoading] = useState(false);
 
     //REQUESTS
-
-    async function getCourses() {
-      try {
-        const res = await fetch("http://localhost:5000/courses/all", {
-          method: "GET",
-        });
-  
-        const parseData = await res.json();
-        setCourses(parseData);
-        setLoading(true);
-        
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
 
     function editCourse(courseCode) {
       alert(courseCode)
@@ -49,10 +45,6 @@ function CoursesTable() {
     function deleteCourse(courseCode) {
       alert(courseCode)
     }
-
-    useEffect(() => {
-      getCourses();
-    }, []);
 
     //EXPANDED TABLE ROW
 
@@ -101,29 +93,18 @@ function CoursesTable() {
         </>
   );
 
-  const options = {
-      custom: true,
-      paginationSize: 5,
-      pageStartIndex: 1,
-      firstPageText: 'First',
-      prePageText: 'Back',
-      nextPageText: 'Next',
-      lastPageText: 'Last',
-      sizePerPage: 8,
-    };
-
   return (
       <>
           {loading ? (
-            <PaginationProvider pagination={paginationFactory(options)}>
-              { table }
-            </PaginationProvider>
-          ) : (
             <div class="d-flex justify-content-center">
               <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
+          ) : (
+            <PaginationProvider pagination={paginationFactory(options)}>
+              { table }
+            </PaginationProvider>
           )}
         
       </>

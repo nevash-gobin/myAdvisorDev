@@ -6,8 +6,6 @@ import { BsPeopleFill, BsFillLayersFill, BsPersonFill } from "react-icons/bs";
 import { HiDocumentReport, HiClipboardCheck, HiArchive, HiCollection } from "react-icons/hi";
 import { FaWrench } from "react-icons/fa";
 
-import "../../assets/css/Staff.css";
-
 function NavigationBlocks() {
     return (
         <IconContext.Provider value={{ color: "#2196F3", className: "nav-block-icon", size: 50 }}>
