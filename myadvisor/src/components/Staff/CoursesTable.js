@@ -29,12 +29,10 @@ const options = {
   sizePerPage: 8,
 };
 
-const { SearchBar } = Search;
+const { SearchBar, ClearSearchButton  } = Search;
 const { ExportCSVButton } = CSVExport;
 
-function CoursesTable({courses, loading}) {
-    //const [courses, setCourses] = useState([]);
-    //const [loading, setLoading] = useState(false);
+function CoursesTable({courses, loading, deleteCourse}) {
 
     //REQUESTS
 
@@ -42,8 +40,9 @@ function CoursesTable({courses, loading}) {
       alert(courseCode)
     }
 
-    function deleteCourse(courseCode) {
-      alert(courseCode)
+    function dCourse(courseCode) {
+      //alert(courseCode)
+      deleteCourse(courseCode);
     }
 
     //EXPANDED TABLE ROW
@@ -61,7 +60,7 @@ function CoursesTable({courses, loading}) {
             <p>{ `${row.prerequisites}` }</p>
 
             <button type="button" class="btn btn-primary edit-course" onClick={() => editCourse(row.courseCode)}>Edit</button>
-            <button type="button" class="btn btn-danger delete-course" onClick={() => deleteCourse(row.courseCode)}>Delete</button>
+            <button type="button" class="btn btn-danger delete-course" onClick={() => dCourse(row.courseCode)}>Delete</button>
           </div>
         )
     };
@@ -83,6 +82,7 @@ function CoursesTable({courses, loading}) {
                     props => (
                     <div>
                         <SearchBar { ...props.searchProps } />
+                        <ClearSearchButton { ...props.searchProps } />
                         <ExportCSVButton { ...props.csvProps }>Export CSV</ExportCSVButton>
                         <BootstrapTable { ...props.baseProps } { ...paginationTableProps } expandRow={ expandRow } defaultSorted={ defaultSorted }/>
                     </div>

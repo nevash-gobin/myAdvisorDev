@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function AddCourse({setShow, refreshTable}) {
     const [validated, setValidated] = useState(false);
+
+    //Toast
+    const notifyAdded = (text) => toast.success(text);
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -17,7 +23,7 @@ function AddCourse({setShow, refreshTable}) {
         setValidated(true);
 
         const formData = {
-            courseCode : form.elements.courseCode.value,
+            courseCode : (form.elements.courseCode.value).replace(/\s+/g, ''),
             courseTitle : form.elements.courseTitle.value,
             credits : form.elements.credits.value,
             semester : form.elements.semester.value,
@@ -37,12 +43,13 @@ function AddCourse({setShow, refreshTable}) {
             headers: {
                 token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiI4MTYwMTQ5MjQiLCJpYXQiOjE2MTQ0NjY4MTIsImV4cCI6MTYxNDU1MzIxMn0.uH77uW4WO6zi4Itd2WYXynxS_wDMZm3WcCBRQPgZRpE",
                 "Content-type": "application/json",
-              },
+            },
             body: JSON.stringify(data),
           });
     
           setShow(false);
           refreshTable();
+          notifyAdded(data.courseCode + " Added!")
 
           const status = await res.statusText;
           
@@ -67,17 +74,30 @@ function AddCourse({setShow, refreshTable}) {
                 <Form.Row>
                     <Form.Group as={Col} md="4" controlId="credits">
                         <Form.Label>Credits</Form.Label>
-                        <Form.Control required type="number" min="1"/>
+                        <Form.Control required as="select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </Form.Control>
                     </Form.Group>
 
                     <Form.Group as={Col} md="4" controlId="semester">
                         <Form.Label>Semester</Form.Label>
-                        <Form.Control required type="number" min="1"/>
+                        <Form.Control required as="select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </Form.Control>
                     </Form.Group>
 
                     <Form.Group as={Col} md="4" controlId="level">
                         <Form.Label>Level</Form.Label>
-                        <Form.Control required type="text"/>
+                        <Form.Control required as="select">
+                            <option>I</option>
+                            <option>II</option>
+                            <option>III</option>
+                        </Form.Control>
                     </Form.Group>
 
                 </Form.Row>
@@ -94,6 +114,11 @@ function AddCourse({setShow, refreshTable}) {
 
                 <div class="float-right"><Button type="submit" >Submit</Button></div>
             </Form>
+
+            <ToastContainer 
+                pauseOnHover
+                position="bottom-right"
+            />
         </>
     );
 }
