@@ -32,17 +32,16 @@ const options = {
 const { SearchBar, ClearSearchButton  } = Search;
 const { ExportCSVButton } = CSVExport;
 
-function CoursesTable({courses, loading, deleteCourse}) {
+function CoursesTable({courses, loading, confirmDelete}) {
 
     //REQUESTS
 
-    function editCourse(courseCode) {
+    function eCourse(courseCode) {
       alert(courseCode)
     }
 
     function dCourse(courseCode) {
-      //alert(courseCode)
-      deleteCourse(courseCode);
+      confirmDelete(courseCode);
     }
 
     //EXPANDED TABLE ROW
@@ -59,8 +58,10 @@ function CoursesTable({courses, loading, deleteCourse}) {
             <h4>Prerequisites</h4>
             <p>{ `${row.prerequisites}` }</p>
 
-            <button type="button" class="btn btn-primary edit-course" onClick={() => editCourse(row.courseCode)}>Edit</button>
-            <button type="button" class="btn btn-danger delete-course" onClick={() => dCourse(row.courseCode)}>Delete</button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-custom edit-course" onClick={() => eCourse(row.courseCode)}>Edit</button>
+              <button type="button" class="btn btn-danger delete-course" onClick={() => dCourse(row.courseCode)}>Delete</button>
+            </div>
           </div>
         )
     };

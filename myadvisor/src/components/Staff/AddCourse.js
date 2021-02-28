@@ -112,7 +112,7 @@ function AddCourse({setShow, refreshTable}) {
                     <Form.Control required as="textarea" rows={3}/>
                 </Form.Group>
 
-                <div class="float-right"><Button type="submit" >Submit</Button></div>
+                <div class="float-right"><Button type="submit" class="btn btn-custom">Submit</Button></div>
             </Form>
 
             <ToastContainer 

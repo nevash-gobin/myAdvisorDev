@@ -6,6 +6,9 @@ import AddCourse from "./AddCourse";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 function Courses() {
     //Add Course Modal
     const [show, setShow] = useState(false);
@@ -55,6 +58,22 @@ function Courses() {
         }
     }
 
+    function confirmDelete(courseCode){
+        confirmAlert({
+          title: 'Delete Confirmation',
+          message: 'Are you sure to do delete ' + courseCode + "?",
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => deleteCourse(courseCode)
+            },
+            {
+              label: 'No',
+            }
+          ]
+        });
+    };
+
     useEffect(() => {
         getCourses();
     }, []);
@@ -73,14 +92,14 @@ function Courses() {
                     <div class="col-10">
                         <div class="card h-100">
                             <div class="card-body shadow-sm">
-                                <CoursesTable courses={courses} loading={loading} deleteCourse={deleteCourse}/>
+                                <CoursesTable courses={courses} loading={loading} confirmDelete={confirmDelete}/>
                             </div>
                         </div>
                     </div>
 
                     {/* Buttons */}
                     <div class="col">
-                        <button type="button" class="btn btn-primary add-course" onClick={handleShow}>Add Course</button>
+                        <button type="button" class="btn btn-custom add-course" onClick={handleShow}>Add Course</button>
                     </div>
 
                     <Modal show={show} onHide={handleClose} size="lg">
