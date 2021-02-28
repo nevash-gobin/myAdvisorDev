@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import CoursesTable from "./CoursesTable";
 import AddCourse from "./AddCourse";
 
@@ -92,7 +92,7 @@ function Courses() {
                     <div class="col-10">
                         <div class="card h-100">
                             <div class="card-body shadow-sm">
-                                <CoursesTable courses={courses} loading={loading} confirmDelete={confirmDelete}/>
+                                <CoursesTable courses={courses} loading={loading} confirmDelete={confirmDelete} refreshTable={refreshTable}/>
                             </div>
                         </div>
                     </div>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, { PaginationProvider, PaginationListStandalone } from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
+import { Modal, Button } from "react-bootstrap";
+import EditCourse from "./EditCourse";
 import "../../assets/css/Staff.css";
 
 //TABLE SETUP
@@ -32,12 +34,20 @@ const options = {
 const { SearchBar, ClearSearchButton  } = Search;
 const { ExportCSVButton } = CSVExport;
 
-function CoursesTable({courses, loading, confirmDelete}) {
+function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
+
+    //Edit Course Modal
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
+    const [row, setRow] = useState();
 
     //REQUESTS
 
-    function eCourse(courseCode) {
-      alert(courseCode)
+    function eCourse(row) {
+      setShow(true);
+      setRow(row);
     }
 
     function dCourse(courseCode) {
@@ -59,7 +69,7 @@ function CoursesTable({courses, loading, confirmDelete}) {
             <p>{ `${row.prerequisites}` }</p>
 
             <div class="btn-group">
-              <button type="button" class="btn btn-custom edit-course" onClick={() => eCourse(row.courseCode)}>Edit</button>
+              <button type="button" class="btn btn-custom edit-course" onClick={() => eCourse(row)}>Edit</button>
               <button type="button" class="btn btn-danger delete-course" onClick={() => dCourse(row.courseCode)}>Delete</button>
             </div>
           </div>
@@ -107,6 +117,16 @@ function CoursesTable({courses, loading, confirmDelete}) {
               { table }
             </PaginationProvider>
           )}
+
+          <Modal show={show} onHide={handleClose} size="lg">
+              <Modal.Header closeButton>
+                  <Modal.Title>Edit Course</Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+                <EditCourse setShow={setShow} row={row} refreshTable={refreshTable}/>
+              </Modal.Body>
+          </Modal>
         
       </>
 
