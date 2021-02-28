@@ -20,7 +20,7 @@ router.post("/login", async (req, res) => {
 
         const admin = await Staff.findOne({where: { username }});
         const student = await Student.findOne({where: {username }});
-        
+
         if(!admin && !student) {
             return res.status(401).send("This account does not exist.");
         }
@@ -39,40 +39,37 @@ router.post("/login", async (req, res) => {
                 };
                 jwt.sign(
                     payload,
-                    process.env.staffSecret,
+                    process.env.secret,
                     { expiresIn: "24hr" },
                     (err, token) => {
-                        res.json({ token});
+                        res.json({ token });
                     }
                 );
             }
-            else {
-                res.send("Unauthorized Access");
-            }
         }
         else if (student) {
-            const passCompare = await bcrypt.compare(password, student.password);
+            const passCompare2 = await bcrypt.compare(password, student.password);
             
-            if (!passCompare) {
+            if (!passCompare2) {
                 return res.status(401).send("Invalid Password");
             }
-            else if (passCompare) {
+            else if (passCompare2) {
                 const payload = {
                     id: student.id,
                     username: student.username
                 };
                 jwt.sign(
                     payload,
-                    process.env.studentSecret,
+                    process.env.secret,
                     { expiresIn: "24hr" },
                     (err, token) => {
-                        res.json({ token});
+                        res.json({ token });
                     }
                 );
             }
-            else {
-                res.send("Unauthorized Access");
-            }
+        }
+        else {
+            res.send("Unauthorized Access");
         }
     }
     catch (err) {
