@@ -16,7 +16,7 @@ class StudentProfile extends Component {
                                         <p className="row-title blue-txt">Student Name:</p>
                                     </div>
                                     <div className="col-sm-10">
-                                        <p className="row-info">Matthew Christian</p>
+                                        <p className="row-info">John Doe</p>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -24,7 +24,7 @@ class StudentProfile extends Component {
                                         <p className="row-title blue-txt">Student ID:</p>
                                     </div>
                                     <div className="col-sm-10">
-                                        <p className="row-info">816015078</p>
+                                        <p className="row-info">816000000</p>
                                     </div>
                                 </div>
                                 <div className="row">

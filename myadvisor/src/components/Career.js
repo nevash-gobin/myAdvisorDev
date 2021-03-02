@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CareerCheck from './CareerCheck';
 import "../assets/css/Career.css";
+import { Link } from 'react-router-dom'
 
 class Career extends Component {
   render() {
@@ -19,9 +20,11 @@ class Career extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-sm-2">
-                            <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
-                        </div>
+                        <Link to="/courses">
+                          <div className="col-sm-2">
+                              <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
+                          </div>
+                        </Link>
                     </div>
                 </form>
             </div>
