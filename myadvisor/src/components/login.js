@@ -15,9 +15,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" color="#0066FF" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="#0066FF" href="https://material-ui.com/">
         myAdvisor
       </Link>{' '}
       {new Date().getFullYear()}
@@ -29,6 +29,7 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+  
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -46,14 +47,18 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#0066FF",
+    color:"white",
   },
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
+    color:"#0066FF",
+    
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#0066FF",
   },
 }));
 
@@ -69,7 +74,7 @@ export default function SignInSide() {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" color="#0066FF">
             Sign in
           </Typography>
           <form className={classes.form} noValidate>
@@ -78,11 +83,12 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="studentID"
+              label="Student ID" 
+              name="number"
+              autoComplete="number"
               autoFocus
+          
             />
             <TextField
               variant="outlined"
@@ -94,9 +100,10 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+            
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" color="#0066FF" />}
               label="Remember me"
             />
             <Button
@@ -110,12 +117,12 @@ export default function SignInSide() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" color="#0066FF">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" color="#0066FF">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
