@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 
 // JWT Configurations
 require("./utilities/jwtStaff")(passport);
-require("./utilities/jwtStudent")(passport);
+//require("./utilities/jwtStudent")(passport);
 
 // app connection and resources
 app.use(cors());
@@ -26,11 +26,13 @@ app.get("/", (req, res) => {
     res.status(200).send("Server running...");
 });
 
-app.use("/admin/accounts", require("./routes/accounts"));
+app.use("/admin", require("./routes/admin"));
 
-app.use("/student", require("./routes/student_auth"));
+app.use("/student", require("./routes/student"));
 
 app.use("/courses", require("./routes/courses"));
+
+app.use("/accounts", require("./routes/authorization"));
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);

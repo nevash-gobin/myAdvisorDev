@@ -9,36 +9,36 @@ const myEventsList = [
       'id': 1,
       'title': 'Advising Week',
       'allDay': true,
-      'start': new Date(2021, 1, 1),
-      'end': new Date(2021, 1, 6)
+      'start': new Date(2021, 2, 1),
+      'end': new Date(2021, 2, 6)
     },
     {
       'id': 2,
       'title': 'Reg. Starts',
       'allDay': true,
-      'start': new Date(2021, 1, 8),
-      'end': new Date(2021, 1, 8)
+      'start': new Date(2021, 2, 8),
+      'end': new Date(2021, 2, 8)
     },
     {
       'id': 3,
       'title': 'Meeting 1',
       'allDay': true,
-      'start': new Date(2021, 1, 8),
-      'end': new Date(2021, 1, 8)
+      'start': new Date(2021, 2, 8),
+      'end': new Date(2021, 2, 8)
     },
     {
       'id': 4,
       'title': 'Meeting 2',
       'allDay': true,
-      'start': new Date(2021, 1, 8),
-      'end': new Date(2021, 1, 8)
+      'start': new Date(2021, 2, 8),
+      'end': new Date(2021, 2, 8)
     },
     {
       'id': 5,
       'title': 'Reg. Ends',
       'allDay': true,
-      'start': new Date(2021, 1, 26),
-      'end': new Date(2021, 1, 26)
+      'start': new Date(2021, 2, 26),
+      'end': new Date(2021, 2, 26)
     },
     
 ];

@@ -36,6 +36,18 @@
     margin-left: 20px;
 }
 
-.link {
-    text-decoration: none;
+/*Courses*/
+
+.react-bootstrap-table {
+    height: 100%;
+    overflow: auto;
 }
+
+#search-bar-0{
+    margin-bottom: 20px;
+}
+
+.add-course{
+    width: 100%;
+}
+

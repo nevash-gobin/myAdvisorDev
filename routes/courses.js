@@ -84,13 +84,25 @@ router.put("/edit/:code", async (req, res) => {
         }
         else {
             // updates course with new information
-            if (couseCode || courseTitle || credits || level || semester || prerequisites || description) {
+            if (courseCode) {
                 course.courseCode = courseCode;
+            }
+            if (courseTitle) {
                 course.courseTitle = courseTitle;
+            }
+            if (credits) {
                 course.credits = credits;
+            }
+            if (level) {
                 course.level = level;
+            }
+            if (semester) {
                 course.semester = semester;
+            }
+            if (prerequisites) {
                 course.prerequisites = prerequisites;
+            }
+            if (description) {
                 course.description = description;
             }
 
@@ -105,7 +117,7 @@ router.put("/edit/:code", async (req, res) => {
 });
 
 // delete a selected course from the database
-router.put("/delete/:code", async (req, res) => {
+router.delete("/delete/:code", async (req, res) => {
     try {
         const course = await Course.findOne({where: { courseCode: req.params.code }});
         if(!course) {
