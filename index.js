@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 
 // JWT Configurations
 require("./utilities/jwtStaff")(passport);
-require("./utilities/jwtStudent")(passport);
+//require("./utilities/jwtStudent")(passport);
 
 // app connection and resources
 app.use(cors());
