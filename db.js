@@ -6,8 +6,13 @@ require("dotenv").config();
 
 // connects database to server
 const db = new Sequelize(
-    process.env.DB_URL
-);
+    process.env.DB_URL, {
+    pool: {
+        max: 3,
+        min: 0,
+        idle: 10000,
+    },
+});
 
 // tests database connection on server start up
 db.authenticate()
