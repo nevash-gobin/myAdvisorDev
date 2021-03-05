@@ -23,6 +23,10 @@ const Course = db.define("course", {
         allowNull: false,
         type: Sequelize.INTEGER
     },
+    type: {
+        allowNull: false,
+        type: Sequelize.STRING
+    },
     prerequisites: {
         allowNull: false,
         type: Sequelize.STRING,

@@ -20,13 +20,6 @@ module.exports = passport => {
             }
             else
                 return done(null ,false);
-            // .then(user => {
-            //     if (user) {
-            //         return done(null, user);
-            //     }
-            //     return done(null, false);
-            // })
-            // .catch(err => console.log("Error: ", err.message));
         })
     );
 };

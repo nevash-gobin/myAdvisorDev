@@ -8,8 +8,7 @@ const passport = require("passport");
 const port = process.env.PORT || 5000;
 
 // JWT Configurations
-require("./utilities/jwtStaff")(passport);
-//require("./utilities/jwtStudent")(passport);
+require("./utilities/jwt")(passport);
 
 // app connection and resources
 app.use(cors());
@@ -20,6 +19,7 @@ app.use(passport.initialize());
 const Student = require("./models/Student");
 const Staff = require("./models/Staff");
 const Course = require("./models/Course");
+const Career = require("./models/Career");
 
 // routes
 app.get("/", (req, res) => {
@@ -31,6 +31,8 @@ app.use("/admin", require("./routes/admin"));
 app.use("/student", require("./routes/student"));
 
 app.use("/courses", require("./routes/courses"));
+
+app.use("/careers", require("./routes/careers"));
 
 app.use("/accounts", require("./routes/authorization"));
 
