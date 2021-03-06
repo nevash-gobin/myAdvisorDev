@@ -8,7 +8,7 @@ import Students from './Staff/Students';
 import SignInSide from "./login";
 
 import "../assets/css/Staff.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../assets/css/bootstrap.min.css';
 
 function StaffMain() {
     return (

@@ -15,6 +15,8 @@ require("./utilities/jwtStaff")(passport);
 app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
+//app.use("./routes/testAPI", testAPIRouter);
+//var testAPIRouter = require("./routes/testAPI");
 
 // models
 const Student = require("./models/Student");
