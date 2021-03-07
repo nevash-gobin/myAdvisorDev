@@ -5,7 +5,21 @@ const cors = require("cors");
 const path = require("path");
 const pool = require("./db");
 const passport = require("passport");
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const _ = require('lodash');
+const multer  = require('multer')
+const upload = multer({storage: multer.memoryStorage()})
+const { parse } = require('./utilities/parser');
+
 const port = process.env.PORT || 5000;
+
+app.post('/parseForm', upload.single('file'), async (req, res)=>{
+    const { parsedText, ...data} = await parse(req.file.buffer);
+    res.send(data);
+    //res.render('pages/result', {data, parsedText});
+  })
 
 // JWT Configurations
 require("./utilities/jwt")(passport);
@@ -14,8 +28,15 @@ require("./utilities/jwt")(passport);
 app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
-//app.use("./routes/testAPI", testAPIRouter);
-//var testAPIRouter = require("./routes/testAPI");
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(morgan('dev'));
+
+
+// Enables file upload
+app.use(fileUpload({
+    createParentPath: true
+}));
 
 // models
 const Student = require("./models/Student");
