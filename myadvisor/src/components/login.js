@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 function Copyright() {
-  return (
+
+return (
     <Typography variant="body2" color="#0066FF" align="center">
       {'Copyright © '}
       <Link color="#0066FF" href="https://material-ui.com/">
@@ -29,7 +30,6 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
-  
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -62,8 +62,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+export default function SignInSide({setAuth,setType }) {
   const classes = useStyles();
+
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+  });
+
+  const { username, password } = inputs;
+
+  const onChange = (e) =>
+  setInputs({ ...inputs, [e.target.name]: e.target.value });
+
+  const onSubmit = async (e) => {
+    const body = {"username" : username, "password": password}
+
+    e.preventDefault();
+
+    try {
+      const res = await fetch("http://localhost:5000/accounts/login", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const parseRes = await res.json();
+
+      if (parseRes.token) {
+        localStorage.setItem("token", parseRes.token);
+        localStorage.setItem("user", parseRes.user);
+        localStorage.setItem("auth", true)
+
+        setAuth(true);
+        setType(parseRes.user);
+        window.location.reload(false);
+        
+      } else {
+        //setAuth(false);
+        //toast.error(parseRes);
+      }
+
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -77,17 +120,18 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5" color="#0066FF">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={onSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="studentID"
-              label="Student ID" 
-              name="number"
-              autoComplete="number"
+              id="username"
+              name="username"
+              label="Student ID / Username" 
               autoFocus
+              value={username}
+              onChange={(e) => onChange(e)}
           
             />
             <TextField
@@ -99,7 +143,9 @@ export default function SignInSide() {
               label="Password"
               type="password"
               id="password"
+              value={password}
               autoComplete="current-password"
+              onChange={(e) => onChange(e)}
             
             />
             <FormControlLabel
