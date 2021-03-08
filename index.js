@@ -20,6 +20,7 @@ const Student = require("./models/Student");
 const Staff = require("./models/Staff");
 const Course = require("./models/Course");
 const Career = require("./models/Career");
+const AdvisingWindow = require("./models/AdvisingWindow");
 
 // routes
 app.get("/", (req, res) => {

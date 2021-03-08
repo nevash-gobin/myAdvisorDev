@@ -42,7 +42,9 @@ router.post("/login", async (req, res) => {
                     process.env.secret,
                     { expiresIn: "24hr" },
                     (err, token) => {
-                        res.json({ token });
+                        res.json({ 
+                            "user": "admin",
+                            token });
                     }
                 );
             }
@@ -63,7 +65,9 @@ router.post("/login", async (req, res) => {
                     process.env.secret,
                     { expiresIn: "24hr" },
                     (err, token) => {
-                        res.json({ token });
+                        res.json({ 
+                            "user": "student",
+                            token });
                     }
                 );
             }

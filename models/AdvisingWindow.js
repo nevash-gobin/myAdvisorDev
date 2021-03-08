@@ -1,0 +1,20 @@
+const { Sequelize } = require("sequelize");
+const db = require("../db");
+
+// NOTE: Course model may require more fields
+const AdvisingWindow = db.define("advisingwindow", {
+    advisingStart: {
+        allowNull: false,
+        type: Sequelize.DATEONLY,
+    },
+    advisingEnd: {
+        allowNull: false,
+        type: Sequelize.DATEONLY
+    },
+    semester: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+    }
+});
+
+module.exports = AdvisingWindow;
