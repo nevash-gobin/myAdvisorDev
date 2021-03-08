@@ -12,9 +12,7 @@ const jwt = require("jsonwebtoken");
 // import models
 const Student = require("../models/Student");
 const Staff = require("../models/Staff");
-
-
-/* ADMIN ROUTES*/
+const AdvisingWindow = require("../models/AdvisingWindow");
 
 // add new student account
 router.post("/students/create", passport.authenticate("jwt", { session: false }), async (req, res) => {
@@ -77,6 +75,29 @@ router.post("/staff/create", passport.authenticate("jwt", { session: false }), a
                     console.log("Error: ", err.message);
             });
         }
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// set advising window
+router.post("/academic-advising/window", passport.authenticate("jwt", { session: false }), async (req, res) => {
+    try {
+        const {advisingStart, advisingEnd, semester} = req.body
+
+        await AdvisingWindow.create({
+            advisingStart,
+            advisingEnd,
+            semester
+        })
+        .then(() => {
+            return res.status(200).send("Window Set for Semester");
+        })
+        .catch(err => {
+            console.log("Error: ", err.message);
+        });
     }
     catch (err) {
         console.log("Error: ", err.message);
