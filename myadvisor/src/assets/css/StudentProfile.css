@@ -11,6 +11,7 @@
 .details-card {
     border-radius: 45px !important;
     border-color: white !important;
+    margin-bottom: 45px;
     padding-top: 25px;
     padding-left: 25px;
     padding-right: 25px;
@@ -23,4 +24,8 @@
 
 .credit-cell, .level-cell {
     text-align: center;
+}
+
+.new-student {
+    font-size: 18px;
 }
