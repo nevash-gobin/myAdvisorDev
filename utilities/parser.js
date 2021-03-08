@@ -47,9 +47,9 @@ function getStudentData(text, filename){
     let miscCourses = ["1115", "1101", "1105", "1301", "2250"];
     let totalCredits = 0;
     let student = {
-        id:undefined,
+        studentId:undefined,
         gpa:undefined,
-        fullname: undefined,
+        name: undefined,
         progress: undefined,
         credits: undefined,
         degree: undefined,
@@ -99,7 +99,7 @@ function getStudentData(text, filename){
     for(let token of text){
 
         if(token === "Record%20of%3A")
-            student.fullname = decode(text[i-1])
+            student.name = decode(text[i-1])
 
         //reached the courses in progress section of transcript
         if(!inprogress && token === "In%20Progress%20Courses%3A"){
@@ -111,7 +111,7 @@ function getStudentData(text, filename){
         }
 
         if(token === "Record%20of%3A"){
-            student.id = text[ i + 1]
+            student.studentId = text[ i + 1]
         }
 
         if(token === "Admit%20Term%3A") {

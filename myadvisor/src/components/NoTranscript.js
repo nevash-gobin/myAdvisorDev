@@ -20,27 +20,13 @@ class NoTranscript extends Component {
         
     }
 
-    async parseTranscript(file) {
-        axios.post('/parse', {
-            firstName: 'Fred',
-            lastName: 'Flintstone'
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-
-     onChangeHandler = event =>{
+    onChangeHandler = event =>{
         this.setState({
             file: event.target.files[0]
         })
     }
 
     onClickHandler = () => {
-        console.log("Yo")
         var formdata = new FormData();
         formdata.append("file", this.state.file, "[PROXY]");
         
@@ -50,35 +36,12 @@ class NoTranscript extends Component {
           redirect: 'follow'
         };
         
-        fetch("http://localhost:5000/parseForm", requestOptions)
+        fetch("http://localhost:5000/transcript/parseForm", requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
+          .then(this.props.uploadedHandler())
           .catch(error => console.log('error', error));
 	}
-
-    updateData = async () => {
-        try {
-            const formData = new FormData();
-            console.log("booling")
-            console.log(this.state.file)
-            formData.append('file', this.state.file);
-
-            const response = await axios.post("http://localhost:5000/parseForm", {
-                method: 'POST',
-                body: formData
-                })
-                .then(response => response.json())
-                .then(json => console.log(json));
-            console.warn(response.data);
-        } catch (error) {
-            console.warn(error);
-        }
-    };
-    
-
-    testFunc = () => {
-        console.log(this.state.data)
-    }
 
   render() {
     return (
@@ -89,9 +52,7 @@ class NoTranscript extends Component {
                         <div class="input-field col s4">
                         <form action="" enctype="multipart/form-data" method="POST">
                             <input type="file" name="file" onChange={this.onChangeHandler}/>
-                            <input type="button" value="upload" class="btn btn-success btn-block" onClick={this.onClickHandler}/>
-                            <button type="button" class="btn btn-success btn-block" onClick={this.testFunc}>Check</button>
-                            <button class="btn waves-effect waves-light blue" type="submit" name="action">Submit</button>
+                            <input type="button" value="Upload" class="btn btn-custom blue-btn" onClick={this.onClickHandler}/>
                         </form>
                         </div>
     

@@ -15,10 +15,6 @@ const { parse } = require('./utilities/parser');
 
 const port = process.env.PORT || 5000;
 
-app.post('/parseForm', upload.single('file'), async (req, res)=>{
-    const { parsedText, ...data} = await parse(req.file.buffer);
-    res.send(data);
-  })
 
 // JWT Configurations
 require("./utilities/jwt")(passport);
@@ -31,11 +27,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
 
-
-// Enables file upload
+/* Enables file upload
 app.use(fileUpload({
     createParentPath: true
-}));
+})); */
 
 // models
 const Student = require("./models/Student");
@@ -60,6 +55,11 @@ app.use("/careers", require("./routes/careers"));
 app.use("/transcript", require("./routes/transcript"));
 
 app.use("/accounts", require("./routes/authorization"));
+
+app.post('/parseForm', upload.single('file'), async (req, res)=>{
+    const { parsedText, ...data} = await parse(req.file.buffer);
+    res.send(data);
+  })
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);

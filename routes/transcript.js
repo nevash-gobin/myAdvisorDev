@@ -1,3 +1,8 @@
+//Initialise file upload components
+const multer  = require('multer')
+const upload = multer({storage: multer.memoryStorage()})
+const { parse } = require('../utilities/parser');
+
 /**
  * initalizes express router and database connection
  */
@@ -45,7 +50,7 @@
          const {studentId, gpa, name, progress, credits, degree, major, admitTerm} = req.body;
  
          // check if student is already added
-         const student = await Transcript.findOne({where : { studentId: req.params.studentId }});
+         const student = await Transcript.findOne({where : { studentId }});
          if(student) {
              return res.status(401).send("Student already exists.");
          }
@@ -73,6 +78,42 @@
          res.status(500).send("Server Error");
      }
  });
+
+ router.post('/parseForm', upload.single('file'), async (req, res)=>{
+    const { parsedText, ...data} = await parse(req.file.buffer);
+    try {
+        // destructure data entered
+        const {studentId, gpa, name, progress, credits, degree, major, admitTerm} = data;
+
+        // check if student is already added
+        const student = await Transcript.findOne({where : { studentId }});
+        if(student) {
+            return res.status(401).send("Student already exists.");
+        }
+        else {
+            await Transcript.create({
+               studentId,
+               gpa,
+               name,
+               progress,
+               credits,
+               degree,
+               major,
+               admitTerm,
+            })
+            .then(() => {
+                return res.status(200).send("Student added!");
+            })
+            .catch(err => {
+                console.log("Error: ", err.message);
+            });
+        }
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+  })
  
  // update a selected student
  router.put("/edit/:studentId", async (req, res) => {

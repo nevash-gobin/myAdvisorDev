@@ -2,7 +2,7 @@ const { Sequelize } = require("sequelize");
 const db = require("../db");
 
 const Transcript = db.define("transcript", {
-    studentid: {
+    studentId: {
         allowNull: false,
         type: Sequelize.STRING,
     },
@@ -30,7 +30,7 @@ const Transcript = db.define("transcript", {
         allowNull: false,
         type: Sequelize.STRING,
     },
-    admitterm: {
+    admitTerm: {
         allowNull: false,
         type: Sequelize.STRING,
     }
