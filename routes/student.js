@@ -12,41 +12,18 @@ const jwt = require("jsonwebtoken");
 // import models
 const Student = require("../models/Student");
 
-// login to student account
-router.post("/login", async (req, res) => {
+// save advising session
+router.get("/academic-advising/session", passport.authenticate("jwt", { session: true }), async (req, res) => {
     try {
-        const {username, password} = req.body
-
-        const user = await Student.findOne({where: { username }});
-        if(!user) {
-            return res.status(401).send("This account does not exist.");
-        }
-        else {
-            // compares entered password and account password for match
-            const passCompare = await bcrypt.compare(password, user.password);
-            
-            if (!passCompare) {
-                return res.status(401).send("Invalid Password");
-            }
-            else if (passCompare) {
-                //const token = jwtGenerator(user.id);
-                const payload = {
-                    id: user.id,
-                    username: user.username
-                };
-                jwt.sign(
-                    payload,
-                    process.env.studentSecret,
-                    { expiresIn: "24hr" },
-                    (err, token) => {
-                        res.json({ token});
-                    }
-                );
-            }
-            else {
-                res.send("Unauthorized Access");
-            }
-        }
+        console.log(req.student.username);
+        // const student = await Student.findOne({where: { id: `${req.student}` }});
+        
+        // if(!student) {
+        //     return res.status(401).send("Invalid Student!");
+        // }
+        // else {
+        //         res.send(student.username);
+        // }
     }
     catch (err) {
         console.log("Error: ", err.message);

@@ -19,7 +19,24 @@ module.exports = passport => {
                 return done(null, student);
             }
             else
-                return done(null ,false);
+                return done(null, false);
         })
     );
+    passport.serializeUser(function(user, done) {
+        var sessionData = {};
+
+        sessionData.user = user.id;
+        
+        done(null, sessionData);
+    });
+    passport.deserializeUser(function(sessionData, done) {
+        Student.findOne({where: {id: sessionData.id}}, function (error, student) {
+            if (error) {
+                done(error);
+            }
+            else {
+                done (null, student);
+            }
+        });
+    });
 };
