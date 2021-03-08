@@ -18,7 +18,6 @@ const port = process.env.PORT || 5000;
 app.post('/parseForm', upload.single('file'), async (req, res)=>{
     const { parsedText, ...data} = await parse(req.file.buffer);
     res.send(data);
-    //res.render('pages/result', {data, parsedText});
   })
 
 // JWT Configurations
@@ -43,6 +42,7 @@ const Student = require("./models/Student");
 const Staff = require("./models/Staff");
 const Course = require("./models/Course");
 const Career = require("./models/Career");
+const Transcript = require("./models/Transcript");
 
 // routes
 app.get("/", (req, res) => {
@@ -56,6 +56,8 @@ app.use("/student", require("./routes/student"));
 app.use("/courses", require("./routes/courses"));
 
 app.use("/careers", require("./routes/careers"));
+
+app.use("/transcript", require("./routes/transcript"));
 
 app.use("/accounts", require("./routes/authorization"));
 

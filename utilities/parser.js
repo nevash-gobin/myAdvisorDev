@@ -11,7 +11,7 @@ async function getPDFText(fileBuffer){
         pdfParser.on("pdfParser_dataError", errData => reject(errData));
         pdfParser.parseBuffer(fileBuffer);
     });
-    
+
     let pdfText = [];
 
     for(let page of json['formImage']['Pages']){
@@ -31,6 +31,7 @@ async function getPDFText(fileBuffer){
 function decode(token){
     token = token.replace(/\%2B/g, '+');
     token = token.replace(/\%20/g, ' ');
+    token = token.replace(/\%2F/g, '/');
     return token;
 }
 
@@ -41,15 +42,53 @@ function decode(token){
   */
 function getStudentData(text, filename){
     let inprogress = false;
-    let courses = ["2605", "2606", "2611"];
+    let compCourses = ["1600", "1601", "1602", "1603", "1604", "2601", "2602", "2603", "2604", "2605", "2606", "2611", "3601", "3602", "3605", "3603", "3613"];
+    let infoCourses = ["1600", "1601", "2602", "2604", "3600", "3604"];
+    let miscCourses = ["1115", "1101", "1105", "1301", "2250"];
+    let totalCredits = 0;
     let student = {
         id:undefined,
         gpa:undefined,
         fullname: undefined,
+        progress: undefined,
+        credits: undefined,
+        degree: undefined,
+        major: undefined,
+        admitTerm: undefined,
+        comp1600:'N/A',
+        comp1601:'N/A',
+        info1600:'N/A',
+        math1115:'N/A',
+        foun1101:'N/A',
+
+        comp1602:'N/A',
+        comp1603:'N/A',
+        comp1604:'N/A',
+        info1601:'N/A',
+        foun1105:'N/A',
+
+        comp2601:'N/A',
+        comp2602:'N/A',
+        comp2605:'N/A',
+        comp2611:'N/A',
+        math2250:'N/A',
+
+        comp2603:'N/A',
+        comp2604:'N/A',
         comp2606:'N/A',
         info2602:'N/A',
-        comp2611:'N/A',
-        comp2605:'N/A',
+        info2604:'N/A',
+
+
+        comp3602:'N/A',
+        comp3603:'N/A',
+        comp3605:'N/A',
+        comp3613:'N/A',
+        info3600:'N/A',
+
+        comp3601:'N/A',
+        info3604:'N/A',
+        foun1301:'N/A',
         parsedText: undefined
     }
 
@@ -75,27 +114,55 @@ function getStudentData(text, filename){
             student.id = text[ i + 1]
         }
 
+        if(token === "Admit%20Term%3A") {
+            student.admitTerm = decode(text[i + 9])
+            student.degree = decode(text[i + 12])
+            student.major = decode(text[i + 16])
+        }
+
         //we want the grades of 4 specific courses
-        if(courses.includes(token)){
+        if(compCourses.includes(token) && text[i - 1] === 'COMP'){
             // console.log(token, decode(text[i + 4]));
             //grade column is 4 cols after the course column
-            if(!inprogress)
+            if(!inprogress){
                 student[`comp${token}`] = decode(text[i + 4]); //pull grade
+                totalCredits += 3;
+            }
             else
                 student[`comp${token}`] = 'IP'; //indicate In Progress
         }
 
-        if(token === '2602' && text[i - 1]==='INFO'){
-           
-            if(!inprogress)
+        if(infoCourses.includes(token) && text[i - 1]==='INFO'){
+
+            if(!inprogress){
                 student[`info${token}`] = decode(text[i + 4]); //pull grade
+                totalCredits += 3;
+            }
             else
                 student[`info${token}`] = 'IP'; //indicate In Progress
         }
-            
+
+        if(miscCourses.includes(token) && text[i - 1] === 'FOUN'){
+            if(!inprogress){
+                student[`foun${token}`] = decode(text[i + 4]); //pull grade
+                totalCredits += 3;
+            }
+            else
+                student[`foun${token}`] = 'IP'; //indicate In Progress
+        }
+
+        if(miscCourses.includes(token) && text[i - 1] === 'MATH'){
+            if(!inprogress){
+                student[`math${token}`] = decode(text[i + 4]); //pull grade
+                totalCredits += 3;
+            }
+            else
+                student[`math${token}`] = 'IP'; //indicate In Progress
+        }
         i++;
     }
-
+    student.credits = totalCredits;
+    student.progress = ((totalCredits / 93) * 100).toFixed(1);
     student.parsedText = text;
 
     return student;
@@ -108,5 +175,3 @@ async function parse(file){
 
 
 module.exports = {parse}
-
-
