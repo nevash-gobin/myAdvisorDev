@@ -6,24 +6,37 @@
 const router = require("express").Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
-const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const studentAccountVerification = require("../middleware/studentAccountVerification");
 
 // import models
 const Student = require("../models/Student");
+const AdvisingSession = require("../models/AdvisingSession");
 
 // save advising session
-router.get("/academic-advising/session", passport.authenticate("jwt", { session: true }), async (req, res) => {
+router.post("/academic-advising/session", studentAccountVerification, async (req, res) => {
     try {
-        console.log(req.student.username);
-        // const student = await Student.findOne({where: { id: `${req.student}` }});
-        
-        // if(!student) {
-        //     return res.status(401).send("Invalid Student!");
-        // }
-        // else {
-        //         res.send(student.username);
-        // }
+        // get current student details
+        const student = await Student.findOne({where: {id: `${req.user}` }});
+
+        // setup date format and get current date
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm =  String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        await AdvisingSession.create({
+            studentID: student.username,
+            sessionDate: today
+        })
+        .then(() => {
+            return res.status(200).send("Advising Session Completed");
+        })
+        .catch(err => {
+            console.log("Error: ", err.message);
+        });
     }
     catch (err) {
         console.log("Error: ", err.message);
