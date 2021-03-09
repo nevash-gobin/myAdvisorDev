@@ -6,8 +6,8 @@
 const router = require("express").Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
-const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const staffAccountVerification = require("../middleware/staffAccountVerification");
 
 // import models
 const Student = require("../models/Student");
@@ -15,7 +15,7 @@ const Staff = require("../models/Staff");
 const AdvisingWindow = require("../models/AdvisingWindow");
 
 // add new student account
-router.post("/students/create", passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.post("/students/create", staffAccountVerification, async (req, res) => {
     try {
         // destructure data entered
         const {username, password} = req.body
@@ -51,7 +51,7 @@ router.post("/students/create", passport.authenticate("jwt", { session: false })
 });
 
 // add new staff account
-router.post("/staff/create", passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.post("/staff/create", staffAccountVerification, async (req, res) => {
     try {
         const {username, password} = req.body
 
@@ -83,7 +83,7 @@ router.post("/staff/create", passport.authenticate("jwt", { session: false }), a
 });
 
 // set advising window
-router.post("/academic-advising/window", passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.post("/academic-advising/window", staffAccountVerification, async (req, res) => {
     try {
         const {advisingStart, advisingEnd, semester} = req.body
 

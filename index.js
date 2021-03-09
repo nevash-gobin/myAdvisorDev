@@ -4,35 +4,12 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const pool = require("./db");
-const session = require("express-session");
-const passport = require("passport");
 
 const port = process.env.PORT || 5000;
-
-// JWT Configurations
-require("./utilities/jwt")(passport);
 
 // app connection and resources
 app.use(cors());
 app.use(express.json());
-app.use(session({
-    secret: process.env.secret,
-    resave: true,
-    saveUninitialized: true
-}));
-
-// passport setup
-app.use(passport.initialize());
-app.use(passport.session());
-
-// passport.serializeUser(function(user, done) {
-//     done(null, user);
-// });
-
-// passport.deserializeUser(function(user, done) {
-//     Student.findOne
-//     done(null,user);
-// });
 
 // models
 const Student = require("./models/Student");
