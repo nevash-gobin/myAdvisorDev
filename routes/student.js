@@ -6,47 +6,37 @@
 const router = require("express").Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
-const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const studentAccountVerification = require("../middleware/studentAccountVerification");
 
 // import models
 const Student = require("../models/Student");
+const AdvisingSession = require("../models/AdvisingSession");
 
-// login to student account
-router.post("/login", async (req, res) => {
+// save advising session
+router.post("/academic-advising/session", studentAccountVerification, async (req, res) => {
     try {
-        const {username, password} = req.body
+        // get current student details
+        const student = await Student.findOne({where: {id: `${req.user}` }});
 
-        const user = await Student.findOne({where: { username }});
-        if(!user) {
-            return res.status(401).send("This account does not exist.");
-        }
-        else {
-            // compares entered password and account password for match
-            const passCompare = await bcrypt.compare(password, user.password);
-            
-            if (!passCompare) {
-                return res.status(401).send("Invalid Password");
-            }
-            else if (passCompare) {
-                //const token = jwtGenerator(user.id);
-                const payload = {
-                    id: user.id,
-                    username: user.username
-                };
-                jwt.sign(
-                    payload,
-                    process.env.studentSecret,
-                    { expiresIn: "24hr" },
-                    (err, token) => {
-                        res.json({ token});
-                    }
-                );
-            }
-            else {
-                res.send("Unauthorized Access");
-            }
-        }
+        // setup date format and get current date
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm =  String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        await AdvisingSession.create({
+            studentID: student.username,
+            sessionDate: today
+        })
+        .then(() => {
+            return res.status(200).send("Advising Session Completed");
+        })
+        .catch(err => {
+            console.log("Error: ", err.message);
+        });
     }
     catch (err) {
         console.log("Error: ", err.message);

@@ -1,7 +1,6 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-// NOTE: Course model may require more fields
 const AdvisingWindow = db.define("advisingwindow", {
     advisingStart: {
         allowNull: false,
