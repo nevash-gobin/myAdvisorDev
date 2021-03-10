@@ -4,8 +4,13 @@
     margin-left: 15px;
 }
 
-.career-check {
-    margin-bottom: 20px !important;
+.career-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.name-cell {
+    font-weight: bold;
 }
 
 .career-card {
@@ -13,3 +18,6 @@
     overflow-y: scroll;
     border-color: white !important;
 }
+
+
+

@@ -3,13 +3,15 @@ import React, { Component } from 'react'
 class CareerCheck extends Component {
     render() {
         return (
-            <div>{
-                Array.from({ length: this.props.count }, (_, k) => (
-                    //<li className={`progress-circle ${this.props.progressState[k]}`}></li>
-                    <div class="form-check career-check">
-                        <input type="checkbox" class="form-check-input" id={`careerCheck${k}`}></input>
-                        <label class="form-check-label" for={`careerCheck${k}`}>{this.props.career[k]}</label>
-                     </div>
+            <div className="career-row">{
+                Array.from({ length: this.props.careers.length }, (_, k) => (
+                    <tr class="d-flex career-row">
+                        <td class="col-3 name-cell form-check">
+                            <input type="checkbox" class="form-check-input career-check" id={`careerCheck${k}`}></input>
+                            <label className="form-check-label career-label" for={`careerCheck${k}`}>{this.props.careers[k].name}</label>
+                        </td>
+                        <td class="col-9 desc-cell">{this.props.careers[k].description}</td>
+                    </tr>
                 ))
             }
             </div>
