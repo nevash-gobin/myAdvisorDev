@@ -18,11 +18,11 @@
   },
   "homepage": "https://github.com/nevash-gobin/myAdvisorDev#readme",
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
+    "express-session": "^1.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.13",
     "morgan": "^1.10.0",
@@ -34,7 +34,7 @@
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "react-toastify": "^7.0.3",
-    "sequelize": "^6.4.0"
+    "sequelize": "^6.5.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

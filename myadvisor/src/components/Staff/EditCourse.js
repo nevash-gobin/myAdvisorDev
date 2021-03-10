@@ -40,7 +40,7 @@ function EditCourse({setShow, row, refreshTable}) {
           const res = await fetch("http://localhost:5000/courses/edit/" + code, {
             method: "PUT",
             headers: {
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiI4MTYwMTQ5MjQiLCJpYXQiOjE2MTQ0NjY4MTIsImV4cCI6MTYxNDU1MzIxMn0.uH77uW4WO6zi4Itd2WYXynxS_wDMZm3WcCBRQPgZRpE",
+                token: localStorage.getItem("token"),
                 "Content-type": "application/json",
             },
             body: JSON.stringify(data),

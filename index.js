@@ -19,7 +19,6 @@ require("./utilities/jwt")(passport);
 // app connection and resources
 app.use(cors());
 app.use(express.json());
-app.use(passport.initialize());
 
 
 /* Enables file upload
@@ -33,6 +32,7 @@ const Staff = require("./models/Staff");
 const Course = require("./models/Course");
 const Career = require("./models/Career");
 const Transcript = require("./models/Transcript");
+const AdvisingWindow = require("./models/AdvisingWindow");
 
 // routes
 app.get("/", (req, res) => {

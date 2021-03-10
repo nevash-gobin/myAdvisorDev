@@ -6,12 +6,13 @@
 const router = require("express").Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
-const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 // import models
 const Student = require("../models/Student");
 const Staff = require("../models/Staff");
+const jwtGeneratorStudent = require("../utilities/jwtStudent");
+const jwtGeneratorStaff = require("../utilities/jwtStaff");
 
 // login to student or staff account
 router.post("/login", async (req, res) => {
@@ -32,19 +33,9 @@ router.post("/login", async (req, res) => {
                 return res.status(401).send("Invalid Password");
             }
             else if (passCompare) {
-                //const token = jwtGenerator(user.id);
-                const payload = {
-                    id: admin.id,
-                    username: admin.username
-                };
-                jwt.sign(
-                    payload,
-                    process.env.secret,
-                    { expiresIn: "24hr" },
-                    (err, token) => {
-                        res.json({ token });
-                    }
-                );
+                // generates token for staff user
+                const token = jwtGeneratorStaff(admin.id);
+                res.json({ token });
             }
         }
         else if (student) {
@@ -54,18 +45,9 @@ router.post("/login", async (req, res) => {
                 return res.status(401).send("Invalid Password");
             }
             else if (passCompare2) {
-                const payload = {
-                    id: student.id,
-                    username: student.username
-                };
-                jwt.sign(
-                    payload,
-                    process.env.secret,
-                    { expiresIn: "24hr" },
-                    (err, token) => {
-                        res.json({ token });
-                    }
-                );
+                // generates token for student user
+                const token = jwtGeneratorStudent(student.id);
+                res.json({ token });
             }
         }
         else {

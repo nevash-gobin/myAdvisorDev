@@ -13,26 +13,20 @@ body {
   background-color: #0066FF;
 }
 
-.logo-text {
-  margin-left: 190px;
+.top-bar-text{
   color: white;
-  font-size: 36px;
-  font-weight: bold;
+  font-size: 30px;
 }
 
-.top-bar {
-  margin-bottom: 30px;
-}
-
-.top-bar a:link{
+.top-bar-text:link{
   text-decoration: none;
 }
 
-.top-bar a:hover{
+.top-bar-text:hover{
   color: white;
 }
 
-.top-bar a:visited{
+.top-bar-text:visited{
   color: white;
 }
 

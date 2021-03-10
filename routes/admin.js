@@ -6,18 +6,16 @@
 const router = require("express").Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
-const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const staffAccountVerification = require("../middleware/staffAccountVerification");
 
 // import models
 const Student = require("../models/Student");
 const Staff = require("../models/Staff");
-
-
-/* ADMIN ROUTES*/
+const AdvisingWindow = require("../models/AdvisingWindow");
 
 // add new student account
-router.post("/students/create", passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.post("/students/create", staffAccountVerification, async (req, res) => {
     try {
         // destructure data entered
         const {username, password} = req.body
@@ -53,7 +51,7 @@ router.post("/students/create", passport.authenticate("jwt", { session: false })
 });
 
 // add new staff account
-router.post("/staff/create", passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.post("/staff/create", staffAccountVerification, async (req, res) => {
     try {
         const {username, password} = req.body
 
@@ -77,6 +75,29 @@ router.post("/staff/create", passport.authenticate("jwt", { session: false }), a
                     console.log("Error: ", err.message);
             });
         }
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// set advising window
+router.post("/academic-advising/window", staffAccountVerification, async (req, res) => {
+    try {
+        const {advisingStart, advisingEnd, semester} = req.body
+
+        await AdvisingWindow.create({
+            advisingStart,
+            advisingEnd,
+            semester
+        })
+        .then(() => {
+            return res.status(200).send("Window Set for Semester");
+        })
+        .catch(err => {
+            console.log("Error: ", err.message);
+        });
     }
     catch (err) {
         console.log("Error: ", err.message);

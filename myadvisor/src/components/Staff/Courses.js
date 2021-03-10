@@ -44,7 +44,7 @@ function Courses() {
           const res = await fetch("http://localhost:5000/courses/delete/" + courseCode, {
             method: "DELETE",
             headers: {
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiI4MTYwMTQ5MjQiLCJpYXQiOjE2MTQ0NjY4MTIsImV4cCI6MTYxNDU1MzIxMn0.uH77uW4WO6zi4Itd2WYXynxS_wDMZm3WcCBRQPgZRpE"
+                token: localStorage.getItem("token")
             },
           });
     

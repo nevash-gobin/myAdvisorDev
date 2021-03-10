@@ -1,15 +1,15 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-const Career = db.define("career", {
-    name: {
+const AdvisingSession = db.define("advisingsession", {
+    studentID: {
         allowNull: false,
         type: Sequelize.STRING,
     },
-    description: {
+    sessionDate: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.DATEONLY
     }
 });
 
-module.exports = Career;
+module.exports = AdvisingSession;
