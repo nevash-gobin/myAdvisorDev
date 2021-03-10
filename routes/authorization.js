@@ -35,7 +35,10 @@ router.post("/login", async (req, res) => {
             else if (passCompare) {
                 // generates token for staff user
                 const token = jwtGeneratorStaff(admin.id);
-                res.json({ token });
+                res.json({ 
+                    "user": "admin",
+                    token
+                 });
             }
         }
         else if (student) {
@@ -47,7 +50,10 @@ router.post("/login", async (req, res) => {
             else if (passCompare2) {
                 // generates token for student user
                 const token = jwtGeneratorStudent(student.id);
-                res.json({ token });
+                res.json({ 
+                    "user": "student",
+                    token 
+                });
             }
         }
         else {
