@@ -75,3 +75,8 @@ div.custom-scroll::-webkit-scrollbar-thumb {
 div.custom-scroll::-webkit-scrollbar-thumb:hover {
   background: #004bbd;
 }
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: #dfe9fa !important;
+}
+

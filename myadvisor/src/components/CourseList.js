@@ -1,24 +1,40 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom'
 import CourseNode from './CourseNode'
+import PullCourses from "./PullCourses";
 import "../assets/css/Courses.css";
+import CourseDetails from "./CourseDetails";
 
-class CourseList extends Component {
-  render() {
+const CourseList = () => { 
+    const [clicked, setClicked] = useState(false);
+    const [course, setCourse] = useState(null);
+
+    const nodeClickHandler = (course) => {
+      setClicked(true)
+      setCourse(course)
+    }
+
+    const backClicked = () => {
+      setClicked(false)
+    }
+
+    var courses = PullCourses();
+
     return (
       <div className="content">
+        {clicked ? (
+              <CourseDetails backClicked={backClicked} course={course}></CourseDetails>
+            ) : (
             <div className="container-fluid">
                 <p className="header blue-txt">Select Courses</p>
                 <div className="card details-card outer-card">
                     <div className="card-body">
                         <p className="courselist-card-text">Click on a course to see more details</p>
                         <div className="card courselist-card custom-scroll">
-                            <div className="card-body">
-                                <CourseNode code="COMP 3608" title="Intelligent Systems" credits={3}></CourseNode>
-                                <CourseNode code="COMP 3609" title="Game Programming" credits={3}></CourseNode>
-                                <CourseNode code="COMP 3610" title="Big Data Analytics" credits={3}></CourseNode>
-                                <CourseNode code="COMP 3611" title="Modelling and Simulation" credits={3}></CourseNode>
-                                <CourseNode code="INFO 3606" title="Cloud Computing" credits={3}></CourseNode>
-                                <CourseNode code="INFO 3609" title="Project" credits={3}></CourseNode>
+                            <div className="card-body">{
+                              Array.from({ length: courses.length }, (_, k) => (
+                                <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>
+                              ))}
                             </div>
                         </div>
                     </div>
@@ -29,9 +45,10 @@ class CourseList extends Component {
                     </div>
                 </div>
             </div>
+            ) }
       </div>
     );
-  }
+  
 }
 
 export default CourseList;

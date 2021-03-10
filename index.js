@@ -4,6 +4,11 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const pool = require("./db");
+const passport = require("passport");
+
+const multer  = require('multer')
+const upload = multer({storage: multer.memoryStorage()})
+const { parse } = require('./utilities/parser');
 
 const port = process.env.PORT || 5000;
 
@@ -16,6 +21,7 @@ const Student = require("./models/Student");
 const Staff = require("./models/Staff");
 const Course = require("./models/Course");
 const Career = require("./models/Career");
+const Transcript = require("./models/Transcript");
 const AdvisingWindow = require("./models/AdvisingWindow");
 
 // routes
@@ -31,7 +37,14 @@ app.use("/courses", require("./routes/courses"));
 
 app.use("/careers", require("./routes/careers"));
 
+app.use("/transcript", require("./routes/transcript"));
+
 app.use("/accounts", require("./routes/authorization"));
+
+app.post('/parseForm', upload.single('file'), async (req, res)=>{
+    const { parsedText, ...data} = await parse(req.file.buffer);
+    res.send(data);
+  })
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);

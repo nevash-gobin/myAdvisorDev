@@ -11,16 +11,17 @@
 .details-card {
     border-radius: 45px !important;
     border-color: white !important;
+    margin-bottom: 45px;
     padding-top: 25px;
     padding-left: 25px;
     padding-right: 25px;
     padding-bottom: 20px;
 }
 
-.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-    background-color: #dfe9fa;
-}
-
 .credit-cell, .level-cell {
     text-align: center;
+}
+
+.new-student {
+    font-size: 18px;
 }
