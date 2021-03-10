@@ -12,19 +12,9 @@ const { parse } = require('./utilities/parser');
 
 const port = process.env.PORT || 5000;
 
-
-// JWT Configurations
-require("./utilities/jwt")(passport);
-
 // app connection and resources
 app.use(cors());
 app.use(express.json());
-
-
-/* Enables file upload
-app.use(fileUpload({
-    createParentPath: true
-})); */
 
 // models
 const Student = require("./models/Student");
