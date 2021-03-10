@@ -5,10 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const pool = require("./db");
 const passport = require("passport");
-const fileUpload = require('express-fileupload');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const _ = require('lodash');
+
 const multer  = require('multer')
 const upload = multer({storage: multer.memoryStorage()})
 const { parse } = require('./utilities/parser');
@@ -23,9 +20,7 @@ require("./utilities/jwt")(passport);
 app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(morgan('dev'));
+
 
 /* Enables file upload
 app.use(fileUpload({
