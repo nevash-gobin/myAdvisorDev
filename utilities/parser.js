@@ -127,7 +127,6 @@ async function getStudentData(text, filename){
             //grade column is 4 cols after the course column
             if(!inprogress){
                 student[`${key}${token}`] = decode(text[i + 4]); //pull grade
-                console.log(text[i + 2])
                 totalCredits += parseInt(text[i + 2], 10);
             }
             else
