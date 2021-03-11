@@ -121,12 +121,14 @@ async function getStudentData(text, filename){
         }
 
         var j=0;
+        
         for (key in courseList) {   
             if(courseList[key].includes(token) && text[i - 1] === key) {
             //grade column is 4 cols after the course column
             if(!inprogress){
                 student[`${key}${token}`] = decode(text[i + 4]); //pull grade
-                totalCredits += 3;
+                console.log(text[i + 2])
+                totalCredits += parseInt(text[i + 2], 10);
             }
             else
                 student[`${key}${token}`] = 'IP'; //indicate In Progress
