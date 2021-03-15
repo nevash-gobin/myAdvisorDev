@@ -1,68 +1,61 @@
 import React, { Component } from "react";
+import { useEffect, useState } from "react";
 import "../assets/css/StudentProfile.css"
 import DetailsCard from "./DetailsCard";
 import NoTranscript from "./NoTranscript";
+import PullDetails from "./PullDetails";
+import PullStudentCourses from "./PullStudentCourses";
+import StudentCoursesCard from "./StudentCoursesCard";
 
-class StudentProfile extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            transcriptUploaded: false
-        }
+const StudentProfile = () => {
+
+    const [uploaded, setUploaded] = useState(false);
+
+
+    function uploadedHandler() {
+        setUploaded(true)
     }
 
-    setUploaded = () => {
-        this.setState({
-            transcriptUploaded: true
-        });
-    }
+    var details = PullDetails(localStorage.getItem("username"));
+    var courses = PullStudentCourses(localStorage.getItem("username"));
 
-    render() {
-        return (
+    return (
         <div className="content">
                 <div className="container-fluid">
                     <p className="header blue-txt">Student Details</p>
                     <div className="row">
                         <div className="col-sm-12">
-                            { this.state.transcriptUploaded ? (
-                                <DetailsCard></DetailsCard> ) : (
-                                <NoTranscript uploadedHandler={this.setUploaded}></NoTranscript>
+                            { uploaded ? (
+                                <DetailsCard details={details}></DetailsCard> ) : (
+                                <NoTranscript uploadedHandler={uploadedHandler}></NoTranscript>
                             ) }
                         </div>
                     </div>
                     <p className="header blue-txt">Courses Completed</p>
-                    <div className="card details-card">
-                        <div className="card-body">
-                            <table class="table table-borderless table-striped">
-                                <thead>
-                                    <tr class="d-flex blue-txt">
-                                        <th class="col-1 level-cell">Level</th>
-                                        <th class="col-2 code-cell">Course Code</th>
-                                        <th class="col-8 title-cell">Course Title</th>
-                                        <th class="col-1 credit-cell">Credits</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="d-flex">
-                                        <td class="col-1 level-cell">1</td>
-                                        <td class="col-2 code-cell">COMP 1600</td>
-                                        <td class="col-8 title-cell">Introduction to Computer Concepts</td>
-                                        <td class="col-1 credit-cell">3</td>
-                                    </tr>
-                                    <tr class="d-flex">
-                                        <td class="col-1 level-cell">1</td>
-                                        <td class="col-2 code-cell">COMP 1601</td>
-                                        <td class="col-8 title-cell">Computer Programming I</td>
-                                        <td class="col-1 credit-cell">3</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                     { uploaded ? (
+                        <StudentCoursesCard courses={courses}></StudentCoursesCard> ) : (
+                        <div className="card details-card">
+                            <div className="card-body">
+                                <table class="table table-borderless table-striped">
+                                    <thead>
+                                        <tr class="d-flex blue-txt">
+                                            <th class="col-1 level-cell">Level</th>
+                                            <th class="col-2 code-cell">Course Code</th>
+                                            <th class="col-8 title-cell">Course Title</th>
+                                            <th class="col-1 credit-cell">Grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                        )
+                     }                  
                 </div>
         </div>
     );
-  }
+
 }
 
 export default StudentProfile;

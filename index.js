@@ -41,6 +41,7 @@ app.use("/transcript", require("./routes/transcript"));
 
 app.use("/accounts", require("./routes/authorization"));
 
+// Test route
 app.post('/parseForm', upload.single('file'), async (req, res)=>{
     const { parsedText, ...data} = await parse(req.file.buffer);
     res.send(data);
