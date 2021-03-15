@@ -179,13 +179,41 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
                major,
                admitTerm,
             })
-            .then(() => {
-                return res.status(200).send("Student added!");
-            })
             .catch(err => {
                 console.log("Error: ", err.message);
             });
         }
+
+        // check if course for student is already added
+            for (var key in data){
+                if (!(key == "studentId" || key == "gpa" || key == "name" || key == "progress" || key == "credits" || key == "degree" || key == "major" || key == "admitTerm")) {
+                    var courseCode = key;
+                    var courseTitle = data[key][0]
+                    var grade = data[key][1];
+
+                    const courses = await StudentCourses.findOne({where: { studentId } && { courseCode }});
+                    if(courses) {
+                        return res.status(401).send("Course for student already exists.");
+                    }
+                    
+                    else {
+                        await StudentCourses.create({
+                            studentId,
+                            courseCode,
+                            courseTitle,
+                            grade,
+                        })
+                        .then(() => {
+                            return res.status(200).send("Student courses added!");
+                        })
+                        .catch(err => {
+                            console.log("Error: ", err.message);
+                        });
+                    } 
+                }
+            }
+        
+
     }
     catch (err) {
         console.log("Error: ", err.message);
