@@ -92,6 +92,7 @@ export default function SignInSide({setAuth,setType }) {
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token);
         localStorage.setItem("user", parseRes.user);
+        localStorage.setItem("username", username);
         localStorage.setItem("auth", true)
 
         setAuth(true);

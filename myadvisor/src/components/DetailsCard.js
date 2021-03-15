@@ -11,7 +11,7 @@ class DetailsCard extends Component {
                             <p className="row-title blue-txt">Student Name:</p>
                         </div>
                         <div className="col-sm-10">
-                            <p className="row-info">John Doe</p>
+                            <p className="row-info">{this.props.details.name}</p>
                         </div>
                     </div>
                     <div className="row">
@@ -19,7 +19,7 @@ class DetailsCard extends Component {
                             <p className="row-title blue-txt">Student ID:</p>
                         </div>
                         <div className="col-sm-10">
-                            <p className="row-info">816000000</p>
+                            <p className="row-info">{this.props.details.studentId}</p>
                         </div>
                     </div>
                     <div className="row">
@@ -27,7 +27,7 @@ class DetailsCard extends Component {
                             <p className="row-title blue-txt">Degree:</p>
                         </div>
                         <div className="col-sm-10">
-                            <p className="row-info">Computer Science (Special)</p>
+                            <p className="row-info">{this.props.details.degree}</p>
                         </div>
                     </div>
                     <div className="row">
@@ -35,7 +35,7 @@ class DetailsCard extends Component {
                             <p className="row-title blue-txt">Major:</p>
                         </div>
                         <div className="col-sm-10">
-                            <p className="row-info">Computer Science (Special)</p>
+                            <p className="row-info">{this.props.details.major}</p>
                         </div>
                     </div>
                     <div className="row">
@@ -43,7 +43,7 @@ class DetailsCard extends Component {
                             <p className="row-title blue-txt">Degree GPA:</p>
                         </div>
                         <div className="col-sm-10">
-                            <p className="row-info">3.75</p>
+                            <p className="row-info">{this.props.details.gpa}</p>
                         </div>
                     </div>
                     <div className="row">
@@ -51,7 +51,7 @@ class DetailsCard extends Component {
                             <p className="row-title blue-txt">Admit Term:</p>
                         </div>
                         <div className="col-sm-10">
-                            <p className="row-info">2018/2019 Semester I</p>
+                            <p className="row-info">{this.props.details.admitTerm}</p>
                         </div>
                     </div>
                 </div>

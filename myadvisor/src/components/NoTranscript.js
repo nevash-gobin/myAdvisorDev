@@ -38,7 +38,7 @@ class NoTranscript extends Component {
         fetch("http://localhost:5000/transcript/parseForm", requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
-          .then(this.props.uploadedHandler())
+          .then(setTimeout(this.props.uploadedHandler(), 5000))
           .catch(error => console.log('error', error));
 	}
 
