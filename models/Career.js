@@ -6,6 +6,10 @@ const Career = db.define("career", {
         allowNull: false,
         type: Sequelize.STRING,
     },
+    field: {
+        allowNull: false,
+        type: Sequelize.STRING,
+    },
     description: {
         allowNull: false,
         type: Sequelize.STRING
