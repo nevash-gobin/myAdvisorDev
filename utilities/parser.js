@@ -33,6 +33,7 @@ function decode(token){
     token = token.replace(/\%2B/g, '+');
     token = token.replace(/\%20/g, ' ');
     token = token.replace(/\%2F/g, '/');
+    token = token.replace(/\%2C/g, ',');
     return token;
 }
 
@@ -56,6 +57,7 @@ async function getStudentData(text, filename){
     let inprogress = false;
     let courseCodeLetters = [];
     let courseCodeNumbers = [];
+    let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "EX", "FM", "FMS", "FWR", "I", "IP", "LW", "NCR", "NFC", "NP", "NR", "NV", "W"]
     var courses;
     var courseList = {};
     let totalCredits = 0;
@@ -125,12 +127,18 @@ async function getStudentData(text, filename){
         for (key in courseList) {   
             if(courseList[key].includes(token) && text[i - 1] === key) {
             //grade column is 4 cols after the course column
-            if(!inprogress){
-                student[`${key}${token}`] = decode(text[i + 4]); //pull grade
-                totalCredits += parseInt(text[i + 2], 10);
-            }
-            else
-                student[`${key}${token}`] = 'IP'; //indicate In Progress
+                if(!inprogress){
+                    var grade = decode(text[i + 4]);
+                    var title = decode(text[i + 5])
+                    student[`${key}${token}`] = [title, grade]; 
+                    if (!noCreditGrade.includes(grade)) {
+                        totalCredits += parseInt(text[i + 2], 10);
+                    }
+                }
+                else{
+                    var title = decode(text[i + 3])
+                    student[`${key}${token}`] = [title, 'IP']; //indicate In Progress
+                }
             }
         }
         i++;
