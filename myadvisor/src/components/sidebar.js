@@ -1,21 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import LinearWithValueLabel from './LinearDeterminate';
-//import Button from '@material-ui/core/Button';
-import { palette } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
-import { ListItemSecondaryAction } from '@material-ui/core';
-import { blue, red } from '@material-ui/core/colors';
 import { ProgressBar } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
