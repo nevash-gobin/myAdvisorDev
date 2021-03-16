@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 
-const PullDetails = (studentId) => {
-    const [details, setDetails] = useState([]);
+const PullStudentCourses = (studentId) => {
+    const [courses, setCourses] = useState([]);
   
-    async function getDetails() {
+    async function getCourses() {
       try {
-        const res = await fetch(`/transcript/details/view/${studentId}`, {
+        const res = await fetch(`/transcript/courses/viewAll/${studentId}`, {
           method: "GET",
           headers: { token: localStorage.token },
         });
   
         const parseData = await res.json();
-        setDetails(parseData);
+        setCourses(parseData);
       } catch (err) {
         console.error(err.message);
       }
     }
   
-    //Get student details data
+    //Get student course data
     useEffect(() => {
-      getDetails();
+      getCourses();
     }, []);
 
     return (
-        details
+        courses
       );
     };
 
-export default PullDetails;
+export default PullStudentCourses;

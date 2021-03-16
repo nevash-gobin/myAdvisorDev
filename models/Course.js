@@ -21,19 +21,43 @@ const Course = db.define("course", {
     },
     semester: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
     },
     type: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
     },
     prerequisites: {
         allowNull: false,
         type: Sequelize.STRING,
     },
+    antiRequisites: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
     description: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+    },
+    coursework: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    finalExam: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    individualProjectPres: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    groupProjectPres: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    performanceReports: {
+        allowNull: true,
+        type: Sequelize.STRING,
     }
 });
 

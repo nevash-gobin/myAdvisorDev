@@ -11,6 +11,8 @@
 
 .name-cell {
     font-weight: bold;
+    position: relative;
+    left: 10px;
 }
 
 .career-card {
