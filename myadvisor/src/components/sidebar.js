@@ -59,10 +59,10 @@ export default function PermanentDrawerRight() {
         </Box>
 <br></br>
         <div className="progressBar">
-       <ProgressBar label={`${percentage} %`} now={percentage} />
+       <ProgressBar label={`${percentage} %`} now={percentage} style={{fontSize:"12px", fontWeight:600}}/>
     </div>
     <br></br>
-    <div style={{paddingLeft:"50px"}}><Button href="#" style={{color:"white", fontWeight:600}}>Begin Advising</Button> </div>
+    <div style={{paddingLeft:"50px"}}><Button href="#" style={{color:"white", fontWeight:600, backgroundColor:"#0066FF"}}>Begin Advising</Button> </div>
     
 
        <Box component='span' m={7}> </Box>
@@ -72,7 +72,7 @@ export default function PermanentDrawerRight() {
         </Box>
         <br></br>
         <div className="progressBar">
-       <ProgressBar label={`${percentage} %`} now={percentage} />
+       <ProgressBar label={`${percentage} %`} now={percentage} style={{fontSize:"12px", fontWeight:600}} />
     </div>
 
 
