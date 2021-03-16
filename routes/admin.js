@@ -87,17 +87,45 @@ router.post("/academic-advising/window", staffAccountVerification, async (req, r
     try {
         const {advisingStart, advisingEnd, semester} = req.body
 
-        await AdvisingWindow.create({
-            advisingStart,
-            advisingEnd,
-            semester
-        })
-        .then(() => {
-            return res.status(200).send("Window Set for Semester");
-        })
-        .catch(err => {
-            console.log("Error: ", err.message);
-        });
+        const advisingWindow = await AdvisingWindow.findOne({where: { id: 1 }});
+
+        if(!advisingWindow){
+            await AdvisingWindow.create({
+                advisingStart,
+                advisingEnd,
+                semester
+            })
+            .then(() => {
+                return res.status(200).send("Window Set for Semester");
+            })
+            .catch(err => {
+                console.log("Error: ", err.message);
+            });
+        } else{
+            if (advisingStart) {
+                advisingWindow.advisingStart = advisingStart;
+            }
+            if (advisingEnd) {
+                advisingWindow.advisingEnd = advisingEnd;
+            }
+            if(semester) {
+                advisingWindow.semester = semester;
+            }
+            await advisingWindow.save();
+            res.status(200).send("Advising Window Updated");
+        }
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// get advising window
+router.get("/academic-advising/window", async (req, res) => {
+    try {
+        const advisingWindow = await AdvisingWindow.findOne({where: { id: 1 }});
+        res.status(200).json(advisingWindow);
     }
     catch (err) {
         console.log("Error: ", err.message);

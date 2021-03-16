@@ -32,7 +32,7 @@ function NavigationBlocks() {
                     <NavigationBlock componentToPassDown={<HiArchive/>} title={"Archive"} link={"/staff"}/>
 
                     {/* Blank */}
-                    <NavigationBlock componentToPassDown={<FaWrench/>} title={"Settings"} link={"/staff"}/>
+                    <NavigationBlock componentToPassDown={<FaWrench/>} title={"Settings"} link={"/staff/settings"}/>
 
                     {/* Blank */}
                     <NavigationBlock componentToPassDown={<BsPersonFill/>} title={"Profile"} link={"/staff"}/>

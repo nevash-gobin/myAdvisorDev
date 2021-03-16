@@ -52,3 +52,22 @@
     width: 100%;
 }
 
+.jumbotron {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.settings-card {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card .card-header{
+    background-color: #0d6efd;
+    color: white;
+}
+
+.react-datepicker-wrapper, .react-datepicker__input-container {
+    display: block !important;
+  }

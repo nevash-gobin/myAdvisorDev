@@ -6,11 +6,13 @@ import StudentProfile from './StudentProfile';
 import CourseList from './CourseList';
 import CourseDetails from './CourseDetails';
 import Career from './Career';
+import PermanentDrawerRight from "./sidebar";
 
 //Staff Imports
 import StaffDashboard from './Staff/StaffDashboard';
 import StaffCourses from './Staff/Courses';
 import Students from './Staff/Students';
+import Settings from './Staff/Settings';
 
 //Global Imports
 import "../App.css"
@@ -34,6 +36,7 @@ function Main() {
   return (
     <div className="main-panel">
       {user ? <TopBar></TopBar> : null}
+      {user == "student" ? <PermanentDrawerRight/> : null}
       <Switch>
         <Route
           exact
@@ -166,7 +169,21 @@ function Main() {
               }
             }
           }
-        />       
+        />
+
+        <Route
+          exact
+          path="/staff/settings"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="admin"){
+                return <Settings {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />            
 
 
 
