@@ -41,7 +41,7 @@ function StaffCalendar () {
 
   useEffect(() => {
     getAdvisingWindow();
-  });
+  }, []);
 
   return (
       <div>

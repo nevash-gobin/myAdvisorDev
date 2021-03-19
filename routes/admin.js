@@ -83,7 +83,7 @@ router.post("/staff/create", staffAccountVerification, async (req, res) => {
 });
 
 // set advising window
-router.post("/academic-advising/window", staffAccountVerification, async (req, res) => {
+router.post("/academic-advising/window", async (req, res) => {
     try {
         const {advisingStart, advisingEnd, semester} = req.body
 
