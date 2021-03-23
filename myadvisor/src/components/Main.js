@@ -20,6 +20,7 @@ import "../assets/css/Staff.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./login";
 import TopBar from '../components/TopBar';
+import ReactWebChat from "../components/Bot Framework/webChat";
 
 function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth"));
@@ -126,7 +127,23 @@ function Main() {
               }
             }
           }
-        />    
+        />  
+
+        {/*Bot Route*/}
+        <Route
+          exact
+          path="/bot"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="student"){
+                return <ReactWebChat {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />  
+
 
         {/*Staff Routes*/}
         <Route
