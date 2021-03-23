@@ -6,6 +6,7 @@ import NoTranscript from "./NoTranscript";
 import PullDetails from "./PullDetails";
 import PullStudentCourses from "./PullStudentCourses";
 import StudentCoursesCard from "./StudentCoursesCard";
+import axios from "axios"
 
 const StudentProfile = () => {
 
@@ -19,6 +20,16 @@ const StudentProfile = () => {
     var details = PullDetails(localStorage.getItem("username"));
     var courses = PullStudentCourses(localStorage.getItem("username"));
 
+    async function getCourses() {
+        try {
+          const {data:response} = await axios.get('http://localhost:5000/courses/all') //use data destructuring to get data from the promise object
+          return response
+        }
+    
+        catch (error) {
+          console.log(error);
+        }
+    }
 
         /*for(var i=0; i<courses.length; i++) {
             if(courses[i].courseCode === "COMP1600") {
@@ -33,12 +44,7 @@ const StudentProfile = () => {
     if (details.degree === "Comp Science (Special) BSC S") {
         console.log("bool")
         var core = ["COMP1600", "COMP1601", "INFO1600", "MATH1115", "COMP1602", "COMP1603", "COMP1604", "INFO1601", "COMP2601", "COMP2602", "COMP2605", "COMP2611", "MATH2250", "COMP2603", "COMP2604","COMP2606", "INFO2602", "INFO2604", "COMP3602", "COMP3603", "COMP3613", "COMP3601", "INFO3604"];
-        var coreRes = {
-            COMP1600: "F",
-            COMP1601: "F",
-            INFO1600: "F",
-            MATH1115: "F"
-        }
+        var coreRes = {}
         var recCourses = []
         var year;
         for (var i=0; i<core.length; i++){
@@ -65,8 +71,57 @@ const StudentProfile = () => {
                 recCourses.push(key)
             }
         }
-        console.log(recCourses)
-        console.log("Year", year)
+        determineCourses(coreRes);
+    }
+
+
+    async function determineCourses(coreRes){
+        var courseList = await getCourses();
+        var Y1S1 = {
+            COMP1600: "NA",
+            COMP1601: "NA",
+            INFO1600: "NA",
+            MATH1115: "NA",
+        }
+        var Y1S2 = {
+            COMP1602: "NA",
+            COMP1603: "NA",
+            COMP1604: "NA",
+            INFO1601: "NA",
+        }
+        var recCourses = [];
+        var counter = 0;
+        //var Y1S1 = ["COMP1600", "COMP1601", "INFO1600", "MATH1115"];
+        var year = 1;
+        var sem = 1;
+        for (i in Y1S1) {
+            for (var key in coreRes) {
+                if(i === key) {   
+                    if(coreRes[key] === "P") {
+                        Y1S1[i] = "P"
+                    }
+                    if(coreRes[key] === "F") {
+                        Y1S1[i] = "F"
+                    }
+                }
+            }
+        }
+        counter = 0;
+        for (key in Y1S1) {
+            if (Y1S1[key] === "P" || Y1S1[key] === "F") {
+                counter+=1;
+            }
+        }
+        if (counter === Object.keys(Y1S1).length) {
+            sem = 2;
+        }
+        if (year === 1 && sem === 2) {
+            for (key in Y1S2) {
+                recCourses.push(key);
+            }
+        }
+        console.log("Rec Courses:", recCourses)
+    
     }
 
     
@@ -77,7 +132,7 @@ const StudentProfile = () => {
                     <p className="header blue-txt">Student Details</p>
                     <div className="row">
                         <div className="col-sm-12">
-                            { uploaded ? (
+                            { !uploaded ? (
                                 <DetailsCard details={details}></DetailsCard> ) : (
                                 <NoTranscript uploadedHandler={uploadedHandler}></NoTranscript>
                             ) }
