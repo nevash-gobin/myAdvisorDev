@@ -10,15 +10,25 @@ import axios from "axios"
 
 const StudentProfile = () => {
 
-    const [uploaded, setUploaded] = useState(false);
+    const [uploaded, setUploaded] = useState(true);
+   
 
 
     function uploadedHandler() {
-        setUploaded(true)
+        window.location.reload()
     }
 
     var details = PullDetails(localStorage.getItem("username"));
     var studentCourses = PullStudentCourses(localStorage.getItem("username"));
+ 
+    useEffect(() => {
+        if (details.length === 0) {
+            setUploaded(false);
+        }
+        else {
+            setUploaded(true);
+        }
+    })
 
     async function getCourses() {
         try {
@@ -34,7 +44,6 @@ const StudentProfile = () => {
     let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "FM", "FMS", "FWR", "I", "IP", "LW", "NCR", "NFC", "NP", "NR", "NV", "W"]
 
     if (details.degree === "Comp Science (Special) BSC S") {
-        console.log("bool")
         var core = ["COMP1600", "COMP1601", "INFO1600", "MATH1115", "COMP1602", "COMP1603", "COMP1604", "INFO1601", "COMP2601", "COMP2602", "COMP2605", "COMP2611", "MATH2250", "COMP2603", "COMP2604","COMP2606", "INFO2602", "INFO2604", "COMP3602", "COMP3603", "COMP3613", "COMP3601", "INFO3604"];
         var coreRes = {}
         var recCourses = []
@@ -202,7 +211,7 @@ const StudentProfile = () => {
     
     }
 
-    
+ 
 
     return (
         <div className="content">
@@ -210,7 +219,7 @@ const StudentProfile = () => {
                     <p className="header blue-txt">Student Details</p>
                     <div className="row">
                         <div className="col-sm-12">
-                            { !uploaded ? (
+                            { uploaded ? (
                                 <DetailsCard details={details}></DetailsCard> ) : (
                                 <NoTranscript uploadedHandler={uploadedHandler}></NoTranscript>
                             ) }
