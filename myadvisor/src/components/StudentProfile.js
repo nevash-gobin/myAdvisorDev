@@ -18,7 +18,7 @@ const StudentProfile = () => {
     }
 
     var details = PullDetails(localStorage.getItem("username"));
-    var courses = PullStudentCourses(localStorage.getItem("username"));
+    var studentCourses = PullStudentCourses(localStorage.getItem("username"));
 
     async function getCourses() {
         try {
@@ -48,8 +48,8 @@ const StudentProfile = () => {
         var recCourses = []
         var year;
         for (var i=0; i<core.length; i++){
-            for (var j=0; j<courses.length; j++) {
-                if ((courses[j].courseCode == core[i]) && !(noCreditGrade.includes(courses[j].grade))){
+            for (var j=0; j<studentCourses.length; j++) {
+                if ((studentCourses[j].courseCode == core[i]) && !(noCreditGrade.includes(studentCourses[j].grade))){
                     coreRes[`${core[i]}`] = "P";
                     if (core[i].charAt(4) == "1") {
                         year = 1;
@@ -61,7 +61,7 @@ const StudentProfile = () => {
                         year = 3;
                     }
                 }
-                if ((courses[j].courseCode == core[i]) && (noCreditGrade.includes(courses[j].grade))){
+                if ((studentCourses[j].courseCode == core[i]) && (noCreditGrade.includes(studentCourses[j].grade))){
                     coreRes[`${core[i]}`] = "F";
                 }
             }
@@ -74,38 +74,75 @@ const StudentProfile = () => {
         determineCourses(coreRes);
     }
 
+    function getSemCourses(sem) {
+        for (i in sem) {
+            for (var key in coreRes) {
+                if(i === key) {   
+                    if(coreRes[key] === "P") {
+                        sem[i] = "P"
+                    }
+                    if(coreRes[key] === "F") {
+                        sem[i] = "F"
+                    }
+                }
+            }
+        }
+        return sem;
+    }
 
     async function determineCourses(coreRes){
-        var courseList = await getCourses();
-        var Y1S1 = {
-            COMP1600: "NA",
-            COMP1601: "NA",
-            INFO1600: "NA",
-            MATH1115: "NA",
+        
+        let Y1S1 = {}; // List of all courses for Year 1 Semester 1
+        let Y1S2 = {}; // List of all courses for Year 1 Semester 2
+        let Y2S1 = {}; // List of all courses for Year 2 Semester 1
+        let Y2S2 = {}; // List of all courses for Year 2 Semester 2
+        let Y3S1 = {}; // List of all courses for Year 3 Semester 1
+        let Y3S2 = {}; // List of all courses for Year 3 Semester 2
+
+        var courses = await getCourses();
+
+        
+        for (var i=0; i<courses.length; i++) { // Initialise Courses for Degree using thier Level and Semester
+           
+            if (courses[i].level === "I") {
+                if (courses[i].semester === 1) {
+                    Y1S1[courses[i].courseCode] = "N";
+                }
+                if (courses[i].semester === 2) {
+                    Y1S2[courses[i].courseCode] = "N";
+                }
+            }
+            if (courses[i].level === "II") {
+                if (courses[i].semester === 1) {
+                    Y2S1[courses[i].courseCode] = "N";
+                }
+                if (courses[i].semester === 2) {
+                    Y2S2[courses[i].courseCode] = "N";
+                }
+            }
+            if (courses[i].level === "III") {
+                if (courses[i].semester === 1) {
+                    Y3S1[courses[i].courseCode] = "N";
+                }
+                if (courses[i].semester === 2) {
+                    Y3S2[courses[i].courseCode] = "N";
+                }
+            }
         }
-        var Y1S2 = {
-            COMP1602: "NA",
-            COMP1603: "NA",
-            COMP1604: "NA",
-            INFO1601: "NA",
-        }
+
         var recCourses = [];
         var counter = 0;
         //var Y1S1 = ["COMP1600", "COMP1601", "INFO1600", "MATH1115"];
         var year = 1;
         var sem = 1;
-        for (i in Y1S1) {
-            for (var key in coreRes) {
-                if(i === key) {   
-                    if(coreRes[key] === "P") {
-                        Y1S1[i] = "P"
-                    }
-                    if(coreRes[key] === "F") {
-                        Y1S1[i] = "F"
-                    }
-                }
-            }
-        }
+
+        Y1S1 = getSemCourses(Y1S1);
+        Y1S2 = getSemCourses(Y1S2);
+        Y2S1 = getSemCourses(Y2S1);
+        Y2S2 = getSemCourses(Y2S2);
+        Y3S1 = getSemCourses(Y3S1);
+        Y3S2 = getSemCourses(Y3S2);
+
         counter = 0;
         for (key in Y1S1) {
             if (Y1S1[key] === "P" || Y1S1[key] === "F") {
@@ -115,12 +152,13 @@ const StudentProfile = () => {
         if (counter === Object.keys(Y1S1).length) {
             sem = 2;
         }
-        if (year === 1 && sem === 2) {
+        /*if (year === 1 && sem === 2) {
             for (key in Y1S2) {
                 recCourses.push(key);
             }
-        }
-        console.log("Rec Courses:", recCourses)
+        } */
+        console.log(Y3S2)
+        //console.log("Rec Courses:", recCourses)
     
     }
 
@@ -140,7 +178,7 @@ const StudentProfile = () => {
                     </div>
                     <p className="header blue-txt">Courses Completed</p>
                      { uploaded ? (
-                        <StudentCoursesCard courses={courses}></StudentCoursesCard> ) : (
+                        <StudentCoursesCard courses={studentCourses}></StudentCoursesCard> ) : (
                         <div className="card details-card">
                             <div className="card-body">
                                 <table class="table table-borderless table-striped">
