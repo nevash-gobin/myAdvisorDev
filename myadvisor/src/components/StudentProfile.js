@@ -15,7 +15,7 @@ const StudentProfile = () => {
 
 
     function uploadedHandler() {
-        window.location.reload()
+        window.location.reload();
     }
 
     var details = PullDetails(localStorage.getItem("username"));

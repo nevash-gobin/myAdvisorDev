@@ -203,15 +203,13 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
                             courseTitle,
                             grade,
                         })
-                        .then(() => {
-                            return res.status(200).send("Student courses added!");
-                        })
                         .catch(err => {
                             console.log("Error: ", err.message);
                         });
                     } 
                 }
             }
+            return res.status(200).send("Student courses added!");
         
 
     }

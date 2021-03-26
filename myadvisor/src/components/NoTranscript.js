@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class NoTranscript extends Component {
 
@@ -34,6 +36,8 @@ class NoTranscript extends Component {
           body: formdata,
           redirect: 'follow'
         };
+
+        toast.success("Processing transcript...")
         
         fetch("http://localhost:5000/transcript/parseForm", requestOptions)
           .then(response => response.text())
@@ -59,6 +63,11 @@ class NoTranscript extends Component {
                     <Link to="/career" onClick={this.props.newStudentHandler}>
                         <span className="row-info details-link new-student">Click here to get started</span>
                     </Link>
+                    <ToastContainer 
+                        pauseOnHover
+                        position="top-left"
+                        autoClose={10000}
+                    />
                 </div>
             </div>
       </div>
