@@ -31,14 +31,6 @@ const StudentProfile = () => {
         }
     }
 
-        /*for(var i=0; i<courses.length; i++) {
-            if(courses[i].courseCode === "COMP1600") {
-                console.log(courses[i])
-            }
-        }
-        
-        console.log(courses) */
-
     let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "FM", "FMS", "FWR", "I", "IP", "LW", "NCR", "NFC", "NP", "NR", "NV", "W"]
 
     if (details.degree === "Comp Science (Special) BSC S") {
@@ -149,15 +141,63 @@ const StudentProfile = () => {
                 counter+=1;
             }
         }
-        if (counter === Object.keys(Y1S1).length) {
+        if (counter > 1) {
             sem = 2;
         }
+        counter = 0;
+        if (year === 1 && sem === 2) {
+            for (key in Y1S2) {
+                if (Y1S2[key] === "P" || Y1S2[key] === "F") {
+                    counter+=1;
+                }
+            }
+            if (counter > 1) {
+                sem = 1;
+                year = 2;
+            }
+        }
+        counter = 0;
+        if (year === 2 && sem === 1) {
+            for (key in Y2S1) {
+                if (Y2S1[key] === "P" || Y2S1[key] === "F") {
+                    counter+=1;
+                }
+            }
+            if (counter > 1) {
+                sem = 2;
+            }
+        }
+        counter = 0;
+        if (year === 2 && sem === 2) {
+            for (key in Y2S2) {
+                if (Y2S2[key] === "P" || Y2S2[key] === "F") {
+                    counter+=1;
+                }
+            }
+            if (counter > 1) {
+                sem = 1;
+                year = 3;
+            }
+        }
+        counter = 0;
+        if (year === 3 && sem === 1) {
+            for (key in Y3S1) {
+                if (Y3S1[key] === "P" || Y3S1[key] === "F") {
+                    counter+=1;
+                }
+            }
+            if (counter > 1) {
+                sem = 2;
+            }
+        }
+       
         /*if (year === 1 && sem === 2) {
             for (key in Y1S2) {
                 recCourses.push(key);
             }
         } */
-        console.log(Y3S2)
+        console.log("year", year);
+        console.log("sem", sem);
         //console.log("Rec Courses:", recCourses)
     
     }
