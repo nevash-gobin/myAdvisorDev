@@ -20,7 +20,7 @@ router.post("/students/create", staffAccountVerification, async (req, res) => {
         // destructure data entered
         const {username, password} = req.body
 
-        // check if user exists since duplicate usernames aren't allowed
+        // check if student exists since duplicate usernames aren't allowed
         const user = await Student.findOne({where: { username }});
         if(user) {
             return res.status(401).send("Student already exists.");
@@ -55,6 +55,7 @@ router.post("/staff/create", staffAccountVerification, async (req, res) => {
     try {
         const {username, password} = req.body
 
+        // check if staff exists since duplicate usernames aren't allowed
         const user = await Staff.findOne({where: { username }});
         if(user) {
             return res.status(401).send("Staff member already exists.");

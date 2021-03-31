@@ -59,6 +59,11 @@ router.post("/add", async (req, res) => {
                 type,
                 prerequisites,
                 description,
+                coursework,
+                finalExam,
+                individualProjectPres,
+                groupProjectPres,
+                performanceReports
             })
             .then(() => {
                 return res.status(200).send("Course added!");
@@ -77,7 +82,7 @@ router.post("/add", async (req, res) => {
 // update a selected course
 router.put("/edit/:code", async (req, res) => {
     try {
-        const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description} = req.body;
+        const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description, coursework, finalExam, individualProjectPres, groupProjectPres, performanceReports} = req.body;
 
         const course = await Course.findOne({where: { courseCode: req.params.code }});
         if(!course) {
@@ -108,6 +113,21 @@ router.put("/edit/:code", async (req, res) => {
             }
             if (description) {
                 course.description = description;
+            }
+            if (coursework) {
+                course.coursework = coursework;
+            }
+            if (finalExam) {
+                course.finalExam = finalExam;
+            }
+            if (individualProjectPres) {
+                course.individualProjectPres = individualProjectPres;
+            }
+            if (groupProjectPres) {
+                course.groupProjectPres = groupProjectPres;
+            }
+            if (performanceReports) {
+                course.performanceReports = performanceReports;
             }
 
             await course.save();

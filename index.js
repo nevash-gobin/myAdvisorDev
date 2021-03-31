@@ -37,6 +37,8 @@ app.use("/courses", require("./routes/courses"));
 
 app.use("/careers", require("./routes/careers"));
 
+app.use("/programmes", require("./routes/programmes"));
+
 app.use("/transcript", require("./routes/transcript"));
 
 app.use("/accounts", require("./routes/authorization"));

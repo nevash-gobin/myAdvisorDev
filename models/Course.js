@@ -21,7 +21,7 @@ const Course = db.define("course", {
     },
     semester: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
     },
     type: {
         allowNull: false,
@@ -29,10 +29,6 @@ const Course = db.define("course", {
     },
     prerequisites: {
         allowNull: false,
-        type: Sequelize.STRING,
-    },
-    antiRequisites: {
-        allowNull: true,
         type: Sequelize.STRING,
     },
     description: {
