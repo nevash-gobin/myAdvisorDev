@@ -5,6 +5,7 @@ const router = require("express").Router();
 const db = require("../db");
 
 // import models
+const Course = require("../models/Course");
 const Programme = require("../models/Programme");
 const ProgrammeCourse = require("../models/ProgrammeCourse");
 
@@ -30,8 +31,20 @@ router.get("/offered-courses/:id", async (req, res) => {
             return res.status(404).send("Programme doesn't exists");
         }
         else {
-            // console.log(programmeCourses.dataValues.courseID);
-            res.status(202).json(programmeCourses);
+            var i;
+            let courseIDs = [];
+
+            for (i = 0; i < programmeCourses.length; i++){
+                courseIDs.push(programmeCourses[i].courseID)
+            }
+            
+            let courses = [];
+            for (i = 0; i < programmeCourses.length; i++){
+                const course = await Course.findOne({where: { id: courseIDs[i] }});
+                courses.push(course);
+            }
+
+            res.status(202).json(courses);
         }
     }
     catch (err) {
