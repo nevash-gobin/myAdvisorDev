@@ -46,7 +46,7 @@ export default function PermanentDrawerRight() {
  
       <Drawer
         className={classes.drawer}
-        variant="permanent"
+        variant="temporary"
         classes={{
           paper: classes.drawerPaper,
         }}
