@@ -58,7 +58,7 @@
 }
 
 .settings-card {
-    width: 60%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -70,4 +70,12 @@
 
 .react-datepicker-wrapper, .react-datepicker__input-container {
     display: block !important;
-  }
+}
+
+.rbc-toolbar-label{
+    font-size: 35px;
+    color: #0d6efd;
+}
+
+.react-bootstrap-table table { table-layout: auto !important; }
+

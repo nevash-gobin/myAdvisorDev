@@ -13,6 +13,7 @@ import StaffDashboard from './Staff/StaffDashboard';
 import StaffCourses from './Staff/Courses';
 import Students from './Staff/Students';
 import Settings from './Staff/Settings';
+import Reports from './Staff/Reports';
 
 //Global Imports
 import "../App.css"
@@ -183,7 +184,21 @@ function Main() {
               }
             }
           }
-        />            
+        />
+        
+        <Route
+          exact
+          path="/staff/reports"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="admin"){
+                return <Reports {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />                        
 
 
 

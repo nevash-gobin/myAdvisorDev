@@ -84,7 +84,7 @@ function SetAdvisingWindow() {
                     </Form.Control>
                 </Form.Group>
 
-                <div class="float-right"><Button type="submit" class="btn btn-custom">Submit</Button></div>
+                <div class="float-right"><Button type="submit" class="btn btn-custom">Save</Button></div>
             </Form>
 
             <ToastContainer 

@@ -1,5 +1,5 @@
 import React from "react";
-import {Jumbotron, Container, Card} from 'react-bootstrap';
+import {Jumbotron, Container, Card, Row, Col} from 'react-bootstrap';
 import AdvisingWindowSettings from './SetAdvisingWindow';
 
 function Settings() {
@@ -12,14 +12,27 @@ function Settings() {
             </Container>
         </Jumbotron>
         
+        <Container>
+            <Row>
+                <Col>
+                    <Card className="settings-card">
+                        <Card.Header>Advising Window</Card.Header>
+                        <Card.Body>
+                            <AdvisingWindowSettings/>
+                        </Card.Body>
+                    </Card>
+                </Col>
 
-
-        <Card className="settings-card">
-            <Card.Header>Advising Window</Card.Header>
-            <Card.Body>
-                <AdvisingWindowSettings/>
-            </Card.Body>
-        </Card>
+                <Col>
+                <Card className="settings-card">
+                    <Card.Header>Add Staff Account</Card.Header>
+                    <Card.Body>
+                        
+                    </Card.Body>
+                </Card>
+                </Col>
+            </Row>
+        </Container>
                 
         </>
     );
