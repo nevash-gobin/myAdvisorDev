@@ -26,7 +26,7 @@ function NavigationBlocks() {
 
                 <div class="row mt-4">
                     {/* Programmes */}
-                    <NavigationBlock componentToPassDown={<BsFillLayersFill/>} title={"Programmes"} link={"/staff"}/>
+                    <NavigationBlock componentToPassDown={<BsFillLayersFill/>} title={"Programmes"} link={"/staff/programmes"}/>
 
                     {/* Archive */}
                     <NavigationBlock componentToPassDown={<HiArchive/>} title={"Archive"} link={"/staff"}/>

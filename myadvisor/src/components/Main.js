@@ -14,6 +14,7 @@ import StaffCourses from './Staff/Courses';
 import Students from './Staff/Students';
 import Settings from './Staff/Settings';
 import Reports from './Staff/Reports';
+import Programmes from './Staff/Programmes';
 
 //Global Imports
 import "../App.css"
@@ -168,6 +169,20 @@ function Main() {
             {
               if(isAuthenticated && user=="admin"){
                 return <StaffCourses {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />
+
+        <Route
+          exact
+          path="/staff/programmes"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="admin"){
+                return <Programmes {...props} />
               } else {
                 return(<Redirect to="/" />)
               }

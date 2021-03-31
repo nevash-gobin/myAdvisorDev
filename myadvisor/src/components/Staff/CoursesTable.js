@@ -95,7 +95,7 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
                         <SearchBar { ...props.searchProps } />
                         <ClearSearchButton { ...props.searchProps } />
                         <ExportCSVButton { ...props.csvProps }>Export CSV</ExportCSVButton>
-                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } expandRow={ expandRow } defaultSorted={ defaultSorted }/>
+                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } expandRow={ expandRow } defaultSorted={ defaultSorted } hover/>
                     </div>
                     )
                 }

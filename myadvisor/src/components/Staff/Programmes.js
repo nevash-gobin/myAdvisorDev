@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import StudentsTable from './StudentsTable';
+import ProgrammesTable from './ProgrammesTable';
 
-function Students() {
+function Programmes() {
     //Table
-    const [students, setStudents] = useState([]);
+    const [programmes, setProgrammes] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    //Get Students
-    async function getStudents() {
+    //Get Programmes
+    async function getProgrammes() {
         try {
-            const res = await fetch("http://localhost:5000/transcript/details/all", {
+            const res = await fetch("http://localhost:5000/programmes/all", {
             method: "GET",
         });
             const parseData = await res.json();
-            setStudents(parseData);
+            setProgrammes(parseData);
             setLoading(false);
             
         } catch (err) {
@@ -22,7 +22,7 @@ function Students() {
     }
 
     useEffect(() => {
-        getStudents();
+        getProgrammes();
     }, []);
     
     return (
@@ -30,12 +30,17 @@ function Students() {
             <div class="container">
                 <div class="row mt-4">
                     {/* Courses Table */}
-                    <div class="col-12">
+                    <div class="col-10">
                         <div class="card h-100">
                             <div class="card-body shadow-sm">
-                                <StudentsTable students={students} loading={loading} />
+                                <ProgrammesTable programmes={programmes} loading={loading}/>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Buttons */}
+                    <div class="col">
+                        <button type="button" class="btn btn-custom add-course">Add Programme</button>
                     </div>
                 </div>
             </div>
@@ -43,4 +48,4 @@ function Students() {
     );
 }
 
-export default Students;
+export default Programmes;

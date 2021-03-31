@@ -79,3 +79,7 @@
 
 .react-bootstrap-table table { table-layout: auto !important; }
 
+.react-bootstrap-table>table>thead>tr>th .filter-label {
+    width: 100%
+}
+

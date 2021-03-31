@@ -97,7 +97,7 @@ function StudentsTable({students, loading}) {
                         <SearchBar { ...props.searchProps } />
                         <ClearSearchButton { ...props.searchProps } />
                         <ExportCSVButton { ...props.csvProps }>Export CSV</ExportCSVButton>
-                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } defaultSorted={ defaultSorted } rowEvents={ rowEvents }/>
+                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } defaultSorted={ defaultSorted } rowEvents={ rowEvents } hover/>
                     </div>
                     )
                 }
@@ -140,7 +140,7 @@ function StudentsTable({students, loading}) {
                                 <br/>
                                 <SearchBar { ...props.searchProps } />
                                 <BootstrapTable
-                                { ...props.baseProps } pagination={ paginationFactory(courseOptions) }
+                                { ...props.baseProps } pagination={ paginationFactory(courseOptions) } hover
                                 />
                             </div>
                             )

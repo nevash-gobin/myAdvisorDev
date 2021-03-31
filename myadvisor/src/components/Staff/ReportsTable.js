@@ -60,7 +60,7 @@ function ReportsTable({sessions, loading}) {
                         <SearchBar { ...props.searchProps } />
                         <ClearSearchButton { ...props.searchProps } />
                         <ExportCSVButton { ...props.csvProps }>Export CSV</ExportCSVButton>
-                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } defaultSorted={ defaultSorted } selectRow={ selectRow }/>
+                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } defaultSorted={ defaultSorted } selectRow={ selectRow } hover/>
                     </div>
                     )
                 }
