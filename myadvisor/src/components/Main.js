@@ -13,6 +13,8 @@ import StaffDashboard from './Staff/StaffDashboard';
 import StaffCourses from './Staff/Courses';
 import Students from './Staff/Students';
 import Settings from './Staff/Settings';
+import Reports from './Staff/Reports';
+import Programmes from './Staff/Programmes';
 
 //Global Imports
 import "../App.css"
@@ -20,6 +22,7 @@ import "../assets/css/Staff.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./login";
 import TopBar from '../components/TopBar';
+import ReactWebChat from "../components/Bot Framework/webChat";
 
 function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth"));
@@ -126,7 +129,23 @@ function Main() {
               }
             }
           }
-        />    
+        />  
+
+        {/*Bot Route*/}
+        <Route
+          exact
+          path="/bot"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="student"){
+                return <ReactWebChat {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />  
+
 
         {/*Staff Routes*/}
         <Route
@@ -150,6 +169,20 @@ function Main() {
             {
               if(isAuthenticated && user=="admin"){
                 return <StaffCourses {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />
+
+        <Route
+          exact
+          path="/staff/programmes"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="admin"){
+                return <Programmes {...props} />
               } else {
                 return(<Redirect to="/" />)
               }
@@ -183,7 +216,21 @@ function Main() {
               }
             }
           }
-        />            
+        />
+        
+        <Route
+          exact
+          path="/staff/reports"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="admin"){
+                return <Reports {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />                        
 
 
 

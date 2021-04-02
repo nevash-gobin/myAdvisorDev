@@ -58,7 +58,7 @@
 }
 
 .settings-card {
-    width: 60%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -70,4 +70,24 @@
 
 .react-datepicker-wrapper, .react-datepicker__input-container {
     display: block !important;
-  }
+}
+
+.rbc-toolbar-label{
+    font-size: 35px;
+    color: #0d6efd;
+}
+
+.react-bootstrap-table table { table-layout: auto !important; }
+
+.react-bootstrap-table>table>thead>tr>th .filter-label {
+    width: 100%
+}
+
+.table-bordered thead th{
+    border-bottom: 2px solid #0d6efd !important;
+    
+}
+
+.rbc-event, .rbc-day-slot .rbc-background-event{
+    background-color: #0d6efd;
+}
