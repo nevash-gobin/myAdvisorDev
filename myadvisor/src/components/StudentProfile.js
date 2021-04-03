@@ -68,17 +68,6 @@ const StudentProfile = () => {
 
     let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "FM", "FMS", "FWR", "I", "LW", "NCR", "NFC", "NP", "NR", "NV", "W"]
 
-    function getSemCourses(coreRes) {
-        var sem = {};
-        for (var i in sem) {
-            for (var key in coreRes) {
-                if(i === key) {   
-                    sem[i] = coreRes[key]
-                }
-            }
-        }
-        return sem;
-    }
     
     function splitBySem(coreRes, courses) {
         var semesterArr = [[]];
@@ -151,6 +140,113 @@ const StudentProfile = () => {
         return semesterArr;
     }
 
+    function getCoreCourses(courses) {
+        var core = [];
+        for (var i=0; i<courses.length; i++) {
+            if (courses[i].type === "Core") {
+                core.push(courses[i]);
+            }
+        }
+        return core;
+    }
+
+    function recommendCoreCourses(coreSemesterArr, year, currentSem, courses) {
+        var coreY1S1 = coreSemesterArr[0];
+        var coreY1S2 = coreSemesterArr[1];
+        var coreY2S1 = coreSemesterArr[2];
+        var coreY2S2 = coreSemesterArr[3];
+        var coreY3S1 = coreSemesterArr[4];
+        var coreY3S2 = coreSemesterArr[5];
+        var recCourses = courses;
+        var key;
+
+        if (year === 1 && currentSem === 1) {
+            for (key in coreY1S1) {
+                if (coreY1S1[key].grade === "N" || coreY1S1[key].grade === "F") {
+                    if (!courses.includes(coreY1S1[key].courseCode))
+                        recCourses.push(coreY1S1[key].courseCode)
+                }
+            }
+        }
+        if (year === 1 && currentSem === 2) {
+            for (key in coreY1S2) {
+                if (coreY1S2[key].grade === "N" || coreY1S2[key].grade === "F") {
+                    if (!courses.includes(coreY1S2[key].courseCode))
+                        recCourses.push(coreY1S2[key].courseCode)
+                }
+            }
+        }
+        if (year === 2 && currentSem === 1) {
+            for (key in coreY2S1) {
+                if (coreY2S1[key].grade === "N" || coreY2S1[key].grade === "F") {
+                    if (!courses.includes(coreY2S1[key].courseCode))
+                        recCourses.push(coreY2S1[key].courseCode)
+                }
+            }
+            for (key in coreY1S1) {
+                if (coreY1S1[key].grade === "N" || coreY1S1[key].grade === "F") {
+                    if (!courses.includes(coreY1S1[key].courseCode))
+                        recCourses.push(coreY1S1[key].courseCode)
+                }
+            }
+        }
+        if (year === 2 && currentSem === 2) {
+            for (key in coreY2S2) {
+                if (coreY2S2[key].grade === "N" || coreY2S2[key].grade === "F") {
+                    if (!courses.includes(coreY2S2[key].courseCode))
+                        recCourses.push(coreY2S2[key].courseCode)
+                }
+            }
+            for (key in coreY1S2) {
+                if (coreY1S2[key].grade === "N" || coreY1S2[key].grade === "F") {
+                    if (!courses.includes(coreY1S2[key].courseCode))
+                        recCourses.push(coreY1S2[key].courseCode)
+                }
+            }
+        }
+        if (year === 3 && currentSem === 1) {
+            for (key in coreY3S1) {
+                if (coreY3S1[key].grade === "N" || coreY3S1[key].grade === "F") {
+                    if (!courses.includes(coreY3S1[key].courseCode))
+                        recCourses.push(coreY3S1[key].courseCode)
+                }
+            }
+            for (key in coreY2S1) {
+                if (coreY2S1[key].grade === "N" || coreY2S1[key].grade === "F") {
+                    if (!courses.includes(coreY2S1[key].courseCode))
+                        recCourses.push(coreY2S1[key].courseCode)
+                }
+            }
+            for (key in coreY1S1) {
+                if (coreY1S1[key].grade === "N" || coreY1S1[key].grade === "F") {
+                    if (!courses.includes(coreY1S1[key].courseCode))
+                        recCourses.push(coreY1S1[key].courseCode)
+                }
+            }
+        }
+        if (year === 3 && currentSem === 2) {
+            for (key in coreY3S2) {
+                if (coreY3S2[key].grade === "N" || coreY3S2[key].grade === "F") {
+                    if (!courses.includes(coreY3S2[key].courseCode))
+                        recCourses.push(coreY3S2[key].courseCode)
+                }
+            }
+            for (key in coreY2S2) {
+                if (coreY2S2[key].grade === "N" || coreY2S2[key].grade === "F") {
+                    if (!courses.includes(coreY2S2[key].courseCode))
+                        recCourses.push(coreY2S2[key].courseCode)
+                }
+            }
+            for (key in coreY1S2) {
+                if (coreY1S2[key].grade === "N" || coreY1S2[key].grade === "F") {
+                    if (!courses.includes(coreY1S2[key].courseCode))
+                        recCourses.push(coreY1S2[key].courseCode)
+                }
+            }
+        }
+        return recCourses;
+    }
+
     function determineStudentCourses(core) {
         var coreRes = {};
         for (var i=0; i<core.length; i++){
@@ -182,8 +278,15 @@ const StudentProfile = () => {
         let Y2S2 = {}; // List of all courses for Year 2 Semester 2
         let Y3S1 = {}; // List of all courses for Year 3 Semester 1
         let Y3S2 = {}; // List of all courses for Year 3 Semester 2
-        var coreCourses = {};
+        let coreY1S1 = {}; // List of all core courses for Year 1 Semester 1
+        let coreY1S2 = {}; // List of all core courses for Year 1 Semester 2
+        let coreY2S1 = {}; // List of all core courses for Year 2 Semester 1
+        let coreY2S2 = {}; // List of all core courses for Year 2 Semester 2
+        let coreY3S1 = {}; // List of all core courses for Year 3 Semester 1
+        let coreY3S2 = {}; // List of all core courses for Year 3 Semester 2
+        var programmeCourses = {};
         var semesterArr = [];
+        var coreSemesterArr = [];
         var today = new Date();
         var currentSem;
 
@@ -218,9 +321,14 @@ const StudentProfile = () => {
             }
         }
 
-        coreCourses = determineStudentCourses(courses);
-        semesterArr = splitBySem(coreCourses, courses);
+        programmeCourses = determineStudentCourses(courses);
+        semesterArr = splitBySem(programmeCourses, courses);
+        var coreCourses = getCoreCourses(courses);
+        coreSemesterArr = splitBySem(programmeCourses, coreCourses);
 
+        console.log("Core", coreCourses);
+        console.log("SemArr", semesterArr);
+        console.log("CoreSem", coreSemesterArr);
 
         var recCourses = [];
         var counter = 0;
@@ -235,6 +343,13 @@ const StudentProfile = () => {
         Y2S2 = semesterArr[3];
         Y3S1 = semesterArr[4];
         Y3S2 = semesterArr[5];
+
+        coreY1S1 = coreSemesterArr[0];
+        coreY1S2 = coreSemesterArr[1];
+        coreY2S1 = coreSemesterArr[2];
+        coreY2S2 = coreSemesterArr[3];
+        coreY3S1 = coreSemesterArr[4];
+        coreY3S2 = coreSemesterArr[5];
 
        
         counter = 0;
@@ -347,6 +462,8 @@ const StudentProfile = () => {
                 }
             }
         }
+
+        recCourses = recommendCoreCourses(coreSemesterArr, year, currentSem, recCourses);
         console.log("Rec", recCourses);
     
     }
