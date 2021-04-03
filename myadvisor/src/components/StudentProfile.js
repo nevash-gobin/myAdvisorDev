@@ -239,7 +239,7 @@ const StudentProfile = () => {
        
         counter = 0;
         for (key in Y1S1) {
-            if (Y1S1[key].grade === "P" || Y1S1[key].grade === "F") {
+            if (Y1S1[key].grade === "P" || Y1S1[key].grade === "F" || Y1S1[key].grade === "IP") {
                 counter+=1;
             }
         }
@@ -249,7 +249,7 @@ const StudentProfile = () => {
         counter = 0;
         if (year === 1 && sem === 2) {
             for (key in Y1S2) {
-                if (Y1S2[key].grade === "P" || Y1S2[key].grade === "F") {
+                if (Y1S2[key].grade === "P" || Y1S2[key].grade === "F" || Y1S2[key].grade === "IP") {
                     counter+=1;
                 }
             }
@@ -261,7 +261,7 @@ const StudentProfile = () => {
         counter = 0;
         if (year === 2 && sem === 1) {
             for (key in Y2S1) {
-                if (Y2S1[key].grade === "P" || Y2S1[key].grade === "F") {
+                if (Y2S1[key].grade === "P" || Y2S1[key].grade === "F" || Y2S1[key].grade === "IP") {
                     counter+=1;
                 }
             }
@@ -272,7 +272,7 @@ const StudentProfile = () => {
         counter = 0;
         if (year === 2 && sem === 2) {
             for (key in Y2S2) {
-                if (Y2S2[key].grade === "P" || Y2S2[key].grade === "F") {
+                if (Y2S2[key].grade === "P" || Y2S2[key].grade === "F" || Y3S1[key].grade === "IP") {
                     counter+=1;
                 }
             }
@@ -284,7 +284,7 @@ const StudentProfile = () => {
         counter = 0;
         if (year === 3 && sem === 1) {
             for (key in Y3S1) {
-                if (Y3S1[key].grade === "P" || Y3S1[key].grade === "F") {
+                if (Y3S1[key].grade === "P" || Y3S1[key].grade === "F" || Y3S2[key].grade === "IP") {
                     counter+=1;
                 }
             }
@@ -312,35 +312,35 @@ const StudentProfile = () => {
                 }
             }
         }
-        if (year === 1 && sem === 2) {
+        if (year === 1 && currentSem === 2) {
             for (key in Y1S2) {
                 if (Y1S2[key].grade === "N") {
                     recCourses.push(Y1S2[key].courseCode)
                 }
             }
         }
-        if (year === 2 && sem === 1) {
+        if (year === 2 && currentSem === 1) {
             for (key in Y2S1) {
                 if (Y2S1[key].grade === "N") {
                     recCourses.push(Y2S1[key].courseCode)
                 }
             }
         }
-        if (year === 2 && sem === 2) {
+        if (year === 2 && currentSem === 2) {
             for (key in Y2S2) {
                 if (Y2S2[key].grade === "N") {
                     recCourses.push(Y2S2[key].courseCode)
                 }
             }
         }
-        if (year === 3 && sem === 1) {
+        if (year === 3 && currentSem === 1) {
             for (key in Y3S1) {
                 if (Y3S1[key].grade === "N") {
                     recCourses.push(Y3S1[key].courseCode)
                 }
             }
         }
-        if (year === 3 && sem === 2) {
+        if (year === 3 && currentSem === 2) {
             for (key in Y3S2) {
                 if (Y3S2[key].grade === "N") {
                     recCourses.push(Y3S2[key].courseCode)
