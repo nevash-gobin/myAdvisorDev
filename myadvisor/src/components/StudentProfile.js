@@ -164,6 +164,11 @@ const StudentProfile = () => {
                 else if ((studentCourses[j].courseCode === core[i].courseCode) && (noCreditGrade.includes(studentCourses[j].grade))){
                     coreRes[`${core[i].courseCode}`] = "F";
                 }
+                else {
+                    if (!coreRes[`${core[i].courseCode}`]) {
+                        coreRes[`${core[i].courseCode}`] = "N";
+                    }
+                }
             }
         }
         return coreRes;
@@ -179,6 +184,8 @@ const StudentProfile = () => {
         let Y3S2 = {}; // List of all courses for Year 3 Semester 2
         var coreCourses = {};
         var semesterArr = [];
+        var today = new Date();
+        var currentSem;
 
         //var courses = await getCourses();
         var courses = await getProgrammeCourses(programmeId);
@@ -217,7 +224,6 @@ const StudentProfile = () => {
 
         var recCourses = [];
         var counter = 0;
-        //var Y1S1 = ["COMP1600", "COMP1601", "INFO1600", "MATH1115"];
         var year = 1;
         var sem = 1;
         var key;
@@ -287,15 +293,61 @@ const StudentProfile = () => {
             }
         }
 
-        /*if (year === 1 && sem === 2) {
-            for (key in Y1S2) {
-                recCourses.push(key);
-            }
-        } */
-
         console.log("Year ", year, ", Sem ", sem);
-      
-        //console.log("Rec Courses:", recCourses)
+
+        if (today.getMonth() < 4) {
+            currentSem = 2;
+        }
+        else if (today.getMonth() < 6) {
+            currentSem = 3;
+        }
+        else {
+            currentSem = 1;
+        }
+
+        if (year === 1 && currentSem === 1) {
+            for (key in Y1S1) {
+                if (Y1S1[key].grade === "N") {
+                    recCourses.push(Y1S1[key].courseCode)
+                }
+            }
+        }
+        if (year === 1 && sem === 2) {
+            for (key in Y1S2) {
+                if (Y1S2[key].grade === "N") {
+                    recCourses.push(Y1S2[key].courseCode)
+                }
+            }
+        }
+        if (year === 2 && sem === 1) {
+            for (key in Y2S1) {
+                if (Y2S1[key].grade === "N") {
+                    recCourses.push(Y2S1[key].courseCode)
+                }
+            }
+        }
+        if (year === 2 && sem === 2) {
+            for (key in Y2S2) {
+                if (Y2S2[key].grade === "N") {
+                    recCourses.push(Y2S2[key].courseCode)
+                }
+            }
+        }
+        if (year === 3 && sem === 1) {
+            for (key in Y3S1) {
+                if (Y3S1[key].grade === "N") {
+                    recCourses.push(Y3S1[key].courseCode)
+                }
+            }
+        }
+        if (year === 3 && sem === 2) {
+            for (key in Y3S2) {
+                if (Y3S2[key].grade === "N") {
+                    recCourses.push(Y3S2[key].courseCode)
+                }
+            }
+        }
+        console.log("Rec", recCourses);
     
     }
 
