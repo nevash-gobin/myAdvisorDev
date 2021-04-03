@@ -29,6 +29,9 @@ class NoTranscript extends Component {
 
     onClickHandler = () => {
         var formdata = new FormData();
+        if (this.state.file === null) {
+            return;
+        }
         formdata.append("file", this.state.file, "[PROXY]");
         
         var requestOptions = {
