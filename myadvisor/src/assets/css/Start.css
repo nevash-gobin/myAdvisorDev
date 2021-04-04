@@ -1,0 +1,30 @@
+.welcome {
+    font-size: 72px;
+    font-weight: bold;
+}
+
+.started {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.header {
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+.start-card {
+    margin-left: 50px;
+    border-radius: 43px !important;
+    border-color: white !important;
+}
+
+.form-check {
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+.start-next-button {
+    margin-left: 50px;
+    margin-bottom: 30px;
+}

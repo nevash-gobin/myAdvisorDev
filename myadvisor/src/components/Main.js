@@ -6,6 +6,7 @@ import StudentProfile from './StudentProfile';
 import CourseList from './CourseList';
 import CourseDetails from './CourseDetails';
 import Career from './Career';
+import Start from './Start';
 import PermanentDrawerRight from "./sidebar";
 
 //Staff Imports
@@ -129,7 +130,21 @@ function Main() {
               }
             }
           }
-        />  
+        />
+
+        <Route
+          exact
+          path="/start"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="student"){
+                return <Start {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />   
 
         {/*Bot Route*/}
         <Route
