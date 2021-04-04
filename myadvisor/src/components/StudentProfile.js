@@ -6,7 +6,6 @@ import NoTranscript from "./NoTranscript";
 import PullDetails from "./PullDetails";
 import PullStudentCourses from "./PullStudentCourses";
 import PullProgrammes from "./PullProgrammes";
-import PullProgrammeCourses from "./PullProgrammeCourses";
 import StudentCoursesCard from "./StudentCoursesCard";
 import axios from "axios"
 
@@ -151,7 +150,7 @@ const StudentProfile = () => {
     }
 
     function recommendCoreCourses(coreSemesterArr, year, currentSem, courses) {
-        var coreY1S1 = coreSemesterArr[0];
+        var coreY1S1 = coreSemesterArr[0]; // Core courses offered in Year 1 Semester 1
         var coreY1S2 = coreSemesterArr[1];
         var coreY2S1 = coreSemesterArr[2];
         var coreY2S2 = coreSemesterArr[3];
@@ -160,11 +159,11 @@ const StudentProfile = () => {
         var recCourses = courses;
         var key;
 
-        if (year === 1 && currentSem === 1) {
-            for (key in coreY1S1) {
-                if (coreY1S1[key].grade === "N" || coreY1S1[key].grade === "F") {
-                    if (!courses.includes(coreY1S1[key].courseCode))
-                        recCourses.push(coreY1S1[key].courseCode)
+        if (year === 1 && currentSem === 1) { //If student is in Year 1 Semester 1
+            for (key in coreY1S1) { // Iterate core courses offered in year 1 semester 1
+                if (coreY1S1[key].grade === "N" || coreY1S1[key].grade === "F") { // If course has not been done before or student failed it in the past
+                    if (!courses.includes(coreY1S1[key].courseCode)) // If course wasn't already recommended
+                        recCourses.push(coreY1S1[key].courseCode) // Add course to recommended course array
                 }
             }
         }
@@ -183,7 +182,7 @@ const StudentProfile = () => {
                         recCourses.push(coreY2S1[key].courseCode)
                 }
             }
-            for (key in coreY1S1) {
+            for (key in coreY1S1) { // Look for courses being offered in Year 1 Semester 1 that student didnt do or failed
                 if (coreY1S1[key].grade === "N" || coreY1S1[key].grade === "F") {
                     if (!courses.includes(coreY1S1[key].courseCode))
                         recCourses.push(coreY1S1[key].courseCode)
@@ -247,6 +246,43 @@ const StudentProfile = () => {
         return recCourses;
     }
 
+    function removeCoursesNoPrereq(recCourses, courses, studentCourses) {
+        var index;
+        for (var i=0; i<courses.length; i++) {
+            if(recCourses.includes(courses[i].courseCode)) {
+                var prereq = courses[i].prerequisites;
+                if (prereq.length === 8) {
+                    if (!(studentCourses[prereq] === "P")) {
+                        index = recCourses.indexOf(courses[i].courseCode);
+                            if (index > -1) {
+                                recCourses.splice(index, 1);
+                            }
+                    }
+                }
+                if (prereq.length > 8) {
+                    var prereq1 = prereq.slice(0, 8);
+                    var prereq2 = prereq.slice(-8);
+                    if (prereq.charAt(9) === "|") {
+                        if (!((studentCourses[prereq1] === "P") || (studentCourses[prereq2] === "P"))) {
+                            index = recCourses.indexOf(courses[i].courseCode);
+                            if (index > -1) {
+                                recCourses.splice(index, 1);
+                            }
+                        }
+                    }
+                    if (prereq.charAt(9) === "&") {
+                        if (!((studentCourses[prereq1] === "P") && (studentCourses[prereq2] === "P"))) {
+                            index = recCourses.indexOf(courses[i].courseCode);
+                            if (index > -1) {
+                                recCourses.splice(index, 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     function determineStudentCourses(core) {
         var coreRes = {};
         for (var i=0; i<core.length; i++){
@@ -278,12 +314,6 @@ const StudentProfile = () => {
         let Y2S2 = {}; // List of all courses for Year 2 Semester 2
         let Y3S1 = {}; // List of all courses for Year 3 Semester 1
         let Y3S2 = {}; // List of all courses for Year 3 Semester 2
-        let coreY1S1 = {}; // List of all core courses for Year 1 Semester 1
-        let coreY1S2 = {}; // List of all core courses for Year 1 Semester 2
-        let coreY2S1 = {}; // List of all core courses for Year 2 Semester 1
-        let coreY2S2 = {}; // List of all core courses for Year 2 Semester 2
-        let coreY3S1 = {}; // List of all core courses for Year 3 Semester 1
-        let coreY3S2 = {}; // List of all core courses for Year 3 Semester 2
         var programmeCourses = {};
         var semesterArr = [];
         var coreSemesterArr = [];
@@ -326,10 +356,6 @@ const StudentProfile = () => {
         var coreCourses = getCoreCourses(courses);
         coreSemesterArr = splitBySem(programmeCourses, coreCourses);
 
-        console.log("Core", coreCourses);
-        console.log("SemArr", semesterArr);
-        console.log("CoreSem", coreSemesterArr);
-
         var recCourses = [];
         var counter = 0;
         var year = 1;
@@ -344,14 +370,6 @@ const StudentProfile = () => {
         Y3S1 = semesterArr[4];
         Y3S2 = semesterArr[5];
 
-        coreY1S1 = coreSemesterArr[0];
-        coreY1S2 = coreSemesterArr[1];
-        coreY2S1 = coreSemesterArr[2];
-        coreY2S2 = coreSemesterArr[3];
-        coreY3S1 = coreSemesterArr[4];
-        coreY3S2 = coreSemesterArr[5];
-
-       
         counter = 0;
         for (key in Y1S1) {
             if (Y1S1[key].grade === "P" || Y1S1[key].grade === "F" || Y1S1[key].grade === "IP") {
@@ -408,8 +426,6 @@ const StudentProfile = () => {
             }
         }
 
-        console.log("Year ", year, ", Sem ", sem);
-
         if (today.getMonth() < 4) {
             currentSem = 2;
         }
@@ -464,7 +480,9 @@ const StudentProfile = () => {
         }
 
         recCourses = recommendCoreCourses(coreSemesterArr, year, currentSem, recCourses);
+        removeCoursesNoPrereq(recCourses, courses, programmeCourses);
         console.log("Rec", recCourses);
+        console.log("StuCo", programmeCourses);
     
     }
 
