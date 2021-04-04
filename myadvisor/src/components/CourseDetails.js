@@ -13,17 +13,17 @@ class CourseDetails extends Component {
                 <p className="header blue-txt">Select Courses</p>
                 <div className="card details-card">
                     <div className="card-body">
-                        <p className="course-code blue-txt">{this.props.course.courseCode}</p>
-                        <p className="course-title">{this.props.course.courseTitle}</p>
+                        <p className="course-code blue-txt">{this.props.location.state.course.courseCode}</p>
+                        <p className="course-title">{this.props.location.state.course.courseTitle}</p>
                         <div className="prereqs">
                             <span className="prereq-header blue-txt">Pre-requisites: </span>
-                            <span className="prereq-courses">{this.props.course.prerequisites}</span>
+                            <span className="prereq-courses">{this.props.location.state.course.prerequisites}</span>
                         </div>
                         <div className="career">
                             <span className="career-header blue-txt">Career Tags: </span>
                             <span className="career-tags">Artificial Intelligence, Machine Learning, Data Science</span>
                         </div>
-                        <p className="course-desc">{this.props.course.description}</p>
+                        <p className="course-desc">{this.props.location.state.course.description}</p>
                         <p className="assessment-header blue-txt">Assessment</p>
                         <div className="row assessment">
                             <div className="col-sm-2">
@@ -45,7 +45,9 @@ class CourseDetails extends Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-2">
-                        <button type="button" class="btn btn-custom course-back-button blue-button" onClick={this.props.backClicked}>Back</button>
+                        <Link to="/courses">
+                            <button type="button" class="btn btn-custom course-back-button blue-button">Back</button>
+                        </Link>
                     </div>
                 </div>
             </div>

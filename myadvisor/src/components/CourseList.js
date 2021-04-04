@@ -8,23 +8,17 @@ import CourseDetails from "./CourseDetails";
 const CourseList = () => { 
     const [clicked, setClicked] = useState(false);
     const [course, setCourse] = useState(null);
+    const history = useHistory();
 
     const nodeClickHandler = (course) => {
       setClicked(true)
       setCourse(course)
     }
 
-    const backClicked = () => {
-      setClicked(false)
-    }
-
     var courses = PullCourses();
 
     return (
       <div className="content">
-        {clicked ? (
-              <CourseDetails backClicked={backClicked} course={course}></CourseDetails>
-            ) : (
             <div className="container-fluid">
                 <p className="header blue-txt">Select Courses</p>
                 <div className="card details-card outer-card">
@@ -45,7 +39,7 @@ const CourseList = () => {
                     </div>
                 </div>
             </div>
-            ) }
+            ) 
       </div>
     );
   
