@@ -4,8 +4,9 @@ import ReportsTable from './ReportsTable';
 function Reports() {
     //Table
     const [sessions, setSessions] = useState([
-        {studentID: 816000000, name: "Jane Doe", advisingDate: "1/1/2021", status: "Completed"},
-        {studentID: 816000001, name: "John Doe", advisingDate: "1/1/2021", status: "Completed"}
+        {studentID: 816000000, name: "Jane Doe", year: 1, advisingDate: "1/1/2021", status: "Complete"},
+        {studentID: 816000001, name: "John Doe", year: 2, advisingDate: "1/1/2021", status: "Complete"},
+        {studentID: 816000002, name: "Jack Doe", year: 3, advisingDate: "1/1/2021", status: "Incomplete"}
     ]);
     const [loading, setLoading] = useState(false);
 

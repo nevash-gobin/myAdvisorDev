@@ -51,7 +51,6 @@ const defaultSorted = [{
 
 const coursesSorted = [{
     dataField: 'level',
-    dataField: 'semester',
     order: 'asec'
 }];
 

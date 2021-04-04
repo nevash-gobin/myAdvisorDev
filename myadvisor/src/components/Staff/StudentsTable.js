@@ -20,6 +20,11 @@ const coursesColumns = [
     { dataField: 'grade', text: 'Grade', sort: true },
 ]
 
+const inprogressCoursesColumns = [
+    { dataField: 'courseCode', text: 'Course Code', sort: true },
+    { dataField: 'courseTitle', text: 'Course Title', sort: true },
+]
+
 const defaultSorted = [{
     dataField: 'name',
     order: 'asec'
@@ -50,6 +55,9 @@ function StudentsTable({students, loading}) {
     const [show, setShow] = useState(false);
     const [studentName, setStudentName] = useState([]);
     const [studentCourses, setStudentCourses] = useState([]);
+    const [completedCourses, setCompletedCourses] = useState([]);
+    const [inprogressCourses, setInprogressCourses] = useState([]);
+
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
@@ -68,11 +76,37 @@ function StudentsTable({students, loading}) {
         });
             const parseData = await res.json();
             setStudentCourses(parseData);
+            getCompleted(parseData);
+            getInprogress(parseData);
             setShow(true);
             
         } catch (err) {
             console.error(err.message);
         }
+    }
+
+    function getCompleted(data){
+        let arr = []
+
+        for (var key in data){
+            if(data[key].grade != 'IP'){
+                arr.push(data[key])
+            }
+        }
+
+        setCompletedCourses(arr);
+    }
+
+    function getInprogress(data){
+        let arr = []
+
+        for (var key in data){
+            if(data[key].grade == 'IP'){
+                arr.push(data[key])
+            }
+        }
+
+        setInprogressCourses(arr);
     }
 
     useEffect(() => {
@@ -130,7 +164,7 @@ function StudentsTable({students, loading}) {
                     <Tab eventKey="completed" title="Completed">
                         <ToolkitProvider
                         keyField="courseCode"
-                        data={ studentCourses }
+                        data={ completedCourses }
                         columns={ coursesColumns }
                         search
                         >
@@ -147,8 +181,25 @@ function StudentsTable({students, loading}) {
                         }
                         </ToolkitProvider>                           
                     </Tab>
-                    <Tab eventKey="incomplete" title="Incomplete">
-
+                    <Tab eventKey="incomplete" title="Inprogress">
+                        <ToolkitProvider
+                        keyField="courseCode"
+                        data={ inprogressCourses }
+                        columns={ inprogressCoursesColumns }
+                        search
+                        >
+                        {
+                            props => (
+                            <div>
+                                <br/>
+                                <SearchBar { ...props.searchProps } />
+                                <BootstrapTable
+                                { ...props.baseProps } pagination={ paginationFactory(courseOptions) } hover
+                                />
+                            </div>
+                            )
+                        }
+                        </ToolkitProvider>  
                     </Tab>
                 </Tabs>
               </Modal.Body>

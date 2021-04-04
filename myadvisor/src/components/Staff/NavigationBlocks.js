@@ -3,7 +3,7 @@ import NavigationBlock from './NavigationBlock';
 
 import { IconContext } from "react-icons";
 import { BsPeopleFill, BsFillLayersFill, BsPersonFill } from "react-icons/bs";
-import { HiDocumentReport, HiClipboardCheck, HiArchive, HiCollection } from "react-icons/hi";
+import { HiDocumentReport, HiAnnotation, HiArchive, HiCollection } from "react-icons/hi";
 import { FaWrench } from "react-icons/fa";
 
 function NavigationBlocks() {
@@ -15,7 +15,7 @@ function NavigationBlocks() {
                     <NavigationBlock componentToPassDown={<BsPeopleFill/>} title={"Students"} link={"/staff/students"}/>
 
                     {/* Completed */}
-                    <NavigationBlock componentToPassDown={<HiClipboardCheck/>} title={"Completed"} link={"/staff"}/>
+                    <NavigationBlock componentToPassDown={<HiAnnotation/>} title={"Sessions"} link={"/staff"}/>
 
                     {/* Reports */}
                     <NavigationBlock componentToPassDown={<HiDocumentReport/>} title={"Reports"} link={"/staff/reports"}/>

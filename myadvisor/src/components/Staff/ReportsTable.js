@@ -2,18 +2,43 @@ import React, { useState } from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, { PaginationProvider, PaginationListStandalone } from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
+import filterFactory, { selectFilter  } from 'react-bootstrap-table2-filter';
+
 
 //TABLE SETUP
+
+const selectStatusOptions = {
+    Complete: 'Complete',
+    Incomplete: 'Incomplete'
+};
+
+const selectYearOptions = {
+    1: '1',
+    2: '2',
+    3: '3'
+};
+
 
 const columns = [
     { dataField: 'studentID', text: 'Student ID', csvText: 'Student ID', sort: true },
     { dataField: 'name', text: 'Name', csvText: 'Name', sort: true },
+    { dataField: 'year', text: 'Year', csvText: 'Year', sort: true, 
+        formatter: cell => selectYearOptions[cell],
+        filter: selectFilter({
+            options: selectYearOptions,
+        })    
+    },
     { dataField: 'advisingDate', text: 'Advising Date', csvText: 'Advising Date', sort: true },
-    { dataField: 'status', text: 'Status', csvText: 'Status', sort: true },
+    { dataField: 'status', text: 'Status', csvText: 'Status', sort: true,
+        formatter: cell => selectStatusOptions[cell],
+        filter: selectFilter({
+            options: selectStatusOptions,
+        })    
+    },
 ]
 
 const defaultSorted = [{
-    dataField: 'name',
+    dataField: 'status',
     order: 'asec'
 }];
 
@@ -50,8 +75,8 @@ function ReportsTable({sessions, loading}) {
                     search
                     exportCSV={{
                       fileName: 'report.csv',
-                      onlyExportSelection: true, 
-                      exportAll: true
+                      onlyExportFiltered: true, 
+                      exportAll: false
                     }}
                 >
                 {
@@ -60,7 +85,7 @@ function ReportsTable({sessions, loading}) {
                         <SearchBar { ...props.searchProps } />
                         <ClearSearchButton { ...props.searchProps } />
                         <ExportCSVButton { ...props.csvProps }>Export CSV</ExportCSVButton>
-                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } defaultSorted={ defaultSorted } selectRow={ selectRow } hover/>
+                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } defaultSorted={ defaultSorted } filter={ filterFactory()} hover/>
                     </div>
                     )
                 }
