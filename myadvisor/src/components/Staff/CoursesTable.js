@@ -68,6 +68,12 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
             <h4>Prerequisites</h4>
             <p>{ `${row.prerequisites}` }</p>
 
+            <h4>Coursework</h4>
+            <p>{ `${row.coursework}` }</p>
+
+            <h4>Final Exam</h4>
+            <p>{ `${row.finalExam}` }</p>
+
             <div class="btn-group">
               <button type="button" class="btn btn-custom edit-course" onClick={() => eCourse(row)}>Edit</button>
               <button type="button" class="btn btn-danger delete-course" onClick={() => dCourse(row.courseCode)}>Delete</button>

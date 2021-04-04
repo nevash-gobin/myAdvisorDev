@@ -42,7 +42,7 @@ router.get("/view/:code", async (req, res) => {
 router.post("/add", async (req, res) => {
     try {
         // destructure data entered
-        const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description} = req.body;
+        const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description, coursework, finalExam} = req.body;
 
         // check if courses is already added
         const course = await Course.findOne({where : { courseCode }});
@@ -61,9 +61,6 @@ router.post("/add", async (req, res) => {
                 description,
                 coursework,
                 finalExam,
-                individualProjectPres,
-                groupProjectPres,
-                performanceReports
             })
             .then(() => {
                 return res.status(200).send("Course added!");
