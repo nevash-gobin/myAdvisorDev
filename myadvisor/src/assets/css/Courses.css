@@ -76,3 +76,9 @@
     font-size: 24px;
     font-weight: bold;
 }
+
+.button-row {
+    margin-bottom: 50px;
+    position: relative;
+    bottom: 30px;
+}

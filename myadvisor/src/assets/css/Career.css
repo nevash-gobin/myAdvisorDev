@@ -29,6 +29,8 @@
 
 .button-row {
     margin-bottom: 50px;
+    position: relative;
+    bottom: 30px;
 }
 
 
