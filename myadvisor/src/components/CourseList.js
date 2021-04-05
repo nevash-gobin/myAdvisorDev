@@ -55,8 +55,8 @@ const CourseList = (props) => {
                 ) : (
                   <div className="row button-row">        
                       <div className="col-sm-2">
-                      <Link to="/bot">
-                        <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
+                        <Link to="/bot">
+                          <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
                         </Link>
                       </div>
                   </div>
