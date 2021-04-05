@@ -1,13 +1,21 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
-class CourseNode extends Component {
-  render() {
+function CourseNode(props) {
+    const history = useHistory();
+
+    const onClickFunction = () => {
+        history.push({
+            pathname: `/coursedetails`,
+            state: { course: props.course }
+          })
+    }
+
     return (
-        <div className="course-node" onClick={() => this.props.clickHandler(this.props.course)}>
+        <div className="course-node" onClick={() => onClickFunction()}>
             <div className="row">
                 <div className="col-lg-10 col-sm-9">
-                    <p className="course-code blue-txt">{this.props.course.courseCode}</p>
+                    <p className="course-code blue-txt">{props.course.courseCode}</p>
                 </div>
                 <div className="col-lg-2 col-sm-3">
                     <p className="credit-header blue-txt">Credits</p>
@@ -15,15 +23,14 @@ class CourseNode extends Component {
             </div>
             <div className="row">
                 <div className="col-lg-10 col-sm-9">
-                    <p className="course-title">{this.props.course.courseTitle}</p>
+                    <p className="course-title">{props.course.courseTitle}</p>
                 </div>
                 <div className="col-lg-2 col-sm-3">
-                    <p className="credits">{this.props.course.credits}</p>
+                    <p className="credits">{props.course.credits}</p>
                 </div>
             </div>
         </div>
     );
-  }
 }
 
 export default CourseNode;

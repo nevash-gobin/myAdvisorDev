@@ -6,6 +6,7 @@ import StudentProfile from './StudentProfile';
 import CourseList from './CourseList';
 import CourseDetails from './CourseDetails';
 import Career from './Career';
+import Start from './Start';
 import PermanentDrawerRight from "./sidebar";
 
 //Staff Imports
@@ -27,6 +28,13 @@ import ReactWebChat from "../components/Bot Framework/webChat";
 function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth"));
   const [user, setUser] = useState(localStorage.getItem("user"));
+  const [recCourses, setRecCourses] = useState(null);
+  const [show, setShow] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [degProgress, setDegProgress] = useState(0);
+  const [credits, setCredits] = useState(0);
+  const [hide, setHide] = useState(false);
+  const [showBackBtn, setShowBackBtn] = useState(true);
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
@@ -36,10 +44,39 @@ function Main() {
     setUser(value);
   };
 
+  const setRecommended = (value) => {
+    setRecCourses(value);
+  };
+
+  const setDisplay = (value) => {
+    setShow(value);
+  };
+
+  const setProg = (value) => {
+    setProgress(value);
+  };
+
+  const setDegProg = (value) => {
+    setDegProgress(value);
+  };
+
+  const setCreds = (value) => {
+    setCredits(value);
+  };
+
+  const setHidden = (value) => {
+    setHide(value);
+  };
+
+  const setShowBack = (value) => {
+    setShowBackBtn(value);
+  };
+
+
   return (
     <div className="main-panel">
-      {user ? <TopBar></TopBar> : null}
-      {user == "student" ? <PermanentDrawerRight/> : null}
+      {user ? <TopBar hide={hide}></TopBar> : null}
+      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay}/> : null}
       <Switch>
         <Route
           exact
@@ -81,7 +118,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <StudentProfile {...props} />
+                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -95,7 +132,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <CourseList {...props} />
+                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} showBackBtn={showBackBtn}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -123,13 +160,27 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <Career {...props} />
+                return <Career {...props} setDisplay={setDisplay} setProg={setProg} />
               } else {
                 return(<Redirect to="/" />)
               }
             }
           }
-        />  
+        />
+
+        <Route
+          exact
+          path="/start"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="student"){
+                return <Start {...props} setHidden={setHidden} setDegProg={setDegProg} setCreds={setCreds} setShowBack={setShowBack}/>
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />   
 
         {/*Bot Route*/}
         <Route
@@ -138,7 +189,13 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <ReactWebChat {...props} />
+                return (
+                <div className="row">
+                  <div className="col-sm-10">
+                    <ReactWebChat {...props} />
+                  </div>
+                </div>
+               )
               } else {
                 return(<Redirect to="/" />)
               }

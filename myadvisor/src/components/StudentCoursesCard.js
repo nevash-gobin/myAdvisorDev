@@ -17,7 +17,7 @@ class StudentCoursesCard extends Component {
                     <tbody>
                         {
                             Array.from({ length: this.props.courses.length }, (_, k) => (
-                                <tr class="d-flex">
+                                <tr class="d-flex" key={k}>
                                     <td class="col-1 level-cell">{this.props.courses[k].courseCode.charAt(4)}</td>
                                     <td class="col-2 code-cell">{this.props.courses[k].courseCode}</td>
                                     <td class="col-8 title-cell">{this.props.courses[k].courseTitle}</td>

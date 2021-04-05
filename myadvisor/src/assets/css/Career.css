@@ -4,22 +4,33 @@
     margin-left: 15px;
 }
 
-.career-row {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 .name-cell {
     font-weight: bold;
     position: relative;
-    left: 10px;
+    bottom: 10px;
+}
+
+.desc-cell {
+    position: relative;
+    top: 20px;
+}
+
+.desc-header {
+    position: relative;
+    left: 55px;
 }
 
 .career-card {
     max-height: 650px;
     overflow-y: scroll;
+    overflow-x: hidden;
     border-color: white !important;
 }
 
+.button-row {
+    margin-bottom: 50px;
+    position: relative;
+    bottom: 30px;
+}
 
 

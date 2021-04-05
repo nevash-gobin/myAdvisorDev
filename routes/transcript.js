@@ -191,11 +191,10 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
                     var courseTitle = data[key][0]
                     var grade = data[key][1];
 
-                    const courses = await StudentCourses.findOne({where: { studentId } && { courseCode }});
+                    const courses = await StudentCourses.findOne({where: { studentId, courseCode }});
                     if(courses) {
                         return res.status(401).send("Course for student already exists.");
                     }
-                    
                     else {
                         await StudentCourses.create({
                             studentId,
@@ -203,15 +202,13 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
                             courseTitle,
                             grade,
                         })
-                        .then(() => {
-                            return res.status(200).send("Student courses added!");
-                        })
                         .catch(err => {
                             console.log("Error: ", err.message);
                         });
                     } 
                 }
             }
+            return res.status(200).send("Student courses added!");
         
 
     }

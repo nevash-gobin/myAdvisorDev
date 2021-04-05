@@ -33,7 +33,7 @@ body {
 .header {
   font-size: 36px;
   font-weight: bold;
-  margin-left: 30px;
+  margin-left: 50px;
 }
 
 .blue-button {
@@ -78,5 +78,22 @@ div.custom-scroll::-webkit-scrollbar-thumb:hover {
 
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
   background-color: #dfe9fa !important;
+}
+
+.progressContainer {
+  position: relative;
+}
+
+.progress-bar-title {
+  position: absolute;
+  text-align: center;
+  line-height: 35px; /* line-height should be equal to bar height */
+  overflow: hidden;
+  color: black;
+  right: 0;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+  font-weight: bold;
 }
 
