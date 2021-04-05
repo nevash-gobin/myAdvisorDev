@@ -511,7 +511,7 @@ const StudentProfile = (props) => {
                     <div className="row">
                         <div className="col-sm-12">
                             { uploaded ? (
-                                <DetailsCard details={details} setProg={props.setProg}></DetailsCard> ) : (
+                                <DetailsCard details={details} uploadedHandler={uploadedHandler} setProg={props.setProg}></DetailsCard> ) : (
                                 <NoTranscript uploadedHandler={uploadedHandler} setProg={props.setProg}></NoTranscript>
                             ) }
                         </div>
