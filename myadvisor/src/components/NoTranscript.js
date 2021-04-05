@@ -55,7 +55,7 @@ class NoTranscript extends Component {
             <div className="card details-card">
                 <div className="card-body">
                     <p className="row-info">No transcript has been uploaded, please upload your unofficial transcript to get started with advising.</p>
-                    <div class="input-field col-sm-4">
+                    <div class="input-field col-sm-12">
                         <form action="" enctype="multipart/form-data" method="POST">
                             <input type="file" name="file" onChange={this.onChangeHandler}/>
                             <input type="button" value="Upload" class="btn btn-custom blue-btn" onClick={this.onClickHandler}/>

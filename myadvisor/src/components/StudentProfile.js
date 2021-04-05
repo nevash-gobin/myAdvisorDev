@@ -9,9 +9,10 @@ import PullProgrammes from "./PullProgrammes";
 import StudentCoursesCard from "./StudentCoursesCard";
 import axios from "axios"
 
-const StudentProfile = () => {
+const StudentProfile = (props) => {
 
     const [uploaded, setUploaded] = useState(true);
+    const [processed, setProcessed] = useState(false);
    
 
 
@@ -24,21 +25,24 @@ const StudentProfile = () => {
     var programmes = PullProgrammes();
  
     useEffect(() => {
-        if (details.length === 0) {
-            setUploaded(false);
-        }
-        else {
-            setUploaded(true);
-        }
-        if (details.degree === "Comp Science (Special) BSC S") {
-            var studentProgramme = "Computer Science (Special)"
-            for (var i=0; i<programmes.length; i++) {
-                if (programmes[i].name == studentProgramme) {
-                    var programmeId = programmes[i].id;
-                }
+        props.setDisplay(true);
+        if (!processed) {
+            if (details.length === 0) {
+                setUploaded(false);
             }
-            if (programmeId) {
-                determineCourses(programmeId)
+            else {
+                setUploaded(true);
+            }
+            if (details.degree === "Comp Science (Special) BSC S") {
+                var studentProgramme = "Computer Science (Special)"
+                for (var i=0; i<programmes.length; i++) {
+                    if (programmes[i].name == studentProgramme) {
+                        var programmeId = programmes[i].id;
+                    }
+                }
+                if (programmeId) {
+                    determineCourses(programmeId)
+                }
             }
         }
     })
@@ -483,7 +487,8 @@ const StudentProfile = () => {
         removeCoursesNoPrereq(recCourses, courses, programmeCourses);
         console.log("Rec", recCourses);
         console.log("StuCo", programmeCourses);
-    
+        props.setRecommended(recCourses);
+        setProcessed(true);
     }
 
  
@@ -491,6 +496,8 @@ const StudentProfile = () => {
     return (
         <div className="content">
                 <div className="container-fluid">
+                <div className="row">
+                        <div className="col-sm-10">
                     <p className="header blue-txt">Student Details</p>
                     <div className="row">
                         <div className="col-sm-12">
@@ -520,7 +527,9 @@ const StudentProfile = () => {
                             </div>
                         </div>
                         )
-                     }                  
+                     } 
+                     </div>
+                     </div>                 
                 </div>
         </div>
     );

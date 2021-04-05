@@ -8,8 +8,10 @@ import Box from '@material-ui/core/Box';
 import { ProgressBar } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom'
+import { propTypes } from 'react-bootstrap/esm/Image';
 
-const drawerWidth = 240;
+const drawerWidth = "17vw";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const percentage = 70;
-export default function PermanentDrawerRight() {
+
+export default function PermanentDrawerRight(props) {
   const classes = useStyles();
 
   return (
@@ -46,34 +49,38 @@ export default function PermanentDrawerRight() {
  
       <Drawer
         className={classes.drawer}
-        variant="temporary"
+        variant="permanent"
         classes={{
           paper: classes.drawerPaper,
         }}
         anchor="right"
       >
         <div className={classes.toolbar} />
-        <Divider />
         <Box component="span" m={0.1}>
-        <Typography style={{ fontWeight: 600, fontSize: 20}}>Your Advising Progress:</Typography>
+        <Typography style={{ fontWeight: 600, fontSize: 20, marginLeft:"20px", marginRight:"20px", marginTop:"80px", textAlign: "center", fontFamily:"Epilogue"}}>Advising Progress:</Typography>
 
         </Box>
 <br></br>
         <div className="progressBar">
-       <ProgressBar label={`${percentage} %`} now={percentage} style={{fontSize:"12px", fontWeight:600}}/>
+       <ProgressBar label={`${percentage} %`} now={percentage} style={{fontSize:"16px", fontWeight:600, marginLeft:"20px", marginRight:"20px", height:"35px", borderRadius:"45px"}}/>
     </div>
     <br></br>
-    <div style={{paddingLeft:"50px"}}><Button href="#" style={{color:"white", fontWeight:600, backgroundColor:"#0066FF"}}>Begin Advising</Button> </div>
+    <div style={{textAlign: "center"}}>
+      { props.show ? (
+      <Link to="/career">
+        <Button style={{color:"white", fontWeight:600, backgroundColor:"#0066FF"}}>Begin Advising</Button> 
+      </Link>
+      ) : (null) }
+    </div>
     
-
+        
        <Box component='span' m={7}> </Box>
-
         <Box component="span" m={0.1}>
-        <Typography style={{ fontWeight: 600, fontSize: 20}} >Your Degree Progress:</Typography>
+        <Typography style={{ fontWeight: 600, fontSize: 20, marginLeft:"20px", marginRight:"20px", textAlign: "center", fontFamily:"Epilogue"}} >Degree Progress:</Typography>
         </Box>
         <br></br>
         <div className="progressBar">
-       <ProgressBar label={`${percentage} %`} now={percentage} style={{fontSize:"12px", fontWeight:600}} />
+       <ProgressBar label={`${percentage} %`} now={percentage} style={{fontSize:"16px", fontWeight:600, marginLeft:"20px", marginRight:"20px", height:"35px", borderRadius:"45px"}} />
     </div>
 
 

@@ -28,6 +28,8 @@ import ReactWebChat from "../components/Bot Framework/webChat";
 function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth"));
   const [user, setUser] = useState(localStorage.getItem("user"));
+  const [recCourses, setRecCourses] = useState(null);
+  const [show, setShow] = useState(true);
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
@@ -37,10 +39,18 @@ function Main() {
     setUser(value);
   };
 
+  const setRecommended = (value) => {
+    setRecCourses(value);
+  };
+
+  const setDisplay = (value) => {
+    setShow(value);
+  };
+
   return (
     <div className="main-panel">
       {user ? <TopBar></TopBar> : null}
-      {user == "student" ? <PermanentDrawerRight/> : null}
+      {user == "student" ? <PermanentDrawerRight recCourses={recCourses} show={show} setDisplay={setDisplay}/> : null}
       <Switch>
         <Route
           exact
@@ -82,7 +92,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <StudentProfile {...props} />
+                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -124,7 +134,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <Career {...props} />
+                return <Career {...props} setDisplay={setDisplay} />
               } else {
                 return(<Redirect to="/" />)
               }
