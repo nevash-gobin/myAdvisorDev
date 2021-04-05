@@ -6,7 +6,7 @@ import "../assets/css/Courses.css";
 import CourseDetails from "./CourseDetails";
 import { Link } from 'react-router-dom'
 
-const CourseList = () => { 
+const CourseList = (props) => { 
     const [clicked, setClicked] = useState(false);
     const [course, setCourse] = useState(null);
     const history = useHistory();
@@ -15,8 +15,11 @@ const CourseList = () => {
       setClicked(true)
       setCourse(course)
     }
-
+  
     var courses = PullCourses();
+    props.setProg(60);
+    props.setHidden(false);
+    props.setDisplay(false);
 
     return (
       <div className="content">
@@ -36,18 +39,28 @@ const CourseList = () => {
                         </div>
                     </div>
                 </div>
-                <div className="row button-row">
-                    <div className="col-sm-2">
-                      <Link to="/career">
-                        <button type="submit" class="btn btn-custom career-next-button blue-button">Back</button>
-                      </Link>
-                    </div>          
-                    <div className="col-sm-2 offset-sm-8">
-                    <Link to="/courses">
-                      <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
-                      </Link>
-                    </div>
+                { props.showBackBtn ? (
+                  <div className="row button-row">
+                      <div className="col-sm-2">
+                        <Link to="/career">
+                          <button type="submit" class="btn btn-custom career-next-button blue-button">Back</button>
+                        </Link>
+                      </div>          
+                      <div className="col-sm-2 offset-sm-8">
+                      <Link to="/bot">
+                        <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
+                        </Link>
+                      </div>
                   </div>
+                ) : (
+                  <div className="row button-row">        
+                      <div className="col-sm-2">
+                      <Link to="/bot">
+                        <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
+                        </Link>
+                      </div>
+                  </div>
+                ) }
             </div>
             </div>
             </div>

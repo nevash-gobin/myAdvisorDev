@@ -26,6 +26,10 @@ const StudentProfile = (props) => {
  
     useEffect(() => {
         props.setDisplay(true);
+        props.setHidden(false);
+        props.setProg(20);
+        props.setDegProg(details.progress);
+        props.setCreds(93 - details.credits);
         if (!processed) {
             if (details.length === 0) {
                 setUploaded(false);

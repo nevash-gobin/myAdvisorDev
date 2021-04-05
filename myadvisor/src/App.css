@@ -80,3 +80,20 @@ div.custom-scroll::-webkit-scrollbar-thumb:hover {
   background-color: #dfe9fa !important;
 }
 
+.progressContainer {
+  position: relative;
+}
+
+.progress-bar-title {
+  position: absolute;
+  text-align: center;
+  line-height: 35px; /* line-height should be equal to bar height */
+  overflow: hidden;
+  color: black;
+  right: 0;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+

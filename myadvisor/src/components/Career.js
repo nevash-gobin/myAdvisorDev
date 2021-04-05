@@ -8,7 +8,9 @@ const Career = (props) => {
 
   var careers = PullCareers();
   props.setDisplay(false);
-  
+  props.setProg(40);
+
+
   return (
     <div className="content">
           <div className="container-fluid">

@@ -8,12 +8,18 @@ class Start extends Component {
         this.state = {
             radio: null,
         }
+        this.props.setHidden(true);
     }
 
     onChange = event =>{
         this.setState({
             radio: event.currentTarget.value
         })
+        if (event.currentTarget.value === "new") {
+            this.props.setDegProg(0);
+            this.props.setCreds(93);
+            this.props.setShowBack(false);
+        }
     }
 
     render() {

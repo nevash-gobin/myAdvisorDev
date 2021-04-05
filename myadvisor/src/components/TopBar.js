@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Nav, Navbar, Button } from 'react-bootstrap';
 
-function TopBar() {
+function TopBar(props) {
 
   function logOut(){
     localStorage.clear();
@@ -12,9 +12,11 @@ function TopBar() {
 
   const user = localStorage.getItem("user")
 
+
+
   return (
     <div>
-      { user === "admin" ? (
+      { user === "admin" || props.hide ? (
         <Navbar expand="lg" bg="primary" variant="dark">
           <Navbar.Brand><Link to="/" className="top-bar-text">myAdvisor</Link></Navbar.Brand>
           
