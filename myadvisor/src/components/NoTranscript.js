@@ -11,6 +11,7 @@ class NoTranscript extends Component {
             file: null,
             data: null
         }
+       props.setProg(0);
     }
 
     handleFiles = files => {

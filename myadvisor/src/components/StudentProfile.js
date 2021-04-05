@@ -27,7 +27,6 @@ const StudentProfile = (props) => {
     useEffect(() => {
         props.setDisplay(true);
         props.setHidden(false);
-        props.setProg(20);
         if (!processed) {
             if (details.length === 0) {
                 setUploaded(false);
@@ -494,6 +493,10 @@ const StudentProfile = (props) => {
         console.log("Rec", recCourses);
         console.log("StuCo", programmeCourses);
         props.setRecommended(recCourses);
+        if (props.recCourses !== null) {
+            props.setLoad(false);
+            console.log("Hit");
+        }
         setProcessed(true);
     }
 
@@ -508,8 +511,8 @@ const StudentProfile = (props) => {
                     <div className="row">
                         <div className="col-sm-12">
                             { uploaded ? (
-                                <DetailsCard details={details}></DetailsCard> ) : (
-                                <NoTranscript uploadedHandler={uploadedHandler}></NoTranscript>
+                                <DetailsCard details={details} setProg={props.setProg}></DetailsCard> ) : (
+                                <NoTranscript uploadedHandler={uploadedHandler} setProg={props.setProg}></NoTranscript>
                             ) }
                         </div>
                     </div>

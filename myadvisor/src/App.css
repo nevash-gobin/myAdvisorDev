@@ -97,3 +97,9 @@ div.custom-scroll::-webkit-scrollbar-thumb:hover {
   font-weight: bold;
 }
 
+.circ-prog {
+  position: relative;
+  top: 8px;
+  right: 10px;
+  color: #0066FF !important;
+}

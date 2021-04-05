@@ -35,6 +35,7 @@ function Main() {
   const [credits, setCredits] = useState(0);
   const [hide, setHide] = useState(false);
   const [showBackBtn, setShowBackBtn] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
@@ -72,11 +73,15 @@ function Main() {
     setShowBackBtn(value);
   };
 
+  const setLoad = (value) => {
+    setLoading(value);
+  };
+
 
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
-      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay}/> : null}
+      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} loading={loading}/> : null}
       <Switch>
         <Route
           exact
@@ -118,7 +123,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden}/>
+                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -132,7 +137,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} showBackBtn={showBackBtn}/>
+                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} showBackBtn={showBackBtn} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
