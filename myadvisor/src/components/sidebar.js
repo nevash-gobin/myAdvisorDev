@@ -4,6 +4,7 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { ProgressBar } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
@@ -74,14 +75,21 @@ export default function PermanentDrawerRight(props) {
         </div>
     <br></br>
     <div style={{textAlign: "center"}}>
-      { props.show && degPercentage!==0 ? (
+      { props.show && degPercentage!==0 && !props.loading ? (
         <Link to="/career">
           <Button style={{color:"white", fontWeight:600, backgroundColor:"#0066FF"}}>Begin Advising</Button> 
         </Link>
-      ) : props.show && degPercentage===0 ? (
+      ) : props.show && degPercentage===0 && !props.loading ? (
         <Link to="/courses">
           <Button style={{color:"white", fontWeight:600, backgroundColor:"#0066FF"}}>Begin Advising</Button> 
-        </Link>) : (null) 
+        </Link>
+      ) : props.show && degPercentage!==0 && props.loading ? (
+        <div>
+          <CircularProgress className="circ-prog" size={30}/>
+          <Button style={{color:"#A9A7A7", fontWeight:600, backgroundColor:"#E6E6E6", borderColor:"#E6E6E6"}}>Begin Advising</Button>
+          <p className="prog-status">Processing your courses...</p> 
+        </div>
+      ) :  (null) 
         }
     </div>
     

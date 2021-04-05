@@ -15,11 +15,16 @@ const CourseList = (props) => {
       setClicked(true)
       setCourse(course)
     }
-  
+ 
     var courses = PullCourses();
-    props.setProg(60);
-    props.setHidden(false);
-    props.setDisplay(false);
+    let recCourses = undefined;
+
+    useEffect(() => {
+      console.log(props.recCourses); 
+      props.setProg(60);
+      props.setHidden(false);
+      props.setDisplay(false);
+    })
 
     return (
       <div className="content">
@@ -32,9 +37,11 @@ const CourseList = (props) => {
                         <p className="courselist-card-text">Click on a course to see more details</p>
                         <div className="card courselist-card custom-scroll">
                             <div className="card-body">{
-                              Array.from({ length: courses.length }, (_, k) => (
-                                <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>
-                              ))}
+                              Array.from({ length: courses.length }, (_, k) => {
+                                if (props.recCourses.includes(courses[k].courseCode)) {
+                                  return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
+                                }
+                              })}
                             </div>
                         </div>
                     </div>

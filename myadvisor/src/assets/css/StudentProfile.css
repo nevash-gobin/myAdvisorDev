@@ -27,3 +27,17 @@
 .new-student {
     font-size: 18px;
 }
+
+.edit-transcript {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.edit-line:hover i, .edit-line:hover span {
+    color: #004bbd;
+    cursor: pointer;
+}
+
+.back-button-row {
+    margin-top: 20px;
+}
