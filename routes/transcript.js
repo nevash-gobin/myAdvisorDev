@@ -264,7 +264,7 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
      }
  });
 
- // update a selected student
+ // update a selected student's courses
  router.put("/courses/edit", async (req, res) => {
     try {
         const student = await StudentCourses.findOne({where: { studentId: req.body.studentId } && { courseCode: req.body.courseCode }});
