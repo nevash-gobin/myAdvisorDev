@@ -28,3 +28,14 @@
     margin-left: 50px;
     margin-bottom: 30px;
 }
+
+.select-row {
+    position: relative;
+    top: 15px;
+}
+
+.start-prog {
+    position: relative;
+    left: 45px;
+    top: 27px !important;
+}

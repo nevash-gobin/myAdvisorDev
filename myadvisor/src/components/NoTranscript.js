@@ -64,7 +64,7 @@ class NoTranscript extends Component {
                     </div>
                     <hr></hr>
                     <span className="row-info new-student">New student and don't have a transcript yet? </span>
-                    <Link to="/courses" onClick={this.props.newStudentHandler}>
+                    <Link to="/start" onClick={this.props.newStudentHandler}>
                         <span className="row-info details-link new-student">Click here to get started</span>
                     </Link>
                     <ToastContainer 
