@@ -490,12 +490,9 @@ const StudentProfile = (props) => {
 
         recCourses = recommendCoreCourses(coreSemesterArr, year, currentSem, recCourses);
         removeCoursesNoPrereq(recCourses, courses, programmeCourses);
-        console.log("Rec", recCourses);
-        console.log("StuCo", programmeCourses);
         props.setRecommended(recCourses);
         if (props.recCourses !== null) {
             props.setLoad(false);
-            console.log("Hit");
         }
         setProcessed(true);
     }

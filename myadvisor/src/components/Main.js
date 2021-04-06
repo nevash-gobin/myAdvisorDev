@@ -179,7 +179,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <Start {...props} setHidden={setHidden} setDegProg={setDegProg} setCreds={setCreds} setShowBack={setShowBack}/>
+                return <Start {...props} setHidden={setHidden} setDegProg={setDegProg} setCreds={setCreds} setShowBack={setShowBack} setRecommended={setRecommended} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }

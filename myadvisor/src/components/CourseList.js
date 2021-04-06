@@ -17,7 +17,12 @@ const CourseList = (props) => {
     }
  
     var courses = PullCourses();
+
     let recCourses = undefined;
+    
+    if (props.recCourses) {
+      recCourses = props.recCourses;
+    }
 
     useEffect(() => {
       console.log(props.recCourses); 
@@ -38,7 +43,7 @@ const CourseList = (props) => {
                         <div className="card courselist-card custom-scroll">
                             <div className="card-body">{
                               Array.from({ length: courses.length }, (_, k) => {
-                                if (props.recCourses.includes(courses[k].courseCode)) {
+                                if (recCourses.includes(courses[k].courseCode)) {
                                   return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
                                 }
                               })}
