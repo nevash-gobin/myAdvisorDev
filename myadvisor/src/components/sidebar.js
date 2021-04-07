@@ -2,14 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { ProgressBar } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom'
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 const drawerWidth = "17vw";
 
