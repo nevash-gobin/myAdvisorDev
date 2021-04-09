@@ -6,6 +6,8 @@ const db = require("../db");
 
 // import models
 const Career = require("../models/Career");
+const Course = require("../models/Course");
+const CareerCourse = require("../models/CareerCourse");
 
 // get all careers in the database
 router.get("/all", async (req, res) => {
@@ -89,6 +91,37 @@ router.delete("/delete/:id", async (req, res) => {
 
             await career.destroy();
             res.status(200).send("Career Removed");
+        }
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// get all career courses (all the course options for a future career)
+router.get("/courses/:id", async (req, res) => {
+    try {
+        const careerCourses = await CareerCourse.findAll({where: { careerID: req.params.id }});
+        
+        if(!careerCourses) {
+            return res.status(404).send("Career doesn't exists");
+        }
+        else {
+            var i;
+            let courseIDs = [];
+
+            for (i = 0; i < careerCourses.length; i++){
+                courseIDs.push(careerCourses[i].courseID)
+            }
+            
+            let courses = [];
+            for (i = 0; i < careerCourses.length; i++){
+                const course = await Course.findOne({where: { id: courseIDs[i] }});
+                courses.push(course);
+            }
+
+            res.status(202).json(courses);
         }
     }
     catch (err) {
