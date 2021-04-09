@@ -23,6 +23,8 @@ const Course = require("./models/Course");
 const Career = require("./models/Career");
 const Transcript = require("./models/Transcript");
 const AdvisingWindow = require("./models/AdvisingWindow");
+const ProgrammeCourse = require("./models/ProgrammeCourse");
+const CareerCourse = require("./models/CareerCourse");
 
 // routes
 app.get("/", (req, res) => {
