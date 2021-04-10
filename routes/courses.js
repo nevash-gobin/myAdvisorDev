@@ -177,7 +177,7 @@ router.get("/careers/:id", async (req, res) => {
             let careers = [];
             for (i = 0; i < courseCareers.length; i++){
                 const career = await Career.findOne({where: { id: careerIDs[i] }});
-                careers.push(career);
+                careers.push(career.name);
             }
 
             res.status(202).json(careers);
