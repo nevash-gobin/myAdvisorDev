@@ -82,3 +82,11 @@
     position: relative;
     bottom: 30px;
 }
+
+.tab-group {
+    margin-bottom: 15px;
+}
+
+.course-tab {
+    height: 30px;
+}

@@ -29,6 +29,7 @@ function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth"));
   const [user, setUser] = useState(localStorage.getItem("user"));
   const [recCourses, setRecCourses] = useState(null);
+  const [careerRecCourses, setCareerRecCourses] = useState(null);
   const [show, setShow] = useState(true);
   const [progress, setProgress] = useState(0);
   const [degProgress, setDegProgress] = useState(0);
@@ -36,6 +37,8 @@ function Main() {
   const [hide, setHide] = useState(false);
   const [showBackBtn, setShowBackBtn] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [year, setYear] = useState(1);
+  const [warning, setWarning] = useState(false);
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
@@ -47,6 +50,10 @@ function Main() {
 
   const setRecommended = (value) => {
     setRecCourses(value);
+  };
+
+  const setCareerRecommended = (value) => {
+    setCareerRecCourses(value);
   };
 
   const setDisplay = (value) => {
@@ -77,11 +84,18 @@ function Main() {
     setLoading(value);
   };
 
+  const setLevel = (value) => {
+    setYear(value);
+  };
+
+  const setAcWarning = (value) => {
+    setWarning(value);
+  };
 
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
-      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} loading={loading}/> : null}
+      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} loading={loading} warning={warning}/> : null}
       <Switch>
         <Route
           exact
@@ -123,7 +137,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} recCourses={recCourses}/>
+                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -137,7 +151,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} showBackBtn={showBackBtn} recCourses={recCourses}/>
+                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} showBackBtn={showBackBtn} recCourses={recCourses} careerRecCourses={careerRecCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -165,7 +179,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <Career {...props} setDisplay={setDisplay} setProg={setProg} />
+                return <Career {...props} setDisplay={setDisplay} setProg={setProg} setCareerRecommended={setCareerRecommended} year={year}/>
               } else {
                 return(<Redirect to="/" />)
               }
