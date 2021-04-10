@@ -12,6 +12,9 @@ const CourseList = (props) => {
     const [all, setAll] = useState(true);
     const [core, setCore] = useState(false);
     const [career, setCareer] = useState(false);
+    const [chosen, setChosen] = useState(false);
+    const [chosenList, setChosenList] = useState([]);
+
     const history = useHistory();
 
     const nodeClickHandler = (course) => {
@@ -39,28 +42,61 @@ const CourseList = (props) => {
     })
 
     function allClick() {
-      if (core || career) {
+      if (core || career || chosen) {
         setAll(true);
         setCore(false);
         setCareer(false);
+        setChosen(false);
       }
     }
 
     function coreClick() {
-      if (all || career) {
+      if (all || career || chosen) {
         setAll(false);
         setCore(true);
         setCareer(false);
+        setChosen(false);
       }
     }
 
     function careerClick() {
-      if (core || all) {
+      if (core || all || chosen) {
         setAll(false);
         setCore(false);
         setCareer(true);
+        setChosen(false);
       }
-      console.log("CAR", props.careerRecCourses);
+    }
+
+    function chosenClick() {
+      if (core || all || career) {
+        setAll(false);
+        setCore(false);
+        setCareer(false);
+        setChosen(true);
+      }
+    }
+
+    function onChange(event) { 
+      var chosenArray = props.chosenCourses;
+      var clear = false;
+      if (event.currentTarget.checked === true) {
+        chosenArray.push(event.currentTarget.value);
+      }
+      else {
+        while (!clear) {
+          var index = chosenArray.indexOf(event.currentTarget.value);
+          if (index > -1) {
+            chosenArray.splice(index, 1);
+          }
+          else {
+            clear = true;
+          }
+        }
+        clear = false;
+      }
+      setChosenList(chosenArray);
+      props.setChosen(chosenArray);
     }
 
     return (
@@ -72,37 +108,47 @@ const CourseList = (props) => {
                 <div className="card details-card outer-card">
                     <div className="card-body">
                         <p className="courselist-card-text">Click on a course to see more details</p>
+                        <p className="courselist-card-text">Check the Add box if you are interested in pursuing a course</p>
                         <div className="row tab-group">
                           { all ? (
 
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                               <button type="button" class="btn btn-custom tab-button blue-button" onClick={allClick}>All Courses</button>
                             </div> ) : (
 
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                               <button type="button" class="btn btn-custom tab-button fade-button" onClick={allClick}>All Courses</button>
                             </div>
 
                           ) }
                           { core ? (
 
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                               <button type="button" class="btn btn-custom tab-button blue-button" onClick={coreClick}>Core Courses</button>
                             </div> ) : ( 
                             
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                               <button type="button" class="btn btn-custom tab-button fade-button" onClick={coreClick}>Core Courses</button>
                             </div>
 
                           ) }
                           { career ? (
 
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                               <button type="button" class="btn btn-custom tab-button blue-button" onClick={careerClick}>Career Specific Courses</button>
                             </div> ) : (
 
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                              <button type="button" class="btn btn-custom tab-button fade-button" onClick={careerClick}>Career Specific Courses</button>
+                            </div>
+                          ) }
+                          { chosen ? (
+                            <div className="col-sm-3">
+                              <button type="button" class="btn btn-custom tab-button blue-button" onClick={chosenClick}>Your Chosen Courses</button>
+                            </div> ) : (
+
+                            <div className="col-sm-3">
+                            <button type="button" class="btn btn-custom tab-button fade-button" onClick={chosenClick}>Your Chosen Courses</button>
                             </div>
                           ) }
                         </div>
@@ -111,19 +157,25 @@ const CourseList = (props) => {
                               all ? (
                               Array.from({ length: courses.length }, (_, k) => {
                                 if (recCourses.includes(courses[k].courseCode)) {
-                                  return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
+                                  return <CourseNode course={courses[k]} clickHandler={nodeClickHandler} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
                                 }
                               }) 
                               ) : core ? (
                               Array.from({ length: courses.length }, (_, k) => {
                                 if (recCourses.includes(courses[k].courseCode) && courses[k].type === "Core") {
-                                  return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
+                                  return <CourseNode course={courses[k]} clickHandler={nodeClickHandler} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
                                 }
                               }) 
                               ) : career ? (
                               Array.from({ length: courses.length }, (_, k) => {
                                 if (careerRecCourses.includes(courses[k].courseCode)) {
-                                  return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
+                                  return <CourseNode course={courses[k]} clickHandler={nodeClickHandler} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
+                                }
+                              }) 
+                              ) : chosen ? (
+                              Array.from({ length: courses.length }, (_, k) => {
+                                if (props.chosenCourses.includes(courses[k].courseCode)) {
+                                  return <CourseNode course={courses[k]} clickHandler={nodeClickHandler} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
                                 }
                               }) 
                               ) : (null)

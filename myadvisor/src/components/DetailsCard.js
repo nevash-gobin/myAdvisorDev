@@ -118,11 +118,11 @@ class DetailsCard extends Component {
                                     <div className="col-sm-2">
                                         <p className="row-title blue-txt">Degree GPA:</p>
                                     </div>
-                                    <div className="col-sm-1">
+                                    <div className="col-md-1 col-sm-2">
                                         <p className="row-info">{this.props.details.gpa}</p>
                                     </div>
                                     { this.props.details.gpa < 2 ? (
-                                        <div className="col-sm-9">
+                                        <div className="col-md-9 col-sm-8">
                                             <p className="row-warning"> Your GPA is below 2.0 and you are on Academic Warning. Please visit the Dean's Office to be Advised. </p>
                                         </div>
                                     ) : (null) }

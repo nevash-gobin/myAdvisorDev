@@ -30,6 +30,7 @@ function Main() {
   const [user, setUser] = useState(localStorage.getItem("user"));
   const [recCourses, setRecCourses] = useState(null);
   const [careerRecCourses, setCareerRecCourses] = useState(null);
+  const [chosenCourses, setChosenCourses] = useState([]);
   const [show, setShow] = useState(true);
   const [progress, setProgress] = useState(0);
   const [degProgress, setDegProgress] = useState(0);
@@ -92,6 +93,10 @@ function Main() {
     setWarning(value);
   };
 
+  const setChosen = (value) => {
+    setChosenCourses(value);
+  };
+
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
@@ -151,7 +156,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} showBackBtn={showBackBtn} recCourses={recCourses} careerRecCourses={careerRecCourses}/>
+                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} setChosen={setChosen} showBackBtn={showBackBtn} recCourses={recCourses} careerRecCourses={careerRecCourses} chosenCourses={chosenCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
