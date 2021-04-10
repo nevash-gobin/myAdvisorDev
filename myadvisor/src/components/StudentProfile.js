@@ -28,6 +28,9 @@ const StudentProfile = (props) => {
         props.setDisplay(true);
         props.setHidden(false);
         if (!processed) {
+            if (details.gpa < 2.0) {
+                props.setAcWarning(true);
+            }
             if (details.length === 0) {
                 setUploaded(false);
                 props.setDegProg(0);

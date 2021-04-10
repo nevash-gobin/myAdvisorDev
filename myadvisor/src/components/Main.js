@@ -38,6 +38,7 @@ function Main() {
   const [showBackBtn, setShowBackBtn] = useState(true);
   const [loading, setLoading] = useState(true);
   const [year, setYear] = useState(1);
+  const [warning, setWarning] = useState(false);
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
@@ -87,10 +88,14 @@ function Main() {
     setYear(value);
   };
 
+  const setAcWarning = (value) => {
+    setWarning(value);
+  };
+
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
-      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} loading={loading}/> : null}
+      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} loading={loading} warning={warning}/> : null}
       <Switch>
         <Route
           exact
@@ -132,7 +137,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} recCourses={recCourses}/>
+                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
