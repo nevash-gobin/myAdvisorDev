@@ -52,6 +52,23 @@ body {
   border-color: #004bbd !important;
 }
 
+.fade-button {
+  background-color: #f8f8f8 !important;
+  border-color: #8ab3f0 !important;
+  color: #8ab3f0 !important;
+  border-radius: 10px !important;
+  width: 100% !important;
+  height: 50px !important;
+  font-weight: bold !important;
+  margin-top: 20px;
+}
+
+.fade-button:hover {
+  background-color: #8ab3f0 !important;
+  border-color: #8ab3f0 !important;
+  color: white !important;
+}
+
 /* Custom Scroll Bar */
 /* width */
 div.custom-scroll::-webkit-scrollbar {

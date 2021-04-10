@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom'
 const CourseList = (props) => { 
     const [clicked, setClicked] = useState(false);
     const [course, setCourse] = useState(null);
+    const [all, setAll] = useState(true);
+    const [core, setCore] = useState(false);
+    const [career, setCareer] = useState(false);
     const history = useHistory();
 
     const nodeClickHandler = (course) => {
@@ -31,6 +34,30 @@ const CourseList = (props) => {
       props.setDisplay(false);
     })
 
+    function allClick() {
+      if (core || career) {
+        setAll(true);
+        setCore(false);
+        setCareer(false);
+      }
+    }
+
+    function coreClick() {
+      if (all || career) {
+        setAll(false);
+        setCore(true);
+        setCareer(false);
+      }
+    }
+
+    function careerClick() {
+      if (core || all) {
+        setAll(false);
+        setCore(false);
+        setCareer(true);
+      }
+    }
+
     return (
       <div className="content">
             <div className="container-fluid">
@@ -40,6 +67,40 @@ const CourseList = (props) => {
                 <div className="card details-card outer-card">
                     <div className="card-body">
                         <p className="courselist-card-text">Click on a course to see more details</p>
+                        <div className="row tab-group">
+                          { all ? (
+
+                            <div className="col-sm-4">
+                              <button type="button" class="btn btn-custom tab-button blue-button" onClick={allClick}>All Courses</button>
+                            </div> ) : (
+
+                            <div className="col-sm-4">
+                              <button type="button" class="btn btn-custom tab-button fade-button" onClick={allClick}>All Courses</button>
+                            </div>
+
+                          ) }
+                          { core ? (
+
+                            <div className="col-sm-4">
+                              <button type="button" class="btn btn-custom tab-button blue-button" onClick={coreClick}>Core Courses</button>
+                            </div> ) : ( 
+                            
+                            <div className="col-sm-4">
+                              <button type="button" class="btn btn-custom tab-button fade-button" onClick={coreClick}>Core Courses</button>
+                            </div>
+
+                          ) }
+                          { career ? (
+
+                            <div className="col-sm-4">
+                              <button type="button" class="btn btn-custom tab-button blue-button" onClick={careerClick}>Career Specific Courses</button>
+                            </div> ) : (
+
+                            <div className="col-sm-4">
+                             <button type="button" class="btn btn-custom tab-button fade-button" onClick={careerClick}>Career Specific Courses</button>
+                            </div>
+                          ) }
+                        </div>
                         <div className="card courselist-card custom-scroll">
                             <div className="card-body">{
                               Array.from({ length: courses.length }, (_, k) => {
