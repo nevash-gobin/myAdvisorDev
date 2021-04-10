@@ -103,11 +103,20 @@ const CourseList = (props) => {
                         </div>
                         <div className="card courselist-card custom-scroll">
                             <div className="card-body">{
+                              all ? (
                               Array.from({ length: courses.length }, (_, k) => {
                                 if (recCourses.includes(courses[k].courseCode)) {
                                   return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
                                 }
-                              })}
+                              }) 
+                              ) : core ? (
+                              Array.from({ length: courses.length }, (_, k) => {
+                                if (recCourses.includes(courses[k].courseCode) && courses[k].type === "Core") {
+                                  return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
+                                }
+                              }) 
+                              ) : (null)
+                            }
                             </div>
                         </div>
                     </div>
