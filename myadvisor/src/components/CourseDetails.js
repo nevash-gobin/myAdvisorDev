@@ -1,29 +1,54 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom'
+import axios from "axios";
 
 class CourseDetails extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            courseCareers: []
+        }
+        this.getCourseCareers = this.getCourseCareers.bind(this);
+        this.determineCourseCareers = this.determineCourseCareers.bind(this);
+    }
+
+    componentDidMount() {
+        this.determineCourseCareers();
+    }
+
+    async getCourseCareers(id) {
+        try {
+            const {data:response} = await axios.get(`http://localhost:5000/courses/careers/${id}`) //use data destructuring to get data from the promise object
+            return response
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    async determineCourseCareers() {
+        var courseCareers = [];
+        courseCareers = await this.getCourseCareers(this.props.location.state.course.id);
+        this.setState({
+            courseCareers: courseCareers
+        });
+    }
+
     render() {
 
-    const desc = "This course provides an introduction to artificial intelligence and its applications. The course concentrates on solving problems associated with artificial intelligence using data mining and knowledge representation tools. Topics covered in the course include characteristics of intelligent systems, rule-based Expert Systems, production rules, reasoning with uncertainty, search strategies, artificial neural networks, genetic algorithms, knowledge engineering and data mining."
-      
-    function setCharAt(str,index,chr) {
-        if(index > str.length-1) return str;
-        return str.substring(0,index) + chr + str.substring(index+1);
-    }
-
-    const prereqs = () => {
-        var prereq = this.props.location.state.course.prerequisites;
-        if (prereq.length > 8) {
-            if (prereq.charAt(9) == "|") {
-                prereq = prereq.slice(0, 8) + " OR " + prereq.slice(-8);
+        const prereqs = () => {
+            var prereq = this.props.location.state.course.prerequisites;
+            if (prereq.length > 8) {
+                if (prereq.charAt(9) == "|") {
+                    prereq = prereq.slice(0, 8) + " OR " + prereq.slice(-8);
+                }
+                if (prereq.charAt(9) == "&") {
+                    prereq = prereq.slice(0, 8) + " AND " + prereq.slice(-8);
+                }
             }
-            if (prereq.charAt(9) == "&") {
-                prereq = prereq.slice(0, 8) + " AND " + prereq.slice(-8);
-            }
+            return prereq;
         }
-        return prereq;
-    }
 
     return (
       <div className="content">
@@ -41,7 +66,14 @@ class CourseDetails extends Component {
                                 </div>
                                 <div className="career">
                                     <span className="career-header blue-txt">Career Tags: </span>
-                                    <span className="career-tags">Artificial Intelligence, Machine Learning, Data Science</span>
+                                    {
+                                        Array.from({ length: this.state.courseCareers.length }, (_, k) => {
+                                            if (k !== this.state.courseCareers.length-1 )
+                                                return <span className="career-tags">{this.state.courseCareers[k]}, </span>
+                                            else 
+                                                return <span className="career-tags">{this.state.courseCareers[k]}</span>
+                                        }) 
+                                    }
                                 </div>
                                 <p className="course-desc">{this.props.location.state.course.description}</p>
                                 <p className="assessment-header blue-txt">Assessment</p>

@@ -81,11 +81,11 @@ export default function PermanentDrawerRight(props) {
       ) :
       props.show && degPercentage!==0 && !props.loading ? (
         <Link to="/career">
-          <Button style={{color:"white", fontWeight:600, backgroundColor:"#0066FF"}}>Begin Advising</Button> 
+          <Button className="blue-btn">Begin Advising</Button> 
         </Link>
       ) : props.show && degPercentage===0 && !props.loading ? (
         <Link to="/courses">
-          <Button style={{color:"white", fontWeight:600, backgroundColor:"#0066FF"}}>Begin Advising</Button> 
+          <Button className="blue-btn">Begin Advising</Button> 
         </Link>
       ) : props.show && degPercentage!==0 && props.loading ? (
         <div>
