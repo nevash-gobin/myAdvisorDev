@@ -90,7 +90,7 @@ class CourseDetails extends Component {
                         <div className="row">
                             <div className="col-sm-2">
                                 <Link to="/courses">
-                                    <button type="button" class="btn btn-custom course-back-button blue-button">Back</button>
+                                    <button type="button" class="btn btn-custom back-button blue-button">Back</button>
                                 </Link>
                             </div>
                         </div>

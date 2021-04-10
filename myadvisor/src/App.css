@@ -69,6 +69,16 @@ body {
   color: white !important;
 }
 
+.back-button {
+  position: relative;
+  left: 35px;
+}
+
+.next-button {
+  position: relative;
+  right: 35px !important;
+}
+
 /* Custom Scroll Bar */
 /* width */
 div.custom-scroll::-webkit-scrollbar {

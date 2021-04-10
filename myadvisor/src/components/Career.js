@@ -5,17 +5,20 @@ import "../assets/css/Career.css";
 import { Link } from 'react-router-dom'
 import PullCareers from "./PullCareers";
 import axios from "axios";
+import { useHistory } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Career = (props) => {
 
   const [careerList, setCareerList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   var careers = PullCareers();
+  const history = useHistory();
   props.setDisplay(false);
   props.setProg(40);
 
   function onChange(event) { 
-    console.log(event.currentTarget.value, event.currentTarget.checked);
     var careerArray = careerList;
     if (event.currentTarget.checked === true) {
       careerArray.push(event.currentTarget.value);
@@ -30,7 +33,7 @@ const Career = (props) => {
   }
 
   function onClick() {
-    console.log(careerList);
+    setLoading(true);
     determineCourses(careerList);
   }
 
@@ -46,15 +49,10 @@ const Career = (props) => {
 
 async function determineCourses(careerArray){
 
-
-  for (var i=0; i<careerArray.length; i++) {
-    var courses = await getCareerCourses(careerArray[i]);
-    console.log(courses);
-  }
-
- /* var recCourses = [];
+  var recCourses = [];
   var today = new Date();
   var currentSem;
+  var level;
   
   if (today.getMonth() < 4) {
       currentSem = "2";
@@ -66,20 +64,35 @@ async function determineCourses(careerArray){
       currentSem = "1";
   }
 
-  var courses = await getProgrammeCourses(programmeId);
-
-  for (var i=0; i<courses.length; i++) {
-      if (courses[i].type === "Core" && courses[i].semester === currentSem && courses[i].level === "I") {
-          recCourses.push(courses[i].courseCode);
-      }
+  if (props.year === 1) {
+    level = "I";
+  }
+  else if (props.year === 2) {
+    level = "II";
+  }
+  else if (props.year === 3) {
+    level = "III"
+  }
+  else {
+    level = "I";
   }
 
-  props.setRecommended(recCourses);
+  for (var i=0; i<careerArray.length; i++) {
+    var courses = await getCareerCourses(careerArray[i]);
+    for (var j=0; j<courses.length; j++) {
+      if (courses[j].semester === currentSem && courses[j].level === level) {
+        recCourses.push(courses[j].courseCode);
+      }
+    }
+  }
 
-  history.push({
-      pathname: '/courses'
-  }) */
+  console.log("CAR Here", recCourses);
+  props.setCareerRecommended(recCourses);
   
+  history.push({
+    pathname: '/courses'
+  })
+
 }
 
 
@@ -109,14 +122,22 @@ async function determineCourses(careerArray){
                     <div className="row button-row">
                       <div className="col-sm-2">
                         <Link to="/home">
-                          <button type="submit" class="btn btn-custom career-next-button blue-button">Back</button>
+                          <button type="submit" class="btn btn-custom back-button blue-button">Back</button>
                         </Link>
-                      </div>          
-                      <div className="col-sm-2 offset-sm-8">
-                      
-                        <button type="button" class="btn btn-custom career-next-button blue-button" onClick={onClick}>Next</button>
-                        
                       </div>
+                      { loading ? (
+                        <div className="col-sm-2">
+                          <CircularProgress className="circ-prog career-prog" size={30}/>
+                        </div>
+                      ) : (null)}
+                      { loading ? (
+                        <div className="col-sm-2 offset-sm-6">
+                          <button type="button" class="btn btn-custom next-button blue-button" onClick={onClick}>Next</button>
+                        </div> ) : (
+                        <div className="col-sm-2 offset-sm-8">
+                          <button type="button" class="btn btn-custom next-button blue-button" onClick={onClick}>Next</button>
+                        </div>
+                        ) }
                     </div>
                   </form>
                 </div>

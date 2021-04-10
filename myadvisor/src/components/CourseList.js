@@ -22,13 +22,17 @@ const CourseList = (props) => {
     var courses = PullCourses();
 
     let recCourses = undefined;
+    let careerRecCourses = undefined;
     
     if (props.recCourses) {
       recCourses = props.recCourses;
     }
 
+    if (props.careerRecCourses) {
+      careerRecCourses = props.careerRecCourses;
+    }
+
     useEffect(() => {
-      console.log(props.recCourses); 
       props.setProg(60);
       props.setHidden(false);
       props.setDisplay(false);
@@ -56,6 +60,7 @@ const CourseList = (props) => {
         setCore(false);
         setCareer(true);
       }
+      console.log("CAR", props.careerRecCourses);
     }
 
     return (
@@ -115,6 +120,12 @@ const CourseList = (props) => {
                                   return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
                                 }
                               }) 
+                              ) : career ? (
+                              Array.from({ length: courses.length }, (_, k) => {
+                                if (careerRecCourses.includes(courses[k].courseCode)) {
+                                  return <CourseNode course={courses[k]} code={courses[k].courseCode} title={courses[k].courseTitle} credits={courses[k].credits} clickHandler={nodeClickHandler}></CourseNode>    
+                                }
+                              }) 
                               ) : (null)
                             }
                             </div>
@@ -125,20 +136,20 @@ const CourseList = (props) => {
                   <div className="row button-row">
                       <div className="col-sm-2">
                         <Link to="/career">
-                          <button type="submit" class="btn btn-custom career-next-button blue-button">Back</button>
+                          <button type="submit" class="btn btn-custom back-button blue-button">Back</button>
                         </Link>
                       </div>          
                       <div className="col-sm-2 offset-sm-8">
                       <Link to="/bot">
-                        <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
+                        <button type="submit" class="btn btn-customnext-button blue-button">Next</button>
                         </Link>
                       </div>
                   </div>
                 ) : (
                   <div className="row button-row">        
-                      <div className="col-sm-2">
+                      <div className="col-sm-2 offset-sm-8">
                         <Link to="/bot">
-                          <button type="submit" class="btn btn-custom career-next-button blue-button">Next</button>
+                          <button type="submit" class="btn btn-custom next-button blue-button">Next</button>
                         </Link>
                       </div>
                   </div>
