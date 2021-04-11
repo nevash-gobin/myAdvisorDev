@@ -26,6 +26,11 @@ const AdvisingWindow = require("./models/AdvisingWindow");
 const ProgrammeCourse = require("./models/ProgrammeCourse");
 const CareerCourse = require("./models/CareerCourse");
 
+// if in production (deployment), changes main client path to build
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "myadvisor/build")));
+  }
+
 // routes
 app.get("/", (req, res) => {
     res.status(200).send("Server running...");
