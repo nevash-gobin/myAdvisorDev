@@ -6,7 +6,7 @@ require("dotenv").config();
 
 // connects database to server
 const db = new Sequelize(
-    process.env.DB_URL, {
+    "postgres://agdbblsa:sky9sH57Uf4QAM-eP71ooyYlaM9VLJHJ@ziggy.db.elephantsql.com:5432/agdbblsa", {
     pool: {
         max: 3,
         min: 0,
