@@ -45,7 +45,7 @@ function SetAdvisingWindow() {
 
     async function setWindow(data) {
         try {
-          const res = await fetch("http://localhost:5000/admin/academic-advising/window", {
+          const res = await fetch("/admin/academic-advising/window", {
             method: "POST",
             headers: {
                 token: localStorage.getItem("token"),

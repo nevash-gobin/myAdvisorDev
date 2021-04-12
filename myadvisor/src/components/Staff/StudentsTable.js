@@ -71,7 +71,7 @@ function StudentsTable({students, loading}) {
     //Get Student Courses
     async function getStudentCourses(studentId) {
         try {
-            const res = await fetch("http://localhost:5000/transcript/courses/viewAll/" + studentId, {
+            const res = await fetch("/transcript/courses/viewAll/" + studentId, {
             method: "GET",
         });
             const parseData = await res.json();

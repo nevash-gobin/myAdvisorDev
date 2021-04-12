@@ -9,7 +9,7 @@ function Students() {
     //Get Students
     async function getStudents() {
         try {
-            const res = await fetch("http://localhost:5000/transcript/details/all", {
+            const res = await fetch("/transcript/details/all", {
             method: "GET",
         });
             const parseData = await res.json();
