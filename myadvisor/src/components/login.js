@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom'
+import background1 from '../assets/images/background.jpg';
+import background2 from '../assets/images/background2.jpg';
 
 function Copyright() {
 
@@ -28,12 +30,16 @@ return (
   );
 }
 
+const pictureArray = [background1, background2];
+const randomIndex = Math.floor(Math.random() * pictureArray.length);
+const selectedPicture = pictureArray[randomIndex];
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: `url(${selectedPicture})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
