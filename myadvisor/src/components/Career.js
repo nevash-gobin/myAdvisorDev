@@ -17,6 +17,11 @@ const Career = (props) => {
   const history = useHistory();
   props.setDisplay(false);
   props.setProg(40);
+  if (props.recCourses === null) {
+    history.push({
+      pathname: '/home'
+    })
+  }
 
   function onChange(event) { 
     var careerArray = careerList;
@@ -45,55 +50,53 @@ const Career = (props) => {
     catch (error) {
       console.log(error);
     }
-}
-
-async function determineCourses(careerArray){
-
-  var recCourses = [];
-  var today = new Date();
-  var currentSem;
-  var level;
-  
-  if (today.getMonth() < 4) {
-      currentSem = "2";
-  }
-  else if (today.getMonth() < 6) {
-      currentSem = "3";
-  }
-  else {
-      currentSem = "1";
   }
 
-  if (props.year === 1) {
-    level = "I";
-  }
-  else if (props.year === 2) {
-    level = "II";
-  }
-  else if (props.year === 3) {
-    level = "III"
-  }
-  else {
-    level = "I";
-  }
+  async function determineCourses(careerArray){
 
-  for (var i=0; i<careerArray.length; i++) {
-    var courses = await getCareerCourses(careerArray[i]);
-    for (var j=0; j<courses.length; j++) {
-      if (courses[j].semester === currentSem && courses[j].level === level) {
-        recCourses.push(courses[j].courseCode);
+      var recCourses = [];
+      var today = new Date();
+      var currentSem;
+      var level;
+      
+      if (today.getMonth() < 4) {
+          currentSem = "2";
       }
+      else if (today.getMonth() < 6) {
+          currentSem = "3";
+      }
+      else {
+          currentSem = "1";
+      }
+
+      if (props.year === 1) {
+        level = "I";
+      }
+      else if (props.year === 2) {
+        level = "II";
+      }
+      else if (props.year === 3) {
+        level = "III"
+      }
+      else {
+        level = "I";
+      }
+
+      for (var i=0; i<careerArray.length; i++) {
+        var courses = await getCareerCourses(careerArray[i]);
+        for (var j=0; j<courses.length; j++) {
+          if (courses[j].semester === currentSem && courses[j].level === level) {
+            recCourses.push(courses[j].courseCode);
+          }
+        }
     }
+    props.setCareerRecommended(recCourses);
+    
+    history.push({
+      pathname: '/courses'
+    })
+
   }
-
-  console.log("CAR Here", recCourses);
-  props.setCareerRecommended(recCourses);
-  
-  history.push({
-    pathname: '/courses'
-  })
-
-}
 
 
   return (

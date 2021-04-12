@@ -28,7 +28,7 @@ const StudentProfile = (props) => {
         props.setDisplay(true);
         props.setHidden(false);
         if (!processed) {
-            if (details.gpa < 2.0) {
+            if (details.gpa < 2.0 && details.gpa != 0) {
                 props.setAcWarning(true);
             }
             if (details.length === 0) {
