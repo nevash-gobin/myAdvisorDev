@@ -9,7 +9,7 @@ function Programmes() {
     //Get Programmes
     async function getProgrammes() {
         try {
-            const res = await fetch("http://localhost:5000/programmes/all", {
+            const res = await fetch("/programmes/all", {
             method: "GET",
         });
             const parseData = await res.json();
