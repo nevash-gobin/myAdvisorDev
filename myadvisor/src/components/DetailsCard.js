@@ -49,11 +49,11 @@ class DetailsCard extends Component {
 
         toast.success("Processing transcript...")
         
-        fetch(`http://localhost:5000/transcript/courses/deleteAll/${studentId}`, requestOptions)
+        fetch(`/transcript/courses/deleteAll/${studentId}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .then(result => {
-                fetch(`http://localhost:5000/transcript/details/delete/${studentId}`, requestOptions)
+                fetch(`/transcript/details/delete/${studentId}`, requestOptions)
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .then(result => {
@@ -63,7 +63,7 @@ class DetailsCard extends Component {
                             redirect: 'follow'
                         };
             
-                        fetch("http://localhost:5000/transcript/parseForm", requestOptions)
+                        fetch("/transcript/parseForm", requestOptions)
                             .then(response => response.text())
                             .then(result => console.log(result))
                             .then(result => this.props.uploadedHandler())

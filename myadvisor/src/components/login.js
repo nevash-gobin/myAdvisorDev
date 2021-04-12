@@ -83,7 +83,7 @@ export default function SignInSide({setAuth,setType }) {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/accounts/login", {
+      const res = await fetch("/accounts/login", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(body),

@@ -44,7 +44,7 @@ const Career = (props) => {
 
   async function getCareerCourses(id) {
     try {
-      const {data:response} = await axios.get(`http://localhost:5000/careers/courses/${id}`) //use data destructuring to get data from the promise object
+      const {data:response} = await axios.get(`/careers/courses/${id}`) //use data destructuring to get data from the promise object
       return response
     }
     catch (error) {
