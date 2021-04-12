@@ -39,12 +39,18 @@ function decode(token){
 
 async function getCourses() {
     try {
-      const {data:response} = await axios.get('/courses/all') //use data destructuring to get data from the promise object
+      const {data:response} = await axios.get('http://localhost:5000/courses/all') //use data destructuring to get data from the promise object
       return response
     }
-
     catch (error) {
       console.log(error);
+      try { // If app is in production
+        const {data:response} = await axios.get('https://myadvisorapp.herokuapp.com/courses/all') //use data destructuring to get data from the promise object
+        return response
+      }
+      catch (error2) {
+        console.log(error2);
+      }
     }
   }
 
