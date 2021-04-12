@@ -57,7 +57,7 @@ const StudentProfile = (props) => {
 
     async function getCourses() {
         try {
-          const {data:response} = await axios.get('http://localhost:5000/courses/all') //use data destructuring to get data from the promise object
+          const {data:response} = await axios.get('/courses/all') //use data destructuring to get data from the promise object
           return response
         }
     
@@ -68,7 +68,7 @@ const StudentProfile = (props) => {
 
     async function getProgrammeCourses(id) {
         try {
-          const {data:response} = await axios.get(`http://localhost:5000/programmes/offered-courses/${id}`) //use data destructuring to get data from the promise object
+          const {data:response} = await axios.get(`/programmes/offered-courses/${id}`) //use data destructuring to get data from the promise object
           return response
         }
     

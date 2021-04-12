@@ -19,7 +19,7 @@ class CourseDetails extends Component {
 
     async getCourseCareers(id) {
         try {
-            const {data:response} = await axios.get(`http://localhost:5000/courses/careers/${id}`) //use data destructuring to get data from the promise object
+            const {data:response} = await axios.get(`/courses/careers/${id}`) //use data destructuring to get data from the promise object
             return response
         }
         catch (error) {
