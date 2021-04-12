@@ -43,7 +43,7 @@ class NoTranscript extends Component {
 
         toast.success("Processing transcript...")
         
-        fetch("http://localhost:5000/transcript/parseForm", requestOptions)
+        fetch("/transcript/parseForm", requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .then(result => this.props.uploadedHandler())
