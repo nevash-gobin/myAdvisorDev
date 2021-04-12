@@ -26,7 +26,7 @@ function Settings() {
 
                 <Col>
                 <Card className="settings-card">
-                    <Card.Header>Add Staff Account</Card.Header>
+                    <Card.Header>Add Account</Card.Header>
                     <Card.Body>
                         <AddAccount/>
                     </Card.Body>
