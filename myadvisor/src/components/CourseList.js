@@ -30,9 +30,17 @@ const CourseList = (props) => {
     if (props.recCourses) {
       recCourses = props.recCourses;
     }
+    else {
+      history.push({
+        pathname: '/home'
+      })
+    }
 
     if (props.careerRecCourses) {
       careerRecCourses = props.careerRecCourses;
+    }
+    else {
+      careerRecCourses = [];
     }
 
     useEffect(() => {

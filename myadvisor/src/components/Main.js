@@ -184,7 +184,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <Career {...props} setDisplay={setDisplay} setProg={setProg} setCareerRecommended={setCareerRecommended} year={year}/>
+                return <Career {...props} setDisplay={setDisplay} setProg={setProg} setCareerRecommended={setCareerRecommended} year={year} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
