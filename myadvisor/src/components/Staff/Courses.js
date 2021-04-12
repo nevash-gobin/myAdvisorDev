@@ -25,7 +25,7 @@ function Courses() {
     //Get Courses
     async function getCourses() {
         try {
-          const res = await fetch("http://localhost:5000/courses/all", {
+          const res = await fetch("/courses/all", {
             method: "GET",
           });
     
@@ -41,7 +41,7 @@ function Courses() {
     //Delete Course
     async function deleteCourse(courseCode) {
         try {
-          const res = await fetch("http://localhost:5000/courses/delete/" + courseCode, {
+          const res = await fetch("/courses/delete/" + courseCode, {
             method: "DELETE",
             headers: {
                 token: localStorage.getItem("token")

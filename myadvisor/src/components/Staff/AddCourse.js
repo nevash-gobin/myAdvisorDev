@@ -41,7 +41,7 @@ function AddCourse({setShow, refreshTable}) {
 
     async function addCourse(data) {
         try {
-          const res = await fetch("http://localhost:5000/courses/add", {
+          const res = await fetch("/courses/add", {
             method: "POST",
             headers: {
                 token: localStorage.getItem("token"),

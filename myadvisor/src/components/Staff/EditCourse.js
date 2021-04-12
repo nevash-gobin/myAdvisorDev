@@ -37,7 +37,7 @@ function EditCourse({setShow, row, refreshTable}) {
 
     async function editCourse(data, code) {
         try {
-          const res = await fetch("http://localhost:5000/courses/edit/" + code, {
+          const res = await fetch("/courses/edit/" + code, {
             method: "PUT",
             headers: {
                 token: localStorage.getItem("token"),

@@ -97,7 +97,7 @@ function ProgrammesTable({programmes, loading}) {
             setProgrammeCourses([]);
             setLoadingCourses(true);
 
-            const res = await fetch("http://localhost:5000/programmes/offered-courses/" + id, {
+            const res = await fetch("/programmes/offered-courses/" + id, {
             method: "GET",
         });
             const parseData = await res.json();

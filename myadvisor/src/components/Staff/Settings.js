@@ -1,6 +1,7 @@
 import React from "react";
 import {Jumbotron, Container, Card, Row, Col} from 'react-bootstrap';
 import AdvisingWindowSettings from './SetAdvisingWindow';
+import AddAccount from './AddAccount';
 
 function Settings() {
     return (
@@ -27,7 +28,7 @@ function Settings() {
                 <Card className="settings-card">
                     <Card.Header>Add Staff Account</Card.Header>
                     <Card.Body>
-                        
+                        <AddAccount/>
                     </Card.Body>
                 </Card>
                 </Col>
