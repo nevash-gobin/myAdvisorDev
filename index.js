@@ -50,11 +50,16 @@ app.use("/transcript", require("./routes/transcript"));
 
 app.use("/accounts", require("./routes/authorization"));
 
-// Test route
-app.post('/parseForm', upload.single('file'), async (req, res)=>{
-    const { parsedText, ...data} = await parse(req.file.buffer);
-    res.send(data);
-  })
+// if a bad route is entered
+if (process.env.NODE_ENV === "production") {
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "client/build/index.html"));
+    });
+  } else {
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "client/public/index.html"));
+    });
+  }
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);
