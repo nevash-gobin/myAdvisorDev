@@ -40,14 +40,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PermanentDrawerRight(props) {
   const classes = useStyles();
-  var percentage = props.progress;
-  var degPercentage = props.degProgress;
-  var newDeg = props.newDeg;
-  var difference = props.credits - newDeg;
-  if (difference < 0) {
+  var percentage = props.progress; // Advising progress percentage
+  var degPercentage = (props.degProgress * 1).toFixed(1); // Degree progress percentage
+  var newDeg = props.newDeg; // Updated degree credits
+  var difference = props.credits - newDeg; // Updated degree credits remaining
+  if (difference < 0) { // Set difference to 0 so that a negative number is not displayed
     difference = 0;
   }
-  var newDegPercentage = ((newDeg / 93) * 100).toFixed(1);
+  var newDegPercentage = ((newDeg / 93) * 100).toFixed(1); // Updated degree progress percentage
 
   return (
     <div className={classes.root}>
@@ -120,11 +120,11 @@ export default function PermanentDrawerRight(props) {
           ) : degPercentage !== 0 && newDeg !== 0 ? (
             <ProgressBar style={{fontSize:"16px", fontWeight:600, height:"35px", borderRadius:"45px", marginLeft:"20px", marginRight:"20px"}}>
                 <ProgressBar label={`${degPercentage} %`} now={degPercentage} key={1} style={{fontSize:"16px", fontWeight:600, height:"35px", borderTopLeftRadius:"45px",  borderBottomLeftRadius:"45px"}}/>
-                <ProgressBar label={`${newDegPercentage} %`} now={newDegPercentage} key={2} style={{fontSize:"16px", fontWeight:600, height:"35px", borderTopRightRadius:"45px", borderBottomRightRadius:"45px", backgroundColor:"#adadad"}}/>
+                <ProgressBar now={newDegPercentage} key={2} style={{fontSize:"16px", fontWeight:600, height:"35px", backgroundColor:"#adadad"}}/>
             </ProgressBar>
           ) : (
             <ProgressBar style={{fontSize:"16px", fontWeight:600, height:"35px", borderRadius:"45px", marginLeft:"20px", marginRight:"20px"}}>
-              <ProgressBar label={`${newDegPercentage} %`} now={newDegPercentage} key={1} style={{fontSize:"16px", fontWeight:600, marginRight:"20px", height:"35px", borderRadius:"45px", backgroundColor:"#adadad"}}/>
+              <ProgressBar label={`${newDegPercentage} %`} now={newDegPercentage} key={1} style={{fontSize:"16px", fontWeight:600, marginRight:"20px", height:"35px", borderTopLeftRadius:"45px",  borderBottomLeftRadius:"45px", backgroundColor:"#adadad"}}/>
             </ProgressBar>
           )
         }

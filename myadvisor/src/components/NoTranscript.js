@@ -8,45 +8,38 @@ class NoTranscript extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            file: null,
-            data: null
+            file: null // Store file uploaded by user
         }
-       props.setProg(0);
+       props.setProg(0); // Set advising progress to 0%
     }
 
-    handleFiles = files => {
-        console.log(files[0])
-        this.setState({
-            file: files[0]
-        });
-        
-    }
-
+    // Function that runs when the user uploads a file
     onChangeHandler = event =>{
         this.setState({
             file: event.target.files[0]
         })
     }
 
+    // Functions that runs when the user clicks the "Upload" button
     onClickHandler = () => {
         var formdata = new FormData();
-        if (this.state.file === null) {
+        if (this.state.file === null) { // If no file has been uploaded, do nothing
             return;
         }
-        formdata.append("file", this.state.file, "[PROXY]");
+        formdata.append("file", this.state.file, "[PROXY]"); // Add file to FormData object, Proxy is only used in development to connect to node server
         
-        var requestOptions = {
+        var requestOptions = { // Create POST request
           method: 'POST',
           body: formdata,
           redirect: 'follow'
         };
 
-        toast.success("Processing transcript...")
+        toast.success("Processing transcript...") // Create a toast to let user know their transcript is being processed
         
-        fetch("/transcript/parseForm", requestOptions)
+        fetch("/transcript/parseForm", requestOptions) // Make request to server to parse transcript, upload student details and thier courses to the database
           .then(response => response.text())
           .then(result => console.log(result))
-          .then(result => this.props.uploadedHandler())
+          .then(result => this.props.uploadedHandler()) // Once the data has been saved to the database, run uploadedHandler from StudentProfile
           .catch(error => console.log('error', error));
 	}
 

@@ -26,22 +26,23 @@ import TopBar from '../components/TopBar';
 import ReactWebChat from "../components/Bot Framework/webChat";
 
 function Main() {
-  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth"));
-  const [user, setUser] = useState(localStorage.getItem("user"));
-  const [recCourses, setRecCourses] = useState(null);
-  const [careerRecCourses, setCareerRecCourses] = useState(null);
-  const [chosenCourses, setChosenCourses] = useState([]);
-  const [show, setShow] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const [degProgress, setDegProgress] = useState(0);
-  const [newDeg, setNewDeg] = useState(0);
-  const [credits, setCredits] = useState(0);
-  const [hide, setHide] = useState(false);
-  const [showBackBtn, setShowBackBtn] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [year, setYear] = useState(1);
-  const [warning, setWarning] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth")); // Get authenticated status from localStorage
+  const [user, setUser] = useState(localStorage.getItem("user")); // Get type of user from localStorage
+  const [recCourses, setRecCourses] = useState(null); // Store recommended courses generated on StudentProfile.js
+  const [careerRecCourses, setCareerRecCourses] = useState(null); // Store recommended courses generated on Career.js
+  const [chosenCourses, setChosenCourses] = useState([]); // Store courses chosen by the user on CourseList.js
+  const [show, setShow] = useState(true); // Boolean value to determine whether or not to show the "Begin Advising" button
+  const [progress, setProgress] = useState(0); // Value of the user's advising progress percentage
+  const [degProgress, setDegProgress] = useState(0); // Value of the user's degree progress percentage
+  const [newDeg, setNewDeg] = useState(0); // Value of the user's updated degree progress credits
+  const [credits, setCredits] = useState(0); // Value of how much credits the user needs to complete their degree
+  const [hide, setHide] = useState(false); // Boolean value to determine whether or not to show the sidebar or not
+  const [showBackBtn, setShowBackBtn] = useState(true); // Boolean value to determine whether or not to show the back button on the course list page
+  const [loading, setLoading] = useState(true); // Boolean value to determine whether or not to show a loading circle on the sidebar
+  const [year, setYear] = useState(1); // Value of the user's current level
+  const [warning, setWarning] = useState(false); // Boolean value to indicate whether or not that the user is on academic warning
 
+  /* Setter methods for use by the other pages */
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
   };

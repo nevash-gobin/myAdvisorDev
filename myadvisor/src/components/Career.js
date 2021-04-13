@@ -10,38 +10,43 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Career = (props) => {
 
-  const [careerList, setCareerList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [careerList, setCareerList] = useState([]); // Array used to store careers that a user selected
+  const [loading, setLoading] = useState(false); // Boolean used to indicate whether or not the recommended courses for the user has been updated
 
-  var careers = PullCareers();
-  const history = useHistory();
-  props.setDisplay(false);
-  props.setProg(40);
-  if (props.recCourses === null) {
+  var careers = PullCareers(); // Get all careers from the database
+  const history = useHistory(); // Used to redirect to a new path without losing state values
+  props.setDisplay(false); // Indicate that to hide the "Begin Advising" button on the sidebar
+  props.setProg(40); // Set advising progress to 40%
+
+  // If the user's recommended courses has been lost, redirect to student details page to generate them again
+  if (props.recCourses === null) { 
     history.push({
       pathname: '/home'
     })
   }
 
+  // Function that runs when the user checks or unchecks a checkbox
   function onChange(event) { 
-    var careerArray = careerList;
-    if (event.currentTarget.checked === true) {
+    var careerArray = careerList; // Duplicate items in careerList
+    if (event.currentTarget.checked === true) { // If the box is checked then add that career to careerArray
       careerArray.push(event.currentTarget.value);
     }
-    else {
-      var index = careerArray.indexOf(event.currentTarget.value);
-      if (index > -1) {
-        careerArray.splice(index, 1);
+    else { // If the box is unchecked then remove that career from careerArray
+      var index = careerArray.indexOf(event.currentTarget.value); // Find index of the specified career
+      if (index > -1) { // If career is in the array
+        careerArray.splice(index, 1); // Remove the career from the array
       }
     }
-    setCareerList(careerArray);
+    setCareerList(careerArray); // Set careerList to careerArray
   }
 
+  // Function that runs when the user clicks the "Next" button
   function onClick() {
     setLoading(true);
     determineCourses(careerList);
   }
 
+  // Function to fetch courses that are associated with a given career
   async function getCareerCourses(id) {
     try {
       const {data:response} = await axios.get(`/careers/courses/${id}`) //use data destructuring to get data from the promise object
@@ -52,23 +57,25 @@ const Career = (props) => {
     }
   }
 
+  // Function to filter the fetched courses based on the current semester and user's current level
   async function determineCourses(careerArray){
 
-      var recCourses = [];
-      var today = new Date();
-      var currentSem;
-      var level;
+      var recCourses = []; // Array to store the recommended courses for the user
+      var today = new Date(); // Today's date
+      var currentSem; // Student's current semester
+      var level; // Student's current level
       
-      if (today.getMonth() < 4) {
+      if (today.getMonth() < 4) { // If the date is currently between January and April
           currentSem = "2";
       }
-      else if (today.getMonth() < 6) {
+      else if (today.getMonth() < 6) { // If the date is currently between May and July
           currentSem = "3";
       }
-      else {
+      else { // If the date is currently between August and December
           currentSem = "1";
       }
 
+      // props.year is the student's current year determined in StudentProfile.js
       if (props.year === 1) {
         level = "I";
       }
@@ -82,17 +89,19 @@ const Career = (props) => {
         level = "I";
       }
 
+      // Iterate through careerArray
       for (var i=0; i<careerArray.length; i++) {
-        var courses = await getCareerCourses(careerArray[i]);
-        for (var j=0; j<courses.length; j++) {
-          if (courses[j].semester === currentSem && courses[j].level === level) {
-            recCourses.push(courses[j].courseCode);
+        var courses = await getCareerCourses(careerArray[i]); // Retrieve courses given with the iterated career
+        for (var j=0; j<courses.length; j++) { // Iterate through courses retrieved
+          if (courses[j].semester === currentSem && courses[j].level === level) { // If the course corresponds with the current semester and current level
+            recCourses.push(courses[j].courseCode); // Add course to recommended courses array
           }
         }
     }
-    props.setCareerRecommended(recCourses);
-    
-    history.push({
+    props.setCareerRecommended(recCourses); // Set global state of recommended courses based on career
+
+    // Route user to courses page
+    history.push({ 
       pathname: '/courses'
     })
 
