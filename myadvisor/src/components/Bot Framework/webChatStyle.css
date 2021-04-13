@@ -1,0 +1,16 @@
+.style{
+  margin: 100px auto;
+  padding: 10px;
+  overflow: scroll;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  
+    border-left-color:#0066FF;
+    border-left-style: solid;
+    border-left-width: 4px;
+    margin-left: 6px;
+        border-right-color: #2e2e2e;
+        border-right-style: solid;
+        border-right-width: 4px;
+        margin-right: 6px;
+}
