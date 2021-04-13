@@ -34,6 +34,7 @@ function Main() {
   const [show, setShow] = useState(true);
   const [progress, setProgress] = useState(0);
   const [degProgress, setDegProgress] = useState(0);
+  const [newDeg, setNewDeg] = useState(0);
   const [credits, setCredits] = useState(0);
   const [hide, setHide] = useState(false);
   const [showBackBtn, setShowBackBtn] = useState(true);
@@ -69,6 +70,10 @@ function Main() {
     setDegProgress(value);
   };
 
+  const setNewDegProg = (value) => {
+    setNewDeg(value);
+  };
+
   const setCreds = (value) => {
     setCredits(value);
   };
@@ -100,7 +105,7 @@ function Main() {
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
-      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} loading={loading} warning={warning}/> : null}
+      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} loading={loading} warning={warning} newDeg={newDeg}/> : null}
       <Switch>
         <Route
           exact
@@ -156,7 +161,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} setChosen={setChosen} showBackBtn={showBackBtn} recCourses={recCourses} careerRecCourses={careerRecCourses} chosenCourses={chosenCourses}/>
+                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} setChosen={setChosen} setNewDegProg={setNewDegProg} showBackBtn={showBackBtn} recCourses={recCourses} careerRecCourses={careerRecCourses} chosenCourses={chosenCourses} newDeg={newDeg}/>
               } else {
                 return(<Redirect to="/" />)
               }

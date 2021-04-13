@@ -15,7 +15,7 @@ function CourseNode(props) {
                           
     const onChange = (event) => {
         setSelected(!selected);
-        props.onChange(event);
+        props.onChange(event, props.course.credits);
     }
     
 
