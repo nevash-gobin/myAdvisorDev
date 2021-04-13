@@ -8,18 +8,27 @@ import "../../assets/css/Staff.css";
 
 //TABLE SETUP
 
+/*
+    columns is used to display specific columns of the data on the table.
+*/
 const columns = [
-    { dataField: 'courseCode', text: 'Course Code', csvText: 'Course Code', sort: true },
-    { dataField: 'courseTitle', text: 'Course Title', csvText: 'Course Title' },
-    { dataField: 'credits', text: 'Credits', csvText: 'Credits', sort: true },
-    { dataField: 'semester', text: 'Semester', csvText: 'Semester', sort: true },
+  { dataField: 'courseCode', text: 'Course Code', csvText: 'Course Code', sort: true },
+  { dataField: 'courseTitle', text: 'Course Title', csvText: 'Course Title' },
+  { dataField: 'credits', text: 'Credits', csvText: 'Credits', sort: true },
+  { dataField: 'semester', text: 'Semester', csvText: 'Semester', sort: true },
 ]
 
+/*
+    defaultSorted sorts the table is ascending order based on the courseCode column.
+*/
 const defaultSorted = [{
   dataField: 'courseCode',
   order: 'asec'
 }];
 
+/*
+    options is used to configure the table pagination.
+*/
 const options = {
   custom: true,
   paginationSize: 5,
@@ -34,28 +43,45 @@ const options = {
 const { SearchBar, ClearSearchButton  } = Search;
 const { ExportCSVButton } = CSVExport;
 
+/*
+    CoursesTable is a component that displays the courses in the system in a table.
+*/
 function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
 
-    //Edit Course Modal
+    /*
+        The show state is used to keep track of the visibility of the editCourses modal.
+        It's initial state is false.
+        handleShow sets the show state to true, which displays the modal.
+        handleShow sets the show state to false, which closes the modal.
+    */ 
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
+    /*
+        The row state is used to keep track of which row is currently expanded on the table
+    */    
     const [row, setRow] = useState();
 
-    //REQUESTS
-
+    /*
+        eCourse is used to set the row state and open the editCourse modal.
+    */ 
     function eCourse(row) {
       setShow(true);
       setRow(row);
     }
 
+    /*
+        dCourse is used to show show the confirmDelete course modal.
+    */ 
     function dCourse(courseCode) {
       confirmDelete(courseCode);
     }
 
-    //EXPANDED TABLE ROW
-
+    /*
+        expandRow is used to display extra information on the course of the selected row.
+        It also contains the buttons that allow the user to edit and delete the course.
+    */ 
     const expandRow = {
         onlyOneExpanding: true,
         renderer: row => (
@@ -82,7 +108,9 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
         )
     };
 
-    //TABLE
+    /*
+        ToolkitProvider is a wrapper for the BootstrapTable context and the related search, export csv and clear search react contexts.  
+    */ 
 
     const table = ({ paginationProps, paginationTableProps }) => (
         <>

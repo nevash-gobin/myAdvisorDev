@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import ProgrammesTable from './ProgrammesTable';
 
+/*
+    Programmes is a component that displays the programmes table.
+*/
 function Programmes() {
-    //Table
+    /*
+        The programmes state is used store all the programmes that will be displayed in the table.
+        The loading state is used to  keep track of getting the programmes from the server. 
+        It's initial state is true, so the table will not be displayed until the system has fetched all programmes.
+    */ 
     const [programmes, setProgrammes] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    //Get Programmes
+    /*
+        getProgrammes creates a get request to the server that gets all the programmes on the system and stores it in the programmes state.
+    */
     async function getProgrammes() {
         try {
             const res = await fetch("/programmes/all", {

@@ -3,6 +3,9 @@ import {Jumbotron, Container, Card, Row, Col} from 'react-bootstrap';
 import AdvisingWindowSettings from './SetAdvisingWindow';
 import AddAccount from './AddAccount';
 
+/*
+    Settings is a component that displays all the settings components on the system.  
+*/
 function Settings() {
     return (
         <>

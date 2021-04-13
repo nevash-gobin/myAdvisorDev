@@ -6,6 +6,9 @@ import { Modal, Tabs, Tab } from "react-bootstrap";
 
 //TABLE SETUP
 
+/*
+    columns, coursesColumns and inprogressCoursesColumns are used to display specific columns of the data on the tables.
+*/
 const columns = [
     { dataField: 'studentId', text: 'Student ID', csvText: 'Student ID', sort: true },
     { dataField: 'name', text: 'Name', csvText: 'Name', sort: true },
@@ -25,11 +28,17 @@ const inprogressCoursesColumns = [
     { dataField: 'courseTitle', text: 'Course Title', sort: true },
 ]
 
+/*
+    defaultSorted sorts the table is ascending order based on the name column.
+*/
 const defaultSorted = [{
     dataField: 'name',
     order: 'asec'
 }];
 
+/*
+    options and courseOptions is used to configure the table pagination.
+*/
 const options = {
     custom: true,
     paginationSize: 5,
@@ -50,17 +59,35 @@ const courseOptions = {
 const { SearchBar, ClearSearchButton  } = Search;
 const { ExportCSVButton } = CSVExport;
 
+/*
+    StudentsTable is a component that displays the students in the system in a table.
+*/
 function StudentsTable({students, loading}) {
-    //Modal
+    /*
+        The show state is used to keep track of the visibility of the student details modal.
+        It's initial state is false.
+        handleShow sets the show state to true, which displays the modal.
+        handleShow sets the show state to false, which closes the modal.
+    */ 
     const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
+    /*
+        The studentName state is used to store the currently selected student's name.
+        The studentCourses state is used to store the currently selected student's courses.
+        The completedCourses state is used to store the currently selected student's completed courses.
+        The inprogressCourses state is used to store the currently selected student's inprogress courses.        
+    */ 
     const [studentName, setStudentName] = useState([]);
     const [studentCourses, setStudentCourses] = useState([]);
     const [completedCourses, setCompletedCourses] = useState([]);
     const [inprogressCourses, setInprogressCourses] = useState([]);
 
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
-
+    /*
+        rowEvents is used to get the currently selected student's name and store it in the studentName state.
+        It also gets the courses of that student.
+    */
     const rowEvents = {
         onClick: (e, row, rowIndex) => {
             setStudentName(row.name);
@@ -68,7 +95,10 @@ function StudentsTable({students, loading}) {
         }
     };
 
-    //Get Student Courses
+    /*
+        getStudentCourses creates a get request to the server that gets all the courses of ths specified student.
+        It also used the getCompleted and getInprogress functions to separate the courses based on if they are inprogress or completed.
+    */
     async function getStudentCourses(studentId) {
         try {
             const res = await fetch("/transcript/courses/viewAll/" + studentId, {
@@ -111,9 +141,12 @@ function StudentsTable({students, loading}) {
 
     useEffect(() => {
         getStudentCourses();
-    }, []);    
+    }, []);   
+     
 
-    //TABLE
+    /*
+        ToolkitProvider is a wrapper for the BootstrapTable context and the related search, export csv and clear search react contexts.  
+    */ 
     const table = ({ paginationProps, paginationTableProps }) => (
         <>
             <ToolkitProvider

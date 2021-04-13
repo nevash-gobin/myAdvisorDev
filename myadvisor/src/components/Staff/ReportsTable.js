@@ -7,10 +7,18 @@ import filterFactory, { selectFilter  } from 'react-bootstrap-table2-filter';
 
 //TABLE SETUP
 
+/*
+    selectStatusOptions allows you to filter the status table column
+*/
+
 const selectStatusOptions = {
     Complete: 'Complete',
     Incomplete: 'Incomplete'
 };
+
+/*
+    selectYearOptions allows you to filter the year table column
+*/
 
 const selectYearOptions = {
     1: '1',
@@ -18,7 +26,10 @@ const selectYearOptions = {
     3: '3'
 };
 
-
+/*
+    columns is used to display specific columns of the data on the reports table.
+    It also contains code that enables the columns to be filtered.
+*/
 const columns = [
     { dataField: 'studentID', text: 'Student ID', csvText: 'Student ID', sort: true },
     { dataField: 'name', text: 'Name', csvText: 'Name', sort: true },
@@ -37,11 +48,17 @@ const columns = [
     },
 ]
 
+/*
+    defaultSorted sorts the table is ascending order based on the status column.
+*/
 const defaultSorted = [{
     dataField: 'status',
     order: 'asec'
 }];
 
+/*
+    options is used to configure the tables pagination.
+*/
 const options = {
     custom: true,
     paginationSize: 5,
@@ -53,6 +70,9 @@ const options = {
     sizePerPage: 8,
 };
 
+/*
+    selectRow allows you to select specific rows in the table.
+*/
 const selectRow = {
     mode: 'checkbox',
     clickToSelect: true
@@ -62,9 +82,14 @@ const selectRow = {
 const { SearchBar, ClearSearchButton  } = Search;
 const { ExportCSVButton } = CSVExport;
 
+/*
+    ReportsTable is a component that displays the advising sessions in a table where staff can generate reports and export them.
+*/
 function ReportsTable({sessions, loading}) {
 
-    //TABLE
+    /*
+        ToolkitProvider is a wrapper for the BootstrapTable context and the related search, export csv and clear search react contexts.  
+    */
 
     const table = ({ paginationProps, paginationTableProps }) => (
         <>
