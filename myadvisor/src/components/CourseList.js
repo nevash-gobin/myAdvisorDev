@@ -85,17 +85,19 @@ const CourseList = (props) => {
       }
     }
 
-    function onChange(event) { 
+    function onChange(event, credits) { 
       var chosenArray = props.chosenCourses;
       var clear = false;
       if (event.currentTarget.checked === true) {
         chosenArray.push(event.currentTarget.value);
+        props.setNewDegProg(props.newDeg + credits);
       }
       else {
         while (!clear) {
           var index = chosenArray.indexOf(event.currentTarget.value);
           if (index > -1) {
             chosenArray.splice(index, 1);
+            props.setNewDegProg(props.newDeg - credits);
           }
           else {
             clear = true;

@@ -42,6 +42,12 @@ export default function PermanentDrawerRight(props) {
   const classes = useStyles();
   var percentage = props.progress;
   var degPercentage = props.degProgress;
+  var newDeg = props.newDeg;
+  var difference = props.credits - newDeg;
+  if (difference < 0) {
+    difference = 0;
+  }
+  var newDegPercentage = ((newDeg / 93) * 100).toFixed(1);
 
   return (
     <div className={classes.root}>
@@ -104,17 +110,29 @@ export default function PermanentDrawerRight(props) {
         </Box>
         <br></br>
         <div className="progressBar">
-        { degPercentage === 0 ? (
+        { degPercentage === 0 && newDeg === 0 ? (
             <div className="progressContainer">
               <ProgressBar now={degPercentage} style={{fontSize:"16px", fontWeight:600, marginLeft:"20px", marginRight:"20px", height:"35px", borderRadius:"45px"}}/>
               <div class="progress-bar-title">0%</div>
             </div>
+          ) : degPercentage !== 0 && newDeg === 0 ? (
+            <ProgressBar label={`${degPercentage} %`} now={degPercentage} style={{fontSize:"16px", fontWeight:600, height:"35px",  marginLeft:"20px", marginRight:"20px", borderRadius:"45px"}}/>
+          ) : degPercentage !== 0 && newDeg !== 0 ? (
+            <ProgressBar style={{fontSize:"16px", fontWeight:600, height:"35px", borderRadius:"45px", marginLeft:"20px", marginRight:"20px"}}>
+                <ProgressBar label={`${degPercentage} %`} now={degPercentage} key={1} style={{fontSize:"16px", fontWeight:600, height:"35px", borderTopLeftRadius:"45px",  borderBottomLeftRadius:"45px"}}/>
+                <ProgressBar label={`${newDegPercentage} %`} now={newDegPercentage} key={2} style={{fontSize:"16px", fontWeight:600, height:"35px", borderTopRightRadius:"45px", borderBottomRightRadius:"45px", backgroundColor:"#adadad"}}/>
+            </ProgressBar>
           ) : (
-        <ProgressBar label={`${degPercentage} %`} now={degPercentage} style={{fontSize:"16px", fontWeight:600, marginLeft:"20px", marginRight:"20px", height:"35px", borderRadius:"45px"}}/>
-          )}
+            <ProgressBar style={{fontSize:"16px", fontWeight:600, height:"35px", borderRadius:"45px", marginLeft:"20px", marginRight:"20px"}}>
+              <ProgressBar label={`${newDegPercentage} %`} now={newDegPercentage} key={1} style={{fontSize:"16px", fontWeight:600, marginRight:"20px", height:"35px", borderRadius:"45px", backgroundColor:"#adadad"}}/>
+            </ProgressBar>
+          )
+        }
     </div>
     <Typography style={{ fontWeight: 600, fontSize: 14, marginLeft:"20px", marginRight:"20px", marginTop: "10px", textAlign: "center", fontFamily:"Epilogue"}} >{props.credits} credits remaining</Typography>
-
+    { newDeg !== 0 ? (
+      <Typography style={{ fontWeight: 600, fontSize: 14, marginLeft:"20px", marginRight:"20px", marginTop: "10px", textAlign: "center", fontFamily:"Epilogue", color:"#787878"}} >{difference} credits remaining after passing new courses</Typography>
+      ) : (null) }
 
       </Drawer>
     </div>
