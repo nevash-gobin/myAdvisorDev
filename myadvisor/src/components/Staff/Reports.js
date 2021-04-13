@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ReportsTable from './ReportsTable';
 
+/*
+    Reports is a component that displays the reports table component.
+*/
+
 function Reports() {
-    //Table
+    /*
+        The sessions state is used to store all advising sessions from students.
+        The loading state is used to  keep track of getting the courses from the server. 
+    */
     const [sessions, setSessions] = useState([
         {studentID: 816000000, name: "Jane Doe", year: 1, advisingDate: "1/1/2021", status: "Complete"},
         {studentID: 816000001, name: "John Doe", year: 2, advisingDate: "1/1/2021", status: "Complete"},
