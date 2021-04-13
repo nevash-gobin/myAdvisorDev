@@ -2,6 +2,9 @@ import React from "react";
 import NavigationBlocks from './NavigationBlocks';
 import StaffCalendar from './Calendar';
 
+/*
+    StaffDashboard is a component that displays all the NavigationBlocks and the StaffCalendar.
+*/
 function StaffDashboard() {
     return (
         <div class="container">

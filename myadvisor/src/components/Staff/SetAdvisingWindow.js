@@ -6,15 +6,32 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
+/*
+    SetAdvisingWindow is a component that is used to set the current advising window on the system.
+*/
 function SetAdvisingWindow() {
+    /*
+        notifyEdit and notifyError  is used to display a toast notifications for events.
+        notifyEdit displays a green toast and notifyError displays a red toast.
+    */    
     const notifyEdit = (text) => toast.success(text);
     const notifyError = (text) => toast.error(text);
 
+    /*
+        The validated state is used to keep track of the validity of the set advising window  form.
+        It's initial state is false.
+    */
     const [validated, setValidated] = useState(false);
+
+    /*
+        The advisingStare and advisingEnd states store when the current advising window starts and end.
+    */   
     const [advisingStart, setadvisingStart] = useState(new Date());
     const [advisingEnd, setadvisingEnd] = useState(new Date());
 
+    /*
+        HandleSubmit gets the data from the form, checks to see if it is valid, and passes it to the setWindow function.
+    */    
     const handleSubmit = (event) => {
         const form = event.currentTarget;
 
@@ -39,10 +56,11 @@ function SetAdvisingWindow() {
             setValidated(true);
             setWindow(formData);
         }
-
-        
     };
 
+    /*
+        setWindow creates a post request to the server, which sets the advising window.
+    */
     async function setWindow(data) {
         try {
           const res = await fetch("/admin/academic-advising/window", {

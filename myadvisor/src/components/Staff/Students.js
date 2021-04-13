@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import StudentsTable from './StudentsTable';
 
+/*
+    Students is a component that displays the students table component.
+*/
 function Students() {
-    //Table
+    /*
+        The students state is used store all the students that will be displayed in the table.
+        The loading state is used to  keep track of getting the students from the server. 
+        It's initial state is true, so the table will not be displayed until the system has fetched all students.
+    */ 
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    //Get Students
+    /*
+        getStudents creates a get request to the server that gets all the students on the system and stores it in the students state.
+    */
     async function getStudents() {
         try {
             const res = await fetch("/transcript/details/all", {

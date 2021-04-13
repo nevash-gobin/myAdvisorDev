@@ -5,22 +5,37 @@ import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolk
 import filterFactory, { selectFilter  } from 'react-bootstrap-table2-filter';
 import { Modal, Tabs, Tab } from "react-bootstrap";
 
+//TABLE SETUP
+
+/*
+    columns is used to display specific columns of the data on the table.
+*/
 const columns = [
     { dataField: 'name', text: 'Programme', csvText: 'name', sort: true },
 ]
 
+/*
+    selectLevelOptions allows you to filter the level table column
+*/
 const selectLevelOptions = {
     I: 'I',
     II: 'II',
     III: 'III'
 };
 
+/*
+    selectSemesterOptions allows you to filter the semester table column
+*/
 const selectSemesterOptions = {
     1: '1',
     2: '2',
     3: '3'
 };
 
+/*
+    coursesColumns is used to display specific columns of the data on the courses table in the modal.
+    It also contains code that enables the columns to be filtered.
+*/
 const coursesColumns = [
     { 
         dataField: 'level', 
@@ -44,6 +59,9 @@ const coursesColumns = [
     { dataField: 'courseTitle', text: 'Course Title', sort: true },
 ]
 
+/*
+    defaultSorted and coursesSorted sorts the tables is ascending order based on the name column and level colum respectively.
+*/
 const defaultSorted = [{
     dataField: 'name',
     order: 'asec'
@@ -54,6 +72,9 @@ const coursesSorted = [{
     order: 'asec'
 }];
 
+/*
+    options and courseOptions is used to configure the tables pagination.
+*/
 const options = {
     custom: true,
     paginationSize: 5,
@@ -73,16 +94,33 @@ const courseOptions = {
 
 const { SearchBar, ClearSearchButton  } = Search;
 
+/*
+    ProgrammesTable is a component that displays the programmes in the system in a table.
+*/
 function ProgrammesTable({programmes, loading}) {
 
-    //Modal
+    /*
+        The show state is used to keep track of the visibility of the view programme courses modal.
+        It's initial state is false.
+        handleShow sets the show state to true, which displays the modal.
+        handleShow sets the show state to false, which closes the modal.
+    */ 
     const [show, setShow] = useState(false);
-    const [programmeName, setprogrammeName] = useState([]);
-    const [programmeCourses, setProgrammeCourses] = useState([]);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
+
+    /*
+        The programmeName state is used to keep track of the selected programme name.
+        The programmeCourses state is used to store the courses of the selected programme.
+        The loadingCourses state is used to  keep track of getting the courses from the server. 
+    */    
+    const [programmeName, setprogrammeName] = useState([]);
+    const [programmeCourses, setProgrammeCourses] = useState([]);
     const [loadingCourses, setLoadingCourses] = useState(true);
 
+    /*
+        rowEvents is used to get the programme name of the selected row and get the courses of that programme.
+    */      
     const rowEvents = {
         onClick: (e, row, rowIndex) => {
             setprogrammeName(row.name);
@@ -90,7 +128,9 @@ function ProgrammesTable({programmes, loading}) {
         }
     };    
 
-    //Get Programme Courses
+    /*
+        getProgrammeCourses creates a get request to the server that gets all the courses of ths specified programme on the system and stores it in the programmeCourses state.
+    */
     async function getProgrammeCourses(id) {
         try {
             setShow(true);
@@ -110,7 +150,9 @@ function ProgrammesTable({programmes, loading}) {
         }
     }
 
-    //TABLE
+    /*
+        ToolkitProvider is a wrapper for the BootstrapTable context and the related search, export csv and clear search react contexts.  
+    */ 
     const table = ({ paginationProps, paginationTableProps }) => (
         <>
             <ToolkitProvider

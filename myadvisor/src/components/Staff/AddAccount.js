@@ -4,13 +4,32 @@ import { Button, Form, Col } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/*
+    AddAccount allows a staff member to add staff and student accounts to the system.
+*/
+
 function AddAccount() {
+    /*
+        The validated state is used to keep track of the validity of the add account form.
+        It's initial state is false.
+    */
     const [validated, setValidated] = useState(false);
+
+    /*
+        formRef is is reference to the form, which allows for the resetting of the form.
+    */
     const formRef = useRef(null);
 
+    /*
+        notifyError and notifyEdit is used to display toast notifications for events.
+        notifyError displays a red toast and notifyEdit displays a green toast.
+    */
     const notifyError = (text) => toast.error(text);
     const notifyEdit = (text) => toast.success(text);
 
+    /*
+        HandleSubmit gets the data from the form, checks to see if it is valid, and passes it to the addAccount function.
+    */
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         const url = "";
@@ -48,10 +67,9 @@ function AddAccount() {
         }
     };
 
-    const options = {
-        headers: { token: localStorage.token, "Content-Type": "application/json",}
-    };
-
+    /*
+        addAccount creates a post request to the server, which creates a new account based on the account type selected.
+    */
     async function addAccount(data, url) {
         try {
           const res = await fetch(url, {
