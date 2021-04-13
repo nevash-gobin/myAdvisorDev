@@ -7,14 +7,18 @@ class CourseDetails extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            courseCareers: []
+            courseCareers: [],
+            reqFor: []
         }
         this.getCourseCareers = this.getCourseCareers.bind(this);
         this.determineCourseCareers = this.determineCourseCareers.bind(this);
+        this.getCourseRequisitesFor = this.getCourseRequisitesFor.bind(this);
+        this.determineCourseRequisitesFor = this.determineCourseRequisitesFor.bind(this);
     }
 
     componentDidMount() {
         this.determineCourseCareers();
+        this.determineCourseRequisitesFor();
     }
 
     async getCourseCareers(id) {
@@ -27,11 +31,36 @@ class CourseDetails extends Component {
         }
     }
 
+    async getCourseRequisitesFor(courseCode) {
+        try {
+            const {data:response} = await axios.get(`/courses/prereqs/${courseCode}`) //use data destructuring to get data from the promise object
+            return response
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     async determineCourseCareers() {
         var courseCareers = [];
         courseCareers = await this.getCourseCareers(this.props.location.state.course.id);
         this.setState({
             courseCareers: courseCareers
+        });
+    }
+
+    async determineCourseRequisitesFor() {
+        var reqFor = [];
+        var reqForResponse;
+        reqForResponse = await this.getCourseRequisitesFor(this.props.location.state.course.courseCode);
+        for (var i=0; i<reqForResponse.length; i++) {
+            reqFor.push(reqForResponse[i].courseCode);
+        }
+        if (reqFor.length === 0) {
+            reqFor.push("None");
+        }
+        this.setState({
+            reqFor: reqFor
         });
     }
 
@@ -63,6 +92,17 @@ class CourseDetails extends Component {
                                 <div className="prereqs">
                                     <span className="prereq-header blue-txt">Pre-requisites: </span>
                                     <span className="prereq-courses">{prereqs()}</span>
+                                </div>
+                                <div className="reqfor">
+                                    <span className="reqfor-header blue-txt">Required for: </span>
+                                    {
+                                        Array.from({ length: this.state.reqFor.length }, (_, k) => {
+                                            if (k !== this.state.reqFor.length-1 )
+                                                return <span className="reqfor-courses">{this.state.reqFor[k]}, </span>
+                                            else 
+                                                return <span className="reqfor-courses">{this.state.reqFor[k]}</span>
+                                        }) 
+                                    }
                                 </div>
                                 <div className="career">
                                     <span className="career-header blue-txt">Career Tags: </span>

@@ -9,6 +9,9 @@ const Course = require("../models/Course");
 const Career = require("../models/Career");
 const CareerCourse = require("../models/CareerCourse");
 
+// imports sequelize module
+const Sequelize = require("sequelize");
+
 // get all courses in the database
 router.get("/all", async (req, res) => {
     try {
@@ -181,6 +184,24 @@ router.get("/careers/:id", async (req, res) => {
             }
 
             res.status(202).json(careers);
+        }
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.get("/prereqs/:id", async (req, res) => {
+    const Op = Sequelize.Op;
+    try {
+        const prereqs = await Course.findAll({where: { prerequisites: { [Op.like]: `%${req.params.id}%` }}});
+        
+        if(!prereqs) {
+            return res.status(404).send("This course is not required for any other course");
+        }
+        else {
+            res.status(202).json(prereqs);
         }
     }
     catch (err) {
