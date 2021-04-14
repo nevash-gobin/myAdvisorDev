@@ -8,8 +8,7 @@ import SessionsTable from './SessionsTable';
 function Sessions() {
     /*
         The sessions state is used store all the sessions that will be displayed in the table.
-        The loading state is used to  keep track of getting the students from the server. 
-        It's initial state is true, so the table will not be displayed until the system has fetched all students.
+        The students state is used to store all students on ths system.
     */ 
     const [sessions, setSessions] = useState([]);
     const [students, setStudents] = useState([]);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, { PaginationProvider, PaginationListStandalone } from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
@@ -6,15 +6,6 @@ import filterFactory, { selectFilter  } from 'react-bootstrap-table2-filter';
 
 
 //TABLE SETUP
-
-/*
-    selectStatusOptions allows you to filter the status table column
-*/
-
-const selectStatusOptions = {
-    Complete: 'Complete',
-    Incomplete: 'Incomplete'
-};
 
 /*
     selectYearOptions allows you to filter the year table column
@@ -33,19 +24,9 @@ const selectYearOptions = {
 const columns = [
     { dataField: 'studentID', text: 'Student ID', csvText: 'Student ID', sort: true },
     { dataField: 'name', text: 'Name', csvText: 'Name', sort: true },
-    { dataField: 'year', text: 'Year', csvText: 'Year', sort: true, 
-        formatter: cell => selectYearOptions[cell],
-        filter: selectFilter({
-            options: selectYearOptions,
-        })    
-    },
-    { dataField: 'advisingDate', text: 'Advising Date', csvText: 'Advising Date', sort: true },
-    { dataField: 'status', text: 'Status', csvText: 'Status', sort: true,
-        formatter: cell => selectStatusOptions[cell],
-        filter: selectFilter({
-            options: selectStatusOptions,
-        })    
-    },
+    { dataField: 'admitTerm', text: 'Admit Term', csvText: 'Admit Term', sort: true},
+    { dataField: 'id', text: 'Session ID', csvText: 'Session ID', sort: true },
+    { dataField: 'sessionDate', text: 'Session Date', csvText: 'Session Date', sort: true },
 ]
 
 /*
@@ -55,6 +36,7 @@ const defaultSorted = [{
     dataField: 'status',
     order: 'asec'
 }];
+
 
 /*
     options is used to configure the tables pagination.
@@ -85,7 +67,9 @@ const { ExportCSVButton } = CSVExport;
 /*
     ReportsTable is a component that displays the advising sessions in a table where staff can generate reports and export them.
 */
-function ReportsTable({sessions, loading}) {
+function ReportsTable({sessions, students}) {
+    const [loading, setLoading] = useState(true);
+    const [studentSessionsDetails, setStudentSessionsDetails] = useState([]);    
 
     /*
         ToolkitProvider is a wrapper for the BootstrapTable context and the related search, export csv and clear search react contexts.  
@@ -94,14 +78,15 @@ function ReportsTable({sessions, loading}) {
     const table = ({ paginationProps, paginationTableProps }) => (
         <>
             <ToolkitProvider
-                    keyField="studentID"
-                    data={ sessions }
+                    keyField="id"
+                    data={ studentSessionsDetails }
                     columns={ columns }
                     search
                     exportCSV={{
                       fileName: 'report.csv',
-                      onlyExportFiltered: true, 
-                      exportAll: false
+                      onlyExportFiltered: true,
+                      onlyExportSelection: true,
+                      exportAll: true
                     }}
                 >
                 {
@@ -110,7 +95,7 @@ function ReportsTable({sessions, loading}) {
                         <SearchBar { ...props.searchProps } />
                         <ClearSearchButton { ...props.searchProps } />
                         <ExportCSVButton { ...props.csvProps }>Export CSV</ExportCSVButton>
-                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } defaultSorted={ defaultSorted } filter={ filterFactory()} hover/>
+                        <BootstrapTable { ...props.baseProps } { ...paginationTableProps } selectRow={ selectRow } defaultSorted={ defaultSorted } filter={ filterFactory()} hover/>
                     </div>
                     )
                 }
@@ -118,6 +103,30 @@ function ReportsTable({sessions, loading}) {
             <PaginationListStandalone { ...paginationProps } />
         </>
     );
+
+    function studentDetails(){
+        let temp = [];
+
+        for (var i in sessions){
+            for(var j in students){
+                if(sessions[i].studentID == students[j].studentId){
+                    temp.push(Object.assign({}, students[j], sessions[i]));
+                }
+            }
+        }
+
+        setStudentSessionsDetails(temp);
+
+
+        if(temp.length != 0){
+            setLoading(false);
+        }
+        
+    };
+
+    useEffect(() => {
+        studentDetails();
+    },[sessions, students]);    
 
     return (
         <>

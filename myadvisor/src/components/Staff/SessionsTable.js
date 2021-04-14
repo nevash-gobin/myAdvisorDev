@@ -9,6 +9,7 @@ import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolk
     columns is used to display specific columns of the data on the table.
 */
 const columns = [
+    { dataField: 'id', text: 'Session ID', csvText: 'Session ID', sort: true },
     { dataField: 'studentID', text: 'Student ID', csvText: 'Student ID', sort: true },
     { dataField: 'name', text: 'Name', csvText: 'Name', sort: true },
     { dataField: 'admitTerm', text: 'Admit Term', csvText: 'Admit Term', sort: true},
@@ -53,7 +54,7 @@ function SessionsTable({sessions, students}) {
     const table = ({ paginationProps, paginationTableProps }) => (
         <>
             <ToolkitProvider
-                    keyField="studentID"
+                    keyField="id"
                     data={ studentSessionsDetails }
                     columns={ columns }
                     search
@@ -78,7 +79,7 @@ function SessionsTable({sessions, students}) {
 
     function studentDetails(){
         let temp = [];
-
+        
         for (var i in sessions){
             for(var j in students){
                 if(sessions[i].studentID == students[j].studentId){
@@ -89,15 +90,15 @@ function SessionsTable({sessions, students}) {
 
         setStudentSessionsDetails(temp);
 
-        if(temp.length != 0){
+        if(temp.length !=0 ){
             setLoading(false);
         }
-        
+
     };
 
     useEffect(() => {
         studentDetails();
-    });
+    }, [sessions, students]);
 
     return (
         <>
