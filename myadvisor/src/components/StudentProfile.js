@@ -43,20 +43,16 @@ const StudentProfile = (props) => {
                 props.setCreds(93 - details.credits); // Set credits left for degree
             }
 
-            // Programme names stored in transcript is different that what is stored in the database
-            // We are not sure what other programmes are written as in the transcript
-            if (details.degree === "Comp Science (Special) BSC S") {
-                var studentProgramme = "Computer Science (Special)"
+            var studentProgramme = props.programme; // Get student programme that they selected on Start page
 
-                // Iterate through programmes list
-                for (var i=0; i<programmes.length; i++) {
-                    if (programmes[i].name == studentProgramme) { // If student programme is in programmes list
-                        var programmeId = programmes[i].id;
-                    }
+            // Iterate through programmes list
+            for (var i=0; i<programmes.length; i++) {
+                if (programmes[i].name == studentProgramme) { // If student programme is in programmes list
+                    var programmeId = programmes[i].id;
                 }
-                if (programmeId) { 
-                    determineCourses(programmeId)
-                }
+            }
+            if (programmeId) { 
+                determineCourses(programmeId)
             }
         }
     })

@@ -44,6 +44,7 @@ function Main() {
   const [year, setYear] = useState(1); // Value of the user's current level
   const [warning, setWarning] = useState(false); // Boolean value to indicate whether or not that the user is on academic warning
   const [botButtons, setBotButtons] = useState(false); // Boolean value to indicate whether or not to show "Back to Courses" and "Finish Advising" buttons on sidebar
+  const [programme, setProgramme] = useState(null); // Store what programme a student is current doing
 
   /* Setter methods for use by the other pages */
   const setAuth = (boolean) => {
@@ -110,6 +111,10 @@ function Main() {
     setBotButtons(value);
   };
 
+  const setStudentProgramme = (value) => {
+    setProgramme(value);
+  };
+
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
@@ -155,7 +160,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses}/>
+                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -211,7 +216,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <Start {...props} setHidden={setHidden} setDegProg={setDegProg} setCreds={setCreds} setShowBack={setShowBack} setRecommended={setRecommended} setShowBotButtons={setShowBotButtons} recCourses={recCourses}/>
+                return <Start {...props} setHidden={setHidden} setDegProg={setDegProg} setCreds={setCreds} setShowBack={setShowBack} setRecommended={setRecommended} setShowBotButtons={setShowBotButtons} setStudentProgramme={setStudentProgramme} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
