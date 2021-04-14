@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../assets/css/Finish.css";
 import { useHistory } from 'react-router-dom';
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Finish = (props) => {
 
@@ -13,9 +14,21 @@ const Finish = (props) => {
         })
     }
 
-    props.setProg(100); // Set advising progress to 100%
+    useEffect(async() => {
+        props.setProg(100); // Set advising progress to 100%
+        await uploadAdvisingSession();
+    });
 
-    
+    async function uploadAdvisingSession() {
+        try {
+          const {data:response} = await axios.post(`/student/academic-advising/session/${localStorage.getItem("username")}`) //use data destructuring to get data from the promise object
+          return response
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
+ 
 
     return (
         <div className="content">
