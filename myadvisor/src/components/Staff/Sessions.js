@@ -1,18 +1,34 @@
 import React, { useState, useEffect } from "react";
-import StudentsTable from './StudentsTable';
 import {Jumbotron, Container} from 'react-bootstrap';
+import SessionsTable from './SessionsTable';
 
 /*
-    Students is a component that displays the students table component.
+    Sessions is a component that displays the sessions table component.
 */
-function Students() {
+function Sessions() {
     /*
-        The students state is used store all the students that will be displayed in the table.
+        The sessions state is used store all the sessions that will be displayed in the table.
         The loading state is used to  keep track of getting the students from the server. 
         It's initial state is true, so the table will not be displayed until the system has fetched all students.
     */ 
+    const [sessions, setSessions] = useState([]);
     const [students, setStudents] = useState([]);
-    const [loading, setLoading] = useState(true);
+
+    /*
+        getSessions creates a get request to the server that gets all the sessions on the system and stores it in the sessions state.
+    */
+    async function getSessions() {
+        try {
+            const res = await fetch("/admin/academic-advising/students/sessions", {
+            method: "GET",
+        });
+            const parseData = await res.json();
+            setSessions(parseData);
+
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
 
     /*
         getStudents creates a get request to the server that gets all the students on the system and stores it in the students state.
@@ -24,14 +40,14 @@ function Students() {
         });
             const parseData = await res.json();
             setStudents(parseData);
-            setLoading(false);
             
         } catch (err) {
             console.error(err.message);
         }
     }
-
+    
     useEffect(() => {
+        getSessions();
         getStudents();
     }, []);
     
@@ -39,7 +55,7 @@ function Students() {
         <>
             <Jumbotron fluid>
                 <Container>
-                    <h2>Students</h2>
+                    <h2>Sessions</h2>
                 </Container>
             </Jumbotron>
             <div class="container">
@@ -48,7 +64,7 @@ function Students() {
                     <div class="col-12">
                         <div class="card h-100">
                             <div class="card-body shadow-sm">
-                                <StudentsTable students={students} loading={loading} />
+                                <SessionsTable sessions={sessions} students={students}  />
                             </div>
                         </div>
                     </div>
@@ -58,4 +74,4 @@ function Students() {
     );
 }
 
-export default Students;
+export default Sessions;

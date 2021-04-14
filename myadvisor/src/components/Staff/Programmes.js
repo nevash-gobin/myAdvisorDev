@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProgrammesTable from './ProgrammesTable';
+import {Jumbotron, Container} from 'react-bootstrap';
 
 /*
     Programmes is a component that displays the programmes table.
@@ -36,6 +37,11 @@ function Programmes() {
     
     return (
         <>
+            <Jumbotron fluid>
+                <Container>
+                    <h2>Programmes</h2>
+                </Container>
+            </Jumbotron>        
             <div class="container">
                 <div class="row mt-4">
                     {/* Courses Table */}

@@ -91,3 +91,9 @@
 .rbc-event, .rbc-day-slot .rbc-background-event{
     background-color: #0d6efd;
 }
+
+.jumbotron{
+    padding-top: 0px;
+    height: 20px;
+    text-align: center;
+}

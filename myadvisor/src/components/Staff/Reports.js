@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReportsTable from './ReportsTable';
+import {Jumbotron, Container} from 'react-bootstrap';
 
 /*
     Reports is a component that displays the reports table component.
@@ -19,6 +20,11 @@ function Reports() {
 
     return (
         <>
+            <Jumbotron fluid>
+                <Container>
+                    <h2>Reports</h2>
+                </Container>
+            </Jumbotron>
             <div class="container">
                 <div class="row mt-4">
                     {/* Courses Table */}

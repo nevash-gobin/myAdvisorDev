@@ -11,8 +11,7 @@ function Settings() {
         <>
         <Jumbotron fluid>
             <Container>
-                <h1>Settings</h1>
-                <p>myAdvisor Staff Settings Page</p>
+                <h2>Settings</h2>
             </Container>
         </Jumbotron>
         

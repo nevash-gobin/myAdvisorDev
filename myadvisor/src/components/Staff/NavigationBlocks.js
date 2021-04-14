@@ -18,7 +18,7 @@ function NavigationBlocks() {
                     <NavigationBlock componentToPassDown={<BsPeopleFill/>} title={"Students"} link={"/staff/students"}/>
 
                     {/* Completed */}
-                    <NavigationBlock componentToPassDown={<HiAnnotation/>} title={"Sessions"} link={"/staff"}/>
+                    <NavigationBlock componentToPassDown={<HiAnnotation/>} title={"Sessions"} link={"/staff/sessions"}/>
 
                     {/* Reports */}
                     <NavigationBlock componentToPassDown={<HiDocumentReport/>} title={"Reports"} link={"/staff/reports"}/>

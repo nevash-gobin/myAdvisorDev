@@ -16,10 +16,10 @@ const AdvisingWindow = require('../models/AdvisingWindow');
 const Course = require("../models/Course");
 
 // save advising session
-router.all("/academic-advising/session", studentAccountVerification, async (req, res) => {
+router.post("/academic-advising/session/:studentId", studentAccountVerification, async (req, res) => {
     try {
         // get current student details
-        const student = await Student.findOne({where: {id: `${req.user}` }});
+        const student = await Student.findOne({where: {username: req.params.studentId }});
         // setup date format and get current date
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');

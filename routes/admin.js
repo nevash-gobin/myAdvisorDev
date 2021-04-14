@@ -86,7 +86,7 @@ router.post("/staff/create", staffAccountVerification, async (req, res) => {
 });
 
 // set or update advising window
-router.all("/academic-advising/window", async (req, res) => {
+router.post("/academic-advising/window", async (req, res) => {
     try {
         const {advisingStart, advisingEnd, semester} = req.body
 

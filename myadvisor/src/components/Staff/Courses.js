@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import CoursesTable from "./CoursesTable";
 import AddCourse from "./AddCourse";
+import {Jumbotron, Container} from 'react-bootstrap';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -110,6 +111,11 @@ function Courses() {
 
     return (
         <>
+            <Jumbotron fluid>
+                <Container>
+                    <h2>Courses</h2>
+                </Container>
+            </Jumbotron>
             <div class="container">
                 <div class="row mt-4">
                     {/* Courses Table */}
