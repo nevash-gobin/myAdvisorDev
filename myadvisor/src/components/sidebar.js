@@ -93,13 +93,16 @@ export default function PermanentDrawerRight(props) {
         <Link to="/courses">
           <Button className="blue-btn">Begin Advising</Button> 
         </Link>
-      ) : props.show && degPercentage!==0 && props.loading ? (
+      ) : props.show && degPercentage!==0 && percentage !==0 && props.loading ? (
         <div>
           <CircularProgress className="circ-prog" size={30}/>
           <Button style={{color:"#A9A7A7", fontWeight:600, backgroundColor:"#E6E6E6", borderColor:"#E6E6E6"}}>Begin Advising</Button>
           <p className="prog-status">Processing your courses...</p> 
         </div>
-      ) :  (null) 
+      ) :  props.show && degPercentage!==0 && percentage ===0 && props.loading ? (
+        <div>
+          <Button style={{color:"#A9A7A7", fontWeight:600, backgroundColor:"#E6E6E6", borderColor:"#E6E6E6"}}>Begin Advising</Button>
+        </div> ) : (null) 
         }
     </div>
     
