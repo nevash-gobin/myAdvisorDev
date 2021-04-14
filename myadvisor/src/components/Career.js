@@ -18,10 +18,10 @@ const Career = (props) => {
   props.setDisplay(false); // Indicate that to hide the "Begin Advising" button on the sidebar
   props.setProg(40); // Set advising progress to 40%
 
-  // If the user's recommended courses has been lost, redirect to student details page to generate them again
+  // If the user's recommended courses has been lost, redirect to start page to generate them again
   if (props.recCourses === null) { 
     history.push({
-      pathname: '/home'
+      pathname: '/start'
     })
   }
 

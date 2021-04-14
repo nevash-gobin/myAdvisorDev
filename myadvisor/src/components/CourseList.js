@@ -22,9 +22,9 @@ const CourseList = (props) => {
     if (props.recCourses) { // If user's recommended courses have been generated from student details page
       recCourses = props.recCourses;
     }
-    else { // If the user's recommended courses has been lost, redirect to student details page to generate them again
+    else { // If the user's recommended courses has been lost, redirect to start page to generate them again
       history.push({
-        pathname: '/home'
+        pathname: '/start'
       })
     }
 
@@ -198,7 +198,7 @@ const CourseList = (props) => {
                         </Link>
                       </div>          
                       <div className="col-sm-2 offset-sm-8">
-                      <Link to="/bot">
+                      <Link to="/almostdone">
                         <button type="submit" class="btn btn-custom next-button blue-button">Next</button>
                         </Link>
                       </div>
@@ -206,7 +206,7 @@ const CourseList = (props) => {
                 ) : (
                   <div className="row button-row">        
                       <div className="col-sm-2 offset-sm-8">
-                        <Link to="/bot">
+                        <Link to="/almostdone">
                           <button type="submit" class="btn btn-custom next-button blue-button">Next</button>
                         </Link>
                       </div>
