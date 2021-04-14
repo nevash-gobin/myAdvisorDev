@@ -6,6 +6,9 @@ import { BsPeopleFill, BsFillLayersFill, BsPersonFill } from "react-icons/bs";
 import { HiDocumentReport, HiAnnotation, HiArchive, HiCollection } from "react-icons/hi";
 import { FaWrench } from "react-icons/fa";
 
+/*
+    NavigationBlocks is used to create all the navigation blocks on the staff dashboard.
+*/
 function NavigationBlocks() {
     return (
         <IconContext.Provider value={{ color: "#2196F3", className: "nav-block-icon", size: 50 }}>

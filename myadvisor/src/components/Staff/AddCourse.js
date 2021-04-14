@@ -4,12 +4,25 @@ import { Button, Form, Col } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/*
+    AddCourse allows a staff member to add courses to the system.
+*/
+
 function AddCourse({setShow, refreshTable}) {
+    /*
+        The validated state is used to keep track of the validity of the add course form.
+        It's initial state is false.
+    */    
     const [validated, setValidated] = useState(false);
 
-    //Toast
+    /*
+        notifyAdded is used to display toast notifications for events. It displays a green toast.
+    */    
     const notifyAdded = (text) => toast.success(text);
 
+    /*
+        HandleSubmit gets the data from the form as passes it to the addCourse function.
+    */    
     const handleSubmit = (event) => {
         const form = event.currentTarget;
 
@@ -38,7 +51,9 @@ function AddCourse({setShow, refreshTable}) {
         addCourse(formData)
     };
 
-
+    /*
+        addCourse creates a post request to the server, which adds a new course to the system.
+    */
     async function addCourse(data) {
         try {
           const res = await fetch("/courses/add", {

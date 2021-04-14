@@ -4,12 +4,25 @@ import { Button, Form, Col } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/*
+    EditCourse allows staff to edit courses on the system.
+*/
+
 function EditCourse({setShow, row, refreshTable}) {
+    /*
+        The validated state is used to keep track of the validity of the editCourse form.
+        It's initial state is false.
+    */    
     const [validated, setValidated] = useState(false);
 
-    //Toast
+    /*
+        notifyEdit is used to display toast notifications when the course is edited. It displays a green toast.
+    */
     const notifyEdit = (text) => toast.success(text);
 
+    /*
+        HandleSubmit gets the data from the form and passes it to the editCourse function.
+    */    
     const handleSubmit = (event) => {
         const form = event.currentTarget;
 
@@ -35,6 +48,9 @@ function EditCourse({setShow, row, refreshTable}) {
         editCourse(formData, row.courseCode)
     };
 
+    /*
+        addAccount creates a put request to the server, which edits the specified course.
+    */    
     async function editCourse(data, code) {
         try {
           const res = await fetch("/courses/edit/" + code, {
@@ -109,7 +125,7 @@ function EditCourse({setShow, row, refreshTable}) {
 
                 <Form.Group controlId="description">
                     <Form.Label>Description</Form.Label>
-                    <Form.Control required as="textarea" rows={4} defaultValue={row.description}/>
+                    <Form.Control required as="textarea" rows={5} defaultValue={row.description}/>
                 </Form.Group>
 
                 <div class="float-right"><Button type="submit" class="btn btn-custom">Submit</Button></div>

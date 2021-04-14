@@ -3,13 +3,23 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+/*
+  momentLocalizer is a date localization adapter that is used to localize the data for the calendar component.
+*/
 const localizer = momentLocalizer(moment)
 
+/*
+  StaffCalendar is component that is displayed on the staff dashboard which shows the current advising schedule.
+*/
 function StaffCalendar () {
-
+  /*
+    The eventsList state is used to store the current academic advising window.
+  */ 
   const [eventsList, setEventsList] = useState([]);
 
-  //Get Advising Window
+  /*
+    getAdvisingWindow creates a get request to the server that gets the current advising window and stores it to the eventsList state.
+  */
   async function getAdvisingWindow() {
     try {
       const res = await fetch("/admin/academic-advising/window", {

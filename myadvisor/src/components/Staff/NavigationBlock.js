@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
+/*
+    NavigationBlock is a component that creates a single navigation block on the dashboard based on information passed to it.
+    It allows you to navigate to other components.
+*/
 function NavigationBlock({title, componentToPassDown, link}) {
     return (
         <div class="col">
