@@ -11,61 +11,53 @@ import axios from "axios"
 
 const StudentProfile = (props) => {
 
-    const [uploaded, setUploaded] = useState(true);
-    const [processed, setProcessed] = useState(false);
+    const [uploaded, setUploaded] = useState(true); // Boolean value to indicate whether or not a transcript has been uploaded
+    const [processed, setProcessed] = useState(false); // Boolean value to indicate whether or not the recommended courses have been finished generating
    
 
-
+    // Function to refresh page once a transcript has been uploaded
     function uploadedHandler() {
         window.location.reload();
     }
 
-    var details = PullDetails(localStorage.getItem("username"));
-    var studentCourses = PullStudentCourses(localStorage.getItem("username"));
-    var programmes = PullProgrammes();
+    var details = PullDetails(localStorage.getItem("username")); // Get student details from database
+    var studentCourses = PullStudentCourses(localStorage.getItem("username")); // Get student courses from database
+    var programmes = PullProgrammes(); // Get list of all degree programmes from database
  
     useEffect(() => {
-        props.setDisplay(true);
-        props.setHidden(false);
-        if (!processed) {
-            if (details.gpa < 2.0 && details.gpa != 0) {
-                props.setAcWarning(true);
+        props.setDisplay(true); // Show the "Begin Advising" button on the sidebar
+        props.setHidden(false); // Unhide the sidebar
+        props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
+        if (!processed) { // If the student's transcript hasn't been processed as yet
+            if (details.gpa < 2.0 && details.gpa != 0) { // If the student's gpa is less than 2 and not 0 (0 means their GPA hasn't been calculated by UWI yet)
+                props.setAcWarning(true); // Indicate that they are on academic warning
             }
-            if (details.length === 0) {
-                setUploaded(false);
-                props.setDegProg(0);
-                props.setCreds(93);
+            if (details.length === 0) { // If nothing was pulled from the student's details
+                setUploaded(false); // Indicate that the user has not uploaded their transcript
+                props.setDegProg(0); // Set degree progress to 0%
+                props.setCreds(93); // Set remaining credits left for degree to 93
             }
             else {
-                setUploaded(true);
-                props.setDegProg(details.progress);
-                props.setCreds(93 - details.credits);
+                setUploaded(true); // Indicate that the user has uploaded their transcript
+                props.setDegProg(details.progress); // Set degree progress
+                props.setCreds(93 - details.credits); // Set credits left for degree
             }
-            if (details.degree === "Comp Science (Special) BSC S") {
-                var studentProgramme = "Computer Science (Special)"
-                for (var i=0; i<programmes.length; i++) {
-                    if (programmes[i].name == studentProgramme) {
-                        var programmeId = programmes[i].id;
-                    }
+
+            var studentProgramme = props.programme; // Get student programme that they selected on Start page
+
+            // Iterate through programmes list
+            for (var i=0; i<programmes.length; i++) {
+                if (programmes[i].name == studentProgramme) { // If student programme is in programmes list
+                    var programmeId = programmes[i].id;
                 }
-                if (programmeId) {
-                    determineCourses(programmeId)
-                }
+            }
+            if (programmeId) { 
+                determineCourses(programmeId)
             }
         }
     })
 
-    async function getCourses() {
-        try {
-          const {data:response} = await axios.get('/courses/all') //use data destructuring to get data from the promise object
-          return response
-        }
-    
-        catch (error) {
-          console.log(error);
-        }
-    }
-
+    // Function to fetch courses that are associated with a given programme
     async function getProgrammeCourses(id) {
         try {
           const {data:response} = await axios.get(`/programmes/offered-courses/${id}`) //use data destructuring to get data from the promise object
@@ -77,19 +69,24 @@ const StudentProfile = (props) => {
         }
     }
 
+    // Grades which do not give credits
     let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "FM", "FMS", "FWR", "I", "LW", "NCR", "NFC", "NP", "NR", "NV", "W"]
 
-    
+    // Function to split courses by semester and level
     function splitBySem(coreRes, courses) {
         var semesterArr = [[]];
+
+        // Iterate through programme courses
         for (var key in coreRes) {
+
+            // Iterate through student courses
             for (var i=0; i<courses.length; i++) {
-                if (key === courses[i].courseCode) {
-                    if ((courses[i].semester === "1" && courses[i].level === "I")) {
-                        if (!semesterArr[0]) {
+                if (key === courses[i].courseCode) { // If programme course is in courses array
+                    if ((courses[i].semester === "1" && courses[i].level === "I")) { // If Year 1, Semester 1 course
+                        if (!semesterArr[0]) { // Initialise 2D array
                             semesterArr[0] = [];
                         }
-                        semesterArr[0].push({
+                        semesterArr[0].push({ // Push course code and student grade into array
                             courseCode: key,
                             grade: coreRes[key]
                         });
@@ -151,6 +148,7 @@ const StudentProfile = (props) => {
         return semesterArr;
     }
 
+    // Function to get all core courses from programme courses
     function getCoreCourses(courses) {
         var core = [];
         for (var i=0; i<courses.length; i++) {
@@ -258,23 +256,26 @@ const StudentProfile = (props) => {
         return recCourses;
     }
 
+    // Function to remove courses from recommended courses list if the student does not satisfy the prerequisites
     function removeCoursesNoPrereq(recCourses, courses, studentCourses) {
         var index;
+
+        // Iterate through programme courses
         for (var i=0; i<courses.length; i++) {
-            if(recCourses.includes(courses[i].courseCode)) {
-                var prereq = courses[i].prerequisites;
-                if (prereq.length === 8) {
-                    if (!(studentCourses[prereq] === "P")) {
-                        index = recCourses.indexOf(courses[i].courseCode);
-                            if (index > -1) {
-                                recCourses.splice(index, 1);
+            if(recCourses.includes(courses[i].courseCode)) { // If course is being recommended
+                var prereq = courses[i].prerequisites; // Store course prerequisites
+                if (prereq.length === 8) { // If course only has 1 prerequisite
+                    if (!(studentCourses[prereq] === "P")) { // If the student didn't pass the course
+                        index = recCourses.indexOf(courses[i].courseCode); // Find index of course in recCourses array
+                            if (index > -1) { // If index was found
+                                recCourses.splice(index, 1); // Remove course from recCourses array
                             }
                     }
                 }
-                if (prereq.length > 8) {
-                    var prereq1 = prereq.slice(0, 8);
-                    var prereq2 = prereq.slice(-8);
-                    if (prereq.charAt(9) === "|") {
+                if (prereq.length > 8) { // If course has 2 prerequisites or an alternative prerequisite
+                    var prereq1 = prereq.slice(0, 8); // Get 1st prereq
+                    var prereq2 = prereq.slice(-8); // Get 2nd prereq
+                    if (prereq.charAt(9) === "|") { // If the prereqs have OR condition
                         if (!((studentCourses[prereq1] === "P") || (studentCourses[prereq2] === "P"))) {
                             index = recCourses.indexOf(courses[i].courseCode);
                             if (index > -1) {
@@ -282,7 +283,7 @@ const StudentProfile = (props) => {
                             }
                         }
                     }
-                    if (prereq.charAt(9) === "&") {
+                    if (prereq.charAt(9) === "&") { // If the prereqs have AND condition
                         if (!((studentCourses[prereq1] === "P") && (studentCourses[prereq2] === "P"))) {
                             index = recCourses.indexOf(courses[i].courseCode);
                             if (index > -1) {
@@ -295,6 +296,7 @@ const StudentProfile = (props) => {
         }
     }
 
+    // Function to indicate is a student passed, failed, didn't do a course or is in progress
     function determineStudentCourses(core) {
         var coreRes = {};
         for (var i=0; i<core.length; i++){
@@ -318,6 +320,7 @@ const StudentProfile = (props) => {
         return coreRes;
     }
 
+    // Function to determine the recommended courses
     async function determineCourses(programmeId){
         
         let Y1S1 = {}; // List of all courses for Year 1 Semester 1
@@ -326,13 +329,12 @@ const StudentProfile = (props) => {
         let Y2S2 = {}; // List of all courses for Year 2 Semester 2
         let Y3S1 = {}; // List of all courses for Year 3 Semester 1
         let Y3S2 = {}; // List of all courses for Year 3 Semester 2
-        var programmeCourses = {};
-        var semesterArr = [];
-        var coreSemesterArr = [];
-        var today = new Date();
-        var currentSem;
+        var programmeCourses = {}; // Dictionary to store all programme courses
+        var semesterArr = []; // Array to store courses by semester
+        var coreSemesterArr = []; // Array to store core courses by semester
+        var today = new Date(); // Today's date
+        var currentSem; // Value to store current semester
 
-        //var courses = await getCourses();
         var courses = await getProgrammeCourses(programmeId);
 
         
@@ -363,10 +365,10 @@ const StudentProfile = (props) => {
             }
         }
 
-        programmeCourses = determineStudentCourses(courses);
-        semesterArr = splitBySem(programmeCourses, courses);
-        var coreCourses = getCoreCourses(courses);
-        coreSemesterArr = splitBySem(programmeCourses, coreCourses);
+        programmeCourses = determineStudentCourses(courses); // Determine what courses a student failed, passed, didnt do or is in progress
+        semesterArr = splitBySem(programmeCourses, courses); // Split courses by semester
+        var coreCourses = getCoreCourses(courses); // Get core courses
+        coreSemesterArr = splitBySem(programmeCourses, coreCourses); // Split core courses by semester
 
         var recCourses = [];
         var counter = 0;
@@ -374,7 +376,7 @@ const StudentProfile = (props) => {
         var sem = 1;
         var key;
 
-        
+
         Y1S1 = semesterArr[0];
         Y1S2 = semesterArr[1];
         Y2S1 = semesterArr[2];
@@ -383,6 +385,7 @@ const StudentProfile = (props) => {
         Y3S2 = semesterArr[5];
 
         counter = 0;
+        // If a student passed, failed or the course is in progress, assume that the student is in the next semester
         for (key in Y1S1) {
             if (Y1S1[key].grade === "P" || Y1S1[key].grade === "F" || Y1S1[key].grade === "IP") {
                 counter+=1;
@@ -438,16 +441,17 @@ const StudentProfile = (props) => {
             }
         }
 
-        if (today.getMonth() < 4) {
+        if (today.getMonth() < 4) { // If the date is currently between January and April
             currentSem = 2;
         }
-        else if (today.getMonth() < 6) {
+        else if (today.getMonth() < 6) { // If the date is currently between May and July
             currentSem = 3;
         }
-        else {
+        else { // If the date is currently between August and December
             currentSem = 1;
         }
 
+        // Recommended courses based on current year and semester if the student has not done the course yet
         if (year === 1 && currentSem === 1) {
             for (key in Y1S1) {
                 if (Y1S1[key].grade === "N") {
@@ -490,7 +494,7 @@ const StudentProfile = (props) => {
                 }
             }
         }
-
+        
         recCourses = recommendCoreCourses(coreSemesterArr, year, currentSem, recCourses);
         removeCoursesNoPrereq(recCourses, courses, programmeCourses);
         props.setRecommended(recCourses);

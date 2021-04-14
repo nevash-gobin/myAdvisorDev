@@ -6,67 +6,61 @@ class DetailsCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            file: null,
-            data: null,
-            editing: false
+            file: null, // Store file uploaded by user
+            editing: false // Boolean to determine if the user is reuploading their transcript or not
         }
-       props.setProg(20);
+       props.setProg(20); // Set degree progress to 20%
     }
 
-    handleFiles = files => {
-        console.log(files[0])
-        this.setState({
-            file: files[0]
-        });
-        
-    }
-
+    // Function that runs when the user clicks to re-upload their transcript or to cancel re-upload
     editingHandler = () => {
         this.setState({
             editing: !this.state.editing
         });
     }
 
+    // Function that runs when the user uploads a file
     onChangeHandler = event =>{
         this.setState({
             file: event.target.files[0]
         })
     }
 
+    // Functions that runs when the user clicks the "Upload" button
     onClickHandler = () => {
         var formdata = new FormData();
-        if (this.state.file === null) {
+        if (this.state.file === null) { // If no file has been uploaded, do nothing
             return;
         }
-        formdata.append("file", this.state.file, "[PROXY]");
+        formdata.append("file", this.state.file, "[PROXY]"); // Add file to FormData object, Proxy is only used in development to connect to node server
         
-        var requestOptions = {
+        var requestOptions = { // Create DELETE request
           method: 'DELETE',
           redirect: 'follow'
         };
 
-        var studentId = localStorage.getItem("username");
+        var studentId = localStorage.getItem("username"); // Get username from localStorage
 
-        toast.success("Processing transcript...")
+        toast.success("Processing transcript...") // Make toast to let user know their transcript is being processed
         
-        fetch(`/transcript/courses/deleteAll/${studentId}`, requestOptions)
+        fetch(`/transcript/courses/deleteAll/${studentId}`, requestOptions) // Make request to server to delete all of a student's related courses from the database
             .then(response => response.text())
             .then(result => console.log(result))
             .then(result => {
-                fetch(`/transcript/details/delete/${studentId}`, requestOptions)
+                fetch(`/transcript/details/delete/${studentId}`, requestOptions) // Then make request to server to delete all of a student's details from the database
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .then(result => {
-                        var requestOptions = {
+                        var requestOptions = { // Create POST request
                             method: 'POST',
                             body: formdata,
                             redirect: 'follow'
                         };
             
-                        fetch("/transcript/parseForm", requestOptions)
+                        fetch("/transcript/parseForm", requestOptions) // Then make request to server to parse transcript, upload student details and thier courses to the database
                             .then(response => response.text())
                             .then(result => console.log(result))
-                            .then(result => this.props.uploadedHandler())
+                            .then(result => this.props.uploadedHandler()) // Once the data has been saved to the database, run uploadedHandler from StudentProfile
                             .catch(error => console.log('error', error));        
                     })
                     .catch(error => console.log('error', error));        
