@@ -39,6 +39,7 @@ const CourseList = (props) => {
       props.setProg(60); // Set advising progress to 60%
       props.setHidden(false); // Indicate that to not hide the back button
       props.setDisplay(false); // Indicate that to hide the "Begin Advising" button on the sidebar
+      props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
     })
 
     // Function that runs when the "All Courses" tab is clicked

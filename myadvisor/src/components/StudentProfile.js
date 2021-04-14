@@ -27,6 +27,7 @@ const StudentProfile = (props) => {
     useEffect(() => {
         props.setDisplay(true); // Show the "Begin Advising" button on the sidebar
         props.setHidden(false); // Unhide the sidebar
+        props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
         if (!processed) { // If the student's transcript hasn't been processed as yet
             if (details.gpa < 2.0 && details.gpa != 0) { // If the student's gpa is less than 2 and not 0 (0 means their GPA hasn't been calculated by UWI yet)
                 props.setAcWarning(true); // Indicate that they are on academic warning

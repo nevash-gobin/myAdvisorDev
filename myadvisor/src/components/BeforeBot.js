@@ -1,9 +1,19 @@
 import React, { Component } from "react";
 import "../assets/css/Finish.css";
 import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
-class BeforeBot extends Component {
-  render() {
+const BeforeBot = (props) => {
+
+    const history = useHistory(); // Used to redirect to a new path without losing state values
+
+    function onClickHandler() {
+        props.setShowBotButtons(true); // Show "Back to courses" and "Finish advising" buttons on sidebar
+        history.push({
+            pathname: '/bot'
+        })
+    }
+
     return (
       <div className="content">
             <div className="container-fluid">
@@ -15,9 +25,7 @@ class BeforeBot extends Component {
                                 <p className="almost-text">Would you like to talk to the myAdvisor chatbot for any additional questions?</p>
                                 <div className="row">
                                     <div className="col-sm-6">
-                                        <Link to="/bot">
-                                            <button type="submit" class="btn btn-custom blue-button">Yes, I would like to talk to the bot</button>
-                                        </Link>
+                                        <button type="button" class="btn btn-custom blue-button" onClick={onClickHandler}>Yes, I would like to talk to the bot</button>
                                     </div>
                                     <div className="col-sm-6">
                                         <Link to="/finish">
@@ -32,7 +40,6 @@ class BeforeBot extends Component {
             </div>
       </div>
     );
-  }
 }
 
 export default BeforeBot;

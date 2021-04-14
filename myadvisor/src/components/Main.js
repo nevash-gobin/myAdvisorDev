@@ -43,6 +43,7 @@ function Main() {
   const [loading, setLoading] = useState(true); // Boolean value to determine whether or not to show a loading circle on the sidebar
   const [year, setYear] = useState(1); // Value of the user's current level
   const [warning, setWarning] = useState(false); // Boolean value to indicate whether or not that the user is on academic warning
+  const [botButtons, setBotButtons] = useState(false); // Boolean value to indicate whether or not to show "Back to Courses" and "Finish Advising" buttons on sidebar
 
   /* Setter methods for use by the other pages */
   const setAuth = (boolean) => {
@@ -105,10 +106,14 @@ function Main() {
     setChosenCourses(value);
   };
 
+  const setShowBotButtons = (value) => {
+    setBotButtons(value);
+  };
+
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
-      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} loading={loading} warning={warning} newDeg={newDeg}/> : null}
+      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} setShowBotButtons={setShowBotButtons} loading={loading} warning={warning} newDeg={newDeg} botButtons={botButtons}/> : null}
       <Switch>
         <Route
           exact
@@ -150,7 +155,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} recCourses={recCourses}/>
+                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -164,7 +169,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} setChosen={setChosen} setNewDegProg={setNewDegProg} showBackBtn={showBackBtn} recCourses={recCourses} careerRecCourses={careerRecCourses} chosenCourses={chosenCourses} newDeg={newDeg}/>
+                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} setChosen={setChosen} setNewDegProg={setNewDegProg} showBackBtn={showBackBtn} setShowBotButtons={setShowBotButtons} recCourses={recCourses} careerRecCourses={careerRecCourses} chosenCourses={chosenCourses} newDeg={newDeg}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -206,7 +211,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <Start {...props} setHidden={setHidden} setDegProg={setDegProg} setCreds={setCreds} setShowBack={setShowBack} setRecommended={setRecommended} recCourses={recCourses}/>
+                return <Start {...props} setHidden={setHidden} setDegProg={setDegProg} setCreds={setCreds} setShowBack={setShowBack} setRecommended={setRecommended} setShowBotButtons={setShowBotButtons} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -220,7 +225,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <BeforeBot />
+                return <BeforeBot setShowBotButtons={setShowBotButtons}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -234,7 +239,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user=="student"){
-                return <Finish chosenCourses={chosenCourses} setProg={setProg}/>
+                return <Finish chosenCourses={chosenCourses} setProg={setProg} setShowBotButtons={setShowBotButtons}/>
               } else {
                 return(<Redirect to="/" />)
               }

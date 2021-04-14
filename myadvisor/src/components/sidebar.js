@@ -104,6 +104,18 @@ export default function PermanentDrawerRight(props) {
           <Button style={{color:"#A9A7A7", fontWeight:600, backgroundColor:"#E6E6E6", borderColor:"#E6E6E6"}}>Begin Advising</Button>
         </div> ) : (null) 
         }
+        {
+        props.botButtons ? (
+          <div>
+            <Link to="/courses">
+              <Button className="blue-btn" style={{marginBottom: "15px"}}>Back to Courses</Button> 
+            </Link>
+            <Link to="/finish">
+              <Button className="blue-btn">Finish Advising</Button> 
+            </Link>
+          </div>
+        ) : (null)
+        }
     </div>
     
         

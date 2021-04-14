@@ -14,6 +14,7 @@ const Start = (props) => {
     const [loading, setLoading] = useState(false); // Boolean used to indicate whether or not the recommended courses for the user has been generated
 
     props.setHidden(true); // Hide the sidebar
+    props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
     var programmes = PullProgrammes(); // Get all degree programmes from the database
 
     const history = useHistory(); // Used to redirect to a new path without losing state values
