@@ -7,6 +7,8 @@ import CourseList from './CourseList';
 import CourseDetails from './CourseDetails';
 import Career from './Career';
 import Start from './Start';
+import BeforeBot from './BeforeBot';
+import Finish from './Finish';
 import PermanentDrawerRight from "./sidebar";
 
 //Staff Imports
@@ -210,7 +212,35 @@ function Main() {
               }
             }
           }
-        />   
+        />
+
+        <Route
+          exact
+          path="/almostdone"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="student"){
+                return <BeforeBot />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />
+
+        <Route
+          exact
+          path="/finish"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="student"){
+                return <Finish chosenCourses={chosenCourses} setProg={setProg}/>
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />    
 
         {/*Bot Route*/}
         <Route
