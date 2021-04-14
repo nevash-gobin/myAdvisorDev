@@ -14,10 +14,10 @@ const Student = require("../models/Student");
 const AdvisingSession = require("../models/AdvisingSession");
 
 // save advising session
-router.post("/academic-advising/session", studentAccountVerification, async (req, res) => {
+router.post("/academic-advising/session/:studentId", studentAccountVerification, async (req, res) => {
     try {
         // get current student details
-        const student = await Student.findOne({where: {id: `${req.user}` }});
+        const student = await Student.findOne({where: {username: req.params.studentId }});
 
         // setup date format and get current date
         var today = new Date();

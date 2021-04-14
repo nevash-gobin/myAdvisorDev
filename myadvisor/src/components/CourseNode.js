@@ -3,19 +3,22 @@ import { useHistory } from 'react-router-dom'
 import { useEffect, useState } from "react";
 
 function CourseNode(props) {
-    const history = useHistory();
-    const [selected, setSelected] = useState(false);
+    const history = useHistory(); // Used to redirect to a new path without losing state values
+    const [selected, setSelected] = useState(false); // State used to rerender the view
 
+    // Function that runs when the user clicks on a course
     const onClickFunction = () => {
+        // Reroute user to course details page
         history.push({
             pathname: `/coursedetails`,
             state: { course: props.course }
           })
     }
-                          
+    
+    // Function that runs when the user checks or unchecks the checkbox
     const onChange = (event) => {
         setSelected(!selected);
-        props.onChange(event, props.course.credits);
+        props.onChange(event, props.course.credits); // Run the onChange function from CourseList
     }
     
 

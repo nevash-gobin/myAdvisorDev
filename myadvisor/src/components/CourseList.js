@@ -7,36 +7,28 @@ import CourseDetails from "./CourseDetails";
 import { Link } from 'react-router-dom'
 
 const CourseList = (props) => { 
-    const [clicked, setClicked] = useState(false);
-    const [course, setCourse] = useState(null);
-    const [all, setAll] = useState(true);
-    const [core, setCore] = useState(false);
-    const [career, setCareer] = useState(false);
-    const [chosen, setChosen] = useState(false);
-    const [chosenList, setChosenList] = useState([]);
+    const [all, setAll] = useState(true); // Boolean value used to determine whether or not to show all recommended courses
+    const [core, setCore] = useState(false); // Boolean value used to determine whether or not to show all core courses for that semester and level
+    const [career, setCareer] = useState(false); // Boolean value used to determine whether or not to show all recommended courses with career tags based on what the usere chose in the career page
+    const [chosen, setChosen] = useState(false); // Boolean value used to determine whether or not to show all courses that user added using the Add checkbox 
 
-    const history = useHistory();
+    const history = useHistory(); // Used to redirect to a new path without losing state values
 
-    const nodeClickHandler = (course) => {
-      setClicked(true)
-      setCourse(course)
-    }
- 
-    var courses = PullCourses();
+    var courses = PullCourses(); // Retrieve all courses from the database
 
-    let recCourses = undefined;
-    let careerRecCourses = undefined;
+    let recCourses = undefined; // Variable to store recommended courses determined on StudentProfile.js
+    let careerRecCourses = undefined; // Variable to store recommended courses based on careers chosen determined on Career.js
     
-    if (props.recCourses) {
+    if (props.recCourses) { // If user's recommended courses have been generated from student details page
       recCourses = props.recCourses;
     }
-    else {
+    else { // If the user's recommended courses has been lost, redirect to start page to generate them again
       history.push({
-        pathname: '/home'
+        pathname: '/start'
       })
     }
 
-    if (props.careerRecCourses) {
+    if (props.careerRecCourses) { // If user's recommended courses based on careers chosen have been generated
       careerRecCourses = props.careerRecCourses;
     }
     else {
@@ -44,13 +36,14 @@ const CourseList = (props) => {
     }
 
     useEffect(() => {
-      props.setProg(60);
-      props.setHidden(false);
-      props.setDisplay(false);
+      props.setProg(60); // Set advising progress to 60%
+      props.setHidden(false); // Indicate that to not hide the back button
+      props.setDisplay(false); // Indicate that to hide the "Begin Advising" button on the sidebar
     })
 
+    // Function that runs when the "All Courses" tab is clicked
     function allClick() {
-      if (core || career || chosen) {
+      if (core || career || chosen) { // If any other tab is currently open, set them to false and show all courses
         setAll(true);
         setCore(false);
         setCareer(false);
@@ -58,8 +51,9 @@ const CourseList = (props) => {
       }
     }
 
+    // Function that runs when the "Core Courses" tab is clicked
     function coreClick() {
-      if (all || career || chosen) {
+      if (all || career || chosen) { // If any other tab is currently open, set them to false and show core courses
         setAll(false);
         setCore(true);
         setCareer(false);
@@ -67,8 +61,9 @@ const CourseList = (props) => {
       }
     }
 
+    // Function that runs when the "Career Specific Courses" tab is clicked
     function careerClick() {
-      if (core || all || chosen) {
+      if (core || all || chosen) { // If any other tab is currently open, set them to false and show career specific courses
         setAll(false);
         setCore(false);
         setCareer(true);
@@ -76,8 +71,9 @@ const CourseList = (props) => {
       }
     }
 
+    // Function that runs when the "Your Chosen Courses" tab is clicked
     function chosenClick() {
-      if (core || all || career) {
+      if (core || all || career) { // If any other tab is currently open, set them to false and show user's chosen courses
         setAll(false);
         setCore(false);
         setCareer(false);
@@ -85,27 +81,27 @@ const CourseList = (props) => {
       }
     }
 
+    // Function that runs when the Add checkbox is checked or unchecked
     function onChange(event, credits) { 
       var chosenArray = props.chosenCourses;
-      var clear = false;
-      if (event.currentTarget.checked === true) {
-        chosenArray.push(event.currentTarget.value);
-        props.setNewDegProg(props.newDeg + credits);
+      var clear = false; // Boolean value to indicate if chosenArray has multiple copies of a chosen course
+      if (event.currentTarget.checked === true) { // If the checkbox was checked
+        chosenArray.push(event.currentTarget.value); // Add course to chosenArray
+        props.setNewDegProg(props.newDeg + credits); // Add the course credits the new degree progress
       }
-      else {
-        while (!clear) {
-          var index = chosenArray.indexOf(event.currentTarget.value);
-          if (index > -1) {
-            chosenArray.splice(index, 1);
-            props.setNewDegProg(props.newDeg - credits);
+      else { // If the checkbox was unchecked
+        while (!clear) { // While there is multiple copies of a chosen course in chosenArray
+          var index = chosenArray.indexOf(event.currentTarget.value); // Find index of the course that was unchecked
+          if (index > -1) { // If the course was in the array
+            chosenArray.splice(index, 1); // Remove course from the array
+            props.setNewDegProg(props.newDeg - credits); // Remove the course credits from the new degree progress
           }
-          else {
+          else { // If the course was not in the array
             clear = true;
           }
         }
         clear = false;
       }
-      setChosenList(chosenArray);
       props.setChosen(chosenArray);
     }
 
@@ -167,25 +163,25 @@ const CourseList = (props) => {
                               all ? (
                               Array.from({ length: courses.length }, (_, k) => {
                                 if (recCourses.includes(courses[k].courseCode)) {
-                                  return <CourseNode course={courses[k]} clickHandler={nodeClickHandler} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
+                                  return <CourseNode course={courses[k]} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
                                 }
                               }) 
                               ) : core ? (
                               Array.from({ length: courses.length }, (_, k) => {
                                 if (recCourses.includes(courses[k].courseCode) && courses[k].type === "Core") {
-                                  return <CourseNode course={courses[k]} clickHandler={nodeClickHandler} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
+                                  return <CourseNode course={courses[k]} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
                                 }
                               }) 
                               ) : career ? (
                               Array.from({ length: courses.length }, (_, k) => {
                                 if (careerRecCourses.includes(courses[k].courseCode)) {
-                                  return <CourseNode course={courses[k]} clickHandler={nodeClickHandler} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
+                                  return <CourseNode course={courses[k]} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
                                 }
                               }) 
                               ) : chosen ? (
                               Array.from({ length: courses.length }, (_, k) => {
                                 if (props.chosenCourses.includes(courses[k].courseCode)) {
-                                  return <CourseNode course={courses[k]} clickHandler={nodeClickHandler} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
+                                  return <CourseNode course={courses[k]} onChange={onChange} chosen={props.chosenCourses}></CourseNode>    
                                 }
                               }) 
                               ) : (null)
@@ -202,15 +198,15 @@ const CourseList = (props) => {
                         </Link>
                       </div>          
                       <div className="col-sm-2 offset-sm-8">
-                      <Link to="/bot">
-                        <button type="submit" class="btn btn-customnext-button blue-button">Next</button>
+                      <Link to="/almostdone">
+                        <button type="submit" class="btn btn-custom next-button blue-button">Next</button>
                         </Link>
                       </div>
                   </div>
                 ) : (
                   <div className="row button-row">        
                       <div className="col-sm-2 offset-sm-8">
-                        <Link to="/bot">
+                        <Link to="/almostdone">
                           <button type="submit" class="btn btn-custom next-button blue-button">Next</button>
                         </Link>
                       </div>
