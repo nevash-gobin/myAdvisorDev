@@ -12,13 +12,14 @@ const studentAccountVerification = require("../middleware/studentAccountVerifica
 // import models
 const Student = require("../models/Student");
 const AdvisingSession = require("../models/AdvisingSession");
+const AdvisingWindow = require('../models/AdvisingWindow');
+const Course = require("../models/Course");
 
 // save advising session
-router.post("/academic-advising/session", studentAccountVerification, async (req, res) => {
+router.all("/academic-advising/session", studentAccountVerification, async (req, res) => {
     try {
         // get current student details
         const student = await Student.findOne({where: {id: `${req.user}` }});
-
         // setup date format and get current date
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
@@ -27,16 +28,39 @@ router.post("/academic-advising/session", studentAccountVerification, async (req
 
         today = yyyy + '-' + mm + '-' + dd;
 
-        await AdvisingSession.create({
-            studentID: student.username,
-            sessionDate: today
-        })
-        .then(() => {
-            return res.status(200).send("Advising Session Completed");
-        })
-        .catch(err => {
-            console.log("Error: ", err.message);
-        });
+        const session = await AdvisingSession.findOne({where: { studentID: student.username }});
+        const window = await AdvisingWindow.findOne({where: { id: 1 }});
+
+        if(today > window.advisingEnd){
+            console.log("No advising sessions open");
+            return res.status(200).send("Cannot add session outside of advising window!");
+        }
+        if(!session){
+            await AdvisingSession.create({
+                studentID: student.username,
+                sessionDate: today
+            })
+            .then(() => {
+                return res.status(200).send("Advising Session Completed");
+            })
+            .catch(err => {
+                console.log("Error: ", err.message);
+            });
+        }
+        else {
+            await session.destroy();
+
+            await AdvisingSession.create({
+                studentID: student.username,
+                sessionDate: today
+            })
+            .then(() => {
+                return res.status(200).send("Advising Session Completed");
+            })
+            .catch(err => {
+                console.log("Error: ", err.message);
+            });
+        }
     }
     catch (err) {
         console.log("Error: ", err.message);

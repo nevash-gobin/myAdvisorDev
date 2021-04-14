@@ -13,6 +13,8 @@ const staffAccountVerification = require("../middleware/staffAccountVerification
 const Student = require("../models/Student");
 const Staff = require("../models/Staff");
 const AdvisingWindow = require("../models/AdvisingWindow");
+const AdvisingSession = require("../models/AdvisingSession");
+const { response } = require("express");
 
 // add new student account
 router.post("/students/create", staffAccountVerification, async (req, res) => {
@@ -83,8 +85,8 @@ router.post("/staff/create", staffAccountVerification, async (req, res) => {
     }
 });
 
-// set advising window
-router.post("/academic-advising/window", async (req, res) => {
+// set or update advising window
+router.all("/academic-advising/window", async (req, res) => {
     try {
         const {advisingStart, advisingEnd, semester} = req.body
 
@@ -127,6 +129,19 @@ router.get("/academic-advising/window", async (req, res) => {
     try {
         const advisingWindow = await AdvisingWindow.findOne({where: { id: 1 }});
         res.status(200).json(advisingWindow);
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// get student sessions from the database
+router.get("/academic-advising/students/sessions", async (req, res) => {
+    try {
+        // get all the sessions for current advising period
+        const sessions = await AdvisingSession.findAll();
+        res.status(200).json(sessions);
     }
     catch (err) {
         console.log("Error: ", err.message);
