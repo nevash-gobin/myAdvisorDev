@@ -14,6 +14,7 @@ const Start = (props) => {
     const [loading, setLoading] = useState(false); // Boolean used to indicate whether or not the recommended courses for the user has been generated
 
     props.setHidden(true); // Hide the sidebar
+    props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
     var programmes = PullProgrammes(); // Get all degree programmes from the database
 
     const history = useHistory(); // Used to redirect to a new path without losing state values
@@ -95,6 +96,7 @@ const Start = (props) => {
     // Function that runs when an option in the dropdown is selected
     function onSelectChange(event) { 
         setProgramme(event.currentTarget.value); // Set programme state to value of option
+        props.setStudentProgramme(event.currentTarget.value); // Set global student programme state to value of option
     }
 
  
@@ -107,13 +109,7 @@ const Start = (props) => {
                     </div>
                     <div className="card start-card">
                         <div className="card-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="studentRadio" id="studentRadiosCont" value="cont"  onChange={onRadioChange}/>
-                                <label class="form-check-label" for="studentRadiosCont">
-                                    I am a continuing student
-                                </label>
-                            </div>
-                            <div class="form-check">
+                        <div class="form-check">
                                 <input class="form-check-input" type="radio" name="studentRadio" id="studentRadiosNew" value="new"  onChange={onRadioChange}/>
                                 <label class="form-check-label new-label" for="studentRadiosNew">
                                     I am a new student in my first semester of my programme
@@ -134,7 +130,27 @@ const Start = (props) => {
                                     </div>
                                     ) : (null) }
                             </div>
-                           
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="studentRadio" id="studentRadiosCont" value="cont"  onChange={onRadioChange}/>
+                                <label class="form-check-label" for="studentRadiosCont">
+                                    I am a continuing student
+                                </label>
+                                { radio === "cont" ? (
+                                    <div className="row select-row">
+                                        <div className="col-sm-6">
+                                            <div class="form-group">
+                                                <select class="form-control" id="exampleFormControlSelect1" onChange={onSelectChange}>
+                                                <option value="None">Select your programme</option>
+                                                {
+                                                 Array.from({ length: programmes.length }, (_, k) => {
+                                                    return <option value={programmes[k].name}>{programmes[k].name}</option> 
+                                                })}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    ) : (null) }
+                            </div>
                         </div>
                         <div className="row">
                         { radio === "new" && programme !== "None" ? (

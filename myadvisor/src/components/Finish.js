@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 const Finish = (props) => {
 
     const history = useHistory(); // Used to redirect to a new path without losing state values
+    const [uploaded, setUploaded] = useState(false); // Boolean value to indicate whether or not the advising session has been uploaded
+
     // If the user's recommended courses has been lost, redirect to start page to generate them again
     if (props.recCourses === null) { 
         history.push({
@@ -16,7 +18,25 @@ const Finish = (props) => {
 
     useEffect(async() => {
         props.setProg(100); // Set advising progress to 100%
-        await uploadAdvisingSession();
+        props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
+
+        if (!uploaded) { // If advising session has not yet been uploaded
+            var requestOptions = { // Create POST request
+                method: 'POST',
+                headers: {
+                    token: localStorage.getItem("token"),
+                    "Content-type": "application/json",
+                },
+                redirect: 'follow'
+            };
+
+            fetch(`/student/academic-advising/session/${localStorage.getItem("username")}`, requestOptions) // Make request to server to parse transcript, upload student details and thier courses to the database
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+            
+            setUploaded(true);
+        }
     });
 
     async function uploadAdvisingSession() {
