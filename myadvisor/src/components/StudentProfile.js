@@ -45,6 +45,10 @@ const StudentProfile = (props) => {
 
             var studentProgramme = props.programme; // Get student programme that they selected on Start page
 
+            if (studentProgramme === null) { // If student programme data has been lost from state
+                studentProgramme = localStorage.getItem("programme");
+            }
+
             // Iterate through programmes list
             for (var i=0; i<programmes.length; i++) {
                 if (programmes[i].name == studentProgramme) { // If student programme is in programmes list

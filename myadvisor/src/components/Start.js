@@ -96,6 +96,7 @@ const Start = (props) => {
     // Function that runs when an option in the dropdown is selected
     function onSelectChange(event) { 
         setProgramme(event.currentTarget.value); // Set programme state to value of option
+        localStorage.setItem("programme", event.currentTarget.value); // Set localStorage item to value of option
         props.setStudentProgramme(event.currentTarget.value); // Set global student programme state to value of option
     }
 
