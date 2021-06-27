@@ -449,7 +449,7 @@ const StudentProfile = (props) => {
             currentSem = 2;
         }
         else if (today.getMonth() < 6) { // If the date is currently between May and July
-            currentSem = 3;
+            currentSem = 1;
         }
         else { // If the date is currently between August and December
             currentSem = 1;
