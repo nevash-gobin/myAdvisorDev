@@ -56,9 +56,9 @@ const Start = (props) => {
         if (today.getMonth() < 4) { // If the date is currently between January and April
             currentSem = "2";
         }
-        else if (today.getMonth() < 6) { // If the date is currently between May and July
-            currentSem = "3";
-        }
+        // else if (today.getMonth() < 6) { // If the date is currently between May and July
+        //     currentSem = "1";
+        // }
         else { // If the date is currently between August and December
             currentSem = "1";
         }
