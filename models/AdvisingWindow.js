@@ -1,3 +1,5 @@
+/*
+
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
@@ -17,3 +19,4 @@ const AdvisingWindow = db.define("advisingwindow", {
 });
 
 module.exports = AdvisingWindow;
+ */
