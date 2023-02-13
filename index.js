@@ -1,10 +1,17 @@
 // constants for express routes, paths and db connection
+const dotenv = require('dotenv').config();
+//console.log(process.env.studentSecret);
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const path = require("path");
 const pool = require("./db");
 const passport = require("passport");
+
+//
+//const sequelize = require('sequelize');
+//const cookieParser = require('cookie-parser');
 
 const multer  = require('multer')
 const upload = multer({storage: multer.memoryStorage()})
@@ -16,6 +23,10 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+//
+//app.use(express.urlencoded({extended: true}));
+//app.use(cookieParser());
+
 // models
 const Student = require("./models/Student");
 const Staff = require("./models/Staff");
@@ -25,6 +36,7 @@ const Transcript = require("./models/Transcript");
 const AdvisingWindow = require("./models/AdvisingWindow");
 const ProgrammeCourse = require("./models/ProgrammeCourse");
 const CareerCourse = require("./models/CareerCourse");
+const { ppid } = require("process");
 
 // if in production (deployment), changes main client path to build
 if (process.env.NODE_ENV === "production") {

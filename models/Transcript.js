@@ -1,3 +1,5 @@
+/*
+
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
@@ -37,3 +39,4 @@ const Transcript = db.define("transcript", {
 });
 
 module.exports = Transcript;
+ */

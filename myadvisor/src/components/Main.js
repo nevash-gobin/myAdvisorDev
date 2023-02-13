@@ -31,7 +31,7 @@ import ReactWebChat from "../components/Bot Framework/webChat";
 function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth")); // Get authenticated status from localStorage
   const [user, setUser] = useState(localStorage.getItem("user")); // Get type of user from localStorage
-  const [recCourses, setRecCourses] = useState(null); // Store recommended courses generated on StudentProfile.js
+  const [recCourses, setRecCourses] = useState(null); // Store recomm\qended courses generated on StudentProfile.js
   const [careerRecCourses, setCareerRecCourses] = useState(null); // Store recommended courses generated on Career.js
   const [chosenCourses, setChosenCourses] = useState([]); // Store courses chosen by the user on CourseList.js
   const [show, setShow] = useState(true); // Boolean value to determine whether or not to show the "Begin Advising" button
@@ -119,6 +119,7 @@ function Main() {
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
+      {console.log("user " + user)}
       {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} setShowBotButtons={setShowBotButtons} loading={loading} warning={warning} newDeg={newDeg} botButtons={botButtons}/> : null}
       <Switch>
         <Route
