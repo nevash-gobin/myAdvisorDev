@@ -1,22 +1,10 @@
 // imports sequelize module
 const Sequelize = require("sequelize");
 
-//const {Sequelize, DataTypes} = require('sequelize');
-
 // imports variable to enable the database url to be hidden
 require("dotenv").config();
 
 // connects database to server
-
-/*
-const sequelize = new Sequelize(
-    'postgres://advisor-app-uwi:phe3aeB5yopha7sh@localhost:5432/advisor-app-uwi',
-    {
-        host: 'postgres_14',
-        dialect: "postgres"
-    }
-);
-*/
 
 const db = new Sequelize(
     'advisor-app-uwi', //database name
@@ -46,23 +34,10 @@ const db = new Sequelize(
 
 
 // tests database connection on server start up. To see if connection is OK.
-/*
-db.authenticate()
-    .then(() => console.log("Database Connected"))
-    .catch((err) => console.log("Error: " + err));
-*/
 
 db.authenticate()
     .then(() => console.log("Database Connected"))
     .catch((err) => console.log("Error: " + err));
-
-
-//const db = {}
-//db.Sequelize = Sequelize;
-//db.sequelize = sequelize;
-
-//db.students = require('./models/Student') (sequelize, DataTypes);
-
 
 module.exports = db;
  
