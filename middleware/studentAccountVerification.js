@@ -1,10 +1,14 @@
 // imports json web token module to authenticate token
 const jwt = require("jsonwebtoken");
 
+//const express = require("express");
+//const db = require("../db");
+//const Student = db.students; 
+
 /**
  * Requests header from request and authenticates it. If valid, returns the student payload
  * @param {Object} req contains information about the HTTP request made
- * @param {Objcet} res contains information about the HTTP response received
+ * @param {Object} res contains information about the HTTP response received
  * @param {Object} next passes control to next function
  * @returns student payload
  */

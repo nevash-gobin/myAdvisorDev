@@ -1,3 +1,4 @@
+/*
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../db");
 
@@ -14,4 +15,4 @@ const ProgrammeCourse = db.define("programmecourse", {
   });
 
   module.exports = ProgrammeCourse;
-  
+  */

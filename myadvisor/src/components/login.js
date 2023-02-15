@@ -73,8 +73,8 @@ export default function SignInSide({setAuth,setType }) {
   const classes = useStyles();
   const history = useHistory();
 
-  const [inputs, setInputs] = useState({
-    username: "",
+  const [inputs, setInputs] = useState({ //inputs(name of state), setInputs(function that modifies input state)
+    username: "", //initial values would be empty
     password: "",
   });
 
@@ -85,24 +85,23 @@ export default function SignInSide({setAuth,setType }) {
 
   const onSubmit = async (e) => {
     const body = {"username" : username, "password": password}
-
     e.preventDefault();
 
     try {
-      const res = await fetch("/accounts/login", {
+      const res = await fetch("accounts/login", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(body),
       });
-
+      
       const parseRes = await res.json();
-
+      
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token);
         localStorage.setItem("user", parseRes.user);
         localStorage.setItem("username", username);
         localStorage.setItem("auth", true)
-
+        
         setAuth(true);
         setType(parseRes.user);
         
@@ -119,7 +118,6 @@ export default function SignInSide({setAuth,setType }) {
         //setAuth(false);
         //toast.error(parseRes);
       }
-
     } catch (err) {
       console.error(err.message);
     }

@@ -14,18 +14,20 @@ const Staff = require("../models/Staff");
 const jwtGeneratorStudent = require("../utilities/jwtStudent");
 const jwtGeneratorStaff = require("../utilities/jwtStaff");
 
+
 // login to student or staff account
 router.post("/login", async (req, res) => {
     try {
-        const {username, password} = req.body
-
+        const {username, password} = req.body;
+        
         const admin = await Staff.findOne({where: { username }});
-        const student = await Student.findOne({where: {username }});
-
+        const student = await Student.findOne({where: { username }});
+        
         if(!admin && !student) {
             return res.status(401).send("This account does not exist.");
         }
         else if (admin) {
+
             // compares entered password and account password for match
             const passCompare = await bcrypt.compare(password, admin.password);
 
