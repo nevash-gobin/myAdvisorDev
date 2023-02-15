@@ -1,5 +1,3 @@
-/*
-
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
@@ -36,7 +34,7 @@ const Transcript = db.define("transcript", {
         allowNull: false,
         type: Sequelize.STRING,
     }
-});
+}, {timestamps: true});
 
 module.exports = Transcript;
- */
+ 

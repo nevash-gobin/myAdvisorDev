@@ -13,6 +13,7 @@ const { parse } = require('../utilities/parser');
  const Transcript = require("../models/Transcript");
  const StudentCourses = require("../models/StudentCourses");
  
+
  // get all student details in the database
  router.get("/details/all", async (req, res) => {
      try {
