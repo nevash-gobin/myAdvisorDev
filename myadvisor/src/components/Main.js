@@ -119,7 +119,6 @@ function Main() {
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
-      {console.log("user " + user)}
       {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} setShowBotButtons={setShowBotButtons} loading={loading} warning={warning} newDeg={newDeg} botButtons={botButtons}/> : null}
       <Switch>
         <Route

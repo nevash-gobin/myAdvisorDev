@@ -17,6 +17,7 @@ router.get("/all", async (req, res) => {
     try {
         // finds all the courses and responds with a json list 
         const courses = await Course.findAll();
+        console.log(courses);
         res.status(200).json(courses);
     }
     catch (err) {
