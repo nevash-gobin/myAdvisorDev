@@ -52,7 +52,7 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
         The show state is used to keep track of the visibility of the editCourses modal.
         It's initial state is false.
         handleShow sets the show state to true, which displays the modal.
-        handleShow sets the show state to false, which closes the modal.
+        handleClose sets the show state to false, which closes the modal.
     */ 
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);

@@ -67,7 +67,7 @@ function AddCourse({setShow, refreshTable}) {
     
           setShow(false);
           refreshTable();
-          notifyAdded(data.courseCode + " Added!")
+          notifyAdded(data.courseCode + " Added!");
 
           const status = await res.statusText;
           

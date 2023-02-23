@@ -42,7 +42,9 @@ function EditCourse({setShow, row, refreshTable}) {
             semester : form.elements.semester.value,
             level : form.elements.level.value,
             prerequisites : form.elements.prerequisites.value,
-            description: form.elements.description.value
+            description: form.elements.description.value,
+            coursework: String(form.elements.coursework.value) + "%",
+            finalExam: String(form.elements.finalExam.value) + "%"
         }
 
         editCourse(formData, row.courseCode)
@@ -115,7 +117,26 @@ function EditCourse({setShow, row, refreshTable}) {
                             <option>III</option>
                         </Form.Control>
                     </Form.Group>
+                </Form.Row>
 
+                <Form.Row>
+                    <Form.Group as={Col} controlId="coursework">
+                        <Form.Label>Coursework</Form.Label>
+                        <Form.Control required type="number" min="1" max="100" />
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="finalExam">
+                        <Form.Label>Final Exam</Form.Label>
+                        <Form.Control required type="number" min="1" max="100" />
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="type">
+                        <Form.Label>Type</Form.Label>
+                        <Form.Control required as="select">
+                            <option>Core</option>
+                            <option>Elective</option>
+                        </Form.Control>
+                    </Form.Group>
                 </Form.Row>
 
                 <Form.Group controlId="prerequisites">

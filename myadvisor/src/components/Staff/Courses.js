@@ -43,14 +43,11 @@ function Courses() {
     */
     async function getCourses() {
         try {
-            console.log("courses");
-            console.log(courses);
             const res = await fetch("/courses/all", {
             method: "GET",
           });
           
           const parseData = await res.json();
-          console.log(parseData);
           setCourses(parseData);
           setLoading(false);
           
@@ -73,10 +70,10 @@ function Courses() {
     
             setLoading(false);
             refreshTable();
-            notifyDelete(courseCode + " Deleted")
+            notifyDelete(courseCode + " Deleted");
           
         } catch (err) {
-            notifyDelete(err.message)
+            notifyDelete(err.message);
             console.error(err.message);
         }
     }
@@ -87,7 +84,7 @@ function Courses() {
     function confirmDelete(courseCode){
         confirmAlert({
           title: 'Delete Confirmation',
-          message: 'Are you sure to do delete ' + courseCode + "?",
+          message: 'Are you sure you want to delete ' + courseCode + "?",
           buttons: [
             {
               label: 'Yes',
