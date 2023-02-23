@@ -1,4 +1,4 @@
-/*
+
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
@@ -14,4 +14,3 @@ const AdvisingSession = db.define("advisingsession", {
 });
 
 module.exports = AdvisingSession;
- */
