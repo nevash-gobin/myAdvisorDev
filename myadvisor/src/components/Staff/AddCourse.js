@@ -122,12 +122,12 @@ function AddCourse({setShow, refreshTable}) {
                 <Form.Row>
                     <Form.Group as={Col} controlId="coursework">
                         <Form.Label>Coursework</Form.Label>
-                        <Form.Control required type="number" min="1" max="100" />
+                        <Form.Control required type="number" min="0" max="100" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="finalExam">
                         <Form.Label>Final Exam</Form.Label>
-                        <Form.Control required type="number" min="1" max="100" />
+                        <Form.Control required type="number" min="0" max="100" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="type">

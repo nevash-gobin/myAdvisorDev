@@ -22,8 +22,9 @@ function Students() {
             const res = await fetch("/transcript/details/all", {
             method: "GET",
         });
-            //console.log(res);
+            
             const parseData = await res.json();
+            console.log(parseData);
             
             setStudents(parseData);
             setLoading(false);
