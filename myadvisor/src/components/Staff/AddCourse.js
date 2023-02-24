@@ -21,6 +21,11 @@ function AddCourse({setShow, refreshTable}) {
     const notifyAdded = (text) => toast.success(text);
 
     /*
+        notifyNotAdded is used to display toast notifications for events. It displays a red toast.
+    */    
+    const notifyNotAdded = (text) => toast.error(text);
+
+    /*
         HandleSubmit gets the data from the form as passes it to the addCourse function.
     */    
     const handleSubmit = (event) => {
@@ -67,7 +72,15 @@ function AddCourse({setShow, refreshTable}) {
     
           setShow(false);
           refreshTable();
-          notifyAdded(data.courseCode + " Added!");
+
+          if(res.status===401){
+            notifyNotAdded(data.courseCode + " Already Exists!");
+          }
+          else{
+                if(res.status===200){
+                    notifyAdded(data.courseCode + " Added!");
+                }
+          }
 
           const status = await res.statusText;
           

@@ -38,6 +38,7 @@ const Start = (props) => {
     async function getProgrammeCourses(id) {
         try {
           const {data:response} = await axios.get(`/programmes/offered-courses/${id}`) //use data destructuring to get data from the promise object
+          //console.log(response);
           return response
         }
     
@@ -64,6 +65,7 @@ const Start = (props) => {
         }
 
         var courses = await getProgrammeCourses(programmeId);
+        //console.log(courses);
 
         // Iterate through courses
         for (var i=0; i<courses.length; i++) {
@@ -75,6 +77,7 @@ const Start = (props) => {
         }
 
         props.setRecommended(recCourses); // Set global state of recommended courses
+        //console.log("Hi "+recCourses);
         
         // Route user to courses page
         history.push({
