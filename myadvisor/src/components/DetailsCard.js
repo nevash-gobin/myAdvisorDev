@@ -33,7 +33,7 @@ class DetailsCard extends Component {
             return;
         }
         formdata.append("file", this.state.file, "[PROXY]"); // Add file to FormData object, Proxy is only used in development to connect to node server
-        
+
         var requestOptions = { // Create DELETE request
           method: 'DELETE',
           redirect: 'follow'
@@ -57,7 +57,7 @@ class DetailsCard extends Component {
                             redirect: 'follow'
                         };
             
-                        fetch("/transcript/parseForm", requestOptions) // Then make request to server to parse transcript, upload student details and thier courses to the database
+                        fetch("/transcript/parseForm", requestOptions) // Then make request to server to parse transcript, upload student details and thei r courses to the database
                             .then(response => response.text())
                             .then(result => console.log(result))
                             .then(result => this.props.uploadedHandler()) // Once the data has been saved to the database, run uploadedHandler from StudentProfile

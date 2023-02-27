@@ -8,7 +8,7 @@ import SessionsTable from './SessionsTable';
 function Sessions() {
     /*
         The sessions state is used store all the sessions that will be displayed in the table.
-        The students state is used to store all students on ths system.
+        The students state is used to store all students on the system.
     */ 
     const [sessions, setSessions] = useState([]);
     const [students, setStudents] = useState([]);
@@ -63,6 +63,7 @@ function Sessions() {
                     <div class="col-12">
                         <div class="card h-100">
                             <div class="card-body shadow-sm">
+                                {console.log("hello")}
                                 <SessionsTable sessions={sessions} students={students}  />
                             </div>
                         </div>

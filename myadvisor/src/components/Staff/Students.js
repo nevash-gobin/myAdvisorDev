@@ -24,7 +24,6 @@ function Students() {
         });
             
             const parseData = await res.json();
-            console.log(parseData);
             
             setStudents(parseData);
             setLoading(false);

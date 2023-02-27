@@ -92,37 +92,26 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
                 body: JSON.stringify(data),
               });
         
-              console.log(JSON.stringify(data))
               setShowAddCourseProg(false);
               refreshTable();
 
               const status = await res.statusText;
-              if(status=="Unauthorized"){
-                notifyNotAdded("Course Already Exists for Programme!");
+
+              if(res.status==401){
+                notifyNotAdded("Course Already Added to Programme!");
               }
               else{
-                notifyAdded("Course Added to Programme!");
+                if(res.status===200){
+                    notifyAdded("Course Added to Programme!");
               }
-              
+                }
+                
             } catch (err) {
               console.error(err.message);
             }
             
         }
 
-        // Function that runs when an option in the programme dropdown is selected
-        function onSelectProgChange(event) { 
-            setProgramme(event.currentTarget.value); // Set programme state to value of option
-            localStorage.setItem("programme", event.currentTarget.value); // Set localStorage item to value of option
-        }
-
-        // Function that runs when an option in the course dropdown is selected
-        function onSelectCourseChange(event) { 
-            setCourse(event.currentTarget.value); // Set course state to value of option
-            localStorage.setItem("course", event.currentTarget.value); // Set localStorage item to value of option
-        }
-        
-    //<select class="form-control" onChange={onSelectProgChange}></select>
         return (<>
                 <Form validated={validated} onSubmit={handleSubmit}>
                     <Form.Group controlId="programmename">

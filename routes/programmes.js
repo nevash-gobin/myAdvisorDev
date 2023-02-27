@@ -62,7 +62,7 @@ router.post("/add/:programmeID/:courseID", async (req, res) => {
         //check if course is already added to a programme
         const programmecourse = await ProgrammeCourse.findOne({where: {programmeID: req.params.programmeID, courseID: req.params.courseID}});
         if(programmecourse){
-            return res.status(401).send("Course already exists for this Programme.");
+            return res.status(401).send("Course already added to this Programme.");
         }
         else{
             await ProgrammeCourse.create({
