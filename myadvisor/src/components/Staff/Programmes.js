@@ -26,6 +26,16 @@ function Programmes() {
         const handleClose = () => setShow(false);
 
     /*
+        The showDeleteProg state is used to keep track of the visibility of the deleteProgramme modal.
+        It's initial state is false.
+        handleShowProgramme sets the show state to true, which displays the modal.
+        handleCloseProgramme sets the show state to false, which closes the modal.
+    */ 
+        const [showDeleteProg, setShowDeleteProg] = useState(false);
+        const handleShowProgramme = () => setShowDeleteProg(true);
+        const handleCloseProgramme = () => setShowDeleteProg(false);
+
+    /*
         The showAddCourseProg state is used to keep track of the visibility of the addCourseToProgramme modal.
         It's initial state is false.
         handleShowCourses sets the show state to true, which displays the modal.
@@ -34,6 +44,8 @@ function Programmes() {
         const [showAddCourseProg, setShowAddCourseProg] = useState(false);
         const handleShowCourses = () => setShowAddCourseProg(true);
         const handleCloseCourses = () => setShowAddCourseProg(false);
+
+    
 
     /*
         The programmes state is used store all the programmes that will be displayed in the table.
@@ -76,6 +88,28 @@ function Programmes() {
         setLoading(true);
         getProgrammes();
     }
+
+    /*
+        deleteProgramme creates a delete request to the server that deletes the programme with the specified name
+    */
+        async function deleteProgramme(programmeName) {
+            try {
+              const res = await fetch("/programmes/delete/" + programmeName, {
+                method: "DELETE",
+                headers: {
+                    token: localStorage.getItem("token")
+                },
+              });
+        
+                setLoading(false);
+                refreshTable();
+                notifyDelete(programmeName + " Deleted");
+              
+            } catch (err) {
+                notifyDelete(err.message);
+                console.error(err.message);
+            }
+        }
     
     return (
         <>
@@ -98,6 +132,7 @@ function Programmes() {
                     {/* Buttons */}
                     <div class="col">
                         <button type="button" class="btn btn-custom add-course" onClick={handleShow}>Add Programme</button>
+                        <button type="button" class="btn btn-custom add-course" onClick={handleShowProgramme} style={{marginTop: 5}} >Delete Programme</button>
                         <button type="button" class="btn btn-custom add-course" onClick={handleShowCourses} style={{marginTop: 5}} >Add Course to Programme</button>
                     </div>
 
@@ -119,6 +154,16 @@ function Programmes() {
 
                         <Modal.Body>
                             <AddCourseToProgramme setShowAddCourseProg={setShowAddCourseProg} refreshTable={refreshTable}/>
+                        </Modal.Body>   
+                    </Modal>
+
+                    <Modal show={showDeleteProg} onHide={handleCloseProgramme} size="lg">
+                        <Modal.Header closeButton>
+                            <Modal.Title>Delete Programme</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            
                         </Modal.Body>   
                     </Modal>
                     
