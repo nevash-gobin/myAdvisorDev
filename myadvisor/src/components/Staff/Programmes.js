@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import ProgrammesTable from './ProgrammesTable';
 import AddProgramme from "./AddProgramme";
+import DeleteProgramme from "./DeleteProgramme";
 import AddCourseToProgramme from "./AddCourseToProgramme";
 import {Jumbotron, Container} from 'react-bootstrap';
 
@@ -134,6 +135,7 @@ function Programmes() {
                         <button type="button" class="btn btn-custom add-course" onClick={handleShow}>Add Programme</button>
                         <button type="button" class="btn btn-custom add-course" onClick={handleShowProgramme} style={{marginTop: 5}} >Delete Programme</button>
                         <button type="button" class="btn btn-custom add-course" onClick={handleShowCourses} style={{marginTop: 5}} >Add Course to Programme</button>
+                        
                     </div>
 
                     <Modal show={show} onHide={handleClose} size="lg">
@@ -144,6 +146,16 @@ function Programmes() {
                         <Modal.Body>
                             <AddProgramme setShow={setShow} refreshTable={refreshTable}/>
                         </Modal.Body>
+                    </Modal>
+
+                    <Modal show={showDeleteProg} onHide={handleCloseProgramme} size="lg">
+                        <Modal.Header closeButton>
+                            <Modal.Title>Delete Programme</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <DeleteProgramme setLoading={setLoading} setShowDeleteProg={setShowDeleteProg} programmes={programmes} refreshTable={refreshTable}/>
+                        </Modal.Body>   
                     </Modal>
 
                     
@@ -157,15 +169,7 @@ function Programmes() {
                         </Modal.Body>   
                     </Modal>
 
-                    <Modal show={showDeleteProg} onHide={handleCloseProgramme} size="lg">
-                        <Modal.Header closeButton>
-                            <Modal.Title>Delete Programme</Modal.Title>
-                        </Modal.Header>
-
-                        <Modal.Body>
-                            
-                        </Modal.Body>   
-                    </Modal>
+                    
                     
 
                 </div>
