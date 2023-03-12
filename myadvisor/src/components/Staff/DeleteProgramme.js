@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTable}) {
     //const ref = useRef();
+    const progs = programmes.sort((a, b) => (a.name < b.name ? -1 : 1));//sort in ascending order by name
+
             
     /*
         The validated state is used to keep track of the validity of the delete programme form.
@@ -21,7 +23,7 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
         The checkBoxState array is used to keep track of the checked state of the checkboxes.
         It's initial state is false.
     */    
-    const [checkBoxState, setCheckBoxState] = useState(new Array(programmes.length).fill(false));
+    const [checkBoxState, setCheckBoxState] = useState(new Array(progs.length).fill(false));
 
     /*
         notifyAdded is used to display toast notifications for events. It displays a green toast.
@@ -76,15 +78,15 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
             for(var i=0; i<checkBoxState.length; i++){
                 if(checkBoxState[i] === true){
                     const programmeObject = {
-                        id: programmes[i].id,
-                        name: programmes[i].name
+                        id: progs[i].id,
+                        name: progs[i].name
                     };
                     selectedProgrammes.push(programmeObject);
                     deleteProgramme(programmeObject);
                 }
             }
 
-            console.log(programmes);
+            console.log(progs);
             console.log(selectedProgrammes);
 
 
@@ -139,7 +141,7 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
                 <Form validated={validated} onSubmit={handleSubmit}>
                     <Form.Group controlId="name">
                         <Form.Label>Choose Programme</Form.Label>
-                        {programmes.map((programme, indexNum) => (
+                        {progs.map((programme, indexNum) => (
                             
                             
         
