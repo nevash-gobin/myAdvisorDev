@@ -19,6 +19,7 @@ import Settings from './Staff/Settings';
 import Reports from './Staff/Reports';
 import Programmes from './Staff/Programmes';
 import Sessions from './Staff/Sessions';
+import PotentialGraduates from './Staff/PotentialGraduates'
 
 //Global Imports
 import "../App.css"
@@ -373,6 +374,20 @@ function Main() {
             }
           }
         />  
+
+        <Route
+          exact
+          path="/staff/graduates"
+          render={(props) =>
+            {
+              if(isAuthenticated && user=="admin"){
+                return <PotentialGraduates {...props} />
+              } else {
+                return(<Redirect to="/" />)
+              }
+            }
+          }
+        />   
 
 
 

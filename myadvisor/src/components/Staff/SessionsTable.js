@@ -48,9 +48,6 @@ function SessionsTable({sessions, students}) {
     const [loading, setLoading] = useState(true);
     const [studentSessionsDetails, setStudentSessionsDetails] = useState([]);
 
-    //console.log("Sessions " + session);
-    //console.log("Students " + students[0]);
-
     /*
         ToolkitProvider is a wrapper for the BootstrapTable context and the related search, export csv and clear search react contexts.  
     */ 
