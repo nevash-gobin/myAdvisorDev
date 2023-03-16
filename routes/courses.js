@@ -18,6 +18,7 @@ router.get("/all", async (req, res) => {
     try {
         // finds all the courses and responds with a json list 
         const courses = await Course.findAll();
+        //console.log(courses);
         res.status(200).json(courses);
     }
     catch (err) {
@@ -46,9 +47,11 @@ router.get("/view/:code", async (req, res) => {
 
 // add a course to the database
 router.post("/add", async (req, res) => {
+    //console.log(req.body);
     try {
         // destructure data entered
         const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description, coursework, finalExam} = req.body;
+        console.log(req.body);
 
         // check if courses is already added
         const course = await Course.findOne({where : { courseCode }});

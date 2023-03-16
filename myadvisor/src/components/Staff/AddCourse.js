@@ -46,14 +46,16 @@ function AddCourse({setShow, refreshTable}) {
             credits : form.elements.credits.value,
             semester : form.elements.semester.value,
             level : form.elements.level.value,
-            prerequisites : form.elements.prerequisites.value,
-            description: form.elements.description.value,
+            type: form.elements.type.value,
             coursework: String(form.elements.coursework.value) + "%",
             finalExam: String(form.elements.finalExam.value) + "%",
-            type: form.elements.type.value
+            groupProject: String(form.elements.groupProject.value) + "%",
+            prerequisites : form.elements.prerequisites.value,
+            description: form.elements.description.value,
+            
         }
-
-        addCourse(formData)
+        console.log(formData);
+        //addCourse(formData)
     };
 
     /*
@@ -89,6 +91,12 @@ function AddCourse({setShow, refreshTable}) {
         }
     }
 
+        const styleCheckbox = {
+            marginTop: "10px",
+            marginLeft: "20px",
+            marginRight: "10px"
+        };
+    
     return (
         <>
             <Form validated={validated} onSubmit={handleSubmit}>
@@ -103,7 +111,7 @@ function AddCourse({setShow, refreshTable}) {
                 </Form.Group>
 
                 <Form.Row>
-                    <Form.Group as={Col} md="4" controlId="credits">
+                    <Form.Group as={Col} md="3" controlId="credits">
                         <Form.Label>Credits</Form.Label>
                         <Form.Control required as="select">
                             <option>1</option>
@@ -113,7 +121,7 @@ function AddCourse({setShow, refreshTable}) {
                         </Form.Control>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="semester">
+                    <Form.Group as={Col} md="3" controlId="semester">
                         <Form.Label>Semester</Form.Label>
                         <Form.Control required as="select">
                             <option>1</option>
@@ -122,7 +130,7 @@ function AddCourse({setShow, refreshTable}) {
                         </Form.Control>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="level">
+                    <Form.Group as={Col} md="3" controlId="level">
                         <Form.Label>Level</Form.Label>
                         <Form.Control required as="select">
                             <option>I</option>
@@ -130,25 +138,85 @@ function AddCourse({setShow, refreshTable}) {
                             <option>III</option>
                         </Form.Control>
                     </Form.Group>
-                </Form.Row>
 
-                <Form.Row>
-                    <Form.Group as={Col} controlId="coursework">
-                        <Form.Label>Coursework</Form.Label>
-                        <Form.Control required type="number" min="0" max="100" />
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="finalExam">
-                        <Form.Label>Final Exam</Form.Label>
-                        <Form.Control required type="number" min="0" max="100" />
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="type">
+                    <Form.Group as={Col} md="3" controlId="type">
                         <Form.Label>Type</Form.Label>
                         <Form.Control required as="select">
                             <option>Core</option>
                             <option>Elective</option>
                         </Form.Control>
+                    </Form.Group>
+                </Form.Row>
+                
+                <Form.Row>
+                    <Form.Group as={Col} controlId="assessment">
+                        <Form.Label>Assessments</Form.Label>
+
+                        <Form.Group as={Col} controlId="coursework" className="form-inline">
+                            <Form.Check label="Coursework" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="finalExam" className="form-inline">
+                            <Form.Check label="Final Exam" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="groupProject" className="form-inline">
+                            <Form.Check label="Group Project" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="individualWork" className="form-inline">
+                            <Form.Check label="Individual Work" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="practicalCw" className="form-inline">
+                            <Form.Check label="Practical Coursework" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="cwExam" className="form-inline">
+                            <Form.Check label="Coursework Exam" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="projectPres" className="form-inline">
+                            <Form.Check label="Project Presentation" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="project" className="form-inline">
+                            <Form.Check label="Project" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="presentation" className="form-inline">
+                            <Form.Check label="Presentation" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="assignment" className="form-inline">
+                            <Form.Check label="Assignment" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="labAssessment" className="form-inline">
+                            <Form.Check label="Lab Assessment" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="midSemMcq" className="form-inline">
+                            <Form.Check label="Mid Semester MCQ" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="projectReport" className="form-inline">
+                            <Form.Check label="Project Report" style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100"/>
+                        </Form.Group>
+
                     </Form.Group>
                 </Form.Row>
 
