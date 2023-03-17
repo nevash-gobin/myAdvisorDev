@@ -96,7 +96,7 @@ function StudentsTable({students, loading}) {
     };
 
     /*
-        getStudentCourses creates a get request to the server that gets all the courses of ths specified student.
+        getStudentCourses creates a get request to the server that gets all the courses of this specified student.
         It also used the getCompleted and getInprogress functions to separate the courses based on if they are inprogress or completed.
     */
     async function getStudentCourses(studentId) {
