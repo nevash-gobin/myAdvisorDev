@@ -103,8 +103,8 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
               else{
                 if(res.status===200){
                     notifyAdded("Course Added to Programme!");
-              }
                 }
+              }
                 
             } catch (err) {
               console.error(err.message);

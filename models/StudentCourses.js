@@ -21,4 +21,3 @@ const StudentCourses = db.define("studentcourses", {
 });
 
 module.exports = StudentCourses;
- 

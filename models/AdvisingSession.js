@@ -14,4 +14,3 @@ const AdvisingSession = db.define("advisingsession", {
 });
 
 module.exports = AdvisingSession;
- 
