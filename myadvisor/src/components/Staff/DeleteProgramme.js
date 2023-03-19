@@ -81,7 +81,7 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
                         id: progs[i].id,
                         name: progs[i].name
                     };
-                    selectedProgrammes.push(programmeObject);
+                    //selectedProgrammes.push(programmeObject);
                     deleteProgramme(programmeObject);
                 }
             }

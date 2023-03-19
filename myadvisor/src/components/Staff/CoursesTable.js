@@ -23,7 +23,7 @@ const columns = [
 */
 const defaultSorted = [{
   dataField: 'courseCode',
-  order: 'asec'
+  order: 'asc'
 }];
 
 /*
@@ -99,6 +99,7 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
 
             <h4>Final Exam</h4>
             <p>{ `${row.finalExam}` }</p>
+            
 
             <div class="btn-group">
               <button type="button" class="btn btn-custom edit-course" onClick={() => eCourse(row)}>Edit</button>

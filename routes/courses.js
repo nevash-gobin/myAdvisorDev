@@ -47,29 +47,43 @@ router.get("/view/:code", async (req, res) => {
 
 // add a course to the database
 router.post("/add", async (req, res) => {
-    //console.log(req.body);
+    console.log(req);
+    console.log(res);
     try {
         // destructure data entered
-        const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description, coursework, finalExam} = req.body;
-        console.log(req.body);
+        const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport} = req.body;
 
+        //if(finalExam){
+            //console.log("Have something");
+        //}
         // check if courses is already added
         const course = await Course.findOne({where : { courseCode }});
         if(course) {
             return res.status(401).send("Course already exists.");
         }
-        else {
+        else {//if course is not added
             await Course.create({
-                courseCode,
-                courseTitle,
-                credits,
-                level,
-                semester,
-                type,
-                prerequisites,
-                description,
+                courseCode, 
+                courseTitle, 
+                credits, 
+                level, 
+                semester, 
+                type, 
+                prerequisites, 
+                description, 
                 coursework,
                 finalExam,
+                groupProject,
+                individualWork,
+                practicalCoursework,
+                courseworkExam,
+                projectPres,
+                project,
+                presentation,
+                assignment,
+                labAssessment,
+                midSemesterMcq,
+                projectReport
             })
             .then(() => {
                 return res.status(200).send("Course added!");

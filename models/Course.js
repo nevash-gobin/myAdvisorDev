@@ -88,6 +88,7 @@ const Course = db.define("course", {
         allowNull: true,
         type: Sequelize.STRING,
     }
+    
 });
 
 module.exports = Course;

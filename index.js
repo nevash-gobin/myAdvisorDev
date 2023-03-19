@@ -15,7 +15,7 @@ const multer  = require('multer')
 const upload = multer({storage: multer.memoryStorage()})
 const { parse } = require('./utilities/parser');
 
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 5000;
 
 // app connection and resources
 app.use(cors());
