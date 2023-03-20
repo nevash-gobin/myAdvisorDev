@@ -20,13 +20,11 @@ function AddCourse({setShow, refreshTable}) {
         It's initial state is false.
     */    
         const [checkBoxState, setCheckBoxState] = useState(new Array(13).fill(false));
-        //console.log(checkBoxState);
 
         const assessments = ["coursework", "finalExam", "groupProject", "individualWork", "practicalCoursework", "courseworkExam", 
                              "projectPres", "project", "presentation", "assignment", "labAssessment", "midSemesterMcq", 
                              "projectReport"];
                             
-        
     /*
         notifyAdded is used to display toast notifications for events. It displays a green toast.
     */    
@@ -41,7 +39,6 @@ function AddCourse({setShow, refreshTable}) {
         HandleChange gets the checkboxes that were checked and stores them in an array.
     */    
         const handleChange = (event) => {
-            //console.log(event.target.id);
 
             const updateCheckboxState = checkBoxState.map((checkbox, count) => {
                 if(count === parseInt(event.target.id)){
@@ -53,7 +50,6 @@ function AddCourse({setShow, refreshTable}) {
             });
 
             setCheckBoxState(updateCheckboxState);
-            //console.log(updateCheckboxState);
         };
 
     /*
@@ -107,7 +103,6 @@ function AddCourse({setShow, refreshTable}) {
                 //formData[assessments[i]] = String(form.elements[assessments[i]].value) + "%"; 
             //}
         }
-        //console.log(formData);
         addCourse(formData);
     };
 

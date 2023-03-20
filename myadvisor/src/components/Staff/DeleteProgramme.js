@@ -9,9 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 */
 
 function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTable}) {
-    //const ref = useRef();
     const progs = programmes.sort((a, b) => (a.name < b.name ? -1 : 1));//sort in ascending order by name
-
             
     /*
         The validated state is used to keep track of the validity of the delete programme form.
@@ -39,7 +37,6 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
         HandleChange gets the checkboxes that were checked and stores them in an array.
     */    
         const handleChange = (event, index) => {
-            //console.log(event.target.checked);
 
             const updateCheckboxState = checkBoxState.map((checkbox, count) => {
                 if(count === index){
@@ -49,20 +46,15 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
                     return checkbox;
                 }
             });
-            //console.log(updateCheckboxState);
             setCheckBoxState(updateCheckboxState);
-           
         };
 
     /*
         HandleSubmit gets the data from the form as passes it to the deleteProgramme function.
     */    
         const handleSubmit = (event) => {
-            const selectedProgrammes = [];
+            //const selectedProgrammes = [];
             
-            
-            //console.log(checkBoxState);
-            //console.log(form.checkValidity());
             const form = event.currentTarget;
     
             if (form.checkValidity() === false) {
@@ -85,20 +77,6 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
                     deleteProgramme(programmeObject);
                 }
             }
-
-            console.log(progs);
-            console.log(selectedProgrammes);
-
-
-    
-            const formData = {
-                //name : form.elements.name.value
-            }
-            //console.log(event)
-            //console.log(event.target.checked)
-            
-    
-            //deleteProgramme(formData)
         };
     
         /*
@@ -112,7 +90,7 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
                     token: localStorage.getItem("token"),
                     //"Content-type": "application/json",
                 },
-                //body: JSON.stringify(data),
+                body: JSON.stringify(data),
               });
         
               setShowDeleteProg(false);
@@ -129,8 +107,6 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
                     notifyDeleted(data.name + " Deleted!");
                 }
               }
-             
-              
             } catch (err) {
               console.error(err.message);
             }
@@ -143,20 +119,13 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
                         <Form.Label>Choose Programme</Form.Label>
                         {progs.map((programme, indexNum) => (
                             
-                            
-        
                             <Form.Check 
                                 label={programme.name}
                                 name={programme.name}
-                                //checked={checkBoxState[indexNum]}
                                 onChange={event => handleChange(event, indexNum)}
                                 style={{margin:5, marginTop:10}}
-                                
-                                
                             />
-                            
                         ))}
-                        
                     </Form.Group>
     
                     <div class="float-right"><Button type="submit" class="btn btn-custom">Delete</Button></div>

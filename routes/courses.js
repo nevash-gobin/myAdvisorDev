@@ -18,7 +18,6 @@ router.get("/all", async (req, res) => {
     try {
         // finds all the courses and responds with a json list 
         const courses = await Course.findAll();
-        //console.log(courses);
         res.status(200).json(courses);
     }
     catch (err) {
@@ -51,9 +50,6 @@ router.post("/add", async (req, res) => {
         // destructure data entered
         const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport} = req.body;
 
-        //if(finalExam){
-            //console.log("Have something");
-        //}
         // check if courses is already added
         const course = await Course.findOne({where : { courseCode }});
         if(course) {
@@ -99,7 +95,6 @@ router.post("/add", async (req, res) => {
 
 // update a selected course
 router.put("/edit/:code", async (req, res) => {
-    //console.log("request body cw - "+req.body.coursework);
     try {
         const {courseCode, courseTitle, credits, level, semester, type, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport} = req.body;
         
