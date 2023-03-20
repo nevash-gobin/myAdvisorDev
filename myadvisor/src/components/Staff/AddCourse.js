@@ -96,10 +96,10 @@ function AddCourse({setShow, refreshTable}) {
         }
         
         
-        //Get the selected assessments and store them in an array
+        //Get the unselected assessments and set them to null
         for(var i=0; i<checkBoxState.length; i++){
             if(checkBoxState[i] === false){
-                //formData[assessments[i]] = "";
+                formData[assessments[i]] = null;
             }
 
             //if(checkBoxState[i] === true){//if checkbox is checked
@@ -107,7 +107,7 @@ function AddCourse({setShow, refreshTable}) {
                 //formData[assessments[i]] = String(form.elements[assessments[i]].value) + "%"; 
             //}
         }
-        console.log(formData);
+        //console.log(formData);
         addCourse(formData);
     };
 
@@ -115,7 +115,6 @@ function AddCourse({setShow, refreshTable}) {
         addCourse creates a post request to the server, which adds a new course to the system.
     */
     async function addCourse(data) {
-        //console.log(JSON.stringify(data));
         try {
           const res = await fetch("/courses/add", {
             method: "POST",
@@ -126,7 +125,6 @@ function AddCourse({setShow, refreshTable}) {
             body: JSON.stringify(data),
             
           });
-          //console.log(res);
           
           setShow(false);
           refreshTable();
@@ -147,11 +145,11 @@ function AddCourse({setShow, refreshTable}) {
         }
     }
 
-        const styleCheckbox = {
-            marginTop: "10px",
-            marginLeft: "20px",
-            marginRight: "10px"
-        };
+    const styleCheckbox = {
+        marginTop: "10px",
+        marginLeft: "20px",
+        marginRight: "10px"
+    };
     
     return (
         <>

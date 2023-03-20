@@ -48,7 +48,6 @@ function Courses() {
           });
           
           const parseData = await res.json();
-          //console.log(parseData);
           setCourses(parseData);
           setLoading(false);
           
