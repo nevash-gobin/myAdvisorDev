@@ -18,3 +18,4 @@ const AdvisingWindow = db.define("advisingwindow", {
 });
 
 module.exports = AdvisingWindow;
+ 

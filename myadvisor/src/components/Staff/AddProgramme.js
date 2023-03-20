@@ -65,11 +65,14 @@ function AddProgramme({setShow, refreshTable}) {
               refreshTable();
 
               const status = await res.statusText;
-              if(status=="Unauthorized"){
+              
+              if(res.status==401){
                 notifyNotAdded(data.name + " Already Exists!");
               }
               else{
-                notifyAdded(data.name + " Added!");
+                if(res.status==200){
+                    notifyAdded(data.name + " Added!");
+                }
               }
               
             } catch (err) {
@@ -85,7 +88,7 @@ function AddProgramme({setShow, refreshTable}) {
                         <Form.Control required type="text"/>
                     </Form.Group>
     
-                    <div class="float-right"><Button type="submit" class="btn btn-custom">Submit</Button></div>
+                    <div class="float-right"><Button type="submit" class="btn btn-custom">Add</Button></div>
                 </Form>
     
                 <ToastContainer 
