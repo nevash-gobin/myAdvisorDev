@@ -137,8 +137,8 @@ function Courses() {
                             <Modal.Title>Add Course</Modal.Title>
                         </Modal.Header>
 
-                        <Modal.Body>
-                            <AddCourse setShow={setShow} refreshTable={refreshTable}/>
+                        <Modal.Body >
+                            <AddCourse setShow={setShow} refreshTable={refreshTable} />
                         </Modal.Body>
                     </Modal>
                 </div>

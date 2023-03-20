@@ -44,18 +44,51 @@ const Course = db.define("course", {
         allowNull: true,
         type: Sequelize.STRING,
     },
-    individualProjectPres: {
+    groupProject: {
         allowNull: true,
         type: Sequelize.STRING,
     },
-    groupProjectPres: {
+    individualWork: {
         allowNull: true,
         type: Sequelize.STRING,
     },
-    performanceReports: {
+    practicalCoursework: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    courseworkExam: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    projectPres: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    project: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    presentation: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    assignment: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    labAssessment: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    midSemesterMcq: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    projectReport: {
         allowNull: true,
         type: Sequelize.STRING,
     }
+    
 });
 
 module.exports = Course;
