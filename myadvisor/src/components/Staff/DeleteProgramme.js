@@ -15,7 +15,7 @@ function DeleteProgramme({setLoading, setShowDeleteProg, programmes, refreshTabl
         The validated state is used to keep track of the validity of the delete programme form.
         It's initial state is false.
     */    
-    const [validated, setValidated] = useState(false);
+    const [validated, setValidated] = useState(false); 
 
     /*
         The checkBoxState array is used to keep track of the checked state of the checkboxes.
