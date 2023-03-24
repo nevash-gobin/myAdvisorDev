@@ -20,12 +20,12 @@ function EditCourse({setShow, row, refreshTable}) {
         The checkBoxState array is used to keep track of the checked state of the checkboxes.
         It's initial state is false.
     */    
-    const [checkBoxStateSubmit, setCheckBoxStateSubmit] = useState(new Array(13).fill(false));
-    const [checkBoxStateExist, setCheckBoxStateExist] = useState(new Array(13).fill(false));
+    const [checkBoxStateSubmit, setCheckBoxStateSubmit] = useState(new Array(17).fill(false));
+    const [checkBoxStateExist, setCheckBoxStateExist] = useState(new Array(17).fill(false));
 
     const assessments = ["coursework", "finalExam", "groupProject", "individualWork", "practicalCoursework", "courseworkExam", 
-                        "projectPres", "project", "presentation", "assignment", "labAssessment", "midSemesterMcq", 
-                        "projectReport"];
+                             "projectPres", "project", "presentation", "assignment", "labAssessment", "midSemesterMcq", 
+                             "projectReport", "projectReportPres", "projectAndPres", "performanceReports", "projectSoftwareApp"];
 
     //get existing checkbox state
     for(var j=0; j<assessments.length; j++){
@@ -56,7 +56,7 @@ function EditCourse({setShow, row, refreshTable}) {
     */    
         const handleChange = (event) => {
             //console.log(event.target.checked);
-            console.log("submit "+checkBoxStateSubmit);
+            //console.log("submit "+checkBoxStateSubmit);
             
             const updateCheckboxState = checkBoxStateSubmit.map((checkbox, count) => {
                 if(count === parseInt(event.target.id)){
@@ -70,7 +70,7 @@ function EditCourse({setShow, row, refreshTable}) {
                 }
                 
             });
-            console.log("update "+updateCheckboxState);
+            //console.log("update "+updateCheckboxState);
             //console.log("up "+updateCheckboxState);
             setCheckBoxStateSubmit(updateCheckboxState);
             //console.log(updateCheckboxState);
@@ -82,7 +82,7 @@ function EditCourse({setShow, row, refreshTable}) {
     */    
     const handleSubmit = (event) => {
         const form = event.currentTarget;
-        console.log("current "+checkBoxStateSubmit);
+        //console.log("current "+checkBoxStateSubmit);
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
@@ -113,10 +113,14 @@ function EditCourse({setShow, row, refreshTable}) {
             assignment: String(form.elements.assignment.value) + "%",
             labAssessment: String(form.elements.labAssessment.value) + "%",
             midSemesterMcq: String(form.elements.midSemesterMcq.value) + "%",
-            projectReport: String(form.elements.projectReport.value) + "%"
+            projectReport: String(form.elements.projectReport.value) + "%",
+            projectReportPres: String(form.elements.projectReportPres.value) + "%",
+            projectAndPres: String(form.elements.projectAndPres.value) + "%",
+            performanceReports: String(form.elements.performanceReports.value) + "%",
+            projectSoftwareApp: String(form.elements.projectSoftwareApp.value) + "%"
         }
 
-        console.log(formData);
+        //console.log(formData);
         //console.log("submit "+checkBoxState);
         //Get the unselected assessments and set them to null
         for(var i=0; i<checkBoxStateSubmit.length; i++){
@@ -132,7 +136,7 @@ function EditCourse({setShow, row, refreshTable}) {
         editCourse creates a put request to the server, which edits the specified course.
     */    
     async function editCourse(data, code) {
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
         try {
           const res = await fetch("/courses/edit/" + code, {
             method: "PUT",
@@ -142,7 +146,7 @@ function EditCourse({setShow, row, refreshTable}) {
             },
             body: JSON.stringify(data),
           });
-          console.log(res);
+          //console.log(res);
     
           setShow(false);
           refreshTable();
@@ -203,10 +207,8 @@ function EditCourse({setShow, row, refreshTable}) {
                     <Form.Group as={Col} md="3" controlId="credits">
                         <Form.Label>Credits</Form.Label>
                         <Form.Control required as="select" defaultValue={row.credits}>
-                            <option>1</option>
-                            <option>2</option>
                             <option>3</option>
-                            <option>4</option>
+                            <option>6</option>
                         </Form.Control>
                     </Form.Group>
 
@@ -305,6 +307,27 @@ function EditCourse({setShow, row, refreshTable}) {
                             <Form.Check label="Project Report" id="12" name="Project Report" onChange={handleChange} defaultChecked={getCheckboxState(row.projectReport)} style={styleCheckbox}></Form.Check>
                             <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.projectReport)}/>
                         </Form.Group>
+
+                        <Form.Group as={Col} controlId="projectReportPres" className="form-inline">
+                            <Form.Check label="Project Report and Presentation" id="13" name="Project Report and Presentation" onChange={handleChange} defaultChecked={getCheckboxState(row.projectReportPres)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.projectReportPres)}/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="projectAndPres" className="form-inline">
+                            <Form.Check label="Project and Presentation" id="14" name="Project and Presentation" onChange={handleChange} defaultChecked={getCheckboxState(row.projectAndPres)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.projectAndPres)}/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="performanceReports" className="form-inline">
+                            <Form.Check label="Performance Reports" id="15" name="Performance Reports" onChange={handleChange} defaultChecked={getCheckboxState(row.performanceReports)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.performanceReports)}/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="projectSoftwareApp" className="form-inline">
+                            <Form.Check label="Project or Software Application" id="16" name="Project or Software Application" onChange={handleChange} defaultChecked={getCheckboxState(row.projectSoftwareApp)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.projectSoftwareApp)}/>
+                        </Form.Group>
+
                     </Form.Group>
                 </Form.Row>
 

@@ -109,6 +109,10 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
             { row.labAssessment!=null && <> <h4>Lab Assessment</h4> <p>{ `${row.labAssessment}` }</p> </> }
             { row.midSemesterMcq!=null && <> <h4>Mid Semester Mcq</h4> <p>{ `${row.midSemesterMcq}` }</p> </> }
             { row.projectReport!=null && <> <h4>Project Report</h4> <p>{ `${row.projectReport}` }</p> </> }
+            { row.projectReportPres!=null && <> <h4>Project Report and Presentation</h4> <p>{ `${row.projectReportPres}` }</p> </> }
+            { row.projectAndPres!=null && <> <h4>Project and Presentation</h4> <p>{ `${row.projectAndPres}` }</p> </> }
+            { row.performanceReports!=null && <> <h4>Performance Reports</h4> <p>{ `${row.performanceReports}` }</p> </> }
+            { row.projectSoftwareApp!=null && <> <h4>Project or Software Application</h4> <p>{ `${row.projectSoftwareApp}` }</p> </> }
             
             <div class="btn-group">
               <button type="button" class="btn btn-custom edit-course" onClick={() => eCourse(row)}>Edit</button>
