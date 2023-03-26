@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NUMERIC } from "sequelize";
 
 /*
     EditCourse allows staff to edit courses on the system.
@@ -16,16 +17,56 @@ function EditCourse({setShow, row, refreshTable}) {
     const [validated, setValidated] = useState(false);
 
     /*
+        The checkBoxState array is used to keep track of the checked state of the checkboxes.
+        It's initial state is false.
+    */    
+    const [checkBoxStateSubmit, setCheckBoxStateSubmit] = useState(new Array(13).fill(false));
+    const [checkBoxStateExist, setCheckBoxStateExist] = useState(new Array(13).fill(false));
+
+    const assessments = ["coursework", "finalExam", "groupProject", "individualWork", "practicalCoursework", "courseworkExam", 
+                        "projectPres", "project", "presentation", "assignment", "labAssessment", "midSemesterMcq", 
+                        "projectReport"];
+
+    //get existing checkbox state
+    for(var j=0; j<assessments.length; j++){
+        if(row[assessments[j]]!=null){
+            checkBoxStateExist[j] = true;
+        }
+        else{
+            checkBoxStateExist[j] = false;
+        }
+    }
+    useEffect(() => {
+        setCheckBoxStateSubmit(checkBoxStateExist);
+    }, [])
+
+    /*
         notifyEdit is used to display toast notifications when the course is edited. It displays a green toast.
     */
     const notifyEdit = (text) => toast.success(text);
+
+    /*
+        HandleChange gets the checkboxes that were checked and stores them in an array.
+    */    
+        const handleChange = (event) => {
+            
+            const updateCheckboxState = checkBoxStateSubmit.map((checkbox, count) => {
+                if(count === parseInt(event.target.id)){
+                    return !checkbox;
+                }
+                else{
+                    return checkbox;
+                }
+                
+            });
+            setCheckBoxStateSubmit(updateCheckboxState);
+        };
 
     /*
         HandleSubmit gets the data from the form and passes it to the editCourse function.
     */    
     const handleSubmit = (event) => {
         const form = event.currentTarget;
-
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
@@ -41,17 +82,36 @@ function EditCourse({setShow, row, refreshTable}) {
             credits : form.elements.credits.value,
             semester : form.elements.semester.value,
             level : form.elements.level.value,
+            type: form.elements.type.value,
             prerequisites : form.elements.prerequisites.value,
             description: form.elements.description.value,
             coursework: String(form.elements.coursework.value) + "%",
-            finalExam: String(form.elements.finalExam.value) + "%"
+            finalExam: String(form.elements.finalExam.value) + "%",
+            groupProject: String(form.elements.groupProject.value) + "%",
+            individualWork: String(form.elements.individualWork.value) + "%",
+            practicalCoursework: String(form.elements.practicalCoursework.value) + "%",
+            courseworkExam: String(form.elements.courseworkExam.value) + "%",
+            projectPres: String(form.elements.projectPres.value) + "%",
+            project: String(form.elements.project.value) + "%",
+            presentation: String(form.elements.presentation.value) + "%",
+            assignment: String(form.elements.assignment.value) + "%",
+            labAssessment: String(form.elements.labAssessment.value) + "%",
+            midSemesterMcq: String(form.elements.midSemesterMcq.value) + "%",
+            projectReport: String(form.elements.projectReport.value) + "%"
         }
 
-        editCourse(formData, row.courseCode)
+        //Get the unselected assessments and set them to null
+        for(var i=0; i<checkBoxStateSubmit.length; i++){
+            if(checkBoxStateSubmit[i] === false){
+                formData[assessments[i]] = null;
+            }
+        }
+
+        editCourse(formData, row.courseCode);
     };
 
     /*
-        addAccount creates a put request to the server, which edits the specified course.
+        editCourse creates a put request to the server, which edits the specified course.
     */    
     async function editCourse(data, code) {
         try {
@@ -75,6 +135,33 @@ function EditCourse({setShow, row, refreshTable}) {
         }
     }
 
+    const styleCheckbox = {
+        marginTop: "10px",
+        marginLeft: "20px",
+        marginRight: "10px"
+    };
+
+    //get the number from the string percentage for assessments
+    function getPercentNumFromString(text){
+        if(text!=null){
+            const array = text.split('%');
+            const number = parseInt(array[0]);
+            return number;
+        }
+        else{
+            return text;
+        }
+    }
+
+    //get default value for checkbox
+    function getCheckboxState(text){
+        if(text!=null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     return (
         <>
@@ -90,7 +177,7 @@ function EditCourse({setShow, row, refreshTable}) {
                 </Form.Group>
 
                 <Form.Row>
-                    <Form.Group as={Col} md="4" controlId="credits">
+                    <Form.Group as={Col} md="3" controlId="credits">
                         <Form.Label>Credits</Form.Label>
                         <Form.Control required as="select" defaultValue={row.credits}>
                             <option>1</option>
@@ -100,7 +187,7 @@ function EditCourse({setShow, row, refreshTable}) {
                         </Form.Control>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="semester">
+                    <Form.Group as={Col} md="3" controlId="semester">
                         <Form.Label>Semester</Form.Label>
                         <Form.Control required as="select" defaultValue={row.semester}>
                             <option>1</option>
@@ -109,7 +196,7 @@ function EditCourse({setShow, row, refreshTable}) {
                         </Form.Control>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="level">
+                    <Form.Group as={Col} md="3" controlId="level">
                         <Form.Label>Level</Form.Label>
                         <Form.Control required as="select" defaultValue={row.level}>
                             <option>I</option>
@@ -117,25 +204,84 @@ function EditCourse({setShow, row, refreshTable}) {
                             <option>III</option>
                         </Form.Control>
                     </Form.Group>
-                </Form.Row>
 
-                <Form.Row>
-                    <Form.Group as={Col} controlId="coursework">
-                        <Form.Label>Coursework</Form.Label>
-                        <Form.Control required type="number" min="1" max="100" />
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="finalExam">
-                        <Form.Label>Final Exam</Form.Label>
-                        <Form.Control required type="number" min="1" max="100" />
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="type">
+                    <Form.Group as={Col} md="3" controlId="type">
                         <Form.Label>Type</Form.Label>
-                        <Form.Control required as="select">
+                        <Form.Control required as="select" defaultValue={row.type}>
                             <option>Core</option>
                             <option>Elective</option>
                         </Form.Control>
+                    </Form.Group>
+                </Form.Row>
+
+                <Form.Row>
+                    <Form.Group as={Col} controlId="assessment">
+                        <Form.Label>Assessments</Form.Label>
+        
+                        <Form.Group as={Col} controlId="coursework" className="form-inline">
+                            <Form.Check label="Coursework" id="0" name="Coursework" onChange={handleChange} defaultChecked={getCheckboxState(row.coursework)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.coursework)}/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="finalExam" className="form-inline">
+                            <Form.Check label="Final Exam" id="1" name="Final Exam" onChange={handleChange} defaultChecked={getCheckboxState(row.finalExam)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.finalExam)}/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="groupProject" className="form-inline">
+                            <Form.Check label="Group Project" id="2" name="Group Project" onChange={handleChange} defaultChecked={getCheckboxState(row.groupProject)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.groupProject)}/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="individualWork" className="form-inline">
+                            <Form.Check label="Individual Work" id="3" name="Individual Work" onChange={handleChange} defaultChecked={getCheckboxState(row.individualWork)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.individualWork)}/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="practicalCoursework" className="form-inline">
+                            <Form.Check label="Practical Coursework" id="4" name="Practical Coursework" onChange={handleChange} defaultChecked={getCheckboxState(row.practicalCoursework)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.practicalCoursework)}/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="courseworkExam" className="form-inline">
+                            <Form.Check label="Coursework Exam" id="5" name="Coursework Exam" onChange={handleChange} defaultChecked={getCheckboxState(row.courseworkExam)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.courseworkExam)}/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="projectPres" className="form-inline">
+                            <Form.Check label="Project Presentation" id="6" name="Project Presentation" onChange={handleChange} defaultChecked={getCheckboxState(row.projectPres)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.projectPres)}/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="project" className="form-inline">
+                            <Form.Check label="Project" id="7" name="Project" onChange={handleChange} defaultChecked={getCheckboxState(row.project)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.project)}/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="presentation" className="form-inline">
+                            <Form.Check label="Presentation" id="8" name="Presentation" onChange={handleChange} defaultChecked={getCheckboxState(row.presentation)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.presentation)}/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="assignment" className="form-inline">
+                            <Form.Check label="Assignment" id="9" name="Assignment" onChange={handleChange} defaultChecked={getCheckboxState(row.assignment)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.assignment)}/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="labAssessment" className="form-inline">
+                            <Form.Check label="Lab Assessment" id="10" name="Lab Assessment" onChange={handleChange} defaultChecked={getCheckboxState(row.labAssessment)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.labAssessment)}/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="midSemesterMcq" className="form-inline">
+                            <Form.Check label="Mid Semester MCQ" id="11" name="Mid Semester MCQ" onChange={handleChange} defaultChecked={getCheckboxState(row.midSemesterMcq)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.midSemesterMcq)}/>
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="projectReport" className="form-inline">
+                            <Form.Check label="Project Report" id="12" name="Project Report" onChange={handleChange} defaultChecked={getCheckboxState(row.projectReport)} style={styleCheckbox}></Form.Check>
+                            <Form.Control type="number" min="0" max="100" defaultValue={getPercentNumFromString(row.projectReport)}/>
+                        </Form.Group>
                     </Form.Group>
                 </Form.Row>
 
