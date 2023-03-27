@@ -25,11 +25,6 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
         var courses = PullCourses(); // Get all degree courses from the database
         //console.log(programmes)
 
-        
-            
-            
-        
-
         /*
             notifyAdded is used to display toast notifications for events. It displays a green toast.
         */    
@@ -114,6 +109,7 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
 
         return (<>
                 <Form validated={validated} onSubmit={handleSubmit}>
+                    {/* 
                     <Form.Group controlId="programmename">
                         <Form.Label>Select Programme</Form.Label>
                             <Form.Control required as="select">
@@ -126,17 +122,18 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
                                 
                             </Form.Control>
                     </Form.Group>
+                    */}
 
                     <Form.Group controlId="coursefullname">
                         <Form.Label>Select Course</Form.Label>
-                            <Form.Control required as="select">
-                                <option value="None">Choose a course</option>
+                            {/*<Form.Control required as="select">*/}
+                                {/*<option value="None">Choose a course</option>*/}
                                 {
                                     Array.from({length: courses.length}, (_, j) => {
-                                        return <option value={courses[j].courseCode + " " + courses[j].courseTitle}>{courses[j].courseCode + " " + courses[j].courseTitle}</option> 
+                                        return <Form.Check label={courses[j].courseCode + " " + courses[j].courseTitle} name={courses[j].courseCode + " " + courses[j].courseTitle}/> 
                                     })
                                 }
-                            </Form.Control>
+                           {/* </Form.Control>*/}
                     </Form.Group> 
         
                     <div class="float-right"><Button type="submit" class="btn btn-custom">Submit</Button></div>
