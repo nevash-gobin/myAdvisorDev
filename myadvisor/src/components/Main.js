@@ -32,7 +32,7 @@ import ReactWebChat from "../components/Bot Framework/webChat";
 function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth")); // Get authenticated status from localStorage
   const [user, setUser] = useState(localStorage.getItem("user")); // Get type of user from localStorage
-  const [recCourses, setRecCourses] = useState(null); // Store recomm\qended courses generated on StudentProfile.js
+  const [recCourses, setRecCourses] = useState(null); // Store recommended courses generated on StudentProfile.js
   const [careerRecCourses, setCareerRecCourses] = useState(null); // Store recommended courses generated on Career.js
   const [chosenCourses, setChosenCourses] = useState([]); // Store courses chosen by the user on CourseList.js
   const [show, setShow] = useState(true); // Boolean value to determine whether or not to show the "Begin Advising" button
@@ -47,6 +47,9 @@ function Main() {
   const [warning, setWarning] = useState(false); // Boolean value to indicate whether or not that the user is on academic warning
   const [botButtons, setBotButtons] = useState(false); // Boolean value to indicate whether or not to show "Back to Courses" and "Finish Advising" buttons on sidebar
   const [programme, setProgramme] = useState(null); // Store what programme a student is current doing
+  const [studCredComplete, setStudCredComplete] = useState(0);//credits a student has completed so far
+  const [courseInProgCredits, setCourseInProgCredits] = useState(0); //credits of the courses that are in progress
+  const [gradUploaded, setStudGradUploaded] = useState(false);
 
   /* Setter methods for use by the other pages */
   const setAuth = (boolean) => {
@@ -117,10 +120,22 @@ function Main() {
     setProgramme(value);
   };
 
+  const setCreditsCompleted = (value) => {
+    setStudCredComplete(value);
+  };
+
+  const setCourseInprogCreds = (value) => {
+    setCourseInProgCredits(value);
+  };
+
+  const setGradUploaded = (value) => {
+    setStudGradUploaded(value);
+  };
+
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
-      {user == "student" ? <PermanentDrawerRight hide={hide} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} setShowBotButtons={setShowBotButtons} loading={loading} warning={warning} newDeg={newDeg} botButtons={botButtons}/> : null}
+      {user === "student" ? <PermanentDrawerRight hide={hide} courseInProgCredits={courseInProgCredits} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} setShowBotButtons={setShowBotButtons} loading={loading} warning={warning} newDeg={newDeg} botButtons={botButtons}/> : null}
       <Switch>
         <Route
           exact
@@ -161,8 +176,8 @@ function Main() {
           path="/home"
           render={(props) =>
             {
-              if(isAuthenticated && user=="student"){
-                return <StudentProfile {...props} setRecommended={setRecommended} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
+              if(isAuthenticated && user==="student"){
+                return <StudentProfile {...props} courseInProgCredits={courseInProgCredits} setCourseInprogCreds={setCourseInprogCreds} newDeg={newDeg} setNewDegProg={setNewDegProg} credits={credits} setRecommended={setRecommended} setCreditsCompleted={setCreditsCompleted} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -175,7 +190,7 @@ function Main() {
           path="/courses"
           render={(props) =>
             {
-              if(isAuthenticated && user=="student"){
+              if(isAuthenticated && user==="student"){
                 return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} setChosen={setChosen} setNewDegProg={setNewDegProg} showBackBtn={showBackBtn} setShowBotButtons={setShowBotButtons} recCourses={recCourses} careerRecCourses={careerRecCourses} chosenCourses={chosenCourses} newDeg={newDeg}/>
               } else {
                 return(<Redirect to="/" />)
@@ -189,7 +204,7 @@ function Main() {
           path="/coursedetails"
           render={(props) =>
             {
-              if(isAuthenticated && user=="student"){
+              if(isAuthenticated && user==="student"){
                 return <CourseDetails {...props} />
               } else {
                 return(<Redirect to="/" />)
@@ -203,7 +218,7 @@ function Main() {
           path="/career"
           render={(props) =>
             {
-              if(isAuthenticated && user=="student"){
+              if(isAuthenticated && user==="student"){
                 return <Career {...props} setDisplay={setDisplay} setProg={setProg} setCareerRecommended={setCareerRecommended} year={year} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
@@ -217,7 +232,7 @@ function Main() {
           path="/start"
           render={(props) =>
             {
-              if(isAuthenticated && user=="student"){
+              if(isAuthenticated && user==="student"){
                 return <Start {...props} setHidden={setHidden} setDegProg={setDegProg} setCreds={setCreds} setShowBack={setShowBack} setRecommended={setRecommended} setShowBotButtons={setShowBotButtons} setStudentProgramme={setStudentProgramme} recCourses={recCourses}/>
               } else {
                 return(<Redirect to="/" />)
@@ -231,7 +246,7 @@ function Main() {
           path="/almostdone"
           render={(props) =>
             {
-              if(isAuthenticated && user=="student"){
+              if(isAuthenticated && user==="student"){
                 return <BeforeBot setShowBotButtons={setShowBotButtons}/>
               } else {
                 return(<Redirect to="/" />)
@@ -245,8 +260,8 @@ function Main() {
           path="/finish"
           render={(props) =>
             {
-              if(isAuthenticated && user=="student"){
-                return <Finish chosenCourses={chosenCourses} setProg={setProg} setShowBotButtons={setShowBotButtons}/>
+              if(isAuthenticated && user==="student"){
+                return <Finish gradUploaded={gradUploaded} newDeg={newDeg} setGradUploaded={setGradUploaded} courseInProgCredits={courseInProgCredits} chosenCourses={chosenCourses} credits={credits} studCredComplete={studCredComplete} setProg={setProg} setShowBotButtons={setShowBotButtons}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -260,7 +275,7 @@ function Main() {
           path="/bot"
           render={(props) =>
             {
-              if(isAuthenticated && user=="student"){
+              if(isAuthenticated && user==="student"){
                 return (
                 <div className="row">
                   <div className="col-sm-10">
@@ -282,7 +297,7 @@ function Main() {
           path="/staff"
           render={(props) =>
             {
-              if(isAuthenticated && user=="admin"){
+              if(isAuthenticated && user==="admin"){
                 return <StaffDashboard {...props} />
               } else {
                 return(<Redirect to="/" />)
@@ -296,7 +311,7 @@ function Main() {
           path="/staff/courses"
           render={(props) =>
             {
-              if(isAuthenticated && user=="admin"){
+              if(isAuthenticated && user==="admin"){
                 return <StaffCourses {...props} />
               } else {
                 return(<Redirect to="/" />)
@@ -310,7 +325,7 @@ function Main() {
           path="/staff/programmes"
           render={(props) =>
             {
-              if(isAuthenticated && user=="admin"){
+              if(isAuthenticated && user==="admin"){
                 return <Programmes {...props} />
               } else {
                 return(<Redirect to="/" />)
@@ -324,7 +339,7 @@ function Main() {
           path="/staff/students"
           render={(props) =>
             {
-              if(isAuthenticated && user=="admin"){
+              if(isAuthenticated && user==="admin"){
                 return <Students {...props} />
               } else {
                 return(<Redirect to="/" />)
@@ -338,7 +353,7 @@ function Main() {
           path="/staff/settings"
           render={(props) =>
             {
-              if(isAuthenticated && user=="admin"){
+              if(isAuthenticated && user==="admin"){
                 return <Settings {...props} />
               } else {
                 return(<Redirect to="/" />)
@@ -352,7 +367,7 @@ function Main() {
           path="/staff/reports"
           render={(props) =>
             {
-              if(isAuthenticated && user=="admin"){
+              if(isAuthenticated && user==="admin"){
                 return <Reports {...props} />
               } else {
                 return(<Redirect to="/" />)
@@ -366,7 +381,7 @@ function Main() {
           path="/staff/sessions"
           render={(props) =>
             {
-              if(isAuthenticated && user=="admin"){
+              if(isAuthenticated && user==="admin"){
                 return <Sessions {...props} />
               } else {
                 return(<Redirect to="/" />)
@@ -380,7 +395,7 @@ function Main() {
           path="/staff/graduates"
           render={(props) =>
             {
-              if(isAuthenticated && user=="admin"){
+              if(isAuthenticated && user==="admin"){
                 return <PotentialGraduates {...props} />
               } else {
                 return(<Redirect to="/" />)

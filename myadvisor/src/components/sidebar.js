@@ -41,9 +41,13 @@ const useStyles = makeStyles((theme) => ({
 export default function PermanentDrawerRight(props) {
   const classes = useStyles();
   var percentage = props.progress; // Advising progress percentage
+  
   var degPercentage = (props.degProgress * 1).toFixed(1); // Degree progress percentage
-  var newDeg = props.newDeg; // Updated degree credits
+  var newDeg = props.newDeg + props.courseInProgCredits; // Updated degree credits
+  //console.log("newDeg "+newDeg);
   var difference = props.credits - newDeg; // Updated degree credits remaining
+  //console.log("credits "+props.credits);
+  //console.log("diff "+difference);
   if (difference < 0) { // Set difference to 0 so that a negative number is not displayed
     difference = 0;
   }
@@ -51,8 +55,6 @@ export default function PermanentDrawerRight(props) {
 
   return (
     <div className={classes.root}>
-      
-      
       <Drawer
         className={classes.drawer}
         variant={ props.hide ? ("temporary") : ("permanent") }
@@ -99,7 +101,7 @@ export default function PermanentDrawerRight(props) {
           <Button style={{color:"#A9A7A7", fontWeight:600, backgroundColor:"#E6E6E6", borderColor:"#E6E6E6"}}>Begin Advising</Button>
           <p className="prog-status">Processing your courses...</p> 
         </div>
-      ) :  props.show && percentage == 0 ? (
+      ) :  props.show && percentage === 0 ? (
         <div>
           <Button style={{color:"#A9A7A7", fontWeight:600, backgroundColor:"#E6E6E6", borderColor:"#E6E6E6"}}>Begin Advising</Button>
         </div> ) : (null) 
@@ -146,7 +148,9 @@ export default function PermanentDrawerRight(props) {
     </div>
     <Typography style={{ fontWeight: 600, fontSize: 14, marginLeft:"20px", marginRight:"20px", marginTop: "10px", textAlign: "center", fontFamily:"Epilogue"}} >{props.credits} credits remaining</Typography>
     { newDeg !== 0 ? (
+      
       <Typography style={{ fontWeight: 600, fontSize: 14, marginLeft:"20px", marginRight:"20px", marginTop: "10px", textAlign: "center", fontFamily:"Epilogue", color:"#787878"}} >{difference} credits remaining after passing new courses</Typography>
+      
       ) : (null) }
 
       </Drawer>
