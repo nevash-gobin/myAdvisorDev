@@ -81,12 +81,12 @@ const coursesColumns = [
 */
 const defaultSorted = [{
     dataField: 'name',
-    order: 'asec'
+    order: 'asc'
 }];
 
 const coursesSorted = [{
     dataField: 'level',
-    order: 'asec'
+    order: 'asc'
 }];
 
 /*

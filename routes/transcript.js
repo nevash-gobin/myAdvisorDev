@@ -46,7 +46,8 @@ router.get("/courses/all", async (req, res) => {
          const student = await Transcript.findOne({where: { studentId: req.params.studentId }});
  
          if(!student) {
-             return res.status(404).send("Student not found.");
+             //return res.status(404).send("Student not found.");
+             return res.status(404).json({error: 'Student not found.'});
          }
          else {
              res.status(202).json(student);
@@ -84,7 +85,8 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
         const student = await StudentCourses.findAll({where: { studentId: req.params.studentId }});
 
         if(student.length == 0) {
-            return res.status(404).send("Student not found.");
+            //return res.status(404).send("Student not found.");
+            return res.status(404).json({ error: 'Student not found.' });
         }
         else {
             res.status(202).json(student);
@@ -160,9 +162,11 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
 
  router.post('/parseForm', upload.single('file'), async (req, res)=>{
     const { parsedText, ...data} = await parse(req.file.buffer);
+    //console.log("data "+ JSON.stringify(data));
     try {
         // destructure data entered
         const {studentId, gpa, name, progress, credits, degree, major, admitTerm} = data;
+        //console.log("credits "+credits);
 
         // check if student is already added
         const student = await Transcript.findOne({where : { studentId }});

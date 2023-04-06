@@ -6,13 +6,15 @@ const axios = require('axios');
  * @param {String} fileBuffer the file stored in memory 
  */
 async function getPDFText(fileBuffer){
+    
     let json = await new Promise((resolve, reject) => {
         let pdfParser = new PDFParser();
         pdfParser.on("pdfParser_dataReady", pdfData => resolve(pdfData));
         pdfParser.on("pdfParser_dataError", errData => reject(errData));
         pdfParser.parseBuffer(fileBuffer);
+        
     });
-
+    
     let pdfText = [];
 
     for(let page of json['formImage']['Pages']){
@@ -63,7 +65,7 @@ async function getStudentData(text, filename){
     let inprogress = false;
     let courseCodeLetters = [];
     let courseCodeNumbers = [];
-    let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "EX", "FM", "FMS", "FWR", "I", "IP", "LW", "NCR", "NFC", "NP", "NR", "NV", "W"]
+    let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "EX", "FM", "FMS", "FWR", "I", "IP", "LW", "NCR", "NFC", "NP", "NR", "NV", "W", "FMP"]
     var courses;
     var courseList = {};
     let totalCredits = 0;
@@ -158,7 +160,9 @@ async function getStudentData(text, filename){
 
 async function parse(file){
     const text = await getPDFText(file);
+    //console.log("pdftext - " + text);
     const studentData = await getStudentData(text);
+    //console.log("Student data "+ studentData);
     return studentData;
     
 }

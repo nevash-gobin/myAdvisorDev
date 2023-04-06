@@ -23,6 +23,8 @@ class StudentCoursesCard extends Component {
                                     <td class="col-8 title-cell">{this.props.courses[k].courseTitle}</td>
                                     <td class="col-1 credit-cell">{this.props.courses[k].grade}</td>
                                 </tr>
+                                
+                                
                             ))
                         }
                     </tbody>
