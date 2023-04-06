@@ -15,6 +15,7 @@ const Staff = require("../models/Staff");
 const AdvisingWindow = require("../models/AdvisingWindow");
 const AdvisingSession = require("../models/AdvisingSession");
 const { response } = require("express");
+const PotentialGraduate = require("../models/PotentialGraduate");
 
 // add new student account
 router.post("/students/create", staffAccountVerification, async (req, res) => {
@@ -144,6 +145,19 @@ router.get("/academic-advising/students/sessions", async (req, res) => {
         res.status(200).json(sessions);
     }
     catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+//get the potential graduates from the database
+router.get("/potential-graduates/students", async(req, res) => {
+    try{
+        //get all the potential graduates
+        const potGrad = await PotentialGraduate.findAll();
+        res.status(200).json(potGrad);
+    }
+    catch(err){
         console.log("Error: ", err.message);
         res.status(500).send("Server Error");
     }

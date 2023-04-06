@@ -49,13 +49,13 @@ function AddAccount() {
                 account_type: form.elements.account_type.value
             }
 
-            if(formData.password != formData.confirm_password){
+            if(formData.password !== formData.confirm_password){
                 notifyError("Passwords Don't Match")
             } else {
 
-                if(formData.account_type == "Staff"){
+                if(formData.account_type === "Staff"){
                     addAccount(formData, "/admin/staff/create"); 
-                } else if(formData.account_type == "Student") {
+                } else if(formData.account_type === "Student") {
                     addAccount(formData, "/admin/students/create"); 
                 }
 
@@ -83,7 +83,7 @@ function AddAccount() {
 
           const status = await res.statusText;
 
-          if(status == "OK"){
+          if(status === "OK"){
             notifyEdit("Account Added!");
           }
           else{

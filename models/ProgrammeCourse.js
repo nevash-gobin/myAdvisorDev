@@ -11,7 +11,11 @@ const ProgrammeCourse = db.define("programmecourse", {
     courseID: {
         type: Sequelize.INTEGER,
         allowNull: false
-    }
+    },
+    type: {
+      type: Sequelize.STRING,
+      allowNull: true
+  }
   });
 
   module.exports = ProgrammeCourse;

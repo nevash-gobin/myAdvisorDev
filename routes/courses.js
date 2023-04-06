@@ -239,7 +239,6 @@ router.delete("/delete/:code", async (req, res) => {
             return res.status(401).send("Course not found.");
         }
         else {
-
             await course.destroy();
             res.status(200).send("Course Removed");
         }
