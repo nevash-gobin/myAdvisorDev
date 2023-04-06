@@ -157,14 +157,15 @@ const Finish = (props) => {
 
         //console.log("delete "+ totalCreditsCompleted);
         
-        if((totalCreditsCompleted >= 0 && totalCreditsCompleted < 93)){//gradUploaded===true potGrad!=null
-            if(allPotGrads!==null){
+        //console.log("grad up "+props.gradUploaded);
+        if((totalCreditsCompleted >= 0 && totalCreditsCompleted < 93) && props.gradUploaded===true){//gradUploaded===true potGrad!=null
+            //if(allPotGrads!==null){
                 //console.log("true");
-                const found = allPotGrads.find(grad => {
-                    return grad.studentId === localStorage.getItem("username");
-                });
+                //const found = allPotGrads.find(grad => {
+                    //return grad.studentId === localStorage.getItem("username");
+                //});
                 //console.log("found "+found);
-            }
+            //}
             
             var requestOptions2 = {//create DELETE request
                 method: 'DELETE',
@@ -202,7 +203,7 @@ const Finish = (props) => {
         */
         
 
-    }, []);
+    }, [totalCreditsCompleted]);
     //console.log("total credits "+ totalCreditsCompleted);
     //console.log("grad upload "+props.gradUploaded);
 
