@@ -50,6 +50,7 @@ function Main() {
   const [studCredComplete, setStudCredComplete] = useState(0);//credits a student has completed so far
   const [courseInProgCredits, setCourseInProgCredits] = useState(0); //credits of the courses that are in progress
   const [gradUploaded, setStudGradUploaded] = useState(false);
+  const [gpa, setGpa] = useState(0); //Student's current gpa
 
   /* Setter methods for use by the other pages */
   const setAuth = (boolean) => {
@@ -132,10 +133,14 @@ function Main() {
     setStudGradUploaded(value);
   };
 
+  const setStudentGpa = (value) => {
+    setGpa(value);
+  }
+
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
-      {user === "student" ? <PermanentDrawerRight hide={hide} courseInProgCredits={courseInProgCredits} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} setShowBotButtons={setShowBotButtons} loading={loading} warning={warning} newDeg={newDeg} botButtons={botButtons}/> : null}
+      {user === "student" ? <PermanentDrawerRight gpa={gpa} hide={hide} courseInProgCredits={courseInProgCredits} recCourses={recCourses} progress={progress} degProgress={degProgress} credits={credits} show={show} setDisplay={setDisplay} setShowBotButtons={setShowBotButtons} loading={loading} warning={warning} newDeg={newDeg} botButtons={botButtons}/> : null}
       <Switch>
         <Route
           exact
@@ -177,7 +182,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user==="student"){
-                return <StudentProfile {...props} courseInProgCredits={courseInProgCredits} setCourseInprogCreds={setCourseInprogCreds} newDeg={newDeg} setNewDegProg={setNewDegProg} credits={credits} setRecommended={setRecommended} setCreditsCompleted={setCreditsCompleted} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
+                return <StudentProfile {...props} setStudentGpa={setStudentGpa} gpa={gpa} courseInProgCredits={courseInProgCredits} setCourseInprogCreds={setCourseInprogCreds} newDeg={newDeg} setNewDegProg={setNewDegProg} credits={credits} setRecommended={setRecommended} setCreditsCompleted={setCreditsCompleted} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
               } else {
                 return(<Redirect to="/" />)
               }

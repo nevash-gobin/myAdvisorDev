@@ -22,10 +22,12 @@ const StudentProfile = (props) => {
     }
 
     var details = PullDetails(localStorage.getItem("username")); // Get student details from database
+    console.log(details);
     var studentCourses = PullStudentCourses(localStorage.getItem("username")); // Get student courses from database
     var programmes = PullProgrammes(); // Get list of all degree programmes from database
     var courses = PullCourses(); //Get list of all courses from database
-    var courseInProgCreds = 0;
+    //var courseInProgCreds = 0;
+    
    
 
     function getCreditsInprogressCourses(){
@@ -45,6 +47,7 @@ const StudentProfile = (props) => {
  
     useEffect(() => {
         props.setCreditsCompleted(details.credits);
+        props.setStudentGpa(details.gpa);
         //props.setNewDegProg(newDegProg);
         //courseInProgCreds = getCreditsInprogressCourses();
         props.setCourseInprogCreds(getCreditsInprogressCourses());
