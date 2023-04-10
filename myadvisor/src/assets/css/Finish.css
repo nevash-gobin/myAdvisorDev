@@ -31,3 +31,20 @@
     border-radius: 43px !important;
     border-color: white !important;
 }
+
+.body-tips {
+    border-color: white !important;
+    border-radius: 30px !important;
+    background-color: rgb(211, 210, 210) !important;
+}
+
+.almost-header2 {
+    margin-left: 50px;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+.almost-text2 {
+    margin-left: 50px;
+    margin-top: 30px;
+}

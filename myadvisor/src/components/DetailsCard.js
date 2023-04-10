@@ -57,11 +57,11 @@ class DetailsCard extends Component {
                             redirect: 'follow'
                         };
             
-                        fetch("/transcript/parseForm", requestOptions) // Then make request to server to parse transcript, upload student details and thei r courses to the database
+                        fetch("/transcript/parseForm", requestOptions) // Then make request to server to parse transcript, upload student details and their courses to the database
                             .then(response => response.text())
                             .then(result => console.log(result))
                             .then(result => this.props.uploadedHandler()) // Once the data has been saved to the database, run uploadedHandler from StudentProfile
-                            .catch(error => console.log('error', error));        
+                            .catch(error => console.log('error', error));   
                     })
                     .catch(error => console.log('error', error));        
             })
@@ -70,6 +70,7 @@ class DetailsCard extends Component {
 
 
     render() {
+        //console.log(this.props.calGpaDetails);
         return (
             <div>
                 <div className="card details-card">

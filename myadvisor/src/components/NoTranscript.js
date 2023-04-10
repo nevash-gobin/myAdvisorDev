@@ -41,9 +41,13 @@ class NoTranscript extends Component {
           .then(result => console.log(result))
           .then(result => this.props.uploadedHandler()) // Once the data has been saved to the database, run uploadedHandler from StudentProfile
           .catch(error => console.log('error', error));
+
 	}
 
+    
+
   render() {
+    //console.log(this.props.calGpaDetails);
     return (
         <div>
             <div className="card details-card">

@@ -14,7 +14,8 @@ const StudentProfile = (props) => {
 
     const [uploaded, setUploaded] = useState(true); // Boolean value to indicate whether or not a transcript has been uploaded
     const [processed, setProcessed] = useState(false); // Boolean value to indicate whether or not the recommended courses have been finished generating
-    const newDegProg = props.newDeg;
+    //const newDegProg = props.newDeg;
+    var inProgressCourseArr = [];//array for student's in progress courses
 
     // Function to refresh page once a transcript has been uploaded
     function uploadedHandler() {
@@ -22,14 +23,13 @@ const StudentProfile = (props) => {
     }
 
     var details = PullDetails(localStorage.getItem("username")); // Get student details from database
-    console.log(details);
+    //console.log(details);
     var studentCourses = PullStudentCourses(localStorage.getItem("username")); // Get student courses from database
     var programmes = PullProgrammes(); // Get list of all degree programmes from database
     var courses = PullCourses(); //Get list of all courses from database
     //var courseInProgCreds = 0;
     
    
-
     function getCreditsInprogressCourses(){
         var amountCreditsInProg = 0;
         // Iterate through student courses list
@@ -51,6 +51,7 @@ const StudentProfile = (props) => {
         //props.setNewDegProg(newDegProg);
         //courseInProgCreds = getCreditsInprogressCourses();
         props.setCourseInprogCreds(getCreditsInprogressCourses());
+        props.setTransDetails(details);
         props.setDisplay(true); // Show the "Begin Advising" button on the sidebar
         props.setHidden(false); // Unhide the sidebar
         props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
@@ -67,7 +68,6 @@ const StudentProfile = (props) => {
                 setUploaded(true); // Indicate that the user has uploaded their transcript
                 props.setDegProg(details.progress); // Set degree progress percentage
                 props.setCreds(93 - details.credits); // Set credits left for degree
-                //- courseInProgCreds
             }
 
             var studentProgramme = props.programme; // Get student programme that they selected on Start page
@@ -334,6 +334,8 @@ const StudentProfile = (props) => {
             for (var j=0; j<studentCourses.length; j++) {
                 if ((studentCourses[j].courseCode === core[i].courseCode) && (studentCourses[j].grade === "IP")){
                     coreRes[`${core[i].courseCode}`] = "IP";
+                    inProgressCourseArr.push(studentCourses[j].courseCode);
+                    //setInprogressCourses(current => [current.., studentCourses[j].courseCode]);
                     //props.setNewDegProg(props.newDeg + props.courseInProgCredits);
                 }
                 else if ((studentCourses[j].courseCode === core[i].courseCode) && !(noCreditGrade.includes(studentCourses[j].grade))){
@@ -349,6 +351,8 @@ const StudentProfile = (props) => {
                 }
             }
         }
+        //console.log(inProgressCourseArr);
+        props.setInProgressCourses(inProgressCourseArr);
         return coreRes;
     }
 

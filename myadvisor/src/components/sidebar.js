@@ -118,6 +118,7 @@ export default function PermanentDrawerRight(props) {
                 ) : (null)
               }
             </div>
+            {/* <hr style={{color: 'black', height: '2px' }}/> */}
         
             <Box component='span' m={5}> </Box>
               <Box component="span" m={0.1}>

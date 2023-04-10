@@ -49,8 +49,10 @@ function Main() {
   const [programme, setProgramme] = useState(null); // Store what programme a student is current doing
   const [studCredComplete, setStudCredComplete] = useState(0);//credits a student has completed so far
   const [courseInProgCredits, setCourseInProgCredits] = useState(0); //credits of the courses that are in progress
-  const [gradUploaded, setStudGradUploaded] = useState(false);
   const [gpa, setGpa] = useState(0); //Student's current gpa
+  const [inProgCourses, setInProgCourses] = useState([]); //an array of the student's inprogress courses
+  const [transcriptDetails, setTranscriptDetails] = useState(null); //to store a student's transcript details
+  const [gradUploaded, setGradUpload] = useState(false);
 
   /* Setter methods for use by the other pages */
   const setAuth = (boolean) => {
@@ -129,12 +131,20 @@ function Main() {
     setCourseInProgCredits(value);
   };
 
-  const setGradUploaded = (value) => {
-    setStudGradUploaded(value);
-  };
-
   const setStudentGpa = (value) => {
     setGpa(value);
+  }
+
+  const setInProgressCourses = (value) => {
+    setInProgCourses(value);
+  }
+
+  const setTransDetails = (value) => {
+    setTranscriptDetails(value);
+  }
+
+  const setGradUploaded = (value) => {
+    setGradUpload(value);
   }
 
   return (
@@ -182,7 +192,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user==="student"){
-                return <StudentProfile {...props} setStudentGpa={setStudentGpa} gpa={gpa} courseInProgCredits={courseInProgCredits} setCourseInprogCreds={setCourseInprogCreds} newDeg={newDeg} setNewDegProg={setNewDegProg} credits={credits} setRecommended={setRecommended} setCreditsCompleted={setCreditsCompleted} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
+                return <StudentProfile {...props} setTransDetails={setTransDetails} setInProgressCourses={setInProgressCourses} setStudentGpa={setStudentGpa} gpa={gpa} courseInProgCredits={courseInProgCredits} setCourseInprogCreds={setCourseInprogCreds} newDeg={newDeg} setNewDegProg={setNewDegProg} credits={credits} setRecommended={setRecommended} setCreditsCompleted={setCreditsCompleted} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -266,7 +276,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user==="student"){
-                return <Finish gradUploaded={gradUploaded} newDeg={newDeg} setGradUploaded={setGradUploaded} courseInProgCredits={courseInProgCredits} chosenCourses={chosenCourses} credits={credits} studCredComplete={studCredComplete} setProg={setProg} setShowBotButtons={setShowBotButtons}/>
+                return <Finish courseInProgCredits={courseInProgCredits} setGradUploaded={setGradUploaded} gradUploaded={gradUploaded} transcriptDetails={transcriptDetails} inProgCourses={inProgCourses} newDeg={newDeg} chosenCourses={chosenCourses} studCredComplete={studCredComplete} setProg={setProg} setShowBotButtons={setShowBotButtons}/>
               } else {
                 return(<Redirect to="/" />)
               }
