@@ -140,7 +140,7 @@ function StudentsTable({students, loading}) {
     }
 
     useEffect(() => {
-        getStudentCourses();
+        //getStudentCourses();
     }, []);   
      
 
