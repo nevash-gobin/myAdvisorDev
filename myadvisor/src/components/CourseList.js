@@ -84,6 +84,24 @@ const CourseList = (props) => {
       }
     }
 
+    //Function to calculate chosen courses credits
+    function calculateChosenCourseCredits(chosenCoursesArr, coursesArr){
+      var chosenCourseCreds = 0;
+      var coursesChoseNCreds = [];
+      Array.from({ length: coursesArr.length }, (_, k) => {
+          if (chosenCoursesArr.includes(coursesArr[k].courseCode)) {
+              chosenCourseCreds = chosenCourseCreds + coursesArr[k].credits;
+              const obj = {
+                            courseCode: coursesArr[k].courseCode,
+                            credits: coursesArr[k].credits
+                          };
+              coursesChoseNCreds.push(obj);
+          }
+      })
+      props.setCourseChoseNCredits(coursesChoseNCreds);
+      return chosenCourseCreds;
+  }
+
     // Function that runs when the Add checkbox is checked or unchecked
     function onChange(event, courseCredits) { 
       var chosenArray = props.chosenCourses;
@@ -91,7 +109,6 @@ const CourseList = (props) => {
       if (event.currentTarget.checked === true) { // If the checkbox was checked
         chosenArray.push(event.currentTarget.value); // Add course to chosenArray
         props.setNewDegProg(props.newDeg + courseCredits); // Add the course credits to the new degree progress
-        //console.log("new deg "+props.newDeg);
       }
       else { // If the checkbox was unchecked
         while (!clear) { // While there is multiple copies of a chos en course in chosenArray
@@ -107,6 +124,8 @@ const CourseList = (props) => {
         clear = false;
       }
       props.setChosen(chosenArray);
+
+      props.setChosenCoursesCredits(calculateChosenCourseCredits(props.chosenCourses, courses));
     }
 
     return (

@@ -53,6 +53,9 @@ function Main() {
   const [inProgCourses, setInProgCourses] = useState([]); //an array of the student's inprogress courses
   const [transcriptDetails, setTranscriptDetails] = useState(null); //to store a student's transcript details
   const [gradUploaded, setGradUpload] = useState(false);
+  const [chosenCoursesCreds, setChosenCoursesCreds] = useState(0); // Store chosen courses credits on CourseList.js
+  const [courseChoseNCreds, setCourseChoseNCreds] = useState([]); //array to store chosen course code and credits
+  const [courseInProgNCreds, setCourseInProgNCreds] = useState([]); //array to store in progress course code and credits
 
   /* Setter methods for use by the other pages */
   const setAuth = (boolean) => {
@@ -147,6 +150,18 @@ function Main() {
     setGradUpload(value);
   }
 
+  const setChosenCoursesCredits = (value) => {
+    setChosenCoursesCreds(value);
+  }
+
+  const setCourseChoseNCredits = (value) => {
+    setCourseChoseNCreds(value);
+  }
+
+  const setCourseInProgNCredits = (value) => {
+    setCourseInProgNCreds(value);
+  }
+
   return (
     <div className="main-panel">
       {user ? <TopBar hide={hide}></TopBar> : null}
@@ -192,7 +207,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user==="student"){
-                return <StudentProfile {...props} setTransDetails={setTransDetails} setInProgressCourses={setInProgressCourses} setStudentGpa={setStudentGpa} gpa={gpa} courseInProgCredits={courseInProgCredits} setCourseInprogCreds={setCourseInprogCreds} newDeg={newDeg} setNewDegProg={setNewDegProg} credits={credits} setRecommended={setRecommended} setCreditsCompleted={setCreditsCompleted} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
+                return <StudentProfile {...props} setCourseInProgNCredits={setCourseInProgNCredits} setTransDetails={setTransDetails} setInProgressCourses={setInProgressCourses} setStudentGpa={setStudentGpa} gpa={gpa} courseInProgCredits={courseInProgCredits} setCourseInprogCreds={setCourseInprogCreds} newDeg={newDeg} setNewDegProg={setNewDegProg} credits={credits} setRecommended={setRecommended} setCreditsCompleted={setCreditsCompleted} setDisplay={setDisplay} setProg={setProg} setDegProg={setDegProg} setCreds={setCreds} setHidden={setHidden} setLoad={setLoad} setLevel={setLevel} setAcWarning={setAcWarning} setShowBotButtons={setShowBotButtons} recCourses={recCourses} programme={programme}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -206,7 +221,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user==="student"){
-                return <CourseList {...props} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} setChosen={setChosen} setNewDegProg={setNewDegProg} showBackBtn={showBackBtn} setShowBotButtons={setShowBotButtons} recCourses={recCourses} careerRecCourses={careerRecCourses} chosenCourses={chosenCourses} newDeg={newDeg}/>
+                return <CourseList {...props} setCourseChoseNCredits={setCourseChoseNCredits} setChosenCoursesCredits={setChosenCoursesCredits} setProg={setProg} setHidden={setHidden} setDisplay={setDisplay} setChosen={setChosen} setNewDegProg={setNewDegProg} showBackBtn={showBackBtn} setShowBotButtons={setShowBotButtons} recCourses={recCourses} careerRecCourses={careerRecCourses} chosenCourses={chosenCourses} newDeg={newDeg}/>
               } else {
                 return(<Redirect to="/" />)
               }
@@ -276,7 +291,7 @@ function Main() {
           render={(props) =>
             {
               if(isAuthenticated && user==="student"){
-                return <Finish courseInProgCredits={courseInProgCredits} setGradUploaded={setGradUploaded} gradUploaded={gradUploaded} transcriptDetails={transcriptDetails} inProgCourses={inProgCourses} newDeg={newDeg} chosenCourses={chosenCourses} studCredComplete={studCredComplete} setProg={setProg} setShowBotButtons={setShowBotButtons}/>
+                return <Finish courseInProgNCreds={courseInProgNCreds} courseChoseNCreds={courseChoseNCreds} chosenCoursesCreds={chosenCoursesCreds} courseInProgCredits={courseInProgCredits} setGradUploaded={setGradUploaded} gradUploaded={gradUploaded} transcriptDetails={transcriptDetails} inProgCourses={inProgCourses} newDeg={newDeg} chosenCourses={chosenCourses} studCredComplete={studCredComplete} setProg={setProg} setShowBotButtons={setShowBotButtons}/>
               } else {
                 return(<Redirect to="/" />)
               }

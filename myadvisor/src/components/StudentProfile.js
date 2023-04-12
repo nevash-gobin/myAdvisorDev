@@ -32,6 +32,7 @@ const StudentProfile = (props) => {
    
     function getCreditsInprogressCourses(){
         var amountCreditsInProg = 0;
+        
         // Iterate through student courses list
         for(var j=0; j<studentCourses.length; j++){
             if(studentCourses[j].grade === "IP"){//if an "In Progress" course is found
@@ -330,13 +331,20 @@ const StudentProfile = (props) => {
     // Function to indicate is a student passed, failed, didn't do a course or is in progress
     function determineStudentCourses(core) {
         var coreRes = {};
+        var inProgCourseNCreds = [];
         for (var i=0; i<core.length; i++){
             for (var j=0; j<studentCourses.length; j++) {
                 if ((studentCourses[j].courseCode === core[i].courseCode) && (studentCourses[j].grade === "IP")){
                     coreRes[`${core[i].courseCode}`] = "IP";
                     inProgressCourseArr.push(studentCourses[j].courseCode);
+                    const obj = {
+                                courseCode: studentCourses[j].courseCode,
+                                credits: core[i].credits
+                            };
+                    inProgCourseNCreds.push(obj);
+
                     //setInprogressCourses(current => [current.., studentCourses[j].courseCode]);
-                    //props.setNewDegProg(props.newDeg + props.courseInProgCredits);
+                    
                 }
                 else if ((studentCourses[j].courseCode === core[i].courseCode) && !(noCreditGrade.includes(studentCourses[j].grade))){
                     coreRes[`${core[i].courseCode}`] = "P";
@@ -351,8 +359,8 @@ const StudentProfile = (props) => {
                 }
             }
         }
-        //console.log(inProgressCourseArr);
         props.setInProgressCourses(inProgressCourseArr);
+        props.setCourseInProgNCredits(inProgCourseNCreds);
         return coreRes;
     }
 
