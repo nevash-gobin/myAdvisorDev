@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import "../assets/css/Finish.css";
 import { useHistory } from 'react-router-dom';
-//import axios from "axios";
-import PullCourses from "./PullCourses";
 import { useEffect, useState } from "react";
+import { isEqual } from 'lodash';
 
 const Finish = (props) => {
 
@@ -14,10 +13,7 @@ const Finish = (props) => {
     
     var totalCreditsCompleted = parseInt(props.studCredComplete) + parseInt(props.newDeg) + parseInt(props.courseInProgCredits); //this is a potential total number of credits completed
     var gradeCombinations; //2D array to contain grade combination
-    var coursesNCredits = [...props.courseInProgNCreds, ...props.courseChoseNCreds];//join two arrays
-    //console.log(coursesNCredits);
-
-    //console.log(transcriptDets);
+    var coursesNCredits = [...props.courseInProgNCreds, ...props.courseChoseNCreds];//join two arrays.To store courses a student is pursuing this semester
 
     var combinedDegreeGpa; //estimated gpa calculated using prior gpa and current gpa
 
@@ -35,17 +31,12 @@ const Finish = (props) => {
                           //{grade: 'F3', qualityPoints: 0.0},
                         ];
 
-    for(var i=0;i<8;i++){
-
-    }
-
     // If the user's recommended courses has been lost, redirect to start page to generate them again
     if (props.recCourses === null) { 
         history.push({
         pathname: '/start'
         })
     }
-
 
     /*
         Calculate potential gpa and potential degree class
@@ -81,7 +72,6 @@ const Finish = (props) => {
         var estimatedGPA = ((priorDegGpaHrs * priorDegGpa) + (currDegGpaHrs * currDegGpa)) / (priorDegGpaHrs + currDegGpaHrs);
         return estimatedGPA;
     }
-    //console.log(calculateCombinedDegreeGpa(60.00, 3.00, 3.00, 4.00).toFixed(2));
 
     //Function to calculate grade points for a course
     function calculateGradePoints(gradeQualityHrs, gradeQualityPts){
@@ -89,78 +79,189 @@ const Finish = (props) => {
         return gradePoints;
     }
 
-    //Function to create grade combinations based on the number of courses a student is pursuing for the semester
-    function createGradeCombination(combine2DArray, coursesArr, numCourses, gradeArr, gradeArrSize){
-        combine2DArray = Array(gradeArrSize*numCourses).fill(0).map(row => new Array(numCourses).fill(1)); //initialize
-        //combine2DArray = Array(gradeArrSize).map(row => new Array(numCourses));
+    //Function to get factorial of a number
+    function getFactorial(number){
+        var factorial = 1;
+        if (number===0){
+            return 1;
+        }
 
-        //coursesArr.map(course => {//traverse through course array
-        //});
-
-        var index = 0;
-        var decrease = 0;
-        //var gradeEnd = gradeArr.length;
-        //var [index, setIndex] = useState(0); 
-
-        var combine2DArray2 = combine2DArray.map((array1, i) => //in first dimension
-            //console.log(i),
-            array1.map((array2, j) => { //in second dimension
-                //console.log(array1.length); //5
-                //console.log(j);
-                if(index<gradeArrSize){
-                    const grade = gradeArr[index].grade;
-                    if(j===numCourses-1){
-                        index = index + 1;
-                    }
-                    
-                    return grade;
-                }
-
-                else{
-                    index = 0;
-                    const grade = gradeArr[index].grade;
-                    return grade;
-                }
-                
-                
-                //index = index + 1;
-                //return gradeArr[index].grade;
-            
-                
-                //return j;
-            }),
-            //index = index + 1
-        
-            
-            
-        
-            
-        );
-
-        /*
-        var combine2DArray3 = gradeArr.map((gradeItem, k) => {
-            combine2DArray.map((array1, i) => //in first dimension
-                //console.log(i);
-                array1.map((array2, j) => { //in second dimension
-                    return gradeItem;
-                    //return j;
-                }
-            ))
-        
-        });
-        */
-
-        //console.log(combine2DArray);
-        return combine2DArray2;
+        for(let j=1; j<=number; j++){
+            factorial =  factorial * j;
+        }
+        return factorial;
     }
 
-    console.log(createGradeCombination(gradeCombinations, coursesNCredits, 2, gradesArray, gradesArray.length));
+    //Function to calculate the number of grade combinations based on number of courses pursuing.
+    function calculateNumCombinations(numCoursesR, gradeArrSizeN){
+        const top = getFactorial(numCoursesR + gradeArrSizeN - 1);
+        const bottom1 = getFactorial(numCoursesR);
+        const bottom2 = getFactorial(gradeArrSizeN - 1);
+        const numCombos = top / (bottom1 * bottom2);
+        return numCombos;
+    }
+
+    //Function that creates grade combinations with repeats
+    function getGradeCombosWithRepeats(numCourses, gradeArr, gradeArrSize){
+        var arrayWithRepeats = [];
+        var size = Math.pow(gradeArrSize, numCourses);
+
+        for (var i = 0; i < size; i++) {
+            var gradeSet = "";
+            for (var j = 0; j < numCourses; j++) {
+                if(j===numCourses-1){
+                    gradeSet += gradeArr[Math.floor(i / Math.pow(gradeArrSize, j)) % gradeArrSize].grade;
+                }
+                else{
+                    gradeSet += gradeArr[Math.floor(i / Math.pow(gradeArrSize, j)) % gradeArrSize].grade + " ";
+                }
+            }
+            arrayWithRepeats.push(gradeSet);
+        }    
+        return arrayWithRepeats;
+    }
+
+    /*
+    //Function to check for repeated characters in a string
+    function checkRepeatedCharacters(splitArray){
+        var arrGradeQuantity = [];
+        var count;
+
+        //for loop to traverse split array to check for repeated characters
+        for(var a=0; a<splitArray.length; a++){
+            count = 1;
+            for(var b=a+1; b<splitArray.length; b++){
+                if(splitArray[a] === splitArray[b]){
+                    count++;
+                }
+            }
+            
+            var isEqual = false;
+            const obj = {grade: splitArray[a], quantity: count};
+            for(var s1=0; s1<arrGradeQuantity.length; s1++){
+                if(arrGradeQuantity[s1].grade === obj.grade){
+                    isEqual= true;
+                }
+            }
+
+            if(isEqual === false){
+                arrGradeQuantity.push(obj);
+            }
+
+            if(arrGradeQuantity.length===0){
+                arrGradeQuantity.push(obj);
+            }
+        }
+        return arrGradeQuantity;
+    }
+    */
+
+    //Function that checks if two strings of the same length contain the same grades regardless of order.
+    function checkStringSameGrades(string1, string2){
+        //Original split arrays
+        var string1Split = string1.split(" ");
+        var string2Split = string2.split(" ");
+
+        //Copy split arrays
+        var string1SplitCopy = string1Split;
+        var string2SplitCopy = string2Split;
+
+        //Sort both split arrays
+        const sortedArr1 = string1SplitCopy.sort();
+        const sortedArr2 = string2SplitCopy.sort();
+    
+        var isTheSame = isEqual(sortedArr1, sortedArr2);
+        
+        return isTheSame;
+    }
+
+    function getGradeCombosWithoutRepeats(arrayWithRepeats, numCourses, numCombos){
+        var arrayWithoutRepeats = arrayWithRepeats;
+
+        while(arrayWithoutRepeats.length !== numCombos){ //to cater for extra repeats
+            for(var i=0; i<arrayWithoutRepeats.length; i++){
+                for(var j=i+1; j<arrayWithoutRepeats.length; j++){
+                    if(checkStringSameGrades(arrayWithoutRepeats[i], arrayWithoutRepeats[j])){
+                        arrayWithoutRepeats = arrayWithoutRepeats.toSpliced(j, 1);
+                    }
+                }
+            }
+        }
+        return arrayWithoutRepeats;
+    }
+
+    //Function to create grade combinations based on the number of courses a student is pursuing for the semester
+    function create2DGradeCombinations(numCourses, gradeArr, gradeArrSize){
+        const arraySize = calculateNumCombinations(numCourses, gradeArrSize);
+        var combine2DArray = Array(arraySize).fill(0).map(row => new Array(numCourses).fill(1)); //initialize 2D array
+
+        var gradeArrRepeats = getGradeCombosWithRepeats(numCourses, gradeArr, gradeArrSize);
+        var gradeArrWithoutRepeats = getGradeCombosWithoutRepeats(gradeArrRepeats, numCourses, arraySize);
+
+        var count = 0;
+
+        for(var i=0; i<combine2DArray.length; i++){
+            for(var j=0; j<combine2DArray[i].length; j++){
+                var arrSplit = gradeArrWithoutRepeats[count].split(" ");
+                combine2DArray[i][j] = arrSplit[j];
+            }
+            count++;
+        }
+        return combine2DArray;
+    }
+
+    //Function to calculate total quality points
+    function calculateTotalQualityPoints(pursueCourses){
+        var totQualityPoints = 0;
+        for(var i=0; i<pursueCourses.length; i++){
+            totQualityPoints = totQualityPoints + pursueCourses[i].credits;
+        }
+        return totQualityPoints;
+    }
+
+    //Calculate total grade points for one combination
+    function calculateGradePointsEarned(gradeCombo, gradeArr, pursueCourses){
+        var totalGradePointCombo = 0; //total grade point for 1 combination
+        for(var m=0; m<gradeCombo.length; m++){
+            for(var k=0; k<gradeArr.length; k++){
+                if(gradeCombo[m] === gradeArr[k].grade){
+                    totalGradePointCombo = totalGradePointCombo + calculateGradePoints(pursueCourses[m].credits, gradeArr[k].qualityPoints);
+                }
+            }
+        }
+        
+
+/*
+        var tempArr = gradeComboArr;
+        for(var i=0; i<tempArr.length; i++){
+            for(var j=0; j<tempArr[i].length; j++){
+                for(var k=0; k<gradeArr.length; k++){
+                    if(tempArr[i][j] === gradeArr[k].grade){
+                        
+                    }
+                }
+                const obj = {totalGradePoints: 0};
+                tempArr[i].push(obj);
+                
+            }
+        }
+        */
+        return totalGradePointCombo.toFixed(1);
+    }
 
     //function to calculate the potential degree gpa for the semester
-    function calculateSemPotentialGpa(){
+    function calculatePotentialGpa(){
         const priorDegGpaHrs = transcriptDets.degreeGpaHours; //found on transcript
         const priorDegGpa = transcriptDets.gpa; //found on transcript
         //console.log(priorDegGpaHrs);
+        gradeCombinations = create2DGradeCombinations(coursesNCredits.length, gradesArray, gradesArray.length);
+        //console.log(gradeCombinations);
+
+        var totalGradePointEarned = calculateGradePointsEarned(gradeCombinations[0], gradesArray, coursesNCredits);
+        //console.log(calculateGradePointsEarned(gradeCombinations[0], gradesArray, coursesNCredits));
+
+        //have to calculate gpa for all combos
+
 
         var inProgressCourseCredits = props.courseInProgCredits; //total credit for in progress courses
         var chosenCourseCredits = props.chosenCoursesCreds; //total credits for chosen courses
@@ -168,11 +269,14 @@ const Finish = (props) => {
         var currDegGpaHrs = calculateCurrentDegreeGpaHrs(chosenCourseCredits, inProgressCourseCredits); //total credits of courses that you are pursuing this semester (including inprogress course & course chosen for advising)
         
         
-        //const currDegGpa = ; //need to know how much courses user doing this sem
+        var totalQualityPoints = calculateTotalQualityPoints(coursesNCredits);
+        //console.log(totalQualityPoints);
+        
+        const currDegGpa = calculateCurrentDegreeGpa(totalGradePointEarned, totalQualityPoints); 
         //need credits and quality points for each cours
         //console.log(priorDegGpa);
     }
-    //calculateSemPotentialGpa();
+    //calculatePotentialGpa();
 
     useEffect(() => {
         props.setProg(100); // Set advising progress to 100%
@@ -311,11 +415,13 @@ const Finish = (props) => {
                                     })
                                 }
                             </div>
-
+                            {/*
                             <div className="card body-tips" >
                                 <p className="almost-header2">Potential Degree Class:</p>
                                 <p className="almost-text2">Here's a list of all the courses you chose:</p>
                             </div>
+
+                            */}
                                 
                             
 
