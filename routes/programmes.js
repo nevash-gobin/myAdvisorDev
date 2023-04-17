@@ -122,7 +122,6 @@ router.get("/offered-courses/:id", async (req, res) => {
                 course.dataValues.type = progCourse.type;
                 courses.push(course);
             }
-            //console.log(courses);
 
             res.status(202).json(courses);
         }

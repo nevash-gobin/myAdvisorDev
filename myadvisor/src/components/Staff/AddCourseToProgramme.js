@@ -18,17 +18,13 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
     */    
         const [validated, setValidated] = useState(false);
 
-        const [programme, setProgramme] = useState("None"); // Store which programme was selected
-        const [course, setCourse] = useState("None"); // Store which course was selected
+        //const [programme, setProgramme] = useState("None"); // Store which programme was selected
+        //const [course, setCourse] = useState("None"); // Store which course was selected
 
         var programmes = PullProgrammes(); // Get all degree programmes from the database
         var courses = PullCourses(); // Get all degree courses from the database
         //console.log(programmes)
 
-        
-            
-            
-        
 
         /*
             notifyAdded is used to display toast notifications for events. It displays a green toast.
@@ -144,7 +140,7 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
                     <Form.Group controlId="coursetype">
                         <Form.Label>Select Type</Form.Label>
                             <Form.Control required as="select">
-                            <option value="None">Choose type</option>
+                                <option value="None">Choose type</option>
                                 <option>Core</option>
                                 <option>Elective</option>
                             </Form.Control>

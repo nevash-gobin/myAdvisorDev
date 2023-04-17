@@ -157,10 +157,8 @@ function ProgrammesTable({programmes, loading}) {
             const res = await fetch("/programmes/offered-courses/" + id, {
             method: "GET",
         });
-        //console.log(res);
             const parseData = await res.json();
             setProgrammeCourses(parseData);
-            //console.log(parseData);
             setLoadingCourses(false);
             
             
@@ -168,7 +166,6 @@ function ProgrammesTable({programmes, loading}) {
             console.error(err.message);
         }
     }
-    //console.log(programmeCourses);
 
     /*
         ToolkitProvider is a wrapper for the BootstrapTable context and the related search, export csv and clear search react contexts.  
