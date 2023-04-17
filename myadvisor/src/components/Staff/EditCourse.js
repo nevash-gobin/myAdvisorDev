@@ -98,7 +98,6 @@ function EditCourse({setShow, row, refreshTable}) {
             credits : form.elements.credits.value,
             semester : form.elements.semester.value,
             level : form.elements.level.value,
-            type: form.elements.type.value,
             prerequisites : form.elements.prerequisites.value,
             description: form.elements.description.value,
             coursework: String(form.elements.coursework.value) + "%",
@@ -204,7 +203,7 @@ function EditCourse({setShow, row, refreshTable}) {
                 </Form.Group>
 
                 <Form.Row>
-                    <Form.Group as={Col} md="3" controlId="credits">
+                    <Form.Group as={Col} md="4" controlId="credits">
                         <Form.Label>Credits</Form.Label>
                         <Form.Control required as="select" defaultValue={row.credits}>
                             <option>3</option>
@@ -212,7 +211,7 @@ function EditCourse({setShow, row, refreshTable}) {
                         </Form.Control>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="3" controlId="semester">
+                    <Form.Group as={Col} md="4" controlId="semester">
                         <Form.Label>Semester</Form.Label>
                         <Form.Control required as="select" defaultValue={row.semester}>
                             <option>1</option>
@@ -221,20 +220,12 @@ function EditCourse({setShow, row, refreshTable}) {
                         </Form.Control>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="3" controlId="level">
+                    <Form.Group as={Col} md="4" controlId="level">
                         <Form.Label>Level</Form.Label>
                         <Form.Control required as="select" defaultValue={row.level}>
                             <option>I</option>
                             <option>II</option>
                             <option>III</option>
-                        </Form.Control>
-                    </Form.Group>
-
-                    <Form.Group as={Col} md="3" controlId="type">
-                        <Form.Label>Type</Form.Label>
-                        <Form.Control required as="select" defaultValue={row.type}>
-                            <option>Core</option>
-                            <option>Elective</option>
                         </Form.Control>
                     </Form.Group>
                 </Form.Row>

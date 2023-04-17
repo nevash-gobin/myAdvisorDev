@@ -55,9 +55,7 @@ router.post("/add", async (req, res) => {
 router.post("/add/:programmeID/:courseID", async (req, res) => {
     try{
         // destructure data entered
-        const {programmeID, courseID} = req.body;
-
-        console.log(req.body)
+        const {programmeID, courseID, type} = req.body;
 
         //check if course is already added to a programme
         const programmecourse = await ProgrammeCourse.findOne({where: {programmeID: req.params.programmeID, courseID: req.params.courseID}});
@@ -66,7 +64,7 @@ router.post("/add/:programmeID/:courseID", async (req, res) => {
         }
         else{
             await ProgrammeCourse.create({
-                programmeID, courseID,
+                programmeID, courseID, type,
             })
             .then(() => {
                 return res.status(200).send("Course added to Programme!");
@@ -106,7 +104,6 @@ router.delete("/delete/:programmename", async (req, res) => {
 router.get("/offered-courses/:id", async (req, res) => {
     try {
         const programmeCourses = await ProgrammeCourse.findAll({where: { programmeID: req.params.id }});
-        
         if(!programmeCourses) {
             return res.status(404).send("Programme doesn't exists");
         }
@@ -121,8 +118,11 @@ router.get("/offered-courses/:id", async (req, res) => {
             let courses = [];
             for (i = 0; i < programmeCourses.length; i++){
                 const course = await Course.findOne({where: { id: courseIDs[i] }});
+                const progCourse = await ProgrammeCourse.findOne({where: { programmeID: req.params.id, courseID: courseIDs[i] }});
+                course.dataValues.type = progCourse.type;
                 courses.push(course);
             }
+            //console.log(courses);
 
             res.status(202).json(courses);
         }
