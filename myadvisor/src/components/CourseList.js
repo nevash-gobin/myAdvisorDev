@@ -19,8 +19,10 @@ const CourseList = (props) => {
     let recCourses = undefined; // Variable to store recommended courses determined on StudentProfile.js
     let careerRecCourses = undefined; // Variable to store recommended courses based on careers chosen determined on Career.js
     
+    //console.log("Hello " + props.recCourses);
     if (props.recCourses) { // If user's recommended courses have been generated from student details page
       recCourses = props.recCourses;
+      
     }
     else { // If the user's recommended courses has been lost, redirect to start page to generate them again
       history.push({

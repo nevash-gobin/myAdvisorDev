@@ -30,7 +30,7 @@ const Finish = (props) => {
                 redirect: 'follow'
             };
 
-            fetch(`/student/academic-advising/session/${localStorage.getItem("username")}`, requestOptions) // Make request to server to parse transcript, upload student details and thier courses to the database
+            fetch(`/student/academic-advising/session/${localStorage.getItem("username")}`, requestOptions) // Make request to server to parse transcript, upload student details and their courses to the database
                 .then(response => response.text())
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
