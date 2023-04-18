@@ -16,11 +16,16 @@ async function getPDFText(fileBuffer){
     });
     
     let pdfText = [];
+    //console.log("json  "+ JSON.stringify(json['formImage']['Pages']));
 
     for(let page of json['formImage']['Pages']){
+        //console.log("page    "+ page['Texts']);
         for(let text of page['Texts']){
+            //console.log("Text    "+text['R']);
             for(let rec of text['R']){
+                
                 let token = rec['T'];
+                //console.log("token    "+token);
                 pdfText.push(token)
             }
         }
@@ -78,7 +83,14 @@ async function getStudentData(text, filename){
         degree: undefined,
         major: undefined,
         admitTerm: undefined,
-        parsedText: undefined
+        parsedText: undefined,
+        degreeAttemptHours: undefined,
+        degreePassedHours: undefined,
+        degreeEarnedHours: undefined,
+        degreeGpaHours: undefined,
+        degreeQualityPoints: undefined,
+        // degreeGpa: undefined
+
     }
 
     courses = await getCourses();
@@ -108,8 +120,11 @@ async function getStudentData(text, filename){
     i = 0;
     for(let token of text){
 
-        if(token === "Record%20of%3A")
+        if(token === "Record%20of%3A"){
             student.name = decode(text[i-1])
+            //console.log("text      "+text[i-1]);
+            //console.log("i    "+ i);
+        }
 
         //reached the courses in progress section of transcript
         if(!inprogress && token === "In%20Progress%20Courses%3A"){
@@ -118,6 +133,12 @@ async function getStudentData(text, filename){
 
         if(token === "DEGREE%20GPA%20TOTALS"){
             student.gpa = text[i - 1]; 
+            student.degreeAttemptHours = text[i + 12];
+            student.degreePassedHours = text[i + 13];
+            student.degreeEarnedHours = text[i + 14];
+            student.degreeGpaHours = text[i + 15];
+            student.degreeQualityPoints = text[i + 16];
+            // student.degreeGpa = text[i + 17];
         }
 
         if(token === "Record%20of%3A"){
