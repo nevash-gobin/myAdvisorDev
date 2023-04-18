@@ -20,13 +20,11 @@ function AddCourse({setShow, refreshTable}) {
         It's initial state is false.
     */    
         const [checkBoxState, setCheckBoxState] = useState(new Array(17).fill(false));
-        //console.log(checkBoxState);
 
         const assessments = ["coursework", "finalExam", "groupProject", "individualWork", "practicalCoursework", "courseworkExam", 
                              "projectPres", "project", "presentation", "assignment", "labAssessment", "midSemesterMcq", 
                              "projectReport", "projectReportPres", "projectAndPres", "performanceReports", "projectSoftwareApp"];
                             
-        
     /*
         notifyAdded is used to display toast notifications for events. It displays a green toast.
     */    
@@ -41,7 +39,6 @@ function AddCourse({setShow, refreshTable}) {
         HandleChange gets the checkboxes that were checked and stores them in an array.
     */    
         const handleChange = (event) => {
-            //console.log(event.target.id);
 
             const updateCheckboxState = checkBoxState.map((checkbox, count) => {
                 if(count === parseInt(event.target.id)){
@@ -53,7 +50,6 @@ function AddCourse({setShow, refreshTable}) {
             });
 
             setCheckBoxState(updateCheckboxState);
-            //console.log(updateCheckboxState);
         };
 
     /*
@@ -77,7 +73,6 @@ function AddCourse({setShow, refreshTable}) {
             credits : form.elements.credits.value,
             semester : form.elements.semester.value,
             level : form.elements.level.value,
-            //type: form.elements.type.value,
             prerequisites : form.elements.prerequisites.value,
             description: form.elements.description.value,
             coursework: String(form.elements.coursework.value) + "%",
@@ -111,7 +106,6 @@ function AddCourse({setShow, refreshTable}) {
                 //formData[assessments[i]] = String(form.elements[assessments[i]].value) + "%"; 
             //}
         }
-        //console.log(formData);
         addCourse(formData);
     };
 

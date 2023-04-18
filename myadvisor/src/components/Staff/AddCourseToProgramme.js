@@ -23,7 +23,6 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
 
         var programmes = PullProgrammes(); // Get all degree programmes from the database
         var courses = PullCourses(); // Get all degree courses from the database
-        //console.log(programmes)
 
 
         /*
@@ -112,6 +111,7 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
 
         return (<>
                 <Form validated={validated} onSubmit={handleSubmit}>
+                    
                     <Form.Group controlId="programmename">
                         <Form.Label>Select Programme</Form.Label>
                             <Form.Control required as="select">
@@ -124,6 +124,7 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
                                 
                             </Form.Control>
                     </Form.Group>
+                    
 
                     <Form.Group controlId="coursefullname">
                         <Form.Label>Select Course</Form.Label>
@@ -131,7 +132,7 @@ function AddCourseToProgramme({setShowAddCourseProg, refreshTable}) {
                                 <option value="None">Choose a course</option>
                                 {
                                     Array.from({length: courses.length}, (_, j) => {
-                                        return <option value={courses[j].courseCode + " " + courses[j].courseTitle}>{courses[j].courseCode + " " + courses[j].courseTitle}</option> 
+                                        return <Form.Check label={courses[j].courseCode + " " + courses[j].courseTitle} name={courses[j].courseCode + " " + courses[j].courseTitle}/> 
                                     })
                                 }
                             </Form.Control>

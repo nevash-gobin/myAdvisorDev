@@ -46,8 +46,6 @@ function Programmes() {
         const handleShowCourses = () => setShowAddCourseProg(true);
         const handleCloseCourses = () => setShowAddCourseProg(false);
 
-    
-
     /*
         The programmes state is used store all the programmes that will be displayed in the table.
         The loading state is used to keep track of getting the programmes from the server. 

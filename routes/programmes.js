@@ -55,7 +55,13 @@ router.post("/add", async (req, res) => {
 router.post("/add/:programmeID/:courseID", async (req, res) => {
     try{
         // destructure data entered
+<<<<<<< HEAD
         const {programmeID, courseID, type} = req.body;
+=======
+        const {programmeID, courseID} = req.body;
+
+        //console.log(req.body)
+>>>>>>> feature_programmes_SS
 
         //check if course is already added to a programme
         const programmecourse = await ProgrammeCourse.findOne({where: {programmeID: req.params.programmeID, courseID: req.params.courseID}});
