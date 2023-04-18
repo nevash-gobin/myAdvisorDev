@@ -20,6 +20,7 @@ function PotentialGraduates(){
                 method: "GET",
             });
             const parseData = await res.json();
+            
             setPotentialGraduates(parseData);
         }
         catch(err){
@@ -30,6 +31,8 @@ function PotentialGraduates(){
     useEffect(() => {
         getPotentialGraduates();
     }, []);
+
+    //console.log(potentialGraduates);
 
 
     return (

@@ -251,7 +251,7 @@ function ProgrammesTable({programmes, loading}) {
                         <div>
                             <SearchBar { ...props.searchProps } />
                             <ClearSearchButton { ...props.searchProps } />
-                            <div class="float-right"><Button onClick={handleShowCourses} class="btn btn-custom">Add Course</Button></div>
+                            {/*<div class="float-right"><Button onClick={handleShowCourses} class="btn btn-custom">Add Course</Button></div>*/}
                             <BootstrapTable
                             { ...props.baseProps } pagination={ paginationFactory(courseOptions) } defaultSorted={ coursesSorted } filter={ filterFactory() }
                             />
