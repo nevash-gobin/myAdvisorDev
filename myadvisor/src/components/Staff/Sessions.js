@@ -63,7 +63,6 @@ function Sessions() {
                     <div class="col-12">
                         <div class="card h-100">
                             <div class="card-body shadow-sm">
-                                {console.log("hello")}
                                 <SessionsTable sessions={sessions} students={students}  />
                             </div>
                         </div>

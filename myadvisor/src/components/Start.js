@@ -13,8 +13,11 @@ const Start = (props) => {
     const [programme, setProgramme] = useState("None"); // Store which programme was selected
     const [loading, setLoading] = useState(false); // Boolean used to indicate whether or not the recommended courses for the user has been generated
 
-    props.setHidden(true); // Hide the sidebar
-    props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
+    useEffect(() => {
+        props.setHidden(true); // Hide the sidebar
+        props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
+    }, []);
+    
     var programmes = PullProgrammes(); // Get all degree programmes from the database
 
     const history = useHistory(); // Used to redirect to a new path without losing state values
@@ -24,8 +27,8 @@ const Start = (props) => {
         setLoading(true);
 
         // Iterate through all programmes
-        for (var i=0; i<programmes.length; i++) {
-            if (programmes[i].name == programme) { // If programme is the one that the user selected
+        for(var i=0; i<programmes.length; i++) {
+            if (programmes[i].name === programme) { // If programme is the one that the user selected
                 var programmeId = programmes[i].id;
             }
         }
@@ -66,7 +69,7 @@ const Start = (props) => {
         var courses = await getProgrammeCourses(programmeId);
 
         // Iterate through courses
-        for (var i=0; i<courses.length; i++) {
+        for(var i=0; i<courses.length; i++) {
 
             // Get core level I courses for the current semester
             if (courses[i].type === "Core" && courses[i].semester === currentSem && courses[i].level === "I") {
@@ -112,7 +115,7 @@ const Start = (props) => {
                         <div className="card-body">
                         <div class="form-check">
                                 <input class="form-check-input" type="radio" name="studentRadio" id="studentRadiosNew" value="new"  onChange={onRadioChange}/>
-                                <label class="form-check-label new-label" for="studentRadiosNew">
+                                <label class="form-check-label new-label" htmlFor="studentRadiosNew">
                                     I am a new student in my first semester of my programme
                                 </label>
                                 { radio === "new" ? (
@@ -133,7 +136,7 @@ const Start = (props) => {
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="studentRadio" id="studentRadiosCont" value="cont"  onChange={onRadioChange}/>
-                                <label class="form-check-label" for="studentRadiosCont">
+                                <label class="form-check-label" htmlFor="studentRadiosCont">
                                     I am a continuing student
                                 </label>
                                 { radio === "cont" ? (

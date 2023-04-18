@@ -3,7 +3,7 @@ import React from "react";
 import Main from './components/Main';
 
 import './App.css';
-import PermanentDrawerRight from "./components/sidebar";
+//import PermanentDrawerRight from "./components/sidebar";
 
 function App () {
 

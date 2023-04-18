@@ -33,7 +33,7 @@ const inprogressCoursesColumns = [
 */
 const defaultSorted = [{
     dataField: 'name',
-    order: 'asec'
+    order: 'asc'
 }];
 
 /*
@@ -140,7 +140,7 @@ function StudentsTable({students, loading}) {
     }
 
     useEffect(() => {
-        getStudentCourses();
+        //getStudentCourses();
     }, []);   
      
 

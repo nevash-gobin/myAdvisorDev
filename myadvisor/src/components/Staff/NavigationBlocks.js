@@ -3,6 +3,7 @@ import NavigationBlock from './NavigationBlock';
 
 import { IconContext } from "react-icons";
 import { BsPeopleFill, BsFillLayersFill, BsPersonFill } from "react-icons/bs";
+import {FaUserGraduate } from "react-icons/fa";
 import { HiDocumentReport, HiAnnotation, HiArchive, HiCollection } from "react-icons/hi";
 import { FaWrench } from "react-icons/fa";
 
@@ -39,6 +40,11 @@ function NavigationBlocks() {
 
                     {/* Blank */}
                     <NavigationBlock componentToPassDown={<BsPersonFill/>} title={"Profile"} link={"/staff"}/>
+                </div>
+
+                <div class="row mt-4">
+                    {/* Potential Graduates */}
+                    <NavigationBlock componentToPassDown={<FaUserGraduate/>} title={"Potential Graduates"} link={"staff/graduates"}/>
                 </div>
             </div>
         </IconContext.Provider>
