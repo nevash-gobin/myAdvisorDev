@@ -1,23 +1,31 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-const StudentCourses = db.define("studentcourses", {
+const PotentialGraduate = db.define("potentialgraduate", {
     studentId: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
     },
-    courseCode: {
+    name: {
         allowNull: false,
         type: Sequelize.STRING,
     },
-    courseTitle: {
+    degree: {
         allowNull: false,
         type: Sequelize.STRING,
     },
-    grade: {
+    major: {
+        allowNull: false,
+        type: Sequelize.STRING,
+    },
+    gpa: {
+        allowNull: false,
+        type: Sequelize.DECIMAL(5, 2),
+    },
+    admitTerm: {
         allowNull: false,
         type: Sequelize.STRING,
     }
-});
+}, {timestamps: true});
 
-module.exports = StudentCourses;
+module.exports = PotentialGraduate;

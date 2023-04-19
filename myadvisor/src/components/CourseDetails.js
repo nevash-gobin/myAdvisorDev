@@ -79,10 +79,10 @@ class CourseDetails extends Component {
         const prereqs = () => {
             var prereq = this.props.location.state.course.prerequisites;
             if (prereq.length > 8) { // If a course has 2 prequisites or an alternative prequisite
-                if (prereq.charAt(9) == "|") { // Format the | character to become the word "OR"
+                if (prereq.charAt(9) === "|") { // Format the | character to become the word "OR"
                     prereq = prereq.slice(0, 8) + " OR " + prereq.slice(-8);
                 }
-                if (prereq.charAt(9) == "&") { // Format the & character to become the word "AND"
+                if (prereq.charAt(9) === "&") { // Format the & character to become the word "AND"
                     prereq = prereq.slice(0, 8) + " AND " + prereq.slice(-8);
                 }
             }

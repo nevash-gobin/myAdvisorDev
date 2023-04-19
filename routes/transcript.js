@@ -46,7 +46,8 @@ router.get("/courses/all", async (req, res) => {
          const student = await Transcript.findOne({where: { studentId: req.params.studentId }});
  
          if(!student) {
-             return res.status(404).send("Student not found.");
+             //return res.status(404).send("Student not found.");
+             return res.status(404).json({error: 'Student not found.'});
          }
          else {
              res.status(202).json(student);
@@ -84,7 +85,8 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
         const student = await StudentCourses.findAll({where: { studentId: req.params.studentId }});
 
         if(student.length == 0) {
-            return res.status(404).send("Student not found.");
+            //return res.status(404).send("Student not found.");
+            return res.status(404).json({ error: 'Student not found.' });
         }
         else {
             res.status(202).json(student);
@@ -160,9 +162,11 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
 
  router.post('/parseForm', upload.single('file'), async (req, res)=>{
     const { parsedText, ...data} = await parse(req.file.buffer);
+    //console.log("data "+ JSON.stringify(data));
     try {
         // destructure data entered
-        const {studentId, gpa, name, progress, credits, degree, major, admitTerm} = data;
+        const {studentId, gpa, name, progress, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints} = data;
+        //console.log("credits "+credits);
 
         // check if student is already added
         const student = await Transcript.findOne({where : { studentId }});
@@ -179,6 +183,11 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
                degree,
                major,
                admitTerm,
+               degreeAttemptHours,
+               degreePassedHours,
+               degreeEarnedHours,
+               degreeGpaHours,
+               degreeQualityPoints
             })
             .catch(err => {
                 console.log("Error: ", err.message);
@@ -187,7 +196,7 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
 
         // check if course for student is already added
             for (var key in data){
-                if (!(key == "studentId" || key == "gpa" || key == "name" || key == "progress" || key == "credits" || key == "degree" || key == "major" || key == "admitTerm")) {
+                if (!(key === "studentId" || key === "gpa" || key === "name" || key === "progress" || key === "credits" || key === "degree" || key === "major" || key === "admitTerm" || key === "degreeAttemptHours" || key === "degreePassedHours" || key === "degreeEarnedHours" || key === "degreeGpaHours" || key === "degreeQualityPoints")) {//if not equal to these
                     var courseCode = key;
                     var courseTitle = data[key][0]
                     var grade = data[key][1];
@@ -217,8 +226,8 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
         console.log("Error: ", err.message);
         res.status(500).send("Server Error");
     }
-  })
- 
+  });
+
  // update a selected student
  router.put("/details/edit/:studentId", async (req, res) => {
      try {
@@ -299,7 +308,6 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
              return res.status(401).send("Student not found.");
          }
          else {
- 
              await student.destroy();
              res.status(200).send("Student Removed");
          }

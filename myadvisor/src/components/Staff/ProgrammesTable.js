@@ -3,7 +3,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, { PaginationProvider, PaginationListStandalone} from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
 import filterFactory, { selectFilter  } from 'react-bootstrap-table2-filter';
-import { Modal, Tabs, Tab } from "react-bootstrap";
+import { Modal, Tabs, Tab, Button } from "react-bootstrap";
+import AddCourseToProgramme from "./AddCourseToProgramme";
 
 //TABLE SETUP
 
@@ -33,6 +34,14 @@ const selectSemesterOptions = {
 };
 
 /*
+    selectTypeOptions allows you to filter the type table column
+*/
+const selectTypeOptions = {
+    Core: 'Core',
+    Elective: 'Elective'
+};
+
+/*
     coursesColumns is used to display specific columns of the data on the courses table in the modal.
     It also contains code that enables the columns to be filtered.
 */
@@ -55,21 +64,30 @@ const coursesColumns = [
             options: selectSemesterOptions,
         })
     },
+    { 
+        dataField: 'type', 
+        text: 'Type', 
+        sort: true,
+        formatter: cell => selectTypeOptions[cell],
+        filter: selectFilter({
+            options: selectTypeOptions,
+        })
+    },
     { dataField: 'courseCode', text: 'Course Code', sort: true },
     { dataField: 'courseTitle', text: 'Course Title', sort: true },
 ]
 
 /*
-    defaultSorted and coursesSorted sorts the tables is ascending order based on the name column and level colum respectively.
+    defaultSorted and coursesSorted sorts the tables is ascending order based on the name column and level column respectively.
 */
 const defaultSorted = [{
     dataField: 'name',
-    order: 'asec'
+    order: 'asc'
 }];
 
 const coursesSorted = [{
     dataField: 'level',
-    order: 'asec'
+    order: 'asc'
 }];
 
 /*
@@ -103,16 +121,26 @@ function ProgrammesTable({programmes, loading}) {
         The show state is used to keep track of the visibility of the view programme courses modal.
         It's initial state is false.
         handleShow sets the show state to true, which displays the modal.
-        handleShow sets the show state to false, which closes the modal.
+        handleClose sets the show state to false, which closes the modal.
     */ 
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
     /*
+        The showAddCourseProg state is used to keep track of the visibility of the addCourseToProgramme modal.
+        It's initial state is false.
+        handleShowCourses sets the show state to true, which displays the modal.
+        handleCloseCourses sets the show state to false, which closes the modal.
+    */ 
+    const [showAddCourseProg, setShowAddCourseProg] = useState(false);
+    const handleShowCourses = () => setShowAddCourseProg(true);
+    const handleCloseCourses = () => setShowAddCourseProg(false);
+
+    /*
         The programmeName state is used to keep track of the selected programme name.
         The programmeCourses state is used to store the courses of the selected programme.
-        The loadingCourses state is used to  keep track of getting the courses from the server. 
+        The loadingCourses state is used to keep track of getting the courses from the server. 
     */    
     const [programmeName, setprogrammeName] = useState([]);
     const [programmeCourses, setProgrammeCourses] = useState([]);
@@ -129,7 +157,15 @@ function ProgrammesTable({programmes, loading}) {
     };    
 
     /*
-        getProgrammeCourses creates a get request to the server that gets all the courses of ths specified programme on the system and stores it in the programmeCourses state.
+        refreshTable sets the loading state to true and gets the programmes from the system.
+    */
+        function refreshTable(){
+            //setLoading(true);
+            //getProgrammes();
+        }
+
+    /*
+        getProgrammeCourses creates a get request to the server that gets all the courses of this specified programme on the system and stores it in the programmeCourses state.
     */
     async function getProgrammeCourses(id) {
         try {
@@ -202,26 +238,46 @@ function ProgrammesTable({programmes, loading}) {
                     </div>
                 </div>
                 ) : (
+                
                 <ToolkitProvider
                     keyField="courseCode"
                     data={ programmeCourses }
                     columns={ coursesColumns }
                     search
                     >
+                    
                     {
                         props => (
                         <div>
                             <SearchBar { ...props.searchProps } />
+                            <ClearSearchButton { ...props.searchProps } />
+                            {/*<div class="float-right"><Button onClick={handleShowCourses} class="btn btn-custom">Add Course</Button></div>*/}
                             <BootstrapTable
                             { ...props.baseProps } pagination={ paginationFactory(courseOptions) } defaultSorted={ coursesSorted } filter={ filterFactory() }
                             />
+                            
                         </div>
                         )
                     }
                 </ToolkitProvider>
                 )}                           
               </Modal.Body>
-            </Modal>             
+                
+            </Modal>  
+
+            <Modal show={showAddCourseProg} onHide={handleCloseCourses} size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Course to {programmeName}</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <AddCourseToProgramme setShowAddCourseProg={setShowAddCourseProg}/>
+                </Modal.Body>   
+            </Modal>
+
+            
+
+
 
         </>
     );

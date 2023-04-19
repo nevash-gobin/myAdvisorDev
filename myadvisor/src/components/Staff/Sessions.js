@@ -8,7 +8,7 @@ import SessionsTable from './SessionsTable';
 function Sessions() {
     /*
         The sessions state is used store all the sessions that will be displayed in the table.
-        The students state is used to store all students on ths system.
+        The students state is used to store all students on the system.
     */ 
     const [sessions, setSessions] = useState([]);
     const [students, setStudents] = useState([]);

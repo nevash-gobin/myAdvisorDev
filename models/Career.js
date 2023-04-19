@@ -1,9 +1,9 @@
-/*
+
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
 const Career = db.define("career", {
-    name: {
+    career_name: {
         allowNull: false,
         type: Sequelize.STRING,
     },
@@ -18,4 +18,3 @@ const Career = db.define("career", {
 });
 
 module.exports = Career;
-*/

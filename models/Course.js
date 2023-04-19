@@ -24,10 +24,6 @@ const Course = db.define("course", {
         allowNull: false,
         type: Sequelize.STRING,
     },
-    type: {
-        allowNull: false,
-        type: Sequelize.STRING,
-    },
     prerequisites: {
         allowNull: false,
         type: Sequelize.STRING,
@@ -44,18 +40,67 @@ const Course = db.define("course", {
         allowNull: true,
         type: Sequelize.STRING,
     },
-    individualProjectPres: {
+    groupProject: {
         allowNull: true,
         type: Sequelize.STRING,
     },
-    groupProjectPres: {
+    individualWork: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    practicalCoursework: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    courseworkExam: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    projectPres: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    project: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    presentation: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    assignment: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    labAssessment: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    midSemesterMcq: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    projectReport: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    projectReportPres: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
+    projectAndPres: {
         allowNull: true,
         type: Sequelize.STRING,
     },
     performanceReports: {
         allowNull: true,
         type: Sequelize.STRING,
+    },
+    projectSoftwareApp: {
+        allowNull: true,
+        type: Sequelize.STRING,
     }
+    
 });
 
 module.exports = Course;

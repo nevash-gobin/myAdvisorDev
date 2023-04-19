@@ -6,6 +6,7 @@ require("dotenv").config();
 
 // connects database to server
 
+
 const db = new Sequelize(
     'advisor-app-uwi', //database name
     'advisor-app-uwi', //username
@@ -31,6 +32,7 @@ const db = new Sequelize(
     },
 });
 */
+
 
 
 // tests database connection on server start up. To see if connection is OK.

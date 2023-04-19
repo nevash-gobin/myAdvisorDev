@@ -19,8 +19,10 @@ const CourseList = (props) => {
     let recCourses = undefined; // Variable to store recommended courses determined on StudentProfile.js
     let careerRecCourses = undefined; // Variable to store recommended courses based on careers chosen determined on Career.js
     
+    //console.log("Hello " + props.recCourses);
     if (props.recCourses) { // If user's recommended courses have been generated from student details page
       recCourses = props.recCourses;
+      
     }
     else { // If the user's recommended courses has been lost, redirect to start page to generate them again
       history.push({
@@ -40,7 +42,7 @@ const CourseList = (props) => {
       props.setHidden(false); // Indicate that to not hide the back button
       props.setDisplay(false); // Indicate that to hide the "Begin Advising" button on the sidebar
       props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
-    })
+    });
 
     // Function that runs when the "All Courses" tab is clicked
     function allClick() {
@@ -82,20 +84,38 @@ const CourseList = (props) => {
       }
     }
 
+    //Function to calculate chosen courses credits
+    function calculateChosenCourseCredits(chosenCoursesArr, coursesArr){
+      var chosenCourseCreds = 0;
+      var coursesChoseNCreds = [];
+      Array.from({ length: coursesArr.length }, (_, k) => {
+          if (chosenCoursesArr.includes(coursesArr[k].courseCode)) {
+              chosenCourseCreds = chosenCourseCreds + coursesArr[k].credits;
+              const obj = {
+                            courseCode: coursesArr[k].courseCode,
+                            credits: coursesArr[k].credits
+                          };
+              coursesChoseNCreds.push(obj);
+          }
+      })
+      props.setCourseChoseNCredits(coursesChoseNCreds);
+      return chosenCourseCreds;
+  }
+
     // Function that runs when the Add checkbox is checked or unchecked
-    function onChange(event, credits) { 
+    function onChange(event, courseCredits) { 
       var chosenArray = props.chosenCourses;
       var clear = false; // Boolean value to indicate if chosenArray has multiple copies of a chosen course
       if (event.currentTarget.checked === true) { // If the checkbox was checked
         chosenArray.push(event.currentTarget.value); // Add course to chosenArray
-        props.setNewDegProg(props.newDeg + credits); // Add the course credits the new degree progress
+        props.setNewDegProg(props.newDeg + courseCredits); // Add the course credits to the new degree progress
       }
       else { // If the checkbox was unchecked
-        while (!clear) { // While there is multiple copies of a chosen course in chosenArray
+        while (!clear) { // While there is multiple copies of a chos en course in chosenArray
           var index = chosenArray.indexOf(event.currentTarget.value); // Find index of the course that was unchecked
           if (index > -1) { // If the course was in the array
             chosenArray.splice(index, 1); // Remove course from the array
-            props.setNewDegProg(props.newDeg - credits); // Remove the course credits from the new degree progress
+            props.setNewDegProg(props.newDeg - courseCredits); // Remove the course credits from the new degree progress
           }
           else { // If the course was not in the array
             clear = true;
@@ -104,6 +124,8 @@ const CourseList = (props) => {
         clear = false;
       }
       props.setChosen(chosenArray);
+
+      props.setChosenCoursesCredits(calculateChosenCourseCredits(props.chosenCourses, courses));
     }
 
     return (

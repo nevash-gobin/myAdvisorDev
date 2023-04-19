@@ -5,15 +5,17 @@ import DetailsCard from "./DetailsCard";
 import NoTranscript from "./NoTranscript";
 import PullDetails from "./PullDetails";
 import PullStudentCourses from "./PullStudentCourses";
+import PullCourses from "./PullCourses";
 import PullProgrammes from "./PullProgrammes";
 import StudentCoursesCard from "./StudentCoursesCard";
-import axios from "axios"
+import axios from "axios";
 
 const StudentProfile = (props) => {
 
     const [uploaded, setUploaded] = useState(true); // Boolean value to indicate whether or not a transcript has been uploaded
     const [processed, setProcessed] = useState(false); // Boolean value to indicate whether or not the recommended courses have been finished generating
-   
+    //const newDegProg = props.newDeg;
+    var inProgressCourseArr = [];//array for student's in progress courses
 
     // Function to refresh page once a transcript has been uploaded
     function uploadedHandler() {
@@ -21,10 +23,36 @@ const StudentProfile = (props) => {
     }
 
     var details = PullDetails(localStorage.getItem("username")); // Get student details from database
+    //console.log(details);
     var studentCourses = PullStudentCourses(localStorage.getItem("username")); // Get student courses from database
     var programmes = PullProgrammes(); // Get list of all degree programmes from database
+    var courses = PullCourses(); //Get list of all courses from database
+    //var courseInProgCreds = 0;
+    
+   
+    function getCreditsInprogressCourses(){
+        var amountCreditsInProg = 0;
+        
+        // Iterate through student courses list
+        for(var j=0; j<studentCourses.length; j++){
+            if(studentCourses[j].grade === "IP"){//if an "In Progress" course is found
+                for(var count=0; count<courses.length; count++){
+                    if(studentCourses[j].courseCode === courses[count].courseCode){
+                        amountCreditsInProg = amountCreditsInProg + courses[count].credits;
+                    }
+                }
+            }
+        }
+        return amountCreditsInProg;
+    }
  
     useEffect(() => {
+        props.setCreditsCompleted(details.credits);
+        props.setStudentGpa(details.gpa);
+        //props.setNewDegProg(newDegProg);
+        //courseInProgCreds = getCreditsInprogressCourses();
+        props.setCourseInprogCreds(getCreditsInprogressCourses());
+        props.setTransDetails(details);
         props.setDisplay(true); // Show the "Begin Advising" button on the sidebar
         props.setHidden(false); // Unhide the sidebar
         props.setShowBotButtons(false); // Hide "Back to courses" and "Finish advising" buttons on sidebar
@@ -39,7 +67,7 @@ const StudentProfile = (props) => {
             }
             else {
                 setUploaded(true); // Indicate that the user has uploaded their transcript
-                props.setDegProg(details.progress); // Set degree progress
+                props.setDegProg(details.progress); // Set degree progress percentage
                 props.setCreds(93 - details.credits); // Set credits left for degree
             }
 
@@ -51,15 +79,15 @@ const StudentProfile = (props) => {
 
             // Iterate through programmes list
             for (var i=0; i<programmes.length; i++) {
-                if (programmes[i].name == studentProgramme) { // If student programme is in programmes list
+                if (programmes[i].name === studentProgramme) { // If student programme is in programmes list
                     var programmeId = programmes[i].id;
                 }
             }
             if (programmeId) { 
-                determineCourses(programmeId)
+                determineCourses(programmeId);
             }
         }
-    })
+    });
 
     // Function to fetch courses that are associated with a given programme
     async function getProgrammeCourses(id) {
@@ -74,7 +102,7 @@ const StudentProfile = (props) => {
     }
 
     // Grades which do not give credits
-    let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "FM", "FMS", "FWR", "I", "LW", "NCR", "NFC", "NP", "NR", "NV", "W"]
+    let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "FM", "FMS", "FWR", "I", "LW", "NCR", "NFC", "NP", "NR", "NV", "W", "FMP"]
 
     // Function to split courses by semester and level
     function splitBySem(coreRes, courses) {
@@ -303,10 +331,20 @@ const StudentProfile = (props) => {
     // Function to indicate is a student passed, failed, didn't do a course or is in progress
     function determineStudentCourses(core) {
         var coreRes = {};
+        var inProgCourseNCreds = [];
         for (var i=0; i<core.length; i++){
             for (var j=0; j<studentCourses.length; j++) {
                 if ((studentCourses[j].courseCode === core[i].courseCode) && (studentCourses[j].grade === "IP")){
                     coreRes[`${core[i].courseCode}`] = "IP";
+                    inProgressCourseArr.push(studentCourses[j].courseCode);
+                    const obj = {
+                                courseCode: studentCourses[j].courseCode,
+                                credits: core[i].credits
+                            };
+                    inProgCourseNCreds.push(obj);
+
+                    //setInprogressCourses(current => [current.., studentCourses[j].courseCode]);
+                    
                 }
                 else if ((studentCourses[j].courseCode === core[i].courseCode) && !(noCreditGrade.includes(studentCourses[j].grade))){
                     coreRes[`${core[i].courseCode}`] = "P";
@@ -321,6 +359,8 @@ const StudentProfile = (props) => {
                 }
             }
         }
+        props.setInProgressCourses(inProgressCourseArr);
+        props.setCourseInProgNCredits(inProgCourseNCreds);
         return coreRes;
     }
 
@@ -342,7 +382,7 @@ const StudentProfile = (props) => {
         var courses = await getProgrammeCourses(programmeId);
 
         
-        for (var i=0; i<courses.length; i++) { // Initialise Courses for Degree using thier Level and Semester
+        for (var i=0; i<courses.length; i++) { // Initialise Courses for Degree using their Level and Semester
             if (courses[i].level === "I") {
                 if (courses[i].semester === "1") {
                     Y1S1[courses[i].courseCode] = "N";
@@ -370,6 +410,7 @@ const StudentProfile = (props) => {
         }
 
         programmeCourses = determineStudentCourses(courses); // Determine what courses a student failed, passed, didnt do or is in progress
+        //console.log("courses "+JSON.stringify(programmeCourses));
         semesterArr = splitBySem(programmeCourses, courses); // Split courses by semester
         var coreCourses = getCoreCourses(courses); // Get core courses
         coreSemesterArr = splitBySem(programmeCourses, coreCourses); // Split core courses by semester
@@ -382,6 +423,7 @@ const StudentProfile = (props) => {
 
 
         Y1S1 = semesterArr[0];
+        //console.log(programmeCourses);
         Y1S2 = semesterArr[1];
         Y2S1 = semesterArr[2];
         Y2S2 = semesterArr[3];
