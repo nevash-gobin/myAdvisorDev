@@ -12,10 +12,11 @@ const Finish = (props) => {
     const transcriptDets = props.transcriptDetails;
     
     var totalCreditsCompleted = parseInt(props.studCredComplete) + parseInt(props.newDeg) + parseInt(props.courseInProgCredits); //this is a potential total number of credits completed
-    var gradeCombinations; //2D array to contain grade combination
-    var coursesNCredits = [...props.courseInProgNCreds, ...props.courseChoseNCreds];//join two arrays.To store courses a student is pursuing this semester
+    var gradeCombinationsArray; //2D array to contain grade combination
+    var potentialGpaArray; //array to hold calculate potential gpa
+    var coursesNCredits = [...props.courseInProgNCreds, ...props.courseChoseNCreds];//join two arrays. To store courses a student is pursuing this semester
 
-    var combinedDegreeGpa; //estimated gpa calculated using prior gpa and current gpa
+    //var combinedDegreeGpa; //estimated gpa calculated using prior gpa and current gpa
 
     //An array containing the grades and their quality points
     const gradesArray = [ {grade: 'A+', qualityPoints: 4.3}, 
@@ -61,17 +62,18 @@ const Finish = (props) => {
         return currDegGpaHrs;
     }
 
-    //Function to calculate current degree gpa
+    //Function to calculate current degree gpa. Need to make sure course credits are all the sme
     function calculateCurrentDegreeGpa(totGradePtsEarned, totQualityPts){
         var currDegGpa = totGradePtsEarned / totQualityPts;
         return currDegGpa;
     }
     
     //function to calculate estimated gpa
-    function calculateCombinedDegreeGpa(priorDegGpaHrs, priorDegGpa, currDegGpaHrs, currDegGpa){
-        var estimatedGPA = ((priorDegGpaHrs * priorDegGpa) + (currDegGpaHrs * currDegGpa)) / (priorDegGpaHrs + currDegGpaHrs);
+    function calculateCombinedDegreeGpa(priDegGpaHrs, priDegGpa, curDegGpaHrs, curDegGpa){
+        var estimatedGPA = ((priDegGpaHrs * priDegGpa) + (curDegGpaHrs * curDegGpa)) / (priDegGpaHrs + curDegGpaHrs);
         return estimatedGPA;
     }
+    //console.log("testing  "+calculateCombinedDegreeGpa(60, 3.00, 3, 4.3));
 
     //Function to calculate grade points for a course
     function calculateGradePoints(gradeQualityHrs, gradeQualityPts){
@@ -249,34 +251,55 @@ const Finish = (props) => {
         return totalGradePointCombo.toFixed(1);
     }
 
+    //Function to check if all courses have the same credits
+    function checkAllCoursesSameCredits(){
+        var count = 0;
+        var sameCreds = coursesNCredits[0].credits;
+        for(var num=0; num<coursesNCredits.length; num++){
+            if(coursesNCredits[num].credits === sameCreds){
+                count++;
+            }
+        }
+        return count;
+    }
+
     //function to calculate the potential degree gpa for the semester
     function calculatePotentialGpa(){
         const priorDegGpaHrs = transcriptDets.degreeGpaHours; //found on transcript
+        //console.log("priorDegGpaHrs  "+priorDegGpaHrs);
         const priorDegGpa = transcriptDets.gpa; //found on transcript
-        //console.log(priorDegGpaHrs);
-        gradeCombinations = create2DGradeCombinations(coursesNCredits.length, gradesArray, gradesArray.length);
-        //console.log(gradeCombinations);
-
-        var totalGradePointEarned = calculateGradePointsEarned(gradeCombinations[0], gradesArray, coursesNCredits);
-        //console.log(calculateGradePointsEarned(gradeCombinations[0], gradesArray, coursesNCredits));
-
-        //have to calculate gpa for all combos
-
+        //console.log("priorDegGpa  "+priorDegGpa);
+        gradeCombinationsArray = create2DGradeCombinations(coursesNCredits.length, gradesArray, gradesArray.length);
+    
+        potentialGpaArray = Array(gradeCombinationsArray.length);
+        //console.log(gradeCombinationsArray);
 
         var inProgressCourseCredits = props.courseInProgCredits; //total credit for in progress courses
         var chosenCourseCredits = props.chosenCoursesCreds; //total credits for chosen courses
 
-        var currDegGpaHrs = calculateCurrentDegreeGpaHrs(chosenCourseCredits, inProgressCourseCredits); //total credits of courses that you are pursuing this semester (including inprogress course & course chosen for advising)
+        //Check if all courses pursuing have the same credits
+        var numCoursesSameCreds = checkAllCoursesSameCredits();
+        if(numCoursesSameCreds===coursesNCredits.length){
+            for(var f=0; f<gradeCombinationsArray.length; f++){
+                var currDegGpaHr = calculateCurrentDegreeGpaHrs(chosenCourseCredits, inProgressCourseCredits); //total credits of courses that you are pursuing this semester (including inprogress course & course chosen for advising)
+                //console.log("currDegGpaHrs  "+currDegGpaHr);
+                var totalGradePointEarned = calculateGradePointsEarned(gradeCombinationsArray[f], gradesArray, coursesNCredits);
+                //console.log("totalGradePointEarned  "+totalGradePointEarned);
+                var totalQualityPoints = calculateTotalQualityPoints(coursesNCredits);
+                //console.log("totalQualityPoints  "+totalQualityPoints);
+                const currDegGpa = calculateCurrentDegreeGpa(totalGradePointEarned, totalQualityPoints); 
+                //console.log("currDegGpa  "+currDegGpa);
+                const combinedGpaForCombo = calculateCombinedDegreeGpa(priorDegGpaHrs, priorDegGpa, currDegGpaHr, currDegGpa);
+                //console.log("combinedGpaForCombo  "+combinedGpaForCombo);
+                potentialGpaArray[f] = combinedGpaForCombo;
+            }
+
+        }
+
+        //console.log(potentialGpaArray);
         
-        
-        var totalQualityPoints = calculateTotalQualityPoints(coursesNCredits);
-        //console.log(totalQualityPoints);
-        
-        const currDegGpa = calculateCurrentDegreeGpa(totalGradePointEarned, totalQualityPoints); 
-        //need credits and quality points for each cours
-        //console.log(priorDegGpa);
     }
-    //calculatePotentialGpa();
+    calculatePotentialGpa();
 
     useEffect(() => {
         props.setProg(100); // Set advising progress to 100%
