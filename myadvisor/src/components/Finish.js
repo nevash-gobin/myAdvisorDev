@@ -254,12 +254,15 @@ const Finish = (props) => {
     //Function to check if all courses have the same credits
     function checkAllCoursesSameCredits(){
         var count = 0;
-        var sameCreds = coursesNCredits[0].credits;
-        for(var num=0; num<coursesNCredits.length; num++){
-            if(coursesNCredits[num].credits === sameCreds){
-                count++;
+        if(coursesNCredits!==null){
+            var sameCreds = coursesNCredits[0].credits;
+            for(var num=0; num<coursesNCredits.length; num++){
+                if(coursesNCredits[num].credits === sameCreds){
+                    count++;
+                }
             }
         }
+        
         return count;
     }
 
@@ -299,7 +302,7 @@ const Finish = (props) => {
         //console.log(potentialGpaArray);
         
     }
-    calculatePotentialGpa();
+    //calculatePotentialGpa();
 
     useEffect(() => {
         props.setProg(100); // Set advising progress to 100%
