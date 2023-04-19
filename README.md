@@ -3,11 +3,15 @@ myAdvisor is an automated self-advising and GPA management system created for th
 It aims to replace the current system of advising to an automated and faster system for greater convenience and efficiency.
 
 This project is part of the Computer Science Programme at the University of the West Indies.
-The project will be worked on by:
+The project was originally worked on by:
 - Seth Timothy
 - Matthew Christian
 - Nevash Gobin
 - Akeel Henry
+
+The following members continued to work on the project:
+Alexis Pitypaul
+Shalana Seuraj
 
 The system would be designed using a PERN Stack architecture
 PostgreSQL
