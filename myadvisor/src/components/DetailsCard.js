@@ -33,7 +33,7 @@ class DetailsCard extends Component {
             return;
         }
         formdata.append("file", this.state.file, "[PROXY]"); // Add file to FormData object, Proxy is only used in development to connect to node server
-        
+
         var requestOptions = { // Create DELETE request
           method: 'DELETE',
           redirect: 'follow'
@@ -57,11 +57,11 @@ class DetailsCard extends Component {
                             redirect: 'follow'
                         };
             
-                        fetch("/transcript/parseForm", requestOptions) // Then make request to server to parse transcript, upload student details and thier courses to the database
+                        fetch("/transcript/parseForm", requestOptions) // Then make request to server to parse transcript, upload student details and their courses to the database
                             .then(response => response.text())
                             .then(result => console.log(result))
                             .then(result => this.props.uploadedHandler()) // Once the data has been saved to the database, run uploadedHandler from StudentProfile
-                            .catch(error => console.log('error', error));        
+                            .catch(error => console.log('error', error));   
                     })
                     .catch(error => console.log('error', error));        
             })
@@ -70,6 +70,7 @@ class DetailsCard extends Component {
 
 
     render() {
+        //console.log(this.props.calGpaDetails);
         return (
             <div>
                 <div className="card details-card">
@@ -141,7 +142,7 @@ class DetailsCard extends Component {
                             <div>
                                 <p className="row-info">Upload your new transcript.</p>
                                 <div class="input-field col-sm-12">
-                                    <form action="" enctype="multipart/form-data" method="POST">
+                                    <form action="" encType="multipart/form-data" method="POST">
                                         <input type="file" name="file" onChange={this.onChangeHandler}/>
                                         <input type="button" value="Upload" class="btn btn-custom blue-btn" onClick={this.onClickHandler}/>
                                     </form>

@@ -23,7 +23,7 @@ const columns = [
 */
 const defaultSorted = [{
   dataField: 'courseCode',
-  order: 'asec'
+  order: 'asc'
 }];
 
 /*
@@ -52,7 +52,7 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
         The show state is used to keep track of the visibility of the editCourses modal.
         It's initial state is false.
         handleShow sets the show state to true, which displays the modal.
-        handleShow sets the show state to false, which closes the modal.
+        handleClose sets the show state to false, which closes the modal.
     */ 
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
@@ -67,12 +67,13 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
         eCourse is used to set the row state and open the editCourse modal.
     */ 
     function eCourse(row) {
-      setShow(true);
+      handleShow();
+      //setShow(true);
       setRow(row);
     }
 
     /*
-        dCourse is used to show show the confirmDelete course modal.
+        dCourse is used to show the confirmDelete course modal.
     */ 
     function dCourse(courseCode) {
       confirmDelete(courseCode);
@@ -94,12 +95,25 @@ function CoursesTable({courses, loading, refreshTable, confirmDelete}) {
             <h4>Prerequisites</h4>
             <p>{ `${row.prerequisites}` }</p>
 
-            <h4>Coursework</h4>
-            <p>{ `${row.coursework}` }</p>
-
-            <h4>Final Exam</h4>
-            <p>{ `${row.finalExam}` }</p>
-
+            {/*if not null, then display */}
+            { row.coursework!=null && <> <h4>Coursework</h4> <p>{ `${row.coursework}` }</p> </>}
+            { row.finalExam!=null && <> <h4>Final Exam</h4> <p>{ `${row.finalExam}` }</p> </>}
+            { row.groupProject!=null && <> <h4>Group Project</h4> <p>{ `${row.groupProject}` }</p> </> }
+            { row.individualWork!=null && <> <h4>Individual Work</h4> <p>{ `${row.individualWork}` }</p> </> }
+            { row.practicalCoursework!=null && <> <h4>Practical Coursework</h4> <p>{ `${row.practicalCoursework}` }</p> </> }
+            { row.courseworkExam!=null && <> <h4>CourseWork Exam</h4> <p>{ `${row.courseworkExam}` }</p> </> }
+            { row.projectPres!=null && <> <h4>Project Presentation</h4> <p>{ `${row.projectPres}` }</p> </> }
+            { row.project!=null && <> <h4>Project</h4> <p>{ `${row.project}` }</p> </> }
+            { row.presentation!=null && <> <h4>Presentation</h4> <p>{ `${row.presentation}` }</p> </> }
+            { row.assignment!=null && <> <h4>Assignment</h4> <p>{ `${row.assignment}` }</p> </> }
+            { row.labAssessment!=null && <> <h4>Lab Assessment</h4> <p>{ `${row.labAssessment}` }</p> </> }
+            { row.midSemesterMcq!=null && <> <h4>Mid Semester Mcq</h4> <p>{ `${row.midSemesterMcq}` }</p> </> }
+            { row.projectReport!=null && <> <h4>Project Report</h4> <p>{ `${row.projectReport}` }</p> </> }
+            { row.projectReportPres!=null && <> <h4>Project Report and Presentation</h4> <p>{ `${row.projectReportPres}` }</p> </> }
+            { row.projectAndPres!=null && <> <h4>Project and Presentation</h4> <p>{ `${row.projectAndPres}` }</p> </> }
+            { row.performanceReports!=null && <> <h4>Performance Reports</h4> <p>{ `${row.performanceReports}` }</p> </> }
+            { row.projectSoftwareApp!=null && <> <h4>Project or Software Application</h4> <p>{ `${row.projectSoftwareApp}` }</p> </> }
+            
             <div class="btn-group">
               <button type="button" class="btn btn-custom edit-course" onClick={() => eCourse(row)}>Edit</button>
               <button type="button" class="btn btn-danger delete-course" onClick={() => dCourse(row.courseCode)}>Delete</button>

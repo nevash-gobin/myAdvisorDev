@@ -19,7 +19,7 @@ function Courses() {
         The show state is used to keep track of the visibility of the addCourses modal.
         It's initial state is false.
         handleShow sets the show state to true, which displays the modal.
-        handleShow sets the show state to false, which closes the modal.
+        handleClose sets the show state to false, which closes the modal.
     */ 
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
@@ -27,7 +27,7 @@ function Courses() {
 
     /*
         The courses state is used store all the courses that will be displayed in the table.
-        The loading state is used to  keep track of getting the courses from the server. 
+        The loading state is used to keep track of getting the courses from the server. 
         It's initial state is true, so the table will not be displayed until the system has fetched all courses.
     */ 
     const [courses, setCourses] = useState([]);
@@ -43,10 +43,10 @@ function Courses() {
     */
     async function getCourses() {
         try {
-          const res = await fetch("/courses/all", {
+            const res = await fetch("/courses/all", {
             method: "GET",
           });
-    
+          
           const parseData = await res.json();
           setCourses(parseData);
           setLoading(false);
@@ -70,10 +70,10 @@ function Courses() {
     
             setLoading(false);
             refreshTable();
-            notifyDelete(courseCode + " Deleted")
+            notifyDelete(courseCode + " Deleted");
           
         } catch (err) {
-            notifyDelete(err.message)
+            notifyDelete(err.message);
             console.error(err.message);
         }
     }
@@ -84,7 +84,7 @@ function Courses() {
     function confirmDelete(courseCode){
         confirmAlert({
           title: 'Delete Confirmation',
-          message: 'Are you sure to do delete ' + courseCode + "?",
+          message: 'Are you sure you want to delete ' + courseCode + "?",
           buttons: [
             {
               label: 'Yes',
@@ -137,8 +137,8 @@ function Courses() {
                             <Modal.Title>Add Course</Modal.Title>
                         </Modal.Header>
 
-                        <Modal.Body>
-                            <AddCourse setShow={setShow} refreshTable={refreshTable}/>
+                        <Modal.Body >
+                            <AddCourse setShow={setShow} refreshTable={refreshTable} />
                         </Modal.Body>
                     </Modal>
                 </div>

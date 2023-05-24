@@ -21,7 +21,7 @@ const columns = [
 */
 const defaultSorted = [{
     dataField: 'sessionDate',
-    order: 'asec'
+    order: 'asc'
 }];
 
 /*

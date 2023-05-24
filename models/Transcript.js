@@ -33,7 +33,28 @@ const Transcript = db.define("transcript", {
     admitTerm: {
         allowNull: false,
         type: Sequelize.STRING,
+    },
+    degreeAttemptHours: {
+        allowNull: false,
+        type: Sequelize.DECIMAL(5, 2),
+    },
+    degreePassedHours: {
+        allowNull: false,
+        type: Sequelize.DECIMAL(5, 2),
+    },
+    degreeEarnedHours: {
+        allowNull: false,
+        type: Sequelize.DECIMAL(5, 2),
+    },
+    degreeGpaHours: {
+        allowNull: false,
+        type: Sequelize.DECIMAL(5, 2),
+    },
+    degreeQualityPoints: {
+        allowNull: false,
+        type: Sequelize.DECIMAL(5, 2),
     }
-});
+}, {timestamps: true});
 
 module.exports = Transcript;
+ 

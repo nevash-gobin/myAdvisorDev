@@ -8,7 +8,7 @@ import {Jumbotron, Container} from 'react-bootstrap';
 function Students() {
     /*
         The students state is used store all the students that will be displayed in the table.
-        The loading state is used to  keep track of getting the students from the server. 
+        The loading state is used to keep track of getting the students from the server. 
         It's initial state is true, so the table will not be displayed until the system has fetched all students.
     */ 
     const [students, setStudents] = useState([]);
@@ -22,7 +22,9 @@ function Students() {
             const res = await fetch("/transcript/details/all", {
             method: "GET",
         });
+            
             const parseData = await res.json();
+            
             setStudents(parseData);
             setLoading(false);
             

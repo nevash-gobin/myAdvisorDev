@@ -6,19 +6,26 @@ const axios = require('axios');
  * @param {String} fileBuffer the file stored in memory 
  */
 async function getPDFText(fileBuffer){
+    
     let json = await new Promise((resolve, reject) => {
         let pdfParser = new PDFParser();
         pdfParser.on("pdfParser_dataReady", pdfData => resolve(pdfData));
         pdfParser.on("pdfParser_dataError", errData => reject(errData));
         pdfParser.parseBuffer(fileBuffer);
+        
     });
-
+    
     let pdfText = [];
+    //console.log("json  "+ JSON.stringify(json['formImage']['Pages']));
 
     for(let page of json['formImage']['Pages']){
+        //console.log("page    "+ page['Texts']);
         for(let text of page['Texts']){
+            //console.log("Text    "+text['R']);
             for(let rec of text['R']){
+                
                 let token = rec['T'];
+                //console.log("token    "+token);
                 pdfText.push(token)
             }
         }
@@ -63,7 +70,7 @@ async function getStudentData(text, filename){
     let inprogress = false;
     let courseCodeLetters = [];
     let courseCodeNumbers = [];
-    let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "EX", "FM", "FMS", "FWR", "I", "IP", "LW", "NCR", "NFC", "NP", "NR", "NV", "W"]
+    let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "EX", "FM", "FMS", "FWR", "I", "IP", "LW", "NCR", "NFC", "NP", "NR", "NV", "W", "FMP"]
     var courses;
     var courseList = {};
     let totalCredits = 0;
@@ -76,7 +83,14 @@ async function getStudentData(text, filename){
         degree: undefined,
         major: undefined,
         admitTerm: undefined,
-        parsedText: undefined
+        parsedText: undefined,
+        degreeAttemptHours: undefined,
+        degreePassedHours: undefined,
+        degreeEarnedHours: undefined,
+        degreeGpaHours: undefined,
+        degreeQualityPoints: undefined,
+        // degreeGpa: undefined
+
     }
 
     courses = await getCourses();
@@ -106,8 +120,11 @@ async function getStudentData(text, filename){
     i = 0;
     for(let token of text){
 
-        if(token === "Record%20of%3A")
+        if(token === "Record%20of%3A"){
             student.name = decode(text[i-1])
+            //console.log("text      "+text[i-1]);
+            //console.log("i    "+ i);
+        }
 
         //reached the courses in progress section of transcript
         if(!inprogress && token === "In%20Progress%20Courses%3A"){
@@ -116,6 +133,12 @@ async function getStudentData(text, filename){
 
         if(token === "DEGREE%20GPA%20TOTALS"){
             student.gpa = text[i - 1]; 
+            student.degreeAttemptHours = text[i + 12];
+            student.degreePassedHours = text[i + 13];
+            student.degreeEarnedHours = text[i + 14];
+            student.degreeGpaHours = text[i + 15];
+            student.degreeQualityPoints = text[i + 16];
+            // student.degreeGpa = text[i + 17];
         }
 
         if(token === "Record%20of%3A"){
@@ -158,7 +181,9 @@ async function getStudentData(text, filename){
 
 async function parse(file){
     const text = await getPDFText(file);
+    //console.log("pdftext - " + text);
     const studentData = await getStudentData(text);
+    //console.log("Student data "+ studentData);
     return studentData;
     
 }
