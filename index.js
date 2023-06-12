@@ -74,14 +74,16 @@ async function initializeDatabase() {
         await StudentCourses.sync();
         await Transcript.sync();
 
+        // Creates Admin Account
         const saltRounds = 10;
-            const salt = await bcrypt.genSalt(saltRounds);
-            const passEncrypt = await bcrypt.hash("admin123", salt);
+        const salt = await bcrypt.genSalt(saltRounds);
+        const passEncrypt = await bcrypt.hash("admin123", salt);
 
-            await Staff.create({
-                username: "admin",
-                password: passEncrypt,
-            });
+        await Staff.create({
+            username: "admin",
+            password: passEncrypt,
+        });
+        console.log('Admin account created.');
         
         process.env.SYNCED = "TRUE";
         console.log('Database tables synchronized.');

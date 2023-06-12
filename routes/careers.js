@@ -22,20 +22,21 @@ router.get("/all", async (req, res) => {
     }
 });
 
-// add a course to the database
+// add a career to the database
 router.post("/add", async (req, res) => {
     try {
         // destructure data entered
-        const {name, description} = req.body;
+        const {career_name, field, description} = req.body;
 
         // check if courses is already added
-        const career = await Career.findOne({where : { name }});
+        const career = await Career.findOne({where : { career_name }});
         if(career) {
             return res.status(401).send("Career already in database");
         }
         else {
             await Career.create({
-                name,
+                career_name,
+                field,
                 description,
             })
             .then(() => {
