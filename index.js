@@ -11,6 +11,7 @@ const passport = require("passport");
 const multer  = require('multer')
 const upload = multer({storage: multer.memoryStorage()})
 const { parse } = require('./utilities/parser');
+const bcrypt = require("bcrypt");
 
 const port = process.env.PORT || 5000;
 
@@ -34,33 +35,76 @@ const Transcript = require("./models/Transcript");
 
 const { ppid } = require("process");
 
-async function initializeDatabase() {
-  try {
-    await AdvisingSesssion.sync();
-    await AdvisingWindow.sync();
-    await Career.sync();
-    await CareerCourse.sync();
-    await Course.sync();
-    await PotentialGraduate.sync();
-    await Programme.sync();
-    await ProgrammeCourse.sync();
-    await Staff.sync();
-    await Student.sync();
-    await StudentCourses.sync();
-    await Transcript.sync();
+// async function initializeDatabase() {
+//   try {
+//     await AdvisingSesssion.sync();
+//     await AdvisingWindow.sync();
+//     await Career.sync();
+//     await CareerCourse.sync();
+//     await Course.sync();
+//     await PotentialGraduate.sync();
+//     await Programme.sync();
+//     await ProgrammeCourse.sync();
+//     await Staff.sync();
+//     await Student.sync();
+//     await StudentCourses.sync();
+//     await Transcript.sync();
     
-    console.log("Tables created successfully.");
-  } catch (error) {
-    console.error("Error creating tables:", error);
-  }
+//     console.log("Tables created successfully.");
+//   } catch (error) {
+//     console.error("Error creating tables:", error);
+//   }
+// }
+
+async function initializeDatabase() {
+  (async () => {
+    try {
+      if (!process.env.SYNCED) {
+        // Create tables if they do not exist
+        await AdvisingSesssion.sync();
+        await AdvisingWindow.sync();
+        await Career.sync();
+        await CareerCourse.sync();
+        await Course.sync();
+        await PotentialGraduate.sync();
+        await Programme.sync();
+        await ProgrammeCourse.sync();
+        await Staff.sync();
+        await Student.sync();
+        await StudentCourses.sync();
+        await Transcript.sync();
+
+        const saltRounds = 10;
+            const salt = await bcrypt.genSalt(saltRounds);
+            const passEncrypt = await bcrypt.hash("admin123", salt);
+
+            await Staff.create({
+                username: "admin",
+                password: passEncrypt,
+            });
+        
+        process.env.SYNCED = "TRUE";
+        console.log('Database tables synchronized.');
+      } else {
+        console.log('Database tables are already synchronized.');
+      }
+    } catch (error) {
+      console.error('Unable to synchronize the database:', error);
+    } finally {
+      // Close the database connection when done
+      // await db.close();
+    }
+  })();
+
+
 }
 
 initializeDatabase();
 
-// if in production (deployment), changes main client path to build
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "myadvisor/build")));
-  }
+// // if in production (deployment), changes main client path to build
+// if (process.env.NODE_ENV === "production") {
+//     app.use(express.static(path.join(__dirname, "myadvisor/build")));
+//   }
 
 // routes
 app.get("/", (req, res) => {
@@ -81,18 +125,18 @@ app.use("/transcript", require("./routes/transcript"));
 
 app.use("/accounts", require("./routes/authorization"));
 
-// if a bad route is entered
-if (process.env.NODE_ENV === "production") {
-    app.get("*", (req, res) => {
-      console.log(" load home ");
-      //res.sendFile(path.join(__dirname, "myadvisor/build/index.html"));
-    });
-  } else {
-    app.get("*", (req, res) => {
-      console.log(" load home 2 ");
-      //res.sendFile(path.join(__dirname, "myadvisor/public/index.html"));
-    });
-  }
+// // if a bad route is entered
+// if (process.env.NODE_ENV === "production") {
+//     app.get("*", (req, res) => {
+//       console.log(" load home ");
+//       //res.sendFile(path.join(__dirname, "myadvisor/build/index.html"));
+//     });
+//   } else {
+//     app.get("*", (req, res) => {
+//       console.log(" load home 2 ");
+//       //res.sendFile(path.join(__dirname, "myadvisor/public/index.html"));
+//     });
+//   }
 
 app.listen(port, () => {
     console.log(`Server is starting on port ${port}`);
