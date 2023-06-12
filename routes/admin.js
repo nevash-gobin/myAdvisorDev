@@ -54,7 +54,7 @@ router.post("/students/create", staffAccountVerification, async (req, res) => {
 });
 
 // add new staff account
-router.post("/staff/create", async (req, res) => {
+router.post("/staff/create", staffAccountVerification, async (req, res) => {
     try {
         const {username, password} = req.body
 
