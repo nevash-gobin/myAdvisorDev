@@ -18,7 +18,7 @@ const { response } = require("express");
 const PotentialGraduate = require("../models/PotentialGraduate");
 
 // add new student account
-router.post("/students/create", async (req, res) => {
+router.post("/students/create", staffAccountVerification, async (req, res) => {
     try {
         // destructure data entered
         const {username, password} = req.body
@@ -54,7 +54,7 @@ router.post("/students/create", async (req, res) => {
 });
 
 // add new staff account
-router.post("/staff/create", staffAccountVerification, async (req, res) => {
+router.post("/staff/create", async (req, res) => {
     try {
         const {username, password} = req.body
 
