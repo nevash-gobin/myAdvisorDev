@@ -19,15 +19,43 @@ app.use(cors());
 app.use(express.json());
 
 // models
-const Student = require("./models/Student");
-const Staff = require("./models/Staff");
-const Course = require("./models/Course");
-const Career = require("./models/Career");
-const Transcript = require("./models/Transcript");
+const AdvisingSesssion = require("./models/AdvisingSession")
 const AdvisingWindow = require("./models/AdvisingWindow");
-const ProgrammeCourse = require("./models/ProgrammeCourse");
+const Career = require("./models/Career");
 const CareerCourse = require("./models/CareerCourse");
+const Course = require("./models/Course");
+const PotentialGraduate = require("./models/PotentialGraduate");
+const Programme = require("./models/Programme");
+const ProgrammeCourse = require("./models/ProgrammeCourse");
+const Staff = require("./models/Staff");
+const Student = require("./models/Student");
+const StudentCourses = require("./models/StudentCourses");
+const Transcript = require("./models/Transcript");
+
 const { ppid } = require("process");
+
+async function initializeDatabase() {
+  try {
+    await AdvisingSesssion.sync();
+    await AdvisingWindow.sync();
+    await Career.sync();
+    await CareerCourse.sync();
+    await Course.sync();
+    await PotentialGraduate.sync();
+    await Programme.sync();
+    await ProgrammeCourse.sync();
+    await Staff.sync();
+    await Student.sync();
+    await StudentCourses.sync();
+    await Transcript.sync();
+    
+    console.log("Tables created successfully.");
+  } catch (error) {
+    console.error("Error creating tables:", error);
+  }
+}
+
+initializeDatabase();
 
 // if in production (deployment), changes main client path to build
 if (process.env.NODE_ENV === "production") {
@@ -56,11 +84,13 @@ app.use("/accounts", require("./routes/authorization"));
 // if a bad route is entered
 if (process.env.NODE_ENV === "production") {
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "myadvisor/build/index.html"));
+      console.log(" load home ");
+      //res.sendFile(path.join(__dirname, "myadvisor/build/index.html"));
     });
   } else {
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "myadvisor/public/index.html"));
+      console.log(" load home 2 ");
+      //res.sendFile(path.join(__dirname, "myadvisor/public/index.html"));
     });
   }
 
