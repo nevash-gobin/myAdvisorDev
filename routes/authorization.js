@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
                 const token = jwtGeneratorStaff(admin.id);
                 res.json({ 
                     "user": "admin",
-                    token
+                    "token": "token" 
                  });
             }
         }
@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
                 const token = jwtGeneratorStudent(student.id);
                 res.json({ 
                     "user": "student",
-                    token 
+                    "token": "token" 
                 });
             }
         }
