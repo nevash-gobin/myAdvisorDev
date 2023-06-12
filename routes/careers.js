@@ -56,7 +56,7 @@ router.post("/add", async (req, res) => {
 // update a selected career
 router.put("/edit/:id", async (req, res) => {
     try {
-        const {name, description} = req.body;
+        const {name, field, description} = req.body;
 
         const career = await Career.findOne({where: { id: req.params.id }});
         if(!career) {
@@ -66,6 +66,9 @@ router.put("/edit/:id", async (req, res) => {
             // updates course with new information
             if (name) {
                 career.name = name;
+            }
+            if (field){
+                career.field = field;
             }
             if (description) {
                 career.description = description;
