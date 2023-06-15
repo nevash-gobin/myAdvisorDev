@@ -166,7 +166,7 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-
+// Add transcript by uploading transcript
  router.post('/parseForm', upload.single('file'), async (req, res)=>{
     const { parsedText, ...data} = await parse(req.file.buffer);
     //console.log("data "+ JSON.stringify(data));
