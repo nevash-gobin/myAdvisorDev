@@ -15,6 +15,7 @@ const { parse } = require('../utilities/parser');
  
 
  // get all student details in the database
+ //Get Transcript
  router.get("/details/all", async (req, res) => {
      try {
          // finds all the student details and responds with a json list 
@@ -99,10 +100,11 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
 });
  
  // add a student's details to the database
+ //Add Transcript
  router.post("/details/add", async (req, res) => {
      try {
          // destructure data entered
-         const {studentId, gpa, name, progress, credits, degree, major, admitTerm} = req.body;
+         const {studentId, gpa, name, progress, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints} = req.body;
  
          // check if student is already added
          const student = await Transcript.findOne({where : { studentId }});
@@ -119,6 +121,11 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
                 degree,
                 major,
                 admitTerm,
+                degreeAttemptHours,
+                degreePassedHours,
+                degreeEarnedHours,
+                degreeGpaHours,
+                degreeQualityPoints
              })
              .then(() => {
                  return res.status(200).send("Student details added!");
@@ -228,10 +235,10 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
     }
   });
 
- // update a selected student
+ // update a selected student transcript
  router.put("/details/edit/:studentId", async (req, res) => {
      try {
-        const {studentId, gpa, name, progress, credits, degree, major, admitTerm} = req.body;
+        const {studentId, gpa, name, progress, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints} = req.body;
  
          const student = await Transcript.findOne({where: { studentId: req.params.studentId }});
          if(!student) {
@@ -262,6 +269,21 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
              }
              if (admitTerm) {
                 student.admitTerm = admitTerm;
+             }
+             if (degreeAttemptHours){
+                student.degreeAttemptHours = degreeAttemptHours;
+             }
+             if (degreePassedHours){
+                student.degreePassedHours = degreePassedHours;
+             }
+             if (degreeEarnedHours){
+                student.degreeEarnedHours = degreeEarnedHours;
+             }
+             if (degreeGpaHours){
+                student.degreeGpaHours = degreeGpaHours;
+             }
+             if (degreeQualityPoints){
+                student.degreeQualityPoints = degreeQualityPoints;
              }
  
              await student.save();
@@ -301,6 +323,7 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
 });
  
  // delete a selected student from the database
+ // Delete student transcript
  router.delete("/details/delete/:studentId", async (req, res) => {
      try {
          const student = await Transcript.findOne({where: { studentId: req.params.studentId }});
