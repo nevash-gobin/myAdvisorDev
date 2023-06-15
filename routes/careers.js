@@ -103,6 +103,36 @@ router.delete("/delete/:id", async (req, res) => {
     }
 });
 
+//Add a careerCourse
+router.post("/courses/add/:careerID/:courseID", async (req, res) =>{
+    try {
+        // destructure data entered
+        const {careerID, courseID} = req.body;
+
+        //check if course is already added to a career
+        const careercourse = await CareerCourse.findOne({where: {careerID: req.params.careerID, courseID: req.params.courseID}});
+        if(careercourse){
+            return res.status(401).send("Course already added to this Career.");
+        }
+        else{
+            await CareerCourse.create({
+                careerID,
+                courseID
+            })
+            .then(() => {
+                return res.status(200).send("Course added to Career!");
+            })
+            .catch(err => {
+                console.log("Error: ", err.message);
+            });
+        }
+
+    } catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
 // get all career courses (all the course options for a future career)
 router.get("/courses/:id", async (req, res) => {
     try {
