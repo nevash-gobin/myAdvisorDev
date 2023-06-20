@@ -22,20 +22,21 @@ router.get("/all", async (req, res) => {
     }
 });
 
-// add a course to the database
+// add a career to the database
 router.post("/add", async (req, res) => {
     try {
         // destructure data entered
-        const {name, description} = req.body;
+        const {career_name, field, description} = req.body;
 
         // check if courses is already added
-        const career = await Career.findOne({where : { name }});
+        const career = await Career.findOne({where : { career_name }});
         if(career) {
             return res.status(401).send("Career already in database");
         }
         else {
             await Career.create({
-                name,
+                career_name,
+                field,
                 description,
             })
             .then(() => {
@@ -55,7 +56,7 @@ router.post("/add", async (req, res) => {
 // update a selected career
 router.put("/edit/:id", async (req, res) => {
     try {
-        const {name, description} = req.body;
+        const {name, field, description} = req.body;
 
         const career = await Career.findOne({where: { id: req.params.id }});
         if(!career) {
@@ -65,6 +66,9 @@ router.put("/edit/:id", async (req, res) => {
             // updates course with new information
             if (name) {
                 career.name = name;
+            }
+            if (field){
+                career.field = field;
             }
             if (description) {
                 career.description = description;
@@ -94,6 +98,36 @@ router.delete("/delete/:id", async (req, res) => {
         }
     }
     catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+//Add a careerCourse
+router.post("/courses/add/:careerID/:courseID", async (req, res) =>{
+    try {
+        // destructure data entered
+        const {careerID, courseID} = req.body;
+
+        //check if course is already added to a career
+        const careercourse = await CareerCourse.findOne({where: {careerID: req.params.careerID, courseID: req.params.courseID}});
+        if(careercourse){
+            return res.status(401).send("Course already added to this Career.");
+        }
+        else{
+            await CareerCourse.create({
+                careerID,
+                courseID
+            })
+            .then(() => {
+                return res.status(200).send("Course added to Career!");
+            })
+            .catch(err => {
+                console.log("Error: ", err.message);
+            });
+        }
+
+    } catch (err) {
         console.log("Error: ", err.message);
         res.status(500).send("Server Error");
     }
