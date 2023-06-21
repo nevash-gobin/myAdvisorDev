@@ -168,6 +168,7 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
 });
 // Add transcript by uploading transcript
  router.post('/parseForm', upload.single('file'), async (req, res)=>{
+    console.log(file);
     const { parsedText, ...data} = await parse(req.file.buffer);
     //console.log("data "+ JSON.stringify(data));
     try {
