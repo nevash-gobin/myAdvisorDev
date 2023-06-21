@@ -168,9 +168,9 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
 });
 // Add transcript by uploading transcript
  router.post('/parseForm', upload.single('file'), async (req, res)=>{
-    console.log("res:" ,res);
+    //console.log("res:" ,res);
     const { parsedText, ...data} = await parse(req.file.buffer);
-    console.log("data "+ JSON.stringify(data));
+    //console.log("data "+ JSON.stringify(data));
     try {
         // destructure data entered
         const {studentId, gpa, name, progress, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints} = data;
