@@ -1,6 +1,5 @@
 const PDFParser = require("pdf2json"); //https://www.npmjs.com/package/pdf2json
 const axios = require('axios');
-const {host} = require('./config.json');
 
 
 /**
@@ -48,7 +47,7 @@ function decode(token){
 
 async function getCourses() {
     try {
-      const {data:response} = await axios.get(`${host}/courses/all`) //use data destructuring to get data from the promise object
+      const {data:response} = await axios.get("https://myadvisorapp.onrender.com/courses/all") //use data destructuring to get data from the promise object
       return response
     }
     catch (error) {
