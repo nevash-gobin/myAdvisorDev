@@ -1,5 +1,7 @@
 const PDFParser = require("pdf2json"); //https://www.npmjs.com/package/pdf2json
 const axios = require('axios');
+const config = require('./config.json');
+
 
 /**
  * @description receives the location of a pdf file and returns a promise which resolves with the parsed json data 
