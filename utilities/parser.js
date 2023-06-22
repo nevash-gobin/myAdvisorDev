@@ -1,6 +1,7 @@
 const PDFParser = require("pdf2json"); //https://www.npmjs.com/package/pdf2json
 const axios = require('axios');
-const config = require('./config.json');
+//const config = require('./config.json');
+import config from './config.json';
 
 
 /**
