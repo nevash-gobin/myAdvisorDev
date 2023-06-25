@@ -5,7 +5,7 @@ const Student = db.define("student", {
     studentID: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.STRING, // Change data type to STRING
+        type: DataTypes.STRING,
     },
     username: {
         allowNull: false,
