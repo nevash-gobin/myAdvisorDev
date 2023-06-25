@@ -1,18 +1,20 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../db");
 
-// NOTE: Student model requires more fields for grades, year etc.
-
-    const Student = db.define("student", {
-        username: {
-            allowNull: false,
-            type: Sequelize.STRING,
-        },
-        password: {
-            allowNull: false,
-            type: Sequelize.STRING,
-        },
-    }, {timestamps: true});
-    
+const Student = db.define("student", {
+    studentID: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.STRING, // Change data type to STRING
+    },
+    username: {
+        allowNull: false,
+        type: Sequelize.STRING,
+    },
+    password: {
+        allowNull: false,
+        type: Sequelize.STRING,
+    },
+}, { timestamps: true });
 
 module.exports = Student;
