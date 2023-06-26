@@ -48,7 +48,7 @@ const Course = db.define("course", {
         allowNull: true,
         type: Sequelize.STRING,
     },
-    praticalCoursework: {
+    practicalCoursework: {
         allowNull: true,
         type: Sequelize.STRING,
     },
