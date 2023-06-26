@@ -278,9 +278,9 @@ router.delete("/delete/:code", async (req, res) => {
 });
 
 // get all career tags for a course
-router.get("/careers/:id", async (req, res) => {
+router.get("/careers/:courseID", async (req, res) => {
     try {
-        const courseCareers = await CareerCourse.findAll({where: { courseID: req.params.id }});
+        const courseCareers = await CareerCourse.findAll({where: { courseID: req.params.courseID }});
         
         if(!courseCareers) {
             return res.status(404).send("Course doesn't exist");
@@ -296,7 +296,7 @@ router.get("/careers/:id", async (req, res) => {
             let careers = [];
             for (i = 0; i < courseCareers.length; i++){
                 const career = await Career.findOne({where: { id: careerIDs[i] }});
-                careers.push(career.name);
+                careers.push(career.career_name);
             }
 
             res.status(202).json(careers);
