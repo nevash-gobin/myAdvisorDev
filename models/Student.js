@@ -5,7 +5,7 @@ const Student = db.define("student", {
     studentID: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
     },
     firstName: {
         allowNull: false,
@@ -24,5 +24,12 @@ const Student = db.define("student", {
         type: Sequelize.STRING,
     },
 }, { timestamps: true });
+
+
+//linking a student to have only one transcript
+Student.hasOne(Transcript, {
+    foreignKey: 'studentId',
+    allowNull: false,
+  });
 
 module.exports = Student;

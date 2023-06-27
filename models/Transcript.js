@@ -49,6 +49,7 @@ const Transcript = db.define("transcript", {
     }
 }, {timestamps: true});
 
+//transcript obect can only belong to one student
 Transcript.belongsTo(Student, {
   foreignKey: 'studentId',
   allowNull: false,
