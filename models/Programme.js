@@ -24,4 +24,10 @@ Programme.hasMany(AwaredDegree, {
   allowNull: false,
 });
 
+// A Programme has many Elective Requirements
+Programme.hasMany(ElectiveRequirement, {
+  foreignKey: 'programmeID',
+  allowNull: false,
+});
+
 module.exports = Programme;

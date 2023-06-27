@@ -10,12 +10,14 @@ const ElectiveRequirement = db.define("electiveRequirement", {
   },
 });
 
+// An Elective Requirement belongs to one Programme
 ElectiveRequirement.belongsTo(Programme, {
   foreignKey: 'programmeID',
   allowNull: false,
 });
 
-ElectiveRequirement.belongsTo(Type, {
+// An Elective Requirement has one  Type
+ElectiveRequirement.hasOne(Type, {
   foreignKey: 'typeId',
   allowNull: false,
 });
