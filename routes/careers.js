@@ -1,4 +1,4 @@
-/**
+_/**
  * initalizes express router and database connection
  */
 const router = require("express").Router();
@@ -56,7 +56,7 @@ router.post("/add", async (req, res) => {
 // update a selected career
 router.put("/edit/:id", async (req, res) => {
     try {
-        const {name, field, description} = req.body;
+        const {career_name, field, description} = req.body;
 
         const career = await Career.findOne({where: { id: req.params.id }});
         if(!career) {
@@ -65,7 +65,7 @@ router.put("/edit/:id", async (req, res) => {
         else {
             // updates course with new information
             if (name) {
-                career.name = name;
+                career.career_name = career_name;
             }
             if (field){
                 career.field = field;
