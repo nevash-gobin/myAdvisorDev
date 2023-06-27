@@ -10,11 +10,13 @@ const AwaredDegree = db.define("awardedDegree", {
   },
 });
 
+// An awarded Degree only belongs to one student
 AwaredDegree.belongsTo(Student, {
   foreignKey: 'studentID',
   allowNull: false,
 });
 
+// An awarded Degree only belongs to one programme
 AwaredDegree.belongsTo(Programme, {
   foreignKey: 'programmeID',
   allowNull: false,
