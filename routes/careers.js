@@ -1,4 +1,4 @@
-_/**
+/**
  * initalizes express router and database connection
  */
 const router = require("express").Router();
