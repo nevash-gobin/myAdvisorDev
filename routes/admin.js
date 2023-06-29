@@ -10,7 +10,7 @@ const AdvisingSession = require("../models/AdvisingSession");
 const PotentialGraduate = require("../models/PotentialGraduate");
 
 // Create Admin Account
-router.post("/admin/create", staffAccountVerification, async (req, res) => {
+router.post("/create/admin", staffAccountVerification, async (req, res) => {
     try {
         const {adminID, firstName, lastName, email, password} = req.body
 
@@ -46,7 +46,7 @@ router.post("/admin/create", staffAccountVerification, async (req, res) => {
 });
 
 // Create Student Account
-router.post("/student/create", staffAccountVerification, async (req, res) => {
+router.post("/create/student", staffAccountVerification, async (req, res) => {
     try {
         // destructure data entered
         const {studentID, firstName, lastName,email, password} = req.body
@@ -83,7 +83,7 @@ router.post("/student/create", staffAccountVerification, async (req, res) => {
 });
 
 // Get All Advising Sessions
-router.get("/academic-advising/students/sessions", async (req, res) => {
+router.get("/student/advising-sessions", async (req, res) => {
     try {
         const sessions = await AdvisingSession.findAll();
         res.status(200).json(sessions);
@@ -95,7 +95,7 @@ router.get("/academic-advising/students/sessions", async (req, res) => {
 });
 
 
-// Models not longer Exist
+// Models Not Longer Exist
 // set or update advising window**********************************************remove!!!
 router.post("/academic-advising/window", async (req, res) => {
     try {
