@@ -1,21 +1,46 @@
-/* 
-    constants to enable connectivity between components and encryption using bcrypt
-    bcrypt and saltRounds enable authorization and encryption
-    jwt uses the passport module to create and store a user token
-*/
 const router = require("express").Router();
-const db = require("../db");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const staffAccountVerification = require("../middleware/staffAccountVerification");
 
 // import models
 const Student = require("../models/Student");
-const Staff = require("../models/Admin");
+const Admin = require("../models/Admin");
 const AdvisingWindow = require("../models/AdvisingWindow");
 const AdvisingSession = require("../models/AdvisingSession");
-const { response } = require("express");
 const PotentialGraduate = require("../models/PotentialGraduate");
+
+// add new staff account
+router.post("/staff/create", staffAccountVerification, async (req, res) => {
+    try {
+        const {username, password} = req.body
+
+        // check if staff exists since duplicate usernames aren't allowed
+        const user = await Staff.findOne({where: { username }});
+        if(user) {
+            return res.status(401).send("Staff member already exists.");
+        }
+        else {
+            const saltRounds = 10;
+            const salt = await bcrypt.genSalt(saltRounds);
+            const passEncrypt = await bcrypt.hash(password, salt);
+
+            await Staff.create({
+                username,
+                password: passEncrypt,
+            })
+            .then(() => {
+                return res.status(200).send("Staff added!");
+            })
+            .catch(err => {
+                    console.log("Error: ", err.message);
+            });
+        }
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
 
 // add new student account
 router.post("/students/create", staffAccountVerification, async (req, res) => {
@@ -43,39 +68,6 @@ router.post("/students/create", staffAccountVerification, async (req, res) => {
                 return res.status(200).send("Student added!");
             })
             .catch (err => {
-                    console.log("Error: ", err.message);
-            });
-        }
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
-
-// add new staff account
-router.post("/staff/create", staffAccountVerification, async (req, res) => {
-    try {
-        const {username, password} = req.body
-
-        // check if staff exists since duplicate usernames aren't allowed
-        const user = await Staff.findOne({where: { username }});
-        if(user) {
-            return res.status(401).send("Staff member already exists.");
-        }
-        else {
-            const saltRounds = 10;
-            const salt = await bcrypt.genSalt(saltRounds);
-            const passEncrypt = await bcrypt.hash(password, salt);
-
-            await Staff.create({
-                username,
-                password: passEncrypt,
-            })
-            .then(() => {
-                return res.status(200).send("Staff added!");
-            })
-            .catch(err => {
                     console.log("Error: ", err.message);
             });
         }

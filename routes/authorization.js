@@ -18,10 +18,10 @@ const jwtGeneratorStaff = require("../utilities/jwtStaff");
 // login to student or staff account
 router.post("/login", async (req, res) => {
     try {
-        const {username, password} = req.body;
+        const {ID, password} = req.body;
         
-        const admin = await Staff.findOne({where: { username }});
-        const student = await Student.findOne({where: { username }});
+        const admin = await Staff.findOne({where: { "adminID": ID }});
+        const student = await Student.findOne({where: { "studentID": ID }});
         
         if(!admin && !student) {
             return res.status(401).send("This account does not exist.");
@@ -32,14 +32,18 @@ router.post("/login", async (req, res) => {
             const passCompare = await bcrypt.compare(password, admin.password);
 
             if (!passCompare) {
-                return res.status(401).send("Invalid Password");
+                return res.status(401).send("Invalid Password.");
             }
             else if (passCompare) {
                 // generates token for staff user
                 const token = jwtGeneratorStaff(admin.id);
                 res.json({ 
-                    "user": "admin",
-                    "username": admin.username,
+                    "accountType": "admin",
+                    "adminID": admin.adminID,
+                    "firstName": admin.firstName,
+                    "lastName": admin.lastName,
+                    "email": admin.email,
+                    "createdAt": admin.createdAt,
                     "token": token
                  });
             }
