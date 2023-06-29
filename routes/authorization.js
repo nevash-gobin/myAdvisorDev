@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 
 // import models
 const Student = require("../models/Student");
-const Staff = require("../models/Admin");
+const Admin = require("../models/Admin");
 const jwtGeneratorStudent = require("../utilities/jwtStudent");
 const jwtGeneratorStaff = require("../utilities/jwtStaff");
 
@@ -20,7 +20,7 @@ router.post("/login", async (req, res) => {
     try {
         const {ID, password} = req.body;
         
-        const admin = await Staff.findOne({where: { "adminID": ID }});
+        const admin = await Admin.findOne({where: { "adminID": ID }});
         const student = await Student.findOne({where: { "studentID": ID }});
         
         if(!admin && !student) {
@@ -58,8 +58,12 @@ router.post("/login", async (req, res) => {
                 // generates token for student user
                 const token = jwtGeneratorStudent(student.id);
                 res.json({ 
-                    "user": "student",
-                    "username": student.username,
+                    "accountType": "student",
+                    "studentID": student.studentID,
+                    "firstName": student.firstName,
+                    "lastName": student.lastName,
+                    "email": student.email,
+                    "createdAt": student.createdAt,
                     "token": token
                 });
             }
