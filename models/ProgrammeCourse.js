@@ -1,11 +1,8 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-const ElectiveRequirement = db.define("electiveRequirement", {
-  amount: {
-    allowNull: false,
-    type: Sequelize.INTEGER,
-  },
+const ProgrammeCourse = db.define("programmeCourse", {
+  // has a default primary key id
 });
 
-module.exports = ElectiveRequirement;
+module.exports = ProgrammeCourse;
