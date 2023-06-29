@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
-const Student = require("./student");
 
 const Transcript = db.define("transcript", {
     gpa: {
