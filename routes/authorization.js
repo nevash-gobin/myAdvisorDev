@@ -14,16 +14,17 @@ const Admin = require("../models/Admin");
 const jwtGeneratorStudent = require("../utilities/jwtStudent");
 const jwtGeneratorStaff = require("../utilities/jwtStaff");
 
+// ---Routes---
 
 // login to student or staff account
 router.post("/login", async (req, res) => {
     try {
-        const {ID, password} = req.body;
-        
-        const admin = await Admin.findOne({where: { "adminID": ID }});
-        const student = await Student.findOne({where: { "studentID": ID }});
-        
-        if(!admin && !student) {
+        const { ID, password } = req.body;
+
+        const admin = await Admin.findOne({ where: { "adminID": ID } });
+        const student = await Student.findOne({ where: { "studentID": ID } });
+
+        if (!admin && !student) {
             return res.status(401).send("This account does not exist.");
         }
         else if (admin) {
@@ -37,7 +38,7 @@ router.post("/login", async (req, res) => {
             else if (passCompare) {
                 // generates token for staff user
                 const token = jwtGeneratorStaff(admin.id);
-                res.json({ 
+                res.json({
                     "accountType": "admin",
                     "adminID": admin.adminID,
                     "firstName": admin.firstName,
@@ -45,19 +46,19 @@ router.post("/login", async (req, res) => {
                     "email": admin.email,
                     "createdAt": admin.createdAt,
                     "token": token
-                 });
+                });
             }
         }
         else if (student) {
             const passCompare2 = await bcrypt.compare(password, student.password);
-            
+
             if (!passCompare2) {
                 return res.status(401).send("Invalid Password");
             }
             else if (passCompare2) {
                 // generates token for student user
                 const token = jwtGeneratorStudent(student.id);
-                res.json({ 
+                res.json({
                     "accountType": "student",
                     "studentID": student.studentID,
                     "firstName": student.firstName,
