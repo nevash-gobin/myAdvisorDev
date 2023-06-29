@@ -3,7 +3,7 @@ const db = require("../db");
 
 const StudentCourse = db.define("studentcourse", {
     grade: {
-        type: DataTypes.ENUM('A', 'B', 'C', 'F'),
+        type: Sequelize.ENUM('A', 'B', 'C', 'F'),
         allowNull: false,
       },
 });
