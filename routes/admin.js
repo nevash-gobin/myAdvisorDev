@@ -82,7 +82,21 @@ router.post("/student/create", staffAccountVerification, async (req, res) => {
     }
 });
 
-// set or update advising window
+// Get All Advising Sessions
+router.get("/academic-advising/students/sessions", async (req, res) => {
+    try {
+        const sessions = await AdvisingSession.findAll();
+        res.status(200).json(sessions);
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+// Models not longer Exist
+// set or update advising window**********************************************remove!!!
 router.post("/academic-advising/window", async (req, res) => {
     try {
         const {advisingStart, advisingEnd, semester} = req.body
@@ -121,7 +135,7 @@ router.post("/academic-advising/window", async (req, res) => {
     }
 });
 
-// get advising window
+// get advising window**********************************remove!!!!!!!!!!
 router.get("/academic-advising/window", async (req, res) => {
     try {
         const advisingWindow = await AdvisingWindow.findOne({where: { id: 1 }});
@@ -133,20 +147,7 @@ router.get("/academic-advising/window", async (req, res) => {
     }
 });
 
-// get student sessions from the database
-router.get("/academic-advising/students/sessions", async (req, res) => {
-    try {
-        // get all the sessions for current advising period
-        const sessions = await AdvisingSession.findAll();
-        res.status(200).json(sessions);
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
-
-//get the potential graduates from the database
+//get the potential graduates from the database**********************************************remove!!!
 router.get("/potential-graduates/students", async(req, res) => {
     try{
         //get all the potential graduates
