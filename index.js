@@ -35,7 +35,7 @@ const Programme = require("./models/Programme");
 const ProgrammeCourse = require("./models/ProgrammeCourse");
 const Semester = require("./models/Semester");
 const Student = require("./models/Student");
-const StudentCourses = require("./models/StudentCourses");
+const StudentCourses = require("./models/StudentCourse");
 const Transcript = require("./models/Transcript");
 const Type = require("./models/Type");
 
