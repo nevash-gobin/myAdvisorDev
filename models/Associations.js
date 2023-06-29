@@ -1,19 +1,19 @@
-const Student = require("./student");
-const Transcript = require("./transcript");
-const AwaredDegree = require("./awardedDegree");
-const StudentCourse = require("./studentCourse");
-const AdvisingSession = require("./advisingSession");
-const Programme = require("./programme");
-const ElectiveRequirment = require("./electiveRequiremnt");
+const Student = require("./Student");
+const Transcript = require("./Transcript");
+const AwaredDegree = require("./AwardedDegree");
+const StudentCourse = require("./StudentCourse");
+const AdvisingSession = require("./AdvisingSession");
+const Programme = require("./Programme");
+const ElectiveRequirment = require("./ElectiveRequiremnt");
 const ProgrammeCourse = require("./ProgrammeCourse");
-const Type = require("./type");
-const Semester = require("./semester");
+const Type = require("./Type");
+const Semester = require("./Semester");
 const CareerCourse = require("./CareerCourse");
-const Career = require("./career");
-const Course = require("./course");
-const AdvisedCourse = require("./advisedCourse");
-const Antirequisite = require("./antirequisite");
-const Prerequisite = require("./prerequisite");
+const Career = require("./Career");
+const Course = require("./Course");
+const AdvisedCourse = require("./AdvisedCourse");
+const Antirequisite = require("./Antirequisite");
+const Prerequisite = require("./Prerequisite");
 
 // ----------STUDENT----------
 
