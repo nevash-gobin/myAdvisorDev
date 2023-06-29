@@ -1,5 +1,5 @@
 
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize} = require("sequelize");
 const db = require("../db");
 
 // Bridge table for programme and courses belonging to it
