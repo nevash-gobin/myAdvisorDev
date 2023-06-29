@@ -4,7 +4,7 @@ const AwaredDegree = require("./AwardedDegree");
 const StudentCourse = require("./StudentCourse");
 const AdvisingSession = require("./AdvisingSession");
 const Programme = require("./Programme");
-const ElectiveRequirment = require("./ElectiveRequiremnt");
+const ElectiveRequirment = require("./ElectiveRequirement");
 const ProgrammeCourse = require("./ProgrammeCourse");
 const Type = require("./Type");
 const Semester = require("./Semester");
@@ -268,7 +268,7 @@ Course.hasMany(Antirequisite, {
     allowNull: false
 })
 // An Anit-Requisite belongs to one Course
-Antirequisite.belongsTo(course, {
+Antirequisite.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })
@@ -281,7 +281,7 @@ Course.hasMany(Prerequisite, {
     allowNull: false
 })
 // An Prerequisite belongs to one Course
-Prerequisite.belongsTo(course, {
+Prerequisite.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })
