@@ -7,21 +7,21 @@ const url = 'postgres://myadvisor_database_user:YuKpP0lz6KhxNnsRLExqDQrl64bJj6OS
 const [, dialect, username, password, host, database] = url.match(/^(postgres):\/\/([^:]+):([^@]+)@([^/]+)\/(.+)$/);
 
 
-// //SQLITE DATABASE
-// const db = new Sequelize({
-//   dialect: 'sqlite',
-//   storage: 'path/to/database.sqlite', // Replace with the path to your SQLite database file
-// });
-
-
-//CONNECTS TO THE RENDER POSTGRES DATABASE
-const db = new Sequelize(database, username, password, {
-  host,
-  dialect,
-  dialectOptions: {
-    ssl: true,
-  }
+//SQLITE DATABASE
+const db = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'path/to/database.sqlite', // Replace with the path to your SQLite database file
 });
+
+
+// //CONNECTS TO THE RENDER POSTGRES DATABASE
+// const db = new Sequelize(database, username, password, {
+//   host,
+//   dialect,
+//   dialectOptions: {
+//     ssl: true,
+//   }
+// });
 
 
 // const db = new Sequelize({

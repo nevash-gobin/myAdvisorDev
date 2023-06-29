@@ -85,7 +85,7 @@ async function initializeDatabase() {
         await ProgrammeCourse.sync();
         await Semester.sync();
         await Student.sync();
-        await StudentCourses.sync();
+        await StudentCourse.sync();
         await Transcript.sync();
         await Type.sync();
 
