@@ -1,6 +1,3 @@
-/**
- * initalizes express router and database connection
- */
 const router = require("express").Router();
 const db = require("../db");
 
@@ -9,10 +6,10 @@ const Career = require("../models/Career");
 const Course = require("../models/Course");
 const CareerCourse = require("../models/CareerCourse");
 
-// get all careers in the database
+
+// Get All Careers
 router.get("/all", async (req, res) => {
     try {
-        // finds all the courses and responds with a json list 
         const careers = await Career.findAll();
         res.status(200).json(careers);
     }
@@ -22,7 +19,7 @@ router.get("/all", async (req, res) => {
     }
 });
 
-// add a career to the database
+// Create A Career
 router.post("/add", async (req, res) => {
     try {
         // destructure data entered
