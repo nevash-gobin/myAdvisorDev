@@ -11,7 +11,7 @@ const Student = db.define("student", {
         allowNull: false,
         type: Sequelize.STRING,
     },
-    lasttName: {
+    lastName: {
         allowNull: false,
         type: Sequelize.STRING,
     },

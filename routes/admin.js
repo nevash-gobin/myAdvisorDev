@@ -3,33 +3,36 @@ const bcrypt = require("bcrypt");
 const staffAccountVerification = require("../middleware/staffAccountVerification");
 
 // import models
-const Student = require("../models/Student");
 const Admin = require("../models/Admin");
+const Student = require("../models/Student");
 const AdvisingWindow = require("../models/AdvisingWindow");
 const AdvisingSession = require("../models/AdvisingSession");
 const PotentialGraduate = require("../models/PotentialGraduate");
 
-// add new staff account
-router.post("/staff/create", staffAccountVerification, async (req, res) => {
+// Create Admin Account
+router.post("/admin/create", staffAccountVerification, async (req, res) => {
     try {
-        const {username, password} = req.body
+        const {adminID, firstName, lastName, email, password} = req.body
 
         // check if staff exists since duplicate usernames aren't allowed
-        const user = await Staff.findOne({where: { username }});
-        if(user) {
-            return res.status(401).send("Staff member already exists.");
+        const admin = await Admin.findOne({where: { "adminID": adminID }});
+        if(admin) {
+            return res.status(401).send("Administrator Account Already Exists!");
         }
         else {
             const saltRounds = 10;
             const salt = await bcrypt.genSalt(saltRounds);
             const passEncrypt = await bcrypt.hash(password, salt);
 
-            await Staff.create({
-                username,
+            await Admin.create({
+                adminID,
+                firstName,
+                lastName,
+                email,
                 password: passEncrypt,
-            })
+              })
             .then(() => {
-                return res.status(200).send("Staff added!");
+                return res.status(200).send("Administrator Account Created Successfully!");
             })
             .catch(err => {
                     console.log("Error: ", err.message);
@@ -42,30 +45,31 @@ router.post("/staff/create", staffAccountVerification, async (req, res) => {
     }
 });
 
-// add new student account
-router.post("/students/create", staffAccountVerification, async (req, res) => {
+// Create Student Account
+router.post("/student/create", staffAccountVerification, async (req, res) => {
     try {
         // destructure data entered
-        const {username, password} = req.body
+        const {studentID, firstName, lastName,email, password} = req.body
 
         // check if student exists since duplicate usernames aren't allowed
-        const user = await Student.findOne({where: { username }});
-        if(user) {
-            return res.status(401).send("Student already exists.");
+        const student = await Student.findOne({where: { "studentID": studentID }});
+        if(student) {
+            return res.status(401).send("Student Account Already Exist!");
         }
-        else {
-            // saltRounds are needed to increase the degree of hashing
-            // passEncrypt is the encrypted version of the password entered which uses the salt created
-            const saltRounds = 10;
+        else {          
+            const saltRounds = 10;      // saltRounds are needed to increase the degree of hashing
             const salt = await bcrypt.genSalt(saltRounds);
-            const passEncrypt = await bcrypt.hash(password, salt);
+            const passEncrypt = await bcrypt.hash(password, salt);// passEncrypt is the encrypted version of the password entered which uses the salt created
 
             await Student.create({
-                username,
+                studentID,
+                firstName,
+                lastName,
+                email,
                 password: passEncrypt,
             })
             .then(() => {
-                return res.status(200).send("Student added!");
+                return res.status(200).send("Student Account Created Successfully!");
             })
             .catch (err => {
                     console.log("Error: ", err.message);
