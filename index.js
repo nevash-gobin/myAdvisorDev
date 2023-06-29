@@ -35,7 +35,7 @@ const Programme = require("./models/Programme");
 const ProgrammeCourse = require("./models/ProgrammeCourse");
 const Semester = require("./models/Semester");
 const Student = require("./models/Student");
-const StudentCourses = require("./models/StudentCourse");
+const StudentCourse = require("./models/StudentCourse");
 const Transcript = require("./models/Transcript");
 const Type = require("./models/Type");
 
@@ -90,14 +90,18 @@ async function initializeDatabase() {
         await Type.sync();
 
         // Creates Admin Account
-        const user = await Admin.findOne({ where: { adminId } });
+        const adminID = "816020000";
+        const user = await Admin.findOne({ where: { adminID } });
         if (!user) {
           const saltRounds = 10;
           const salt = await bcrypt.genSalt(saltRounds);
           const passEncrypt = await bcrypt.hash("adminpass", salt);
 
-          await Staff.create({
-            adminId: "816020000",
+          await Admin.create({
+            adminID: "816020000",
+            firstName: "Admin",
+            lastName: "istrator",
+            email: "administratorEmail@mail.com",
             password: passEncrypt,
           });
           console.log('Admin account created.');

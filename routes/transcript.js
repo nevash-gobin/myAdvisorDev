@@ -11,7 +11,7 @@ const { parse } = require('../utilities/parser');
  
  // import models
  const Transcript = require("../models/Transcript");
- const StudentCourses = require("../models/StudentCourses");
+ const StudentCourses = require("../models/StudentCourse");
  
 
  // get all student details in the database

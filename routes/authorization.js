@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 
 // import models
 const Student = require("../models/Student");
-const Staff = require("../models/Staff");
+const Staff = require("../models/Admin");
 const jwtGeneratorStudent = require("../utilities/jwtStudent");
 const jwtGeneratorStaff = require("../utilities/jwtStaff");
 

@@ -11,7 +11,7 @@ const staffAccountVerification = require("../middleware/staffAccountVerification
 
 // import models
 const Student = require("../models/Student");
-const Staff = require("../models/Staff");
+const Staff = require("../models/Admin");
 const AdvisingWindow = require("../models/AdvisingWindow");
 const AdvisingSession = require("../models/AdvisingSession");
 const { response } = require("express");
