@@ -277,12 +277,18 @@ Antirequisite.belongsTo(Course, {
 //Prerequisite<--->Course
 // A Course has many Prerequisites
 Course.hasMany(Prerequisite, {
-    foreignKey: 'courseCode',
+    foreignKey: {
+        name:'courseCode',
+        type: Sequelize.toString
+    },
     allowNull: false
 })
 // An Prerequisite belongs to one Course
 Prerequisite.belongsTo(Course, {
-    foreignKey: 'courseCode',
+    foreignKey: {
+        name:'courseCode',
+        type: Sequelize.toString
+    },
     allowNull: false
 })
 

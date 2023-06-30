@@ -102,20 +102,20 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 //Add a careerCourse
-router.post("/courses/add/:careerID/:courseID", async (req, res) => {
+router.post("/courses/add/:careerId/:courseCode", async (req, res) => {
     try {
         // destructure data entered
         //const { careerID, courseID } = req.body;
 
         //check if course is already added to a career
-        const careercourse = await CareerCourse.findOne({ where: { careerID: req.params.careerID, courseID: req.params.courseID } });
+        const careercourse = await CareerCourse.findOne({ where: { careerId: req.params.careerId, courseCode: req.params.courseCode } });
         if (careercourse) {
             return res.status(401).send("Course already added to this Career.");
         }
         else {
             await CareerCourse.create({
-                careerID,
-                courseID
+                careerId: careerId,
+                courseCode
             })
                 .then(() => {
                     return res.status(200).send("Course added to Career!");
