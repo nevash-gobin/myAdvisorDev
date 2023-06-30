@@ -295,7 +295,7 @@ Prerequisite.belongsTo(Course, {
 })
 
 
-// Career<--->Course
+// Career<--->CareerCourse
 
 // A Career has manny Career Courses
 Career.hasMany(CareerCourse, {
