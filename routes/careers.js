@@ -139,10 +139,16 @@ router.post("/courses/add/:careerId/:courseCode", async (req, res) => {
 // get all career courses (all the course options for a future career)
 router.get("/courses/:id", async (req, res) => {
     try {
-        const id = req.params;
+        const careerId = req.params.id;
+        //console.log("LOG::> careerId: ", careerId);
+
+        const career = await Career.findOne({
+            where: {id: careerId}
+        });
+        //console.log(career);
+
         const careerCourses = await CareerCourse.findAll({ 
-            where: { id },
-            include: [Course],
+            where: { careerId }
         });
         console.log(careerCourses);
         if (careerCourses.length === 0) {
@@ -150,19 +156,21 @@ router.get("/courses/:id", async (req, res) => {
         }
         else {
             var i;
-            let courseIDs = [];
+            let courseCodes = [];
 
             for (i = 0; i < careerCourses.length; i++) {
-                courseIDs.push(careerCourses[i].courseID)
+                courseCodes.push(careerCourses[i].courseCode)
             }
 
             let courses = [];
             for (i = 0; i < careerCourses.length; i++) {
-                const course = await Course.findOne({ where: { id: courseIDs[i] } });
+                const course = await Course.findOne({ where: { courseCode: courseCodes[i] } });
                 courses.push(course);
             }
 
-            res.status(202).json(courses);
+            res.status(202).json({
+                data: {career, courses}
+            });
         }
     }
     catch (err) {
