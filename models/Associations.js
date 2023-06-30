@@ -1,3 +1,5 @@
+const { Sequelize } = require("sequelize");
+
 const Student = require("./Student");
 const Transcript = require("./Transcript");
 const AwaredDegree = require("./AwardedDegree");
