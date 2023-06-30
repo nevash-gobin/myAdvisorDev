@@ -256,7 +256,7 @@ Course.hasMany(CareerCourse, {
     allowNull: false
 })
 // A Career Course belongs to one Course
-CareerCourse.belongsTo(Career, {
+CareerCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })
