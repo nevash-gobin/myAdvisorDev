@@ -285,3 +285,18 @@ Prerequisite.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })
+
+
+// Career<--->Course
+
+// A Career has manny Career Courses
+Career.hasMany(CareerCourse, {
+    foreignKey: 'careerId',
+    allowNull: false
+})
+
+// A Career Course belongs to one Career
+CareerCourse.belongsTo(Career,{
+    foreignKey: 'careerId',
+    allowNull: false
+})
