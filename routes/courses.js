@@ -99,7 +99,7 @@ router.post("/add", async (req, res) => {
 // update a selected course
 router.put("/edit/:code", async (req, res) => {
     try {
-        const { courseCode, courseTitle, credits, level, semester, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
+        const { courseCode, courseTitle, credits, level, semester, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
 
         const course = await Course.findOne({ where: { courseCode: req.params.code } });
 
@@ -122,9 +122,6 @@ router.put("/edit/:code", async (req, res) => {
             }
             if (semester) {
                 course.semester = semester;
-            }
-            if (prerequisites) {
-                course.prerequisites = prerequisites;
             }
             if (description) {
                 course.description = description;
@@ -278,9 +275,13 @@ router.delete("/delete/:code", async (req, res) => {
 });
 
 // get all career tags for a course
-router.get("/careers/:courseID", async (req, res) => {
+router.get("/careers/:courseCode", async (req, res) => {
     try {
-        const courseCareers = await CareerCourse.findAll({ where: { courseID: req.params.courseID } });
+        const courseCode = req.params.courseCode;
+        // console.log("LOG::> courseCode: ", courseCode);
+
+        const courseCareers = await CareerCourse.findAll({ where: { courseCode: courseCode } });
+        // console.log("LOG::> courseCarrers: ", courseCareers);
 
         if (!courseCareers) {
             return res.status(404).send("Course doesn't exist");
@@ -290,16 +291,18 @@ router.get("/careers/:courseID", async (req, res) => {
             let careerIDs = [];
 
             for (i = 0; i < courseCareers.length; i++) {
-                careerIDs.push(courseCareers[i].careerID)
+                careerIDs.push(courseCareers[i].dataValues.id)
             }
+            // console.log("LOG::> CareerIds: ", careerIDs);
 
-            let careers = [];
+            let careerNames = [];
             for (i = 0; i < courseCareers.length; i++) {
                 const career = await Career.findOne({ where: { id: careerIDs[i] } });
-                careers.push(career.career_name);
+                // console.log("LOG::> career: ", career);
+                careerNames.push(career.dataValues.careerName);
             }
 
-            res.status(202).json(careers);
+            res.status(202).json(careerNames);
         }
     }
     catch (err) {
