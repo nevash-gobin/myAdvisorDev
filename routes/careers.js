@@ -114,7 +114,7 @@ router.post("/courses/add/:careerId/:courseCode", async (req, res) => {
         }
         else {
             await CareerCourse.create({
-                careerId: careerId,
+                careerId,
                 courseCode
             })
                 .then(() => {

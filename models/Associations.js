@@ -281,7 +281,7 @@ Antirequisite.belongsTo(Course, {
 Course.hasMany(Prerequisite, {
     foreignKey: {
         name:'courseCode',
-        type: Sequelize.toString
+        type: Sequelize.STRING
     },
     allowNull: false
 })
@@ -289,7 +289,7 @@ Course.hasMany(Prerequisite, {
 Prerequisite.belongsTo(Course, {
     foreignKey: {
         name:'courseCode',
-        type: Sequelize.toString
+        type: Sequelize.STRING
     },
     allowNull: false
 })
