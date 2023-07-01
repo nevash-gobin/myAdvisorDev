@@ -15,7 +15,7 @@ const Course = db.define("course", {
     },
     credits: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
     },
     level: {
         allowNull: false,

@@ -170,14 +170,17 @@ router.post("/courses/add", async (req, res) => {
 router.post('/parseForm', upload.single('file'), async (req, res) => {
     //console.log("res:" ,res);
     const { parsedText, ...data } = await parse(req.file.buffer);
-    //console.log("data "+ JSON.stringify(data));
+    console.log("LOG::> Data "+ JSON.stringify(data));
     try {
         // destructure data entered
-        const { studentId, gpa, name, progress, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints } = data;
+        const { studentId, gpa, name, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints } = data;
         //console.log("credits "+credits);
+        console.log("LOG::> StudentId: ", studentId);
+
 
         // check if student is already added
-        const student = await Transcript.findOne({ where: { studentId } });
+        const student = await Transcript.findOne({ where: { studentID: studentId } });
+
         if (student) {
             return res.status(401).send("Student already exists.");
         }
@@ -186,7 +189,6 @@ router.post('/parseForm', upload.single('file'), async (req, res) => {
                 studentId,
                 gpa,
                 name,
-                progress,
                 credits,
                 degree,
                 major,

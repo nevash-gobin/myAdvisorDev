@@ -22,7 +22,7 @@ async function getPDFText(fileBuffer){
     for(let page of json['formImage']['Pages']){
         //console.log("page    "+ page['Texts']);
         for(let text of page['Texts']){
-            //console.log("Text    "+text['R']);
+            //console.log("*******Text    "+text['R']);
             for(let rec of text['R']){
                 
                 let token = rec['T'];
@@ -47,7 +47,8 @@ function decode(token){
 
 async function getCourses() {
     try {
-      const {data:response} = await axios.get("https://myadvisorapp.onrender.com/courses/all") //use data destructuring to get data from the promise object
+      const {data:response} = await axios.get("https://5000-uwidcit-myadvisordev-aa3rim079h6.ws-us101.gitpod.io/courses/all") //use data destructuring to get data from the promise object
+      //console.log("??????????????????",response);
       return response
     }
     catch (error) {
@@ -65,7 +66,7 @@ async function getStudentData(text, filename){
     let courseCodeLetters = [];
     let courseCodeNumbers = [];
     let noCreditGrade = ["F1", "F2", "F3", "DIS", "EI", "FA", "FAS", "FC", "FE", "FO", "FP", "FT", "FWS", "FTS", "AB", "AM", "AMS", "DB", "DEF", "EQ", "EX", "FM", "FMS", "FWR", "I", "IP", "LW", "NCR", "NFC", "NP", "NR", "NV", "W", "FMP"]
-    var courses;
+    //var courses;
     var courseList = {};
     let totalCredits = 0;
     let student = {
@@ -83,12 +84,12 @@ async function getStudentData(text, filename){
         degreeEarnedHours: undefined,
         degreeGpaHours: undefined,
         degreeQualityPoints: undefined,
-        // degreeGpa: undefined
+        // degreeGpa: undefined0
 
     }
 
-    courses = await getCourses();
-
+    const courses = await getCourses();
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",courses);
     let i = 0;
 
     for (i=0; i<courses.length; i++) {
@@ -175,9 +176,9 @@ async function getStudentData(text, filename){
 
 async function parse(file){
     const text = await getPDFText(file);
-    //console.log("pdftext - " + text);
+    //console.log("=================================================pdftext - " + text);
     const studentData = await getStudentData(text);
-    //console.log("Student data "+ studentData);
+    console.log("Student data "+ studentData);
     return studentData;
     
 }
