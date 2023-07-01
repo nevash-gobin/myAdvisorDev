@@ -44,7 +44,7 @@ router.get("/courses/all", async (req, res) => {
 // get a student in the database
 router.get("/details/view/:studentId", async (req, res) => {
     try {
-        const student = await Transcript.findOne({ where: { studentId: req.params.studentId } });
+        const student = await Transcript.findOne({ where: { studentID: req.params.studentId } });
 
         if (!student) {
             //return res.status(404).send("Student not found.");
@@ -166,16 +166,17 @@ router.post("/courses/add", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
 // Add transcript by uploading transcript
 router.post('/parseForm', upload.single('file'), async (req, res) => {
     //console.log("res:" ,res);
     const { parsedText, ...data } = await parse(req.file.buffer);
-    console.log("LOG::> Data "+ JSON.stringify(data));
+    //console.log("LOG::> Data "+ JSON.stringify(data));
     try {
         // destructure data entered
         const { studentId, gpa, name, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints } = data;
         //console.log("credits "+credits);
-        console.log("LOG::> StudentId: ", studentId);
+        //console.log("LOG::> StudentId: ", studentId);
 
 
         // check if student is already added
@@ -186,7 +187,7 @@ router.post('/parseForm', upload.single('file'), async (req, res) => {
         }
         else {
             await Transcript.create({
-                studentId,
+                studentID: studentId,
                 gpa,
                 name,
                 credits,
@@ -207,13 +208,14 @@ router.post('/parseForm', upload.single('file'), async (req, res) => {
         console.log("LOG::> Entering for loop");
         // check if course for student is already added
         for (var key in data) {
-            console.log("LOG::> Key: ", key);
+            //console.log("LOG::> Key: ", key);
             if (!(key === "studentId" || key === "gpa" || key === "name" || key === "progress" || key === "credits" || key === "degree" || key === "major" || key === "admitTerm" || key === "degreeAttemptHours" || key === "degreePassedHours" || key === "degreeEarnedHours" || key === "degreeGpaHours" || key === "degreeQualityPoints")) {//if not equal to these
                 var courseCode = key;
                 var courseTitle = data[key][0]
                 var grade = data[key][1];
 
                 const courses = await StudentCourses.findOne({ where: { studentId, courseCode } });
+                //console.log("+++++!+!++!", courses);
                 if (courses) {
                     return res.status(401).send("Course for student already exists.");
                 }
@@ -227,6 +229,8 @@ router.post('/parseForm', upload.single('file'), async (req, res) => {
                         .catch(err => {
                             console.log("Error: ", err.message);
                         });
+
+                    console.log("Created: ", courseCode);
                 }
             }
         }
@@ -245,7 +249,7 @@ router.put("/details/edit/:studentId", async (req, res) => {
     try {
         const { studentId, gpa, name, progress, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints } = req.body;
 
-        const student = await Transcript.findOne({ where: { studentId: req.params.studentId } });
+        const student = await Transcript.findOne({ where: { studentID: req.params.studentId } });
         if (!student) {
             return res.status(401).send("Student not found.");
         }

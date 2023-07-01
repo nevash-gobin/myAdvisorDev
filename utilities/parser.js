@@ -89,7 +89,7 @@ async function getStudentData(text, filename){
     }
 
     const courses = await getCourses();
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",courses);
+    //console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",courses);
     let i = 0;
 
     for (i=0; i<courses.length; i++) {
@@ -171,14 +171,16 @@ async function getStudentData(text, filename){
     student.progress = ((totalCredits / 93) * 100).toFixed(1);
     student.parsedText = text;
 
+    console.log("Student data 1", student);
+
     return student;
 }
 
 async function parse(file){
     const text = await getPDFText(file);
     //console.log("=================================================pdftext - " + text);
-    const studentData = await getStudentData(text);
-    console.log("Student data "+ studentData);
+    var studentData = await getStudentData(text);
+console.log("Student data "+ studentData.COMP3609);
     return studentData;
     
 }
