@@ -57,7 +57,7 @@ Student.hasMany(StudentCourse, {
 })
 // A StudentCourse belongs to one Student
 StudentCourse.belongsTo(Student, {
-    foreignKey: 'studntId',
+    foreignKey: 'studentId',
     allowNull: false
 })
 

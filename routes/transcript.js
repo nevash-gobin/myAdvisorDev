@@ -202,8 +202,10 @@ router.post('/parseForm', upload.single('file'), async (req, res) => {
                 });
         }
 
+        console.log("LOG::> Entering for loop");
         // check if course for student is already added
         for (var key in data) {
+            console.log("LOG::> Key: ", key);
             if (!(key === "studentId" || key === "gpa" || key === "name" || key === "progress" || key === "credits" || key === "degree" || key === "major" || key === "admitTerm" || key === "degreeAttemptHours" || key === "degreePassedHours" || key === "degreeEarnedHours" || key === "degreeGpaHours" || key === "degreeQualityPoints")) {//if not equal to these
                 var courseCode = key;
                 var courseTitle = data[key][0]
