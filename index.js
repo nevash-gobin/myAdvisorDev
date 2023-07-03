@@ -72,22 +72,22 @@ async function initializeDatabase() {
         // Create tables if they do not exist
 
         await Admin.sync();
-        await AdvisedCourse.sync();
-        await AdvisingSesssion.sync();
-        await Antirequisite.sync();
-        await AwardedDegree.sync();
-        await Career.sync();
-        await CareerCourse.sync();
-        await Course.sync();
-        await ElectiveRequirement.sync();
-        await Prerequisite.sync();
-        await Programme.sync();
-        await ProgrammeCourse.sync();
         await Semester.sync();
+        await Career.sync();
+        await Course.sync();
+        await Programme.sync();
         await Student.sync();
-        await StudentCourse.sync();
         await Transcript.sync();
         await Type.sync();
+        await StudentCourse.sync();
+        await AdvisingSesssion.sync();
+        await Antirequisite.sync();
+        await AdvisedCourse.sync();
+        await AwardedDegree.sync();
+        await CareerCourse.sync();
+        await ElectiveRequirement.sync();
+        await Prerequisite.sync();
+        await ProgrammeCourse.sync();
 
         // Creates Admin Account
         const adminID = "816020000";
