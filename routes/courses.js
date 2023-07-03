@@ -278,10 +278,10 @@ router.delete("/delete/:code", async (req, res) => {
 router.get("/careers/:courseCode", async (req, res) => {
     try {
         const courseCode = req.params.courseCode;
-        // console.log("LOG::> courseCode: ", courseCode);
+         console.log("LOG::> courseCode: ", courseCode);
 
         const courseCareers = await CareerCourse.findAll({ where: { courseCode: courseCode } });
-        // console.log("LOG::> courseCarrers: ", courseCareers);
+        console.log("LOG::> courseCarrers: ", courseCareers);
 
         if (!courseCareers) {
             return res.status(404).send("Course doesn't exist");
@@ -291,14 +291,15 @@ router.get("/careers/:courseCode", async (req, res) => {
             let careerIDs = [];
 
             for (i = 0; i < courseCareers.length; i++) {
-                careerIDs.push(courseCareers[i].dataValues.id)
+                careerIDs.push(courseCareers[i].dataValues.careerId)
+                console.log("LOG::> CareerIds: ", careerIDs);
             }
-            // console.log("LOG::> CareerIds: ", careerIDs);
+             
 
             let careerNames = [];
             for (i = 0; i < courseCareers.length; i++) {
                 const career = await Career.findOne({ where: { id: careerIDs[i] } });
-                // console.log("LOG::> career: ", career);
+                 console.log("LOG::> career: ", career);
                 careerNames.push(career.dataValues.careerName);
             }
 

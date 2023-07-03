@@ -18,7 +18,9 @@ const AdvisingWindow = require('../models/AdvisingWindow')
 router.post("/academic-advising/session/:studentId", studentAccountVerification, async (req, res) => {
     try {
         // get current student details
-        const student = await Student.findOne({ where: { username: req.params.studentId } });
+        const studentID = req.body.studentID;
+        const student = await Student.findOne({ where: { studentID: req.body.studentID } });
+        
         // setup date format and get current date
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
@@ -27,17 +29,15 @@ router.post("/academic-advising/session/:studentId", studentAccountVerification,
 
         today = yyyy + '-' + mm + '-' + dd;
 
-        const session = await AdvisingSession.findOne({ where: { studentID: student.username } });
-        const window = await AdvisingWindow.findOne({ where: { id: 1 } });
+        const session = await AdvisingSession.findOne({ where: { studentId: student.studentID } });
+        console.log(student.studentID);
+        //const window = await AdvisingWindow.findOne({ where: { id: 1 } });
 
-        if (today > window.advisingEnd) {
-            console.log("No advising sessions open");
-            return res.status(200).send("Cannot add session outside of advising window!");
-        }
         if (!session) {
             await AdvisingSession.create({
-                studentID: student.username,
-                sessionDate: today
+                studentId: student.studentID,
+                sessionDate: today,
+                semesterId: req.body.semester
             })
                 .then(() => {
                     return res.status(200).send("Advising Session Completed");
@@ -50,8 +50,9 @@ router.post("/academic-advising/session/:studentId", studentAccountVerification,
             await session.destroy();
 
             await AdvisingSession.create({
-                studentID: student.username,
-                sessionDate: today
+                studentId: student.studentID,
+                sessionDate: today,
+                semesterId: req.body.semester
             })
                 .then(() => {
                     return res.status(200).send("Advising Session Completed");
