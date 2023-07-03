@@ -63,7 +63,7 @@ router.put("/edit/:id", async (req, res) => {
         else {
             // updates course with new information
             if (careerName) {
-                career.careeName = careeName;
+                career.careeName = careerName;
             }
             if (field) {
                 career.field = field;
