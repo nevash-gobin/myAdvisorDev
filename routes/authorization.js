@@ -19,12 +19,12 @@ const jwtGeneratorStaff = require("../utilities/jwtStaff");
 // login to student or staff account
 router.post("/login", async (req, res) => {
     try {
-        const { ID, password } = req.body;
-        console.log("LOG::> ID: ", ID);
+        const { username, password } = req.body;
+        console.log("LOG::> Username: ", username);
         console.log("LOG::> Passowrd: ", password);
 
-        const admin = await Admin.findOne({ where: { "adminID": ID } });
-        const student = await Student.findOne({ where: { "studentID": ID } });
+        const admin = await Admin.findOne({ where: { "adminID": username } });
+        const student = await Student.findOne({ where: { "studentID": username } });
 
         if (!admin && !student) {
             return res.status(401).send("This account does not exist.");
