@@ -275,6 +275,17 @@ Antirequisite.belongsTo(Course, {
     allowNull: false
 })
 
+// A Course has many Anti-Requisites
+Course.hasMany(Antirequisite, {
+    foreignKey: 'antirequisiteCourseId',
+    allowNull: false
+})
+// An Anit-Requisite belongs to one Course
+Antirequisite.belongsTo(Course, {
+    foreignKey: 'antirequisiteCourseId',
+    allowNull: false
+})
+
 
 //Prerequisite<--->Course
 // A Course has many Prerequisites
@@ -293,6 +304,24 @@ Prerequisite.belongsTo(Course, {
     },
     allowNull: false
 })
+
+// A Course has many Prerequisites
+Course.hasMany(Prerequisite, {
+    foreignKey: {
+        name:'prerequisiteCourseId',
+        type: Sequelize.STRING
+    },
+    allowNull: false
+})
+// An Prerequisite belongs to one Course
+Prerequisite.belongsTo(Course, {
+    foreignKey: {
+        name:'prerequisiteCourseId',
+        type: Sequelize.STRING
+    },
+    allowNull: false
+})
+
 
 
 // Career<--->CareerCourse

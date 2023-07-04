@@ -7,6 +7,7 @@ const db = require("../db");
 // import models
 const Course = require("../models/Course");
 const Career = require("../models/Career");
+const Prerequisites = require("../models/Prerequisite");
 const CareerCourse = require("../models/CareerCourse");
 
 // imports sequelize module
@@ -312,10 +313,16 @@ router.get("/careers/:courseCode", async (req, res) => {
     }
 });
 
+
+
 router.get("/prereqs/:id", async (req, res) => {
     const Op = Sequelize.Op;
     try {
-        const prereqs = await Course.findAll({ where: { prerequisites: { [Op.like]: `%${req.params.id}%` } } });
+        // const prereqs = await Course.findAll({ where: { prerequisites: { [Op.like]: `%${req.params.id}%` } } });
+
+        const prereqs = await Prerequisites.findAll({
+            where: 
+        })
 
         if (!prereqs) {
             return res.status(404).send("This course is not required for any other course");
