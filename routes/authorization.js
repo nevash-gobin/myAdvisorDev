@@ -20,6 +20,8 @@ const jwtGeneratorStaff = require("../utilities/jwtStaff");
 router.post("/login", async (req, res) => {
     try {
         const { ID, password } = req.body;
+        console.log("LOG::> ID: ", ID);
+        console.log("LOG::> Passowrd: ", password);
 
         const admin = await Admin.findOne({ where: { "adminID": ID } });
         const student = await Student.findOne({ where: { "studentID": ID } });
