@@ -321,7 +321,7 @@ router.get("/prereqs/:id", async (req, res) => {
         // const prereqs = await Course.findAll({ where: { prerequisites: { [Op.like]: `%${req.params.id}%` } } });
 
         const prereqs = await Prerequisites.findAll({
-            where: {courseId}
+            where: {prerequisiteCourseCode: req.params.id}
         })
 
         if (!prereqs) {
