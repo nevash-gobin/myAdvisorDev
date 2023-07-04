@@ -30,7 +30,7 @@ router.post("/academic-advising/session/:studentId", studentAccountVerification,
         today = yyyy + '-' + mm + '-' + dd;
 
         const session = await AdvisingSession.findOne({ where: { studentId: student.studentID } });
-        console.log(student.studentID);
+        //console.log(student.studentID);
         //const window = await AdvisingWindow.findOne({ where: { id: 1 } });
 
         if (!session) {

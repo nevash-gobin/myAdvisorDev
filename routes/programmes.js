@@ -54,7 +54,7 @@ router.post("/add", async (req, res) => {
 });
 
 //Add a course to a programme
-router.post("/add/:programmeID/:courseCode/:typeID", async (req, res) => {
+router.post("/add/course", async (req, res) => {
     try {
         // destructure data entered
         const { programmeID, courseCode, typeID } = req.body;
@@ -63,7 +63,7 @@ router.post("/add/:programmeID/:courseCode/:typeID", async (req, res) => {
         console.log("LOG::> typeID: ", typeID);
 
         //check if course is already added to a programme
-        const programmecourse = await ProgrammeCourse.findOne({ where: { programmeID: programmeID, courseCode: courseCode, typeID: typeID } });
+        const programmecourse = await ProgrammeCourse.findOne({ where: { programmeId: programmeID, courseCode: courseCode, typeId: typeID } });
         if (programmecourse) {
             return res.status(401).send("Course already added to this Programme.");
         }
