@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
-const Student = require("./student");
 
 const Transcript = db.define("transcript", {
     gpa: {
@@ -48,11 +47,5 @@ const Transcript = db.define("transcript", {
         type: Sequelize.DECIMAL(5, 2),
     }
 }, { timestamps: true });
-
-//transcript obect can only belong to one student
-Transcript.belongsTo(Student, {
-  foreignKey: 'studentId',
-  allowNull: false,
-});
 
 module.exports = Transcript;
