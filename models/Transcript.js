@@ -47,7 +47,7 @@ const Transcript = db.define("transcript", {
         allowNull: false,
         type: Sequelize.DECIMAL(5, 2),
     }
-}, {timestamps: true});
+}, { timestamps: true });
 
 //transcript obect can only belong to one student
 Transcript.belongsTo(Student, {
@@ -56,4 +56,3 @@ Transcript.belongsTo(Student, {
 });
 
 module.exports = Transcript;
- 

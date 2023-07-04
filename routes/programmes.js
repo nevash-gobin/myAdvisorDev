@@ -26,23 +26,25 @@ router.get("/all", async (req, res) => {
 router.post("/add", async (req, res) => {
     try {
         // destructure data entered
-        const {name} = req.body;
+        const { name, faculty, department } = req.body;
 
         // check if programmes is already added
-        const programme = await Programme.findOne({where : { name }});
-        if(programme) {
+        const programme = await Programme.findOne({ where: { name } });
+        if (programme) {
             return res.status(401).send("Programme already exists.");
         }
         else {
             await Programme.create({
                 name,
+                faculty,
+                department
             })
-            .then(() => {
-                return res.status(200).send("Programme added!");
-            })
-            .catch(err => {
-                console.log("Error: ", err.message);
-            });
+                .then(() => {
+                    return res.status(200).send("Programme added!");
+                })
+                .catch(err => {
+                    console.log("Error: ", err.message);
+                });
         }
     }
     catch (err) {
@@ -52,29 +54,34 @@ router.post("/add", async (req, res) => {
 });
 
 //Add a course to a programme
-router.post("/add/:programmeID/:courseID", async (req, res) => {
-    try{
+router.post("/add/course", async (req, res) => {
+    try {
         // destructure data entered
-        const {programmeID, courseID, type} = req.body;
+        const { programmeID, courseCode, typeID } = req.body;
+        console.log("LOG::> programmeID: ", programmeID);
+        console.log("LOG::> courseCode: ", courseCode);
+        console.log("LOG::> typeID: ", typeID);
 
         //check if course is already added to a programme
-        const programmecourse = await ProgrammeCourse.findOne({where: {programmeID: req.params.programmeID, courseID: req.params.courseID}});
-        if(programmecourse){
+        const programmecourse = await ProgrammeCourse.findOne({ where: { programmeId: programmeID, courseCode: courseCode, typeId: typeID } });
+        if (programmecourse) {
             return res.status(401).send("Course already added to this Programme.");
         }
-        else{
+        else {
             await ProgrammeCourse.create({
-                programmeID, courseID, type,
+                programmeId: programmeID,
+                courseCode: courseCode, 
+                typeId: typeID,
             })
-            .then(() => {
-                return res.status(200).send("Course added to Programme!");
-            })
-            .catch(err => {
-                console.log("Error: ", err.message);
-            });
+                .then(() => {
+                    return res.status(200).send("Course added to Programme!");
+                })
+                .catch(err => {
+                    console.log("Error: ", err.message);
+                });
         }
     }
-    catch(err){
+    catch (err) {
         console.log("Error: ", err.message);
         res.status(500).send("Server Error");
     }
@@ -83,8 +90,8 @@ router.post("/add/:programmeID/:courseID", async (req, res) => {
 // delete a selected programme from the database
 router.delete("/delete/:programmename", async (req, res) => {
     try {
-        const programme = await Programme.findOne({where: { name: req.params.programmename }});
-        if(!programme) {
+        const programme = await Programme.findOne({ where: { name: req.params.programmename } });
+        if (!programme) {
             return res.status(401).send("Programme not found.");
         }
         else {
@@ -103,22 +110,28 @@ router.delete("/delete/:programmename", async (req, res) => {
 // get all programme courses (all the courses a specfic programme offers)
 router.get("/offered-courses/:id", async (req, res) => {
     try {
-        const programmeCourses = await ProgrammeCourse.findAll({where: { programmeID: req.params.id }});
-        if(!programmeCourses) {
+
+        const programmeID = req.params.id;
+        //console.log("LOG::> programmeID: ", programmeID);
+
+        const programmeCourses = await ProgrammeCourse.findAll({ where: { programmeID: programmeID } });
+        //console.log("LOG::> ProgrammeCourses: ", programmeCourses);
+
+        if (!programmeCourses) {
             return res.status(404).send("Programme doesn't exists");
         }
         else {
             var i;
-            let courseIDs = [];
+            let courseCodes = [];
 
-            for (i = 0; i < programmeCourses.length; i++){
-                courseIDs.push(programmeCourses[i].courseID)
+            for (i = 0; i < programmeCourses.length; i++) {
+                courseCodes.push(programmeCourses[i].dataValues.courseCode)
             }
-            
+
             let courses = [];
-            for (i = 0; i < programmeCourses.length; i++){
-                const course = await Course.findOne({where: { id: courseIDs[i] }});
-                const progCourse = await ProgrammeCourse.findOne({where: { programmeID: req.params.id, courseID: courseIDs[i] }});
+            for (i = 0; i < programmeCourses.length; i++) {
+                const course = await Course.findOne({ where: { courseCode: courseCodes[i] } });
+                const progCourse = await ProgrammeCourse.findOne({ where: { programmeID: programmeID, courseCode: courseCodes[i] } });
                 course.dataValues.type = progCourse.type;
                 courses.push(course);
             }
