@@ -1,31 +1,33 @@
 
+const axios = require('axios');
+const parse = require('csv-parse');
 
-const csv = require('csv-parse');
 const fs = require('fs');
 
 // Read CSV file and copy contents to a 2D array
 function readCSV(filePath) {
-  return new Promise((resolve, reject) => {
-    const results = [];
+    return new Promise((resolve, reject) => {
+        const results = [];
 
-    fs.createReadStream(filePath)
-      .pipe(csv())
-      .on('data', (data) => results.push(Object.values(data)))
-      .on('end', () => resolve(results))
-      .on('error', (error) => reject(error));
-  });
+        fs.createReadStream(filePath)
+            .pipe(parse({ delimiter: ',' }))
+            .on('data', (data) => results.push(data))
+            .on('end', () => resolve(results))
+            .on('error', (error) => reject(error));
+
+    });
 }
 
 // Usage example
-readCSV('path/to/file.csv')
-  .then((data) => {
-    // At this point, 'data' will contain the CSV contents as a 2D array
-    console.log(data);
-    // Now you can use Sequelize to work with the data as needed
-  })
-  .catch((error) => {
-    console.error('Error reading CSV:', error);
-  });
+readCSV('ProgrammeCourseDetails - Course_Programme_Type.csv')
+    .then((data) => {
+        // At this point, 'data' will contain the CSV contents as a 2D array
+        console.log(data);
+        // Now you can use Sequelize to work with the data as needed
+    })
+    .catch((error) => {
+        console.error('Error reading CSV:', error);
+    });
 
 
 // // Function to read the CSV file as plain text
@@ -35,7 +37,7 @@ readCSV('path/to/file.csv')
 //         console.error('Error reading CSV file:', err);
 //         return;
 //       }
-  
+
 //       processCSVData(data);
 //     });
 //   }
@@ -55,8 +57,8 @@ readCSV('path/to/file.csv')
 //     var studentData = await getStudentData(text);
 // console.log("Student data "+ studentData.COMP3609);
 //     return studentData;
-    
+
 // }
 
 
-module.exports = {parserCSV}
+module.exports = { readCSV }

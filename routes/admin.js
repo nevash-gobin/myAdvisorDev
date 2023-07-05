@@ -98,6 +98,8 @@ router.get("/student/advising-sessions", async (req, res) => {
 
 // parserCSV
 const { parsercsv } = require('../utilities/parserCSV');
+const multer = require('multer')
+const upload = multer({ storage: multer.memoryStorage() })
 
 // parse programme csv
 router.post('/parse/programmeCourse', upload.single('file'), async (req, res)=>{

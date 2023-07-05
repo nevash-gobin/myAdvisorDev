@@ -1,0 +1,55 @@
+courseCode,courseTitle,level,semester,ProgrammeID,1,2,3,4,5,6,7
+,,,,ProgrammeName,BSc Computer Science (Special),BSc Computer Science with Management (Special),BSc Information Technology (Special),Major in Computer Science,Major in Information Technology,Minor in Computer Science,Minor in Information Technology
+COMP3610,Big Data Analytics,III,2,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+INFO3600,Business Information Systems,III,1,,Advanced CS/IT Elective,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,
+,Caribbean Civilisation,,,,Advanced CS/IT Elective,Core,Core,,,,
+INFO3606,Cloud Computing,III,2,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+COMP2601,Computer Architecture,II,1,,Core,,,Core,,Core,
+COMP2602,Computer Networks,II,1,,Core,,,Core,,Advanced CS/IT Elective,
+COMP1601,Computer Programming I,I,1,,Core,Core,Core,Core,Core,Core,Core
+COMP1602,Computer Programming II,I,2,,Core,Core,Core,Core,Core,Core,Core
+COMP1603,Computer Programming III,I,2,,Core,Core,Core,Core,,Core,
+COMP2611,Data Structures,II,1,,Core,,,Core,,Core,
+INFO3611,Database Administration,III,2,,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+COMP3601,Design and Analysis of Algorithms,III,2,,Core,Advanced CS/IT Elective,,Advanced CS/IT Elective,,Advance CS/IT Advanced CS/IT Elective,
+INFO3608,E-Commerce,III,2,,Advanced CS/IT Elective,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,,Advanced CS/IT Elective
+COMP2605,Enterprise Database Systems,II,1,,Core,,Core,Core,Core,Advanced CS/IT Elective,Core
+MATH1115,Fundamental Mathematics for the General Sciences I,I,1,,Core,,Core,L1 Elective,,L1 Elective,
+INFO3605,Fundamentals of LAN Technologies,III,1,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+INFO3607,Fundamentals of WAN Technologies,III,2,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+COMP3609,Game Programming,III,2,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,
+COMP3603,Human-Computer Interaction,III,2,,Core,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,
+,Industrial Statistics,,,,Core,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+,Information Systems Development,,,,,,Core,,Core,,Core
+INFO2604,Information Systems Security,II,2,,Core,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Advanced CS/IT Elective
+COMP3608,Intelligent Systems,III,2,,Advanced CS/IT Elective,Advanced CS/IT Elective,,,,Advanced CS/IT Elective,
+,Internship I,,,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+,Internship II,,,,Advanced CS/IT Elective,None,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+COMP1600,Introduction to Computing Concepts,I,1,,Core,Core,Core,Core,,Core,
+,Introduction to Cost and Managerial Accounting,,,,,Core,,,,,
+COMP3605,Introduction to Data Analytics,III,1,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+,Introduction to Financial Accounting,,,,,Core,,,,,
+INFO1600,Introduction to Information Technology Concepts,I,1,,Core,,Core,L1 Elective,Core,,Core
+,Introduction to Macroeconomics,,,,,Core,,,,,
+,Introduction to Microeconomics,,,,,Core,,,,,
+INFO1601,Introduction to WWW Programming,I,2,,Core,,Core,L1 Elective,Core,,Core
+,"Law, Governance, Economy and Society",,,,Advanced CS/IT Elective,Core,Core,,,,
+,Managerial Economics,,,,,Core,,,,,
+COMP1604,Mathematics for Computing,I,2,,Core,,Core,L1 Elective,,L1 Elective,
+,Networking Technologies Fundamentals,,,,,,Core,,Core,,Core
+COMP2603,Object-Oriented Programming I,II,2,,Core,Core,Core,Core,Advanced CS/IT Elective,Core,
+COMP3607,Object-Oriented Programming II,III,1,,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,
+COMP2604,Operating Systems,II,2,,Core,Core,,Core,,Core,
+,Organisational Behaviour,,,,,Core,,,,,
+,Platform Technologies I,,,,,,Core,,Core,,Core
+,Platform Technologies II,,,,,,Core,,Advanced CS/IT Elective,,
+,Principles of Marketing,,,,,Core,,,,,
+INFO2605,Professional Ethics and Law,II,1,,Advanced CS/IT Elective,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective
+INFO3604,Project,III,2,,Core,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,
+,Scientific and Technical Writing,,,,Core,Core,Core,,,,
+COMP2606,Software Engineering I,II,2,,Core,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Advanced CS/IT Elective,Advanced CS/IT Elective,
+COMP3613,Software Engineering II,III,1,,Core,Advanced CS/IT Elective,,Advanced CS/IT Elective,,,
+COMP3602,Theory of Computing,III,1,,Core,Advanced CS/IT Elective,,Advanced CS/IT Elective,,Advanced CS/IT Elective,
+INFO2602,Web Programming and Technologies I,II,2,,Core,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Core,Advanced CS/IT Elective,Advanced CS/IT Elective
+,Web Programming and Technologies II,,,,,,Core,,Advanced CS/IT Elective,,
+COMP3606,Wireless and Mobile Computing,III,1,,Advanced CS/IT Elective,Advanced CS/IT Elective,,Advanced CS/IT Elective,,Advanced CS/IT Elective,
