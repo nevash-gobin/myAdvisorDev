@@ -48,7 +48,7 @@ router.post("/create/admin", staffAccountVerification, async (req, res) => {
 });
 
 // Create Student Account
-router.post("/create/student", staffAccountVerification, async (req, res) => {
+router.post("/create/student", async (req, res) => {
     try {
         // destructure data entered
         const { studentID, firstName, lastName, email, password } = req.body
