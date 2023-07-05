@@ -96,70 +96,79 @@ router.get("/student/advising-sessions", async (req, res) => {
     }
 });
 
+// parserCSV
+const { parsercsv } = require('../utilities/parserCSV');
 
-// Models Not Longer Exist
-// set or update advising window**********************************************remove!!!
-router.post("/academic-advising/window", async (req, res) => {
-    try {
-        const { advisingStart, advisingEnd, semester } = req.body
+// parse programme csv
+router.post('/parse/programmeCourse', upload.single('file'), async (req, res)=>{
+    const {data} = await parsercsv(req.file.buffer);
+    console.log("data "+ JSON.stringify(data));
+//     try {
+//         // destructure data entered
+//         const {studentId, gpa, name, progress, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints} = data;
+//         //console.log("credits "+credits);
 
-        const advisingWindow = await AdvisingWindow.findOne({ where: { id: 1 } });
+//         // check if student is already added
+//         const student = await Transcript.findOne({where : { studentId }});
+//         if(student) {
+//             return res.status(401).send("Student already exists.");
+//         }
+//         else {
+//             await Transcript.create({
+//                studentId,
+//                gpa,
+//                name,
+//                progress,
+//                credits,
+//                degree,
+//                major,
+//                admitTerm,
+//                degreeAttemptHours,
+//                degreePassedHours,
+//                degreeEarnedHours,
+//                degreeGpaHours,
+//                degreeQualityPoints
+//             })
+//             .catch(err => {
+//                 console.log("Error: ", err.message);
+//             });
+//         }
 
-        if (!advisingWindow) {
-            await AdvisingWindow.create({
-                advisingStart,
-                advisingEnd,
-                semester
-            })
-                .then(() => {
-                    return res.status(200).send("Window Set for Semester");
-                })
-                .catch(err => {
-                    console.log("Error: ", err.message);
-                });
-        } else {
-            if (advisingStart) {
-                advisingWindow.advisingStart = advisingStart;
-            }
-            if (advisingEnd) {
-                advisingWindow.advisingEnd = advisingEnd;
-            }
-            if (semester) {
-                advisingWindow.semester = semester;
-            }
-            await advisingWindow.save();
-            res.status(200).send("Advising Window Updated");
-        }
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
+//         // check if course for student is already added
+//             for (var key in data){
+//                 if (!(key === "studentId" || key === "gpa" || key === "name" || key === "progress" || key === "credits" || key === "degree" || key === "major" || key === "admitTerm" || key === "degreeAttemptHours" || key === "degreePassedHours" || key === "degreeEarnedHours" || key === "degreeGpaHours" || key === "degreeQualityPoints")) {//if not equal to these
+//                     var courseCode = key;
+//                     var courseTitle = data[key][0]
+//                     var grade = data[key][1];
 
-// get advising window**********************************remove!!!!!!!!!!
-router.get("/academic-advising/window", async (req, res) => {
-    try {
-        const advisingWindow = await AdvisingWindow.findOne({ where: { id: 1 } });
-        res.status(200).json(advisingWindow);
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
+//                     const courses = await StudentCourses.findOne({where: { studentId, courseCode }});
+//                     if(courses) {
+//                         return res.status(401).send("Course for student already exists.");
+//                     }
+//                     else {
+//                         await StudentCourses.create({
+//                             studentId,
+//                             courseCode,
+//                             courseTitle,
+//                             grade,
+//                         })
+//                         .catch(err => {
+//                             console.log("Error: ", err.message);
+//                         });
+//                     } 
+//                 }
+//             }
+//             return res.status(200).send("Student courses added!");
+        
 
-//get the potential graduates from the database**********************************************remove!!!
-router.get("/potential-graduates/students", async (req, res) => {
-    try {
-        //get all the potential graduates
-        const potGrad = await PotentialGraduate.findAll();
-        res.status(200).json(potGrad);
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
+//     }
+//     catch (err) {
+//         console.log("Error: ", err.message);
+//         res.status(500).send("Server Error");
+//     }
+  });
+
+
+
 
 module.exports = router;
