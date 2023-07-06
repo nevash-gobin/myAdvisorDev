@@ -139,14 +139,14 @@ async function readCSV(data) {
         
         values = lines[i].split(",");
         //create programmecourse
-        console.log("Line: ", i);
+        // console.log("Line: ", i);
         let count= 0;
         for (let j = 7; j < values.length; j++) {
             
 
-            console.log("courseCode: ", values[0]);
-            console.log("progId: ", programmeIds[count]);
-            console.log("typeID: ", values[j]);
+            // console.log("courseCode: ", values[0]);
+            // console.log("progId: ", programmeIds[count]);
+            // console.log("typeID: ", values[j]);
             
             
             const programmeCourse = await ProgrammeCourse.findOne({
@@ -158,14 +158,15 @@ async function readCSV(data) {
               
             //console.log("programmeCourse: ", programmeCourse);
             if (!programmeCourse) {
-                console.log("creating the programmeCourses");
+                // console.log("creating the programmeCourses");
                 await ProgrammeCourse.create({
                     programmeId: programmeIds[count],
                     courseCode: values[0],
                     typeId: values[j],
                 })
                     .then(() => {
-                        console.log("Created!");
+                        // console.log("Created!");
+                        
                     })
                     .catch(err => {
                         console.log("Error: ", err.message);
@@ -177,6 +178,7 @@ async function readCSV(data) {
         }
     }
 
+    
 
 }
 

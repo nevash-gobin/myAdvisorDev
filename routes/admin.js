@@ -108,6 +108,7 @@ router.post('/parse/programmeCourse', upload.single('file'), async (req, res)=>{
     
     const response = await readCSV(data);
     
+    return res.status(200).send("CSV parsed, programmes, courses and programmeCourses added!");
     
     //console.log("data found", data);
 
