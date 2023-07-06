@@ -97,78 +97,22 @@ router.get("/student/advising-sessions", async (req, res) => {
 });
 
 // parserCSV
-const { parsercsv } = require('../utilities/parserCSV');
+const { parsercsv, readCSV } = require('../utilities/parserCSV');
 const multer = require('multer')
 const upload = multer({ storage: multer.memoryStorage() })
 
 // parse programme csv
 router.post('/parse/programmeCourse', upload.single('file'), async (req, res)=>{
-    const {data} = await parsercsv(req.file.buffer);
-    console.log("data "+ JSON.stringify(data));
-//     try {
-//         // destructure data entered
-//         const {studentId, gpa, name, progress, credits, degree, major, admitTerm, degreeAttemptHours, degreePassedHours, degreeEarnedHours, degreeGpaHours, degreeQualityPoints} = data;
-//         //console.log("credits "+credits);
+    
+    const data = req.file.buffer.toString('utf8');
+    
+    const response = await readCSV(data);
+    
+    
+    //console.log("data found", data);
 
-//         // check if student is already added
-//         const student = await Transcript.findOne({where : { studentId }});
-//         if(student) {
-//             return res.status(401).send("Student already exists.");
-//         }
-//         else {
-//             await Transcript.create({
-//                studentId,
-//                gpa,
-//                name,
-//                progress,
-//                credits,
-//                degree,
-//                major,
-//                admitTerm,
-//                degreeAttemptHours,
-//                degreePassedHours,
-//                degreeEarnedHours,
-//                degreeGpaHours,
-//                degreeQualityPoints
-//             })
-//             .catch(err => {
-//                 console.log("Error: ", err.message);
-//             });
-//         }
 
-//         // check if course for student is already added
-//             for (var key in data){
-//                 if (!(key === "studentId" || key === "gpa" || key === "name" || key === "progress" || key === "credits" || key === "degree" || key === "major" || key === "admitTerm" || key === "degreeAttemptHours" || key === "degreePassedHours" || key === "degreeEarnedHours" || key === "degreeGpaHours" || key === "degreeQualityPoints")) {//if not equal to these
-//                     var courseCode = key;
-//                     var courseTitle = data[key][0]
-//                     var grade = data[key][1];
-
-//                     const courses = await StudentCourses.findOne({where: { studentId, courseCode }});
-//                     if(courses) {
-//                         return res.status(401).send("Course for student already exists.");
-//                     }
-//                     else {
-//                         await StudentCourses.create({
-//                             studentId,
-//                             courseCode,
-//                             courseTitle,
-//                             grade,
-//                         })
-//                         .catch(err => {
-//                             console.log("Error: ", err.message);
-//                         });
-//                     } 
-//                 }
-//             }
-//             return res.status(200).send("Student courses added!");
-        
-
-//     }
-//     catch (err) {
-//         console.log("Error: ", err.message);
-//         res.status(500).send("Server Error");
-//     }
-  });
+});
 
 
 
