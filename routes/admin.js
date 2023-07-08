@@ -4,10 +4,13 @@ const staffAccountVerification = require("../middleware/staffAccountVerification
 
 // import models
 const Admin = require("../models/Admin");
+const Programme = require("../models/Programme");
+const Course = require("../models/Course");
+const Prerequisite = require("../models/Prerequisite");
+const Antirequisite = require("../models/Antirequisite");
+const ProgrammeCourse = require("../models/ProgrammeCourse");
 const Student = require("../models/Student");
-const AdvisingWindow = require("../models/AdvisingWindow");
 const AdvisingSession = require("../models/AdvisingSession");
-const PotentialGraduate = require("../models/PotentialGraduate");
 
 // ---Routes---
 
@@ -103,24 +106,106 @@ router.get("/student/advising-sessions", async (req, res) => {
 // parserCSV
 const { parsercsv, readCSV } = require('../utilities/parserCSV');
 const { parseCSVData } = require('../utilities/csvParser');
-const multer = require('multer')
+const multer = require('multer');
+const { or } = require("sequelize");
 const upload = multer({ storage: multer.memoryStorage() })
 
 // parse programme csv
 router.post('/parse/programmeCourse', upload.single('file'), async (req, res)=>{
     
     const csvData = req.file.buffer.toString('utf8');
-    
     const results = await parseCSVData(csvData);
-
-   
     console.log("data found", results);
+    
+    
+    // Create Programme Entries 
+    for (let i = 0; i < results[0].data.length; i++) {
+        
+        console.log("item number:: ", i);
+        const programme = await Programme.findOne({ 
+            where: { 
+                id: results[0].data[i],
+                name: results[1].data[i]
+            }
+        });
+
+        if (!programme) {
+    console.log("new programme  `1111");
+
+            await Programme.create({
+                id: results[0].data[i],
+                name: results[1].data[i],
+                faculty: results[2].data[i],
+                department: results[3].data[i],
+            })
+                .then(() => {
+                    console.log(" Programmes Created!");
+                })
+                .catch(err => {
+                    console.log("Error: ", err.message);
+                });
+        }
+
+    }
+
+    // // Create Course Entries
+    // for (let i = 0; i < results[4].data.length; i++){
+    //     const course = await Course.findOne({ 
+    //         where: { 
+    //             courseCode: results[4].data[i],
+    //         }
+    //     });
+
+    //     if (!course) {
+    //         await Course.create({
+    //             courseCode: results[4].data[i],
+    //             courseTitle: results[5].data[i],
+    //             level: results[0].data[6],
+    //             semester: results[0].data[7],
+    //             credits: results[0].data[8],
+    //             description: results[0].data[9],
+    //         })
+    //             .then(() => {
+    //                 console.log("Courses Created!");
+    //             })
+    //             .catch(err => {
+    //                 console.log("Error: ", err.message);
+    //             });
+    //     }
+
+    // }
+
+
+    // // Create Prerequisite Entries
+    // for (let i = 0; i < results[4].data.length; i++){
+    //     const prerequisite = await Prerequisite.findOne({ 
+    //         where: { 
+    //             courseCode: results[4].data[i],
+    //             prerequisiteCourseCode: results[10].data[i]
+    //         }
+    //     });
+
+    //     if (!prerequisite) {
+    //         await Prerequisite.create({
+    //             courseCode: results[4].data[i],
+    //             prerequisiteCourseCode: results[10].data[i]
+    //         })
+    //             .then(() => {
+    //                 //console.log("Created!");
+    //             })
+    //             .catch(err => {
+    //                 console.log("Error: ", err.message);
+    //             });
+    //     }
+
+    // }
+    
+    
+    
 
     
     return res.status(200).send("CSV parsed, programmes, courses and programmeCourses added!");
     
-
-
 });
 
 

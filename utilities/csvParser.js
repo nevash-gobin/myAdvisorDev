@@ -48,24 +48,42 @@ async function parseCSVData(csvData) {
 
 
     for (let i = 0; i < rows.length; i++) {
-        const row = rows[i].split(",");
+        //const row = rows[i].split(",");
+
+        const regex = /("[^"]*")|([^,]+)|(,,)/g;
+        const row = rows[i].match(regex).map(match => (match === ',,' ? '' : match.replace(/^"|"$/g, '').trim()));
+//  console.log("rowTest", row);
+//  console.log("row 0", row[0]);
+//  console.log("row 1", row[1]);
+//  console.log("row 2", row[2]);
+//  console.log("row 3", row[3]);
+//  console.log("row 4", row[4]);
+//  console.log("row 5", row[5]);
+//  console.log("row 6", row[6]);
+//  console.log("row 7", row[7]);
+//  console.log("row 8", row[8]);
+//  console.log("row 9", row[9]);
+//  console.log("row 10", row[10]);
+
+        
         if (i === 0) {
             for (let j = 9; j < row.length; j++) {
                 programmeIds.push(row[j]);
+                //console.log("row 1", row[1]);
             }
         }
         if (i === 1) {
-            for (let j = 9; j < row.length; j++) {
+            for (let j = 5; j < row.length; j++) {
                 names.push(row[j]);
             }
         }
         if (i === 2) {
-            for (let j = 9; j < row.length; j++) {
+            for (let j = 5; j < row.length; j++) {
                 faculty.push(row[j]);
             }
         }
         if (i === 3) {
-            for (let j = 9; j < row.length; j++) {
+            for (let j = 5; j < row.length; j++) {
                 departments.push(row[j]);
             }
         }
@@ -84,21 +102,42 @@ async function parseCSVData(csvData) {
 
     }
 
-    console.log("ProgrammeId:", programmeIds);
-    console.log("Names:", names);
-    console.log("Faculty:", faculty);
-    console.log("Deparment:", departments);
+    
+    const compiledData = [
+        { name: "programmeIds", data: programmeIds },     // 0
+        { name: "names", data: names },                   // 1
+        { name: "faculty", data: faculty },               // 2
+        { name: "departments", data: departments },       // 3
 
-    console.log("Course Code:", courseCodes);
-    console.log("Course Title:", courseTitles);
-    console.log("Levels:", levels);
-    console.log("Semesters:", semesters);
-    console.log("Credits:", credits);
-    console.log("Descriptions:", descriptions);
-
-    console.log("prerequisites: ", prerequisites);
-    console.log("antirequisites: ", antirequisites);
-
+        { name: "courseCodes", data: courseCodes },       // 4
+        { name: "courseTitles", data: courseTitles },     // 5
+        { name: "levels", data: levels },                 // 6
+        { name: "semesters", data: semesters },           // 7
+        { name: "credits", data: credits },               // 8
+        { name: "descriptions", data: descriptions },     // 9
+        { name: "prerequisites", data: prerequisites },   // 10
+        { name: "antirequisites", data: antirequisites }, // 11
+      ];
+    //console.log("Compiled Data:", compiledData);
+    
+    // console.log("ProgrammeId:", programmeIds);
+    // console.log("Names:", names);
+    // console.log("Faculty:", faculty);
+    // console.log("Deparment:", departments);
+    
+    // console.log("Course Code:", courseCodes);
+    // console.log("Course Title:", courseTitles);
+    // console.log("Levels:", levels);
+    // console.log("Semesters:", semesters);
+    // console.log("Credits:", credits);
+    // console.log("Descriptions:", descriptions);
+    
+    // console.log("prerequisites: ", prerequisites);
+    // console.log("antirequisites: ", antirequisites);
+    
+    
+    return compiledData;
+    
 }
 
 module.exports = { parseCSVData }
