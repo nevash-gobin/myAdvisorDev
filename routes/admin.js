@@ -96,21 +96,29 @@ router.get("/student/advising-sessions", async (req, res) => {
     }
 });
 
+
+
+
+
 // parserCSV
 const { parsercsv, readCSV } = require('../utilities/parserCSV');
+const { parseCSVData } = require('../utilities/csvParser');
 const multer = require('multer')
 const upload = multer({ storage: multer.memoryStorage() })
 
 // parse programme csv
 router.post('/parse/programmeCourse', upload.single('file'), async (req, res)=>{
     
-    const data = req.file.buffer.toString('utf8');
+    const csvData = req.file.buffer.toString('utf8');
     
-    const response = await readCSV(data);
+    const results = await parseCSVData(csvData);
+
+   
+    console.log("data found", results);
+
     
     return res.status(200).send("CSV parsed, programmes, courses and programmeCourses added!");
     
-    //console.log("data found", data);
 
 
 });

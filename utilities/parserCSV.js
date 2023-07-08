@@ -25,7 +25,9 @@ async function readCSV(data) {
     let departments = [];
 
     // programmeCourse model
-    let types = [];
+    //let types = [];
+    let prerequisites = [];
+    let antirequisites = [];
 
     const lines = data.split('\n');
     const numLines = lines.length;
@@ -38,23 +40,23 @@ async function readCSV(data) {
         //console.log("value: ", values);
 
         // Programme data
-        if (i == 0) { //first line     
-            for (let j = 7; j < values.length; j++) {
+        if (i == 0) {  
+            for (let j = 9; j < values.length; j++) {
                 programmeIds.push(values[j]);
             }
         }
         if (i == 1) { //second line
-            for (let j = 7; j < values.length; j++) {
+            for (let j = 9; j < values.length; j++) {
                 names.push(values[j]);
             }
         }
         if (i == 2) { //third line
-            for (let j = 7; j < values.length; j++) {
+            for (let j = 9; j < values.length; j++) {
                 faculty.push(values[j]);
             }
         }
         if (i == 3) { /// fourth line
-            for (let j = 7; j < values.length; j++) {
+            for (let j = 9; j < values.length; j++) {
                 departments.push(values[j]);
             }
         }
@@ -68,18 +70,21 @@ async function readCSV(data) {
             semesters.push(values[3]);
             credits.push(values[4]);
             descriptions.push(values[5]);
+            prerequisites.push(values[6]);
+            antirequisites.push(values[7]);
+
         }
 
-
-
     }
+
+   
 
     // console.log("ProgrammeId:", programmeIds);
     // console.log("Names:", names);
     // console.log("Faculty:", faculty);
     // console.log("Deparment:", departments);
 
-    // create programme model
+    // create programme entry
     for (let i = 0; i < programmeIds.length; i++) {
         const programme = await Programme.findOne({ where: { id: programmeIds[i] } });
         if (!programme) {
@@ -109,7 +114,7 @@ async function readCSV(data) {
     // console.log("Credits:", credits);
     // console.log("Descriptions:", descriptions);
 
-    // create Course model
+    // create Course entries
     for (let i = 0; i < courseCodes.length; i++) {
         const course = await Course.findOne({ where: { courseCode: courseCodes[i] } });
         if (!course) {
@@ -129,26 +134,27 @@ async function readCSV(data) {
                 .catch(err => {
                     console.log("Error: ", err.message);
                 });
-
-
         }
     }
 
     
+    // create programmeCourse/ prerequisites/ anitrequisites entries
     for(let i=4; i<numLines; i++){
         
         values = lines[i].split(",");
         //create programmecourse
-        // console.log("Line: ", i);
-        let count= 0;
-        for (let j = 7; j < values.length; j++) {
-            
+        console.log("Line: ", values);
+        console.log("Length: ", values.length);
 
-            // console.log("courseCode: ", values[0]);
-            // console.log("progId: ", programmeIds[count]);
-            // console.log("typeID: ", values[j]);
+        let count= 0;
+
+        //create programmeCourse entries
+        for (let j = 9; j < values.length; j++) {
             
-            
+            console.log("courseCode: ", values[0]);
+            console.log("progId: ", programmeIds[count]);
+            console.log("typeID: ", values[j]);
+           
             const programmeCourse = await ProgrammeCourse.findOne({
                 where: {
                   courseCode: values[0],
@@ -175,7 +181,21 @@ async function readCSV(data) {
 
             }
             count++;
+            
         }
+
+        //for( let k = 4; k< values.length; k++ ){}
+            // console.log("courseCode: ", values[0]);
+            // console.log("prerequisites: ", values[6]);
+            // console.log("antirequisites: ", values[7]);
+        
+
+
+
+
+
+
+
     }
 
     
