@@ -1,11 +1,11 @@
-const { Sequelize} = require("sequelize");
+const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-const Student = db.define("student", {
-    studentID: {
+const Admin = db.define("admin", {
+    adminID: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
     },
     firstName: {
         allowNull: false,
@@ -29,4 +29,4 @@ const Student = db.define("student", {
     },
 }, { timestamps: true });
 
-module.exports = Student;
+module.exports = Admin;

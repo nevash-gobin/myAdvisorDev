@@ -7,6 +7,7 @@ const db = require("../db");
 // import models
 const Course = require("../models/Course");
 const Career = require("../models/Career");
+const Prerequisites = require("../models/Prerequisite");
 const CareerCourse = require("../models/CareerCourse");
 
 // imports sequelize module
@@ -14,7 +15,7 @@ const Sequelize = require("sequelize");
 
 // get all courses in the database
 router.get("/all", async (req, res) => {
-    
+
     try {
         // finds all the courses and responds with a json list 
         const courses = await Course.findAll();
@@ -29,9 +30,9 @@ router.get("/all", async (req, res) => {
 // get a course in the database
 router.get("/view/:code", async (req, res) => {
     try {
-        const course = await Course.findOne({where: { courseCode: req.params.code }});
+        const course = await Course.findOne({ where: { courseCode: req.params.code } });
 
-        if(!course) {
+        if (!course) {
             return res.status(404).send("Course not found.");
         }
         else {
@@ -48,22 +49,22 @@ router.get("/view/:code", async (req, res) => {
 router.post("/add", async (req, res) => {
     try {
         // destructure data entered
-        const {courseCode, courseTitle, credits, level, semester, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp} = req.body;
+        const { courseCode, courseTitle, credits, level, semester, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
 
         // check if courses is already added
-        const course = await Course.findOne({where : { courseCode }});
-        if(course) {
+        const course = await Course.findOne({ where: { courseCode } });
+        if (course) {
             return res.status(401).send("Course already exists.");
         }
         else {//if course is not added
             await Course.create({
-                courseCode, 
-                courseTitle, 
-                credits, 
-                level, 
-                semester, 
-                prerequisites, 
-                description, 
+                courseCode,
+                courseTitle,
+                credits,
+                level,
+                semester,
+                prerequisites,
+                description,
                 coursework,
                 finalExam,
                 groupProject,
@@ -82,12 +83,12 @@ router.post("/add", async (req, res) => {
                 performanceReports,
                 projectSoftwareApp
             })
-            .then(() => {
-                return res.status(200).send("Course added!");
-            })
-            .catch(err => {
-                console.log("Error: ", err.message);
-            });
+                .then(() => {
+                    return res.status(200).send("Course added!");
+                })
+                .catch(err => {
+                    console.log("Error: ", err.message);
+                });
         }
     }
     catch (err) {
@@ -99,11 +100,11 @@ router.post("/add", async (req, res) => {
 // update a selected course
 router.put("/edit/:code", async (req, res) => {
     try {
-        const {courseCode, courseTitle, credits, level, semester, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp} = req.body;
-        
-        const course = await Course.findOne({where: { courseCode: req.params.code }});
-        
-        if(!course) {
+        const { courseCode, courseTitle, credits, level, semester, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
+
+        const course = await Course.findOne({ where: { courseCode: req.params.code } });
+
+        if (!course) {
             return res.status(401).send("Course not found.");
         }
         else {
@@ -123,9 +124,6 @@ router.put("/edit/:code", async (req, res) => {
             if (semester) {
                 course.semester = semester;
             }
-            if (prerequisites) {
-                course.prerequisites = prerequisites;
-            }
             if (description) {
                 course.description = description;
             }
@@ -133,122 +131,122 @@ router.put("/edit/:code", async (req, res) => {
             if (coursework) {
                 course.coursework = coursework;
             }
-            else{//if null
+            else {//if null
                 course.coursework = coursework; //set to null
             }
-            
+
             if (finalExam) {
                 course.finalExam = finalExam;
             }
-            else{//if null
+            else {//if null
                 course.finalExam = finalExam; //set to null
             }
 
             if (groupProject) {
                 course.groupProject = groupProject;
             }
-            else{//if null
+            else {//if null
                 course.groupProject = groupProject; //set to null
             }
 
             if (individualWork) {
                 course.individualWork = individualWork;
             }
-            else{//if null
+            else {//if null
                 course.individualWork = individualWork; //set to null
             }
 
             if (practicalCoursework) {
                 course.practicalCoursework = practicalCoursework;
             }
-            else{//if null
+            else {//if null
                 course.practicalCoursework = practicalCoursework; //set to null
             }
 
             if (courseworkExam) {
                 course.courseworkExam = courseworkExam;
             }
-            else{//if null
+            else {//if null
                 course.courseworkExam = courseworkExam; //set to null
             }
 
             if (projectPres) {
                 course.projectPres = projectPres;
             }
-            else{//if null
+            else {//if null
                 course.projectPres = projectPres; //set to null
             }
 
             if (project) {
                 course.project = project;
             }
-            else{//if null
+            else {//if null
                 course.project = project; //set to null
             }
 
             if (presentation) {
                 course.presentation = presentation;
             }
-            else{//if null
+            else {//if null
                 course.presentation = presentation; //set to null
             }
 
             if (assignment) {
                 course.assignment = assignment;
             }
-            else{//if null
+            else {//if null
                 course.assignment = assignment; //set to null
             }
 
             if (labAssessment) {
                 course.labAssessment = labAssessment;
             }
-            else{//if null
+            else {//if null
                 course.labAssessment = labAssessment; //set to null
             }
 
             if (midSemesterMcq) {
                 course.midSemesterMcq = midSemesterMcq;
             }
-            else{//if null
+            else {//if null
                 course.midSemesterMcq = midSemesterMcq; //set to null
             }
 
             if (projectReport) {
                 course.projectReport = projectReport;
             }
-            else{//if null
+            else {//if null
                 course.projectReport = projectReport; //set to null
             }
 
-            if(projectReportPres){
+            if (projectReportPres) {
                 course.projectReportPres = projectReportPres;
             }
-            else{//if null
+            else {//if null
                 course.projectReportPres = projectReportPres;//set to null
             }
 
-            if(projectAndPres){
+            if (projectAndPres) {
                 course.projectAndPres = projectAndPres;
             }
-            else{//if null
+            else {//if null
                 course.projectAndPres = projectAndPres;//set to null
             }
 
-            if(performanceReports){
+            if (performanceReports) {
                 course.performanceReports = performanceReports;
             }
-            else{//if null
+            else {//if null
                 course.performanceReports = performanceReports;//set to null
             }
 
-            if(projectSoftwareApp){
+            if (projectSoftwareApp) {
                 course.projectSoftwareApp = projectSoftwareApp;
             }
-            else{//if null
+            else {//if null
                 course.projectSoftwareApp = projectSoftwareApp;//set to null
             }
-            
+
             await course.save();
             res.status(200).send("Course Updated");
         }
@@ -262,8 +260,8 @@ router.put("/edit/:code", async (req, res) => {
 // delete a selected course from the database
 router.delete("/delete/:code", async (req, res) => {
     try {
-        const course = await Course.findOne({where: { courseCode: req.params.code }});
-        if(!course) {
+        const course = await Course.findOne({ where: { courseCode: req.params.code } });
+        if (!course) {
             return res.status(401).send("Course not found.");
         }
         else {
@@ -278,28 +276,35 @@ router.delete("/delete/:code", async (req, res) => {
 });
 
 // get all career tags for a course
-router.get("/careers/:courseID", async (req, res) => {
+router.get("/careers/:courseCode", async (req, res) => {
     try {
-        const courseCareers = await CareerCourse.findAll({where: { courseID: req.params.courseID }});
-        
-        if(!courseCareers) {
+        const courseCode = req.params.courseCode;
+         console.log("LOG::> courseCode: ", courseCode);
+
+        const courseCareers = await CareerCourse.findAll({ where: { courseCode: courseCode } });
+        console.log("LOG::> courseCarrers: ", courseCareers);
+
+        if (!courseCareers) {
             return res.status(404).send("Course doesn't exist");
         }
         else {
             var i;
             let careerIDs = [];
-            
-            for (i = 0; i < courseCareers.length; i++){
-                careerIDs.push(courseCareers[i].careerID)
+
+            for (i = 0; i < courseCareers.length; i++) {
+                careerIDs.push(courseCareers[i].dataValues.careerId)
+                console.log("LOG::> CareerIds: ", careerIDs);
             }
-            
-            let careers = [];
-            for (i = 0; i < courseCareers.length; i++){
-                const career = await Career.findOne({where: { id: careerIDs[i] }});
-                careers.push(career.career_name);
+             
+
+            let careerNames = [];
+            for (i = 0; i < courseCareers.length; i++) {
+                const career = await Career.findOne({ where: { id: careerIDs[i] } });
+                 console.log("LOG::> career: ", career);
+                careerNames.push(career.dataValues.careerName);
             }
 
-            res.status(202).json(careers);
+            res.status(202).json(careerNames);
         }
     }
     catch (err) {
@@ -308,12 +313,18 @@ router.get("/careers/:courseID", async (req, res) => {
     }
 });
 
+
+
 router.get("/prereqs/:id", async (req, res) => {
     const Op = Sequelize.Op;
     try {
-        const prereqs = await Course.findAll({where: { prerequisites: { [Op.like]: `%${req.params.id}%` }}});
-        
-        if(!prereqs) {
+        // const prereqs = await Course.findAll({ where: { prerequisites: { [Op.like]: `%${req.params.id}%` } } });
+
+        const prereqs = await Prerequisites.findAll({
+            where: {prerequisiteCourseCode: req.params.id}
+        })
+
+        if (!prereqs) {
             return res.status(404).send("This course is not required for any other course");
         }
         else {

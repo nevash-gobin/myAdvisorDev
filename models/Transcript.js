@@ -2,10 +2,6 @@ const { Sequelize } = require("sequelize");
 const db = require("../db");
 
 const Transcript = db.define("transcript", {
-    studentId: {
-        allowNull: false,
-        type: Sequelize.STRING,
-    },
     gpa: {
         allowNull: false,
         type: Sequelize.DECIMAL(5, 2),
@@ -13,10 +9,6 @@ const Transcript = db.define("transcript", {
     name: {
         allowNull: false,
         type: Sequelize.STRING,
-    },
-    progress: {
-        allowNull: false,
-        type: Sequelize.DECIMAL(5, 2),
     },
     credits: {
         allowNull: false,
@@ -54,7 +46,6 @@ const Transcript = db.define("transcript", {
         allowNull: false,
         type: Sequelize.DECIMAL(5, 2),
     }
-}, {timestamps: true});
+}, { timestamps: true });
 
 module.exports = Transcript;
- 

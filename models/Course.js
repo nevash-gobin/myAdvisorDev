@@ -1,11 +1,10 @@
-
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-// NOTE: Course model may require more fields
 const Course = db.define("course", {
     courseCode: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.STRING,
     },
     courseTitle: {
@@ -14,17 +13,13 @@ const Course = db.define("course", {
     },
     credits: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
     },
     level: {
         allowNull: false,
         type: Sequelize.STRING,
     },
     semester: {
-        allowNull: false,
-        type: Sequelize.STRING,
-    },
-    prerequisites: {
         allowNull: false,
         type: Sequelize.STRING,
     },
