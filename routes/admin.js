@@ -115,115 +115,116 @@ router.post('/parse/programmeCourse', upload.single('file'), async (req, res) =>
 
     const csvData = req.file.buffer.toString('utf8');
     const results = await parseCSVData(csvData);
-    console.log("data found", results);
+    //console.log("data found", results);
 
 
-    // // Create Programme Entries 
-    // for (let i = 0; i < results[0].data.length; i++) {
+    // Create Programme Entries 
+    for (let i = 0; i < results[0].data.length; i++) {
 
-    //     //console.log("item number:: ", i);
-    //     const programme = await Programme.findOne({
-    //         where: {
-    //             id: results[0].data[i],
-    //             name: results[1].data[i]
-    //         }
-    //     });
-    //     // console.log("programme::> ", programme);
-    //     // console.log(" prog Id: ", results[0].data[i]);
-    //     // console.log(" name: ", results[1].data[i]);
+        //console.log("item number:: ", i);
+        const programme = await Programme.findOne({
+            where: {
+                id: results[0].data[i],
+                name: results[1].data[i]
+            }
+        });
+        // console.log("programme::> ", programme);
+        // console.log(" prog Id: ", results[0].data[i]);
+        // console.log(" name: ", results[1].data[i]);
 
-    //     if (programme === null) {
-    //         console.log("new programme: ", results[1].data[i]);
+        if (programme === null) {
+            console.log("new programme: ", results[1].data[i]);
 
-    //         await Programme.create({
-    //             id: results[0].data[i],
-    //             name: results[1].data[i],
-    //             faculty: results[2].data[i],
-    //             department: results[3].data[i],
-    //         })
-    //             .then(() => {
-    //                 // console.log(" Programmes Created!");
-    //             })
-    //             .catch(err => {
-    //                 console.log("Error: ", err.message);
-    //             });
-    //     }
+            await Programme.create({
+                id: results[0].data[i],
+                name: results[1].data[i],
+                faculty: results[2].data[i],
+                department: results[3].data[i],
+            })
+                .then(() => {
+                    // console.log(" Programmes Created!");
+                })
+                .catch(err => {
+                    console.log("Error: ", err.message);
+                });
+        }
 
-    // }
+    }
 
-    // // Create Course Entries
-    // for (let i = 0; i < results[4].data.length; i++) {
-    //     const course = await Course.findOne({
-    //         where: {
-    //             courseCode: results[4].data[i],
-    //         }
-    //     });
+    // Create Course Entries
+    for (let i = 0; i < results[4].data.length; i++) {
+        const course = await Course.findOne({
+            where: {
+                courseCode: results[4].data[i],
+            }
+        });
 
-    //     // console.log("courseCode: ", results[4].data[i] );
-    //     // console.log("courseTitle: ", results[5].data[i] );
-    //     // console.log("level: ", results[6].data[i] );
-    //     // console.log("semester: ", results[7].data[i] );
-    //     // console.log("credits: ", results[8].data[i] );
-    //     // console.log("description: ", results[9].data[i] );
+        // console.log("courseCode: ", results[4].data[i] );
+        // console.log("courseTitle: ", results[5].data[i] );
+        // console.log("level: ", results[6].data[i] );
+        // console.log("semester: ", results[7].data[i] );
+        // console.log("credits: ", results[8].data[i] );
+        // console.log("description: ", results[9].data[i] );
 
-    //     if (!course) {
-    //         await Course.create({
-    //             courseCode: results[4].data[i],
-    //             courseTitle: results[5].data[i],
-    //             level: results[6].data[i],
-    //             semester: results[7].data[i],
-    //             credits: results[8].data[i],
-    //             description: results[9].data[i],
-    //         })
-    //             .then(() => {
-    //                 // console.log("Courses Created!");
-    //             })
-    //             .catch(err => {
-    //                 console.log("Error: ", err.message);
-    //             });
-    //     }
+        if (!course) {
+            await Course.create({
+                courseCode: results[4].data[i],
+                courseTitle: results[5].data[i],
+                level: results[6].data[i],
+                semester: results[7].data[i],
+                credits: results[8].data[i],
+                description: results[9].data[i],
+            })
+                .then(() => {
+                    // console.log("Courses Created!");
+                })
+                .catch(err => {
+                    console.log("Error: ", err.message);
+                });
+        }
 
-    // }
-
-
-    // // Create ProgrammeCourse Entries
-    // let count=0;
-    // for (let i = 0; i < results[4].data.length; i++) {
-
-    //     for (let j = 0; j < results[0].data.length; j++) {
-
-    //         const programmeCourse = await ProgrammeCourse.findOne({
-    //             where: {
-    //                 courseCode: results[4].data[i],
-    //                 programmeId: results[0].data[j],
-    //             }
-    //         });
-
-    //         if (!programmeCourse) {
-    //             await ProgrammeCourse.create({
-    //                 courseCode: results[4].data[i],
-    //                 programmeId: results[0].data[j],
-    //                 typeId: results[12].data[count],
-    //             })
-    //                 .then(() => {
-    //                     // console.log("Programme Courses Created!");
-    //                 })
-    //                 .catch(err => {
-    //                     console.log("Error: ", err.message);
-    //                 });
-    //         }
-
-    //         count++;
-
-    //     }
-
-    // }
+    }
 
 
-    // Create Prerequisite Entries
+    // Create ProgrammeCourse Entries
+    let count=0;
+    for (let i = 0; i < results[4].data.length; i++) {
+
+        for (let j = 0; j < results[0].data.length; j++) {
+
+            const programmeCourse = await ProgrammeCourse.findOne({
+                where: {
+                    courseCode: results[4].data[i],
+                    programmeId: results[0].data[j],
+                }
+            });
+
+            if (!programmeCourse) {
+                await ProgrammeCourse.create({
+                    courseCode: results[4].data[i],
+                    programmeId: results[0].data[j],
+                    typeId: results[12].data[count],
+                })
+                    .then(() => {
+                        // console.log("Programme Courses Created!");
+                    })
+                    .catch(err => {
+                        console.log("Error: ", err.message);
+                    });
+            }
+
+            count++;
+
+        }
+
+    }
+
+
+    // Create Prerequisite and Antirequisite Entries
     for (let i = 0; i < results[4].data.length; i++) {
 
         const prereqCourseCodes = results[10].data[i].split(',');
+        const antireqCourseCodes = results[11].data[i].split(',');
 
         for (let j = 0; j < prereqCourseCodes.length; j++) {
 
@@ -234,8 +235,8 @@ router.post('/parse/programmeCourse', upload.single('file'), async (req, res) =>
                 }
             });
 
-            console.log("courseCode: ", results[4].data[i]);
-            console.log("prereq: ", prereqCourseCodes[j]);
+            // console.log("courseCode: ", results[4].data[i]);
+            // console.log("prereq: ", prereqCourseCodes[j]);
 
             if (!prerequisite) {
                 await Prerequisite.create({
@@ -252,19 +253,37 @@ router.post('/parse/programmeCourse', upload.single('file'), async (req, res) =>
 
         }
 
+        for (let j = 0; j < antireqCourseCodes.length; j++) {
 
+            const antirequisite = await Antirequisite.findOne({
+                where: {
+                    courseCode: results[4].data[i],
+                    antirequisiteCourseCode: antireqCourseCodes[j],
+                }
+            });
 
+            // console.log("courseCode: ", results[4].data[i]);
+            // console.log("prereq: ", prereqCourseCodes[j]);
 
+            if (!antirequisite) {
+                await Antirequisite.create({
+                    courseCode: results[4].data[i],
+                    antirequisiteCourseCode: antireqCourseCodes[j]
+                })
+                    .then(() => {
+                        //console.log("Created!");
+                    })
+                    .catch(err => {
+                        console.log("Error: ", err.message);
+                    });
+            }
 
-
+        }
 
     }
 
 
-
-
-
-    return res.status(200).send("CSV parsed, programmes, courses and programmeCourses added!");
+    return res.status(200).send("CSV parsed, programmes, courses, preqequisites, antirequisites and programmeCourses added!");
 
 });
 
