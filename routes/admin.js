@@ -104,7 +104,6 @@ router.get("/student/advising-sessions", async (req, res) => {
 
 
 // parserCSV
-const { parsercsv, readCSV } = require('../utilities/parserCSV');
 const { parseCSVData } = require('../utilities/csvParser');
 const multer = require('multer');
 const { or } = require("sequelize");
