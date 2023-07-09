@@ -19,7 +19,7 @@ async function parseCSVData(csvData) {
     let departments = [];
 
     // programmeCourse model
-    //let types = [];
+    let types = [];
     let prerequisites = [];
     let antirequisites = [];
 
@@ -97,6 +97,12 @@ async function parseCSVData(csvData) {
             descriptions.push(row[5]);
             prerequisites.push(row[6]);
             antirequisites.push(row[7]);
+
+            for( let k=9 ; k<row.length; k++){
+                //console.log("row-: ",row[k]);
+
+                types.push(row[k]);
+            }
         }
 
 
@@ -115,8 +121,11 @@ async function parseCSVData(csvData) {
         { name: "semesters", data: semesters },           // 7
         { name: "credits", data: credits },               // 8
         { name: "descriptions", data: descriptions },     // 9
+
         { name: "prerequisites", data: prerequisites },   // 10
         { name: "antirequisites", data: antirequisites }, // 11
+
+        { name: "types", data: types },                   // 12
       ];
     //console.log("Compiled Data:", compiledData);
     
