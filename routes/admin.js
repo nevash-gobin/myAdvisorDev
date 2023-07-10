@@ -4,10 +4,13 @@ const staffAccountVerification = require("../middleware/staffAccountVerification
 
 // import models
 const Admin = require("../models/Admin");
+const Programme = require("../models/Programme");
+const Course = require("../models/Course");
+const Prerequisite = require("../models/Prerequisite");
+const Antirequisite = require("../models/Antirequisite");
+const ProgrammeCourse = require("../models/ProgrammeCourse");
 const Student = require("../models/Student");
-const AdvisingWindow = require("../models/AdvisingWindow");
 const AdvisingSession = require("../models/AdvisingSession");
-const PotentialGraduate = require("../models/PotentialGraduate");
 
 // ---Routes---
 
@@ -97,69 +100,193 @@ router.get("/student/advising-sessions", async (req, res) => {
 });
 
 
-// Models Not Longer Exist
-// set or update advising window**********************************************remove!!!
-router.post("/academic-advising/window", async (req, res) => {
-    try {
-        const { advisingStart, advisingEnd, semester } = req.body
 
-        const advisingWindow = await AdvisingWindow.findOne({ where: { id: 1 } });
 
-        if (!advisingWindow) {
-            await AdvisingWindow.create({
-                advisingStart,
-                advisingEnd,
-                semester
+
+// parserCSV
+const { parseCSVData } = require('../utilities/csvParser');
+const multer = require('multer');
+const { or } = require("sequelize");
+const upload = multer({ storage: multer.memoryStorage() })
+
+// parse programme csv
+router.post('/parse/programmeCourse', upload.single('file'), async (req, res) => {
+
+    const csvData = req.file.buffer.toString('utf8');
+    const results = await parseCSVData(csvData);
+    //console.log("data found", results);
+
+
+    // Create Programme Entries 
+    for (let i = 0; i < results[0].data.length; i++) {
+
+        //console.log("item number:: ", i);
+        const programme = await Programme.findOne({
+            where: {
+                id: results[0].data[i],
+                name: results[1].data[i]
+            }
+        });
+        // console.log("programme::> ", programme);
+        // console.log(" prog Id: ", results[0].data[i]);
+        // console.log(" name: ", results[1].data[i]);
+
+        if (programme === null) {
+            console.log("new programme: ", results[1].data[i]);
+
+            await Programme.create({
+                id: results[0].data[i],
+                name: results[1].data[i],
+                faculty: results[2].data[i],
+                department: results[3].data[i],
             })
                 .then(() => {
-                    return res.status(200).send("Window Set for Semester");
+                    // console.log(" Programmes Created!");
                 })
                 .catch(err => {
                     console.log("Error: ", err.message);
                 });
-        } else {
-            if (advisingStart) {
-                advisingWindow.advisingStart = advisingStart;
-            }
-            if (advisingEnd) {
-                advisingWindow.advisingEnd = advisingEnd;
-            }
-            if (semester) {
-                advisingWindow.semester = semester;
-            }
-            await advisingWindow.save();
-            res.status(200).send("Advising Window Updated");
         }
+
     }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
+
+    // Create Course Entries
+    for (let i = 0; i < results[4].data.length; i++) {
+        const course = await Course.findOne({
+            where: {
+                courseCode: results[4].data[i],
+            }
+        });
+
+        // console.log("courseCode: ", results[4].data[i] );
+        // console.log("courseTitle: ", results[5].data[i] );
+        // console.log("level: ", results[6].data[i] );
+        // console.log("semester: ", results[7].data[i] );
+        // console.log("credits: ", results[8].data[i] );
+        // console.log("description: ", results[9].data[i] );
+
+        if (!course) {
+            await Course.create({
+                courseCode: results[4].data[i],
+                courseTitle: results[5].data[i],
+                level: results[6].data[i],
+                semester: results[7].data[i],
+                credits: results[8].data[i],
+                description: results[9].data[i],
+            })
+                .then(() => {
+                    // console.log("Courses Created!");
+                })
+                .catch(err => {
+                    console.log("Error: ", err.message);
+                });
+        }
+
     }
+
+
+    // Create ProgrammeCourse Entries
+    let count=0;
+    for (let i = 0; i < results[4].data.length; i++) {
+
+        for (let j = 0; j < results[0].data.length; j++) {
+
+            const programmeCourse = await ProgrammeCourse.findOne({
+                where: {
+                    courseCode: results[4].data[i],
+                    programmeId: results[0].data[j],
+                }
+            });
+
+            if (!programmeCourse) {
+                await ProgrammeCourse.create({
+                    courseCode: results[4].data[i],
+                    programmeId: results[0].data[j],
+                    typeId: results[12].data[count],
+                })
+                    .then(() => {
+                        // console.log("Programme Courses Created!");
+                    })
+                    .catch(err => {
+                        console.log("Error: ", err.message);
+                    });
+            }
+
+            count++;
+
+        }
+
+    }
+
+
+    // Create Prerequisite and Antirequisite Entries
+    for (let i = 0; i < results[4].data.length; i++) {
+
+        const prereqCourseCodes = results[10].data[i].split(',');
+        const antireqCourseCodes = results[11].data[i].split(',');
+
+        for (let j = 0; j < prereqCourseCodes.length; j++) {
+
+            const prerequisite = await Prerequisite.findOne({
+                where: {
+                    courseCode: results[4].data[i],
+                    prerequisiteCourseCode: prereqCourseCodes[j],
+                }
+            });
+
+            // console.log("courseCode: ", results[4].data[i]);
+            // console.log("prereq: ", prereqCourseCodes[j]);
+
+            if (!prerequisite) {
+                await Prerequisite.create({
+                    courseCode: results[4].data[i],
+                    prerequisiteCourseCode: prereqCourseCodes[j]
+                })
+                    .then(() => {
+                        //console.log("Created!");
+                    })
+                    .catch(err => {
+                        console.log("Error: ", err.message);
+                    });
+            }
+
+        }
+
+        for (let j = 0; j < antireqCourseCodes.length; j++) {
+
+            const antirequisite = await Antirequisite.findOne({
+                where: {
+                    courseCode: results[4].data[i],
+                    antirequisiteCourseCode: antireqCourseCodes[j],
+                }
+            });
+
+            // console.log("courseCode: ", results[4].data[i]);
+            // console.log("prereq: ", prereqCourseCodes[j]);
+
+            if (!antirequisite) {
+                await Antirequisite.create({
+                    courseCode: results[4].data[i],
+                    antirequisiteCourseCode: antireqCourseCodes[j]
+                })
+                    .then(() => {
+                        //console.log("Created!");
+                    })
+                    .catch(err => {
+                        console.log("Error: ", err.message);
+                    });
+            }
+
+        }
+
+    }
+
+
+    return res.status(200).send("CSV parsed, programmes, courses, preqequisites, antirequisites and programmeCourses added!");
+
 });
 
-// get advising window**********************************remove!!!!!!!!!!
-router.get("/academic-advising/window", async (req, res) => {
-    try {
-        const advisingWindow = await AdvisingWindow.findOne({ where: { id: 1 } });
-        res.status(200).json(advisingWindow);
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
 
-//get the potential graduates from the database**********************************************remove!!!
-router.get("/potential-graduates/students", async (req, res) => {
-    try {
-        //get all the potential graduates
-        const potGrad = await PotentialGraduate.findAll();
-        res.status(200).json(potGrad);
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
+
 
 module.exports = router;
