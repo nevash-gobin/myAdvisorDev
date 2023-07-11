@@ -13,11 +13,11 @@ const Semester = require("./Semester");
 const CareerCourse = require("./CareerCourse");
 const Career = require("./Career");
 const Course = require("./Course");
-const CourseGroup = require("./CourseGroup");
-const Group = require("./Group");
 const AdvisedCourse = require("./AdvisedCourse");
 const Antirequisite = require("./Antirequisite");
 const Prerequisite = require("./Prerequisite");
+const CourseGroup = require("./CourseGroup");
+const Group = require("./Group");
 
 // ----------STUDENT----------
 

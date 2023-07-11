@@ -28,8 +28,6 @@ const AwardedDegree = require("./models/AwardedDegree");
 const Career = require("./models/Career");
 const CareerCourse = require("./models/CareerCourse");
 const Course = require("./models/Course");
-const CourseGroup = require("./models/CourseGroup");
-const Group = require("./models/Group");
 const ElectiveRequirement = require("./models/ElectiveRequirement");
 //const PotentialGraduate = require("./models/PotentialGraduate");
 const Prerequisite = require("./models/Prerequisite");
@@ -40,6 +38,8 @@ const Student = require("./models/Student");
 const StudentCourse = require("./models/StudentCourse");
 const Transcript = require("./models/Transcript");
 const Type = require("./models/Type");
+const Group = require("./models/Group");
+const CourseGroup = require("./models/CourseGroup");
 
 //import associations
 require("./models/Associations");
@@ -77,8 +77,6 @@ async function initializeDatabase() {
         await Semester.sync();
         await Career.sync();
         await Course.sync();
-        await CourseGroup.sync();
-        await Group.sync();
         await Programme.sync();
         await Student.sync();
         await Transcript.sync();
@@ -92,7 +90,9 @@ async function initializeDatabase() {
         await ElectiveRequirement.sync();
         await Prerequisite.sync();
         await ProgrammeCourse.sync();
-
+        await Group.sync();
+        await CourseGroup.sync();
+        
         // Creates Admin Account
         const adminID = "816020000";
         const user = await Admin.findOne({ where: { adminID } });
