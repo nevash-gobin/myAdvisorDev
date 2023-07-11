@@ -28,6 +28,8 @@ const AwardedDegree = require("./models/AwardedDegree");
 const Career = require("./models/Career");
 const CareerCourse = require("./models/CareerCourse");
 const Course = require("./models/Course");
+const CourseGroup = require("./models/CourseGroup");
+const Group = require("./models/Group");
 const ElectiveRequirement = require("./models/ElectiveRequirement");
 //const PotentialGraduate = require("./models/PotentialGraduate");
 const Prerequisite = require("./models/Prerequisite");
@@ -75,6 +77,8 @@ async function initializeDatabase() {
         await Semester.sync();
         await Career.sync();
         await Course.sync();
+        await CourseGroup.sync();
+        await Group.sync();
         await Programme.sync();
         await Student.sync();
         await Transcript.sync();
