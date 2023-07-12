@@ -40,6 +40,7 @@ const Transcript = require("./models/Transcript");
 const Type = require("./models/Type");
 const Group = require("./models/Group");
 const CourseGroup = require("./models/CourseGroup");
+const SemesterCourse = require("./models/semesterCourse");
 
 //import associations
 require("./models/Associations");
@@ -92,6 +93,7 @@ async function initializeDatabase() {
         await ProgrammeCourse.sync();
         await Group.sync();
         await CourseGroup.sync();
+        await SemesterCourse.sync();
         
         // Creates Admin Account
         const adminID = "816020000";
