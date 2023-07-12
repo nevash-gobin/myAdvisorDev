@@ -47,7 +47,8 @@ function decode(token){
 
 async function getCourses() {
     try {
-      const {data:response} = await axios.get("https://5000-uwidcit-myadvisordev-aa3rim079h6.ws-us101.gitpod.io/courses/all") //use data destructuring to get data from the promise object
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      const {data:response} = await axios.get("https://myadvisorapp.onrender.com/courses/all") //use data destructuring to get data from the promise object
       //console.log("??????????????????",response);
       return response
     }
