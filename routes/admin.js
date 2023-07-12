@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const staffAccountVerification = require("../middleware/staffAccountVerification");
+const { Op } = require("sequelize");
 
 // import models
 const Admin = require("../models/Admin");
@@ -128,13 +129,13 @@ router.post("/semester/add", async (req, res) => {
         }
 
         semester = await Semester.findOne({ where: { num, academicYear } });
-        for(let i=0; i<courses.length; i++){
+        for (let i = 0; i < courses.length; i++) {
             const semesterCourse = await SemesterCourse.findOne({
-                where:{
+                where: {
                     courseCode: courses[i],
                 }
             })
-            if(!semesterCourse){
+            if (!semesterCourse) {
                 await SemesterCourse.create({
                     semesterId: semester.id,
                     courseCode: courses[i]
@@ -149,8 +150,69 @@ router.post("/semester/add", async (req, res) => {
     }
 });
 
+// Update a Semester
+router.put("/semester/update", async (req, res) => {
+    try {
+        // destructure data entered
+        const { startDate, endDate, num, academicYear, courses } = req.body;
+
+        const semester = await Semester.findOne({ where: { num, academicYear } });
+
+        if (!semester) {
+            return res.status(401).send("Semester not found.");
+        }
+        else {
+            if (startDate)
+                semester.startDate = startDate;
+            if (endDate)
+                semester.endDate = endDate;
+            if (num)
+                semester.num = num;
+            if (academicYear)
+                semester.academicYear = academicYear;
+
+            // Remove courses that are not present in the updated data
+            if (courses) {
+                const existingCourses = await SemesterCourse.findAll({
+                    where: {
+                        semesterId: semester.id,
+                        courseCode: { [Op.notIn]: courses }
+                    }
+                });
+                await Promise.all(existingCourses.map(course => course.destroy()));
+            }
+
+            if (courses) {
+                for (let i = 0; i < courses.length; i++) {
+                    const semesterCourse = await SemesterCourse.findOne({
+                        where: {
+                            semesterId: semester.id,
+                            courseCode: courses[i],
+                        }
+                    })
+                    if (!semesterCourse) {
+                        await SemesterCourse.create({
+                            semesterId: semester.id,
+                            courseCode: courses[i]
+                        })
+                    }
+                }
+            }
+
+            await semester.save(); // Save the changes
+
+            res.status(200).send("Semester updated successfully.");
+
+        }
 
 
+
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
 
 
 
@@ -238,7 +300,7 @@ router.post('/parse/programmeCourse', upload.single('file'), async (req, res) =>
 
 
     // Create ProgrammeCourse Entries
-    let count=0;
+    let count = 0;
     for (let i = 0; i < results[4].data.length; i++) {
 
         for (let j = 0; j < results[0].data.length; j++) {
