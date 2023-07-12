@@ -11,6 +11,7 @@ const Antirequisite = require("../models/Antirequisite");
 const ProgrammeCourse = require("../models/ProgrammeCourse");
 const Student = require("../models/Student");
 const AdvisingSession = require("../models/AdvisingSession");
+const Semester = require("../models/Semester");
 
 // ---Routes---
 
@@ -100,6 +101,56 @@ router.get("/student/advising-sessions", async (req, res) => {
 });
 
 
+// Create a Semester
+router.post("/semester/add", async (req, res) => {
+    try {
+        // destructure data entered
+        const { startDate, endDate, num, academicYear, courses } = req.body;
+
+        // check if semester is already added
+        let semester = await Semester.findOne({ where: { num, academicYear } });
+        if (semester) {
+            return res.status(401).send("Semester already exists.");
+        }
+        else {
+            await Semester.create({
+                startDate,
+                endDate,
+                num,
+                academicYear
+            })
+                .then(() => {
+                    return res.status(200).send("Semester added!");
+                })
+                .catch(err => {
+                    console.log("Error: ", err.message);
+                });
+        }
+
+        semester = await Semester.findOne({ where: { num, academicYear } });
+        for(let i=0; i<courses.length; i++){
+            const semesterCourse = await SemesterCourse.findOne({
+                where:{
+                    courseCode: courses[i],
+                }
+            })
+            if(!semesterCourse){
+                await SemesterCourse.create({
+                    semesterId: semester.id,
+                    courseCode: courses[i]
+                })
+            }
+        }
+
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+
 
 
 
@@ -107,6 +158,7 @@ router.get("/student/advising-sessions", async (req, res) => {
 const { parseCSVData } = require('../utilities/csvParser');
 const multer = require('multer');
 const { or } = require("sequelize");
+const SemesterCourse = require("../models/semesterCourse");
 const upload = multer({ storage: multer.memoryStorage() })
 
 // parse programme csv

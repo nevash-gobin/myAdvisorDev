@@ -195,7 +195,7 @@ Semester.hasMany(SemesterCourse, {
     allowNull: false
 })
 // A SemesterCourse has one Semester**
-StudenSemesterCoursetCourse.belongsTo(Semester, {
+SemesterCourse.belongsTo(Semester, {
     foreignKey: 'semesterId',
     allowNull: false
 })
