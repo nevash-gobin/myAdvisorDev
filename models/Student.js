@@ -15,6 +15,10 @@ const Student = db.define("student", {
         allowNull: false,
         type: Sequelize.STRING,
     },
+    career: {
+        allowNull: true,
+        type: Sequelize.STRING,
+    },
     email: {
         allowNull: false,
         type: Sequelize.STRING,

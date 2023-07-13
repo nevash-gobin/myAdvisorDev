@@ -16,6 +16,9 @@ const Course = require("./Course");
 const AdvisedCourse = require("./AdvisedCourse");
 const Antirequisite = require("./Antirequisite");
 const Prerequisite = require("./Prerequisite");
+const CourseGroup = require("./CourseGroup");
+const Group = require("./Group");
+const SemesterCourse = require("./semesterCourse");
 
 // ----------STUDENT----------
 
@@ -78,6 +81,20 @@ AdvisingSession.belongsTo(Student, {
 
 
 // ----------PROGRAMME----------
+
+
+// Programme<-->Prerequisite
+
+// A programme hase many prerequisites
+Programme.hasMany(Prerequisite, {
+    foreignKey: 'programmeId',
+    allowNull: false
+})
+// A prerequisite belongs to Programme
+Prerequisite.belongsTo(Programme, {
+    foreignKey: 'programmeId',
+    allowNull: false
+})
 
 
 // Programme<--->AwardedDegree
@@ -170,6 +187,20 @@ StudentCourse.belongsTo(Semester, {
 })
 
 
+// Semester<--->SemesterCourse
+
+// A Semester has many SemesterCourse
+Semester.hasMany(SemesterCourse, {
+    foreignKey: 'semesterId',
+    allowNull: false
+})
+// A SemesterCourse has one Semester**
+SemesterCourse.belongsTo(Semester, {
+    foreignKey: 'semesterId',
+    allowNull: false
+})
+
+
 // Semester<--->AdvisingSession
 
 // A Semester has many Advising Session
@@ -203,6 +234,18 @@ AdvisedCourse.belongsTo(AdvisingSession, {
 
 
 // ----------Course----------
+
+
+// Course<-->Semester Course
+
+Course.hasMany(SemesterCourse, {
+    foreignKey: 'courseCode',
+    allowNull: false
+})
+SemesterCourse.belongsTo(Course, {
+    foreignKey: 'courseCode',
+    allowNull: false
+})
 
 
 // Course<--->StudentCourse
@@ -262,6 +305,26 @@ CareerCourse.belongsTo(Course, {
 })
 
 
+
+//Prerequisite<--->Course
+// A Course has many Prerequisites
+Course.hasMany(Prerequisite, {
+    foreignKey: {
+        name: 'courseCode',
+        type: Sequelize.STRING
+    },
+    allowNull: false
+})
+// An Prerequisite belongs to one Course
+Prerequisite.belongsTo(Course, {
+    foreignKey: {
+        name: 'courseCode',
+        type: Sequelize.STRING
+    },
+    allowNull: false
+})
+
+
 // Anti-Requisite<--->Course **
 
 // A Course has many Anti-Requisites
@@ -286,39 +349,15 @@ Antirequisite.belongsTo(Course, {
     allowNull: false
 })
 
-
-//Prerequisite<--->Course
-// A Course has many Prerequisites
-Course.hasMany(Prerequisite, {
-    foreignKey: {
-        name:'courseCode',
-        type: Sequelize.STRING
-    },
+// course<-->CourseGroup
+// a course has many courseGroup
+Course.hasMany(CourseGroup, {
+    foreignKey: 'courseCode',
     allowNull: false
 })
-// An Prerequisite belongs to one Course
-Prerequisite.belongsTo(Course, {
-    foreignKey: {
-        name:'courseCode',
-        type: Sequelize.STRING
-    },
-    allowNull: false
-})
-
-// A Course has many Prerequisites
-Course.hasMany(Prerequisite, {
-    foreignKey: {
-        name:'prerequisiteCourseCode',
-        type: Sequelize.STRING
-    },
-    allowNull: false
-})
-// An Prerequisite belongs to one Course
-Prerequisite.belongsTo(Course, {
-    foreignKey: {
-        name:'prerequisiteCourseCode',
-        type: Sequelize.STRING
-    },
+// a coursegroup belongs to course
+CourseGroup.belongsTo(Course, {
+    foreignKey: 'courseCode',
     allowNull: false
 })
 
@@ -333,7 +372,48 @@ Career.hasMany(CareerCourse, {
 })
 
 // A Career Course belongs to one Career
-CareerCourse.belongsTo(Career,{
+CareerCourse.belongsTo(Career, {
     foreignKey: 'careerId',
+    allowNull: false
+})
+
+
+
+
+
+
+
+
+
+// ----------Group----------
+
+// A Group has many Prerequisites
+Group.hasMany(Prerequisite, {
+    foreignKey: {
+        name: 'groupId',
+    },
+    allowNull: false
+})
+// An Prerequisite belongs to one Group
+Prerequisite.belongsTo(Group, {
+    foreignKey: {
+        name: 'groupId',
+    },
+    allowNull: false
+})
+
+
+// A Group has many CourseGroup
+Group.hasMany(CourseGroup, {
+    foreignKey: {
+        name: 'groupId',
+    },
+    allowNull: false
+})
+// An CourseGroup belongs to one Group
+CourseGroup.belongsTo(Group, {
+    foreignKey: {
+        name: 'groupId',
+    },
     allowNull: false
 })
