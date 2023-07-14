@@ -21,6 +21,8 @@ module.exports = async (req, res, next) => {
         }
         const payload = jwt.verify(token, process.env.studentSecret);
 
+        //console.log(payload); // Add this line
+
         req.user = payload.user;
         next();
     }

@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
             }
             else if (passCompare2) {
                 // generates token for student user
-                const token = jwtGeneratorStudent(student.id);
+                const token = jwtGeneratorStudent(student.studentID);
                 res.json({
                     "accountType": "student",
                     "studentID": student.studentID,
