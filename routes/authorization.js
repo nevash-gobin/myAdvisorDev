@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
             }
             else if (passCompare) {
                 // generates token for staff user
-                const token = jwtGeneratorStaff(admin.id);
+                const token = jwtGeneratorStaff(admin.adminID);
                 res.json({
                     "accountType": "admin",
                     "adminID": admin.adminID,
