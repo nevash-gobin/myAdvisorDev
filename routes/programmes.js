@@ -22,6 +22,19 @@ router.get("/all", async (req, res) => {
     }
 });
 
+// get programme by id
+router.get("/:programmeId", async (req, res) => {
+    try {
+        const programmeId = req.params.programmeId;
+        const programme = await Programme.findOne({where: {id: programmeId}});
+        res.status(200).json(programme);
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
 // add a programme to the database
 router.post("/add", async (req, res) => {
     try {

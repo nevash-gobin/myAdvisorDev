@@ -2,7 +2,7 @@
 const multer = require('multer')
 const upload = multer({ storage: multer.memoryStorage() })
 const { parse } = require('../utilities/parser');
-
+const studentAccountVerification = require("../middleware/studentAccountVerification");
 /**
  * initalizes express router and database connection
  */
@@ -390,6 +390,29 @@ router.delete("/courses/deleteAll/:studentId", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
+
+// Get registerable courses
+router.get("/course/options", studentAccountVerification, async(req, res)=>{
+
+    // Get studentId from the auth
+    const studentId = req.user;
+
+    // Get student's transcript
+    const student = await Transcript.findOne({ where: { studentID: studentId } });
+
+    // Get all the student's courses
+    const studentCourses = await StudentCourses.findAll({ where: { studentId: studentId } });
+
+    
+    
+    console.log("Programme: ", student.major);
+
+
+
+});
+
+
 
 module.exports = router;
 

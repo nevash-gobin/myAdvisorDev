@@ -161,6 +161,8 @@ app.use("/transcript", require("./routes/transcript"));
 
 app.use("/accounts", require("./routes/authorization"));
 
+app.use("/semester", require("./routes/semester"));
+
 // // if a bad route is entered
 // if (process.env.NODE_ENV === "production") {
 //     app.get("*", (req, res) => {

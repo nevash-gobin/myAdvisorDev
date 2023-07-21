@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
             }
             else if (passCompare) {
                 // generates token for staff user
-                const token = jwtGeneratorStaff(admin.id);
+                const token = jwtGeneratorStaff(admin.adminID);
                 res.json({
                     "accountType": "admin",
                     "adminID": admin.adminID,
@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
             }
             else if (passCompare2) {
                 // generates token for student user
-                const token = jwtGeneratorStudent(student.id);
+                const token = jwtGeneratorStudent(student.studentID);
                 res.json({
                     "accountType": "student",
                     "studentID": student.studentID,
