@@ -341,4 +341,23 @@ router.get("/prereqs/:id", async (req, res) => {
     }
 });
 
+
+//get all the courses from a specific department
+router.get("/:departmenttype", async (req, res) => {
+    try{
+        const courses = await Course.findAll( { where: {department: req.params.departmenttype} } );
+
+        if(!courses){
+            return res.status(404).send("Courses for department not found");
+        }
+        else{
+            res.status(202).json(courses);
+        }
+    }
+    catch(err){
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
 module.exports = router;
