@@ -49,7 +49,7 @@ router.get("/view/:code", async (req, res) => {
 router.post("/add", async (req, res) => {
     try {
         // destructure data entered
-        const { courseCode, courseTitle, credits, level, semester, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
+        const { courseCode, courseTitle, credits, level, semester, department, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
 
         // check if courses is already added
         const course = await Course.findOne({ where: { courseCode } });
@@ -63,6 +63,7 @@ router.post("/add", async (req, res) => {
                 credits,
                 level,
                 semester,
+                department,
                 prerequisites,
                 description,
                 coursework,
@@ -100,7 +101,7 @@ router.post("/add", async (req, res) => {
 // update a selected course
 router.put("/edit/:code", async (req, res) => {
     try {
-        const { courseCode, courseTitle, credits, level, semester, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
+        const { courseCode, courseTitle, credits, level, semester, department, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
 
         const course = await Course.findOne({ where: { courseCode: req.params.code } });
 
@@ -123,6 +124,9 @@ router.put("/edit/:code", async (req, res) => {
             }
             if (semester) {
                 course.semester = semester;
+            }
+            if (department) {
+                course.department = department;
             }
             if (description) {
                 course.description = description;
