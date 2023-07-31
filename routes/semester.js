@@ -5,6 +5,7 @@ const Semester = require("../models/Semester");
 const SemesterCourse = require("../models/semesterCourse");
 const AdvisingSession = require("../models/AdvisingSession");
 const AdvisedCourse = require("../models/AdvisedCourse");
+const Course = require("../models/Course");
 
 const { Op } = require("sequelize");
 
@@ -136,7 +137,25 @@ router.get("/all", async (req, res) => {
 router.get("/courses/:semesterId", async (req, res) => {
     try {
         const semesterCourses = await SemesterCourse.findAll({ where: { semesterId: req.params.semesterId } });
-        res.status(200).json(semesterCourses);
+        let semCourses = [];
+
+        if(!semesterCourses){
+
+        }
+        else{
+            var i;
+            let courseCodes = [];
+
+            for(i=0; i<semesterCourses.length; i++){
+                courseCodes.push(semesterCourses[i].dataValues.courseCode)
+            }
+
+            for(i=0; i<courseCodes.length; i++){
+                const course = await Course.findOne( {where: { courseCode: courseCodes[i] } });
+                semCourses.push(course);
+            }
+        }
+        res.status(202).json(semCourses);
     }
     catch (err) {
         console.log("Error: ", err.message);
@@ -145,6 +164,7 @@ router.get("/courses/:semesterId", async (req, res) => {
 });
 
 const studentAccountVerification = require("../middleware/studentAccountVerification");
+const Course = require("../models/Course");
 
 router.post("/plan", studentAccountVerification, async (req, res) => {
     try {
