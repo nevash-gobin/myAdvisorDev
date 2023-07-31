@@ -164,7 +164,6 @@ router.get("/courses/:semesterId", async (req, res) => {
 });
 
 const studentAccountVerification = require("../middleware/studentAccountVerification");
-const Course = require("../models/Course");
 
 router.post("/plan", studentAccountVerification, async (req, res) => {
     try {
