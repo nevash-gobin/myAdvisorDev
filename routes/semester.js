@@ -135,7 +135,7 @@ router.get("/all", async (req, res) => {
 // Get Courses for a Semester 
 router.get("/courses/:semesterId", async (req, res) => {
     try {
-        const semesterCourses = await SemesterCourse.findOne({ where: { semesterId: req.params.semesterId } });
+        const semesterCourses = await SemesterCourse.findAll({ where: { semesterId: req.params.semesterId } });
         res.status(200).json(semesterCourses);
     }
     catch (err) {
