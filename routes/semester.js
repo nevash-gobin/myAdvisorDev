@@ -111,9 +111,6 @@ router.put("/update", async (req, res) => {
             res.status(200).send("Semester updated successfully.");
 
         }
-
-
-
     }
     catch (err) {
         console.log("Error: ", err.message);
@@ -128,6 +125,18 @@ router.get("/all", async (req, res) => {
         res.status(200).json(semesters);
     }
     catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+//Get Semester by Id
+router.get("/:semesterId", async (req, res) => {
+    try{
+        const semester = await Semester.findOne( {where: {id: req.params.semesterId} } );
+        res.status(200).json(semester);
+    }
+    catch(err){
         console.log("Error: ", err.message);
         res.status(500).send("Server Error");
     }
