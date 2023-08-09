@@ -291,6 +291,42 @@ router.post('/parse/programmeCourse', upload.single('file'), async (req, res) =>
 });
 
 
+// ====================--PARSE XLSX--====================
+
+const express = require("express");
+const { parse_xlsx } = require("../utilities/xlsx_parser.js");
+
+//parse programmecourse XLSX
+router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res) => {
+
+    try {
+        const xlsxData = req.file.buffer; // XLSX file buffer
+        const [sheetdata1, sheetdata2] = parse_xlsx(xlsxData);
+
+        // console.log(sheetdata1.courses);
+
+        // for( let index in sheetdata1.coueses){
+
+        // }
+
+        console.log("XLSX parsed and data processed successfully.");
+        return res.status(200).json({
+            message: "XLSX parsed and data processed successfully.",
+
+              sheetdata1,
+            //   sheetdata2,
+        });
+    } catch (error) {
+        console.log("Error: ", error.message);
+        res.status(500).send("Server Error");
+    }
+
+
+});
+
+
+
+
 
 
 module.exports = router;
