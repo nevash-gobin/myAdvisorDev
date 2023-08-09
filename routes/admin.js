@@ -303,11 +303,8 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
         const xlsxData = req.file.buffer; // XLSX file buffer
         const [sheetdata1, sheetdata2] = parse_xlsx(xlsxData);
 
-        // console.log(sheetdata1.courses);
-
-        // for( let index in sheetdata1.coueses){
-
-        // }
+        // let[courses] = sheetdata1;
+        console.log("!!!!!!!!!!!!", sheetdata1);
 
         console.log("XLSX parsed and data processed successfully.");
         return res.status(200).json({
