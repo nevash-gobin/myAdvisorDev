@@ -385,16 +385,29 @@ function groupCoursesByGroupId(groups) {
 //   return true;
 // }
 
-async function parsePrerequisites(data) {
+function parsePrerequisites(data, grps) {
   let prerequisites = [];
   let prerequisite = {};
   let groupsArray = [];
+  let groups = [];
 
-  let groups = await CourseGroup.findAll({
-    attributes: ['groupId', "courseCode"], // Specify the columns you want to retrieve
-  });
-  groups = groupCoursesByGroupId(groups);
-  // console.log("Groups", groups);
+  // let groups = await CourseGroup.findAll({
+  //   attributes: ['groupId', "courseCode"], // Specify the columns you want to retrieve
+  // });
+  // groups = groupCoursesByGroupId(groups);
+  // console.log("async Groups", groups);
+  let num = 1;
+
+  for (let g in grps) {
+
+    let group = {
+      "groupId": num,
+      "courseCode": grps[g].courseCode
+    }
+    groups.push(group);
+    num++;
+  }
+  console.log("!!!@@GROUPS@@!!: ", groups);
 
   for (let column = 9; column < data[0].length; column++) {
     let programmeId = data[0][column];
@@ -444,7 +457,7 @@ async function parsePrerequisites(data) {
                 if (groups[g].courseCode.includes(prereqs[0]) && groups[g].courseCode.length == 1) {
                   // console.log("groupId>>>>> ", groups[g].groupId);
                   prerequisite["courseCode"] = courseCode;
-                  prerequisite["groupId"] = [groups[g].groupId];
+                  prerequisite["groupId"] = groups[g].groupId;
                   prerequisite["programmeId"] = programmeId;
                   prerequisites.push(prerequisite);
 
@@ -462,7 +475,7 @@ async function parsePrerequisites(data) {
                     // console.log("groupId<<<<", groups[g].groupId);
 
                     prerequisite["courseCode"] = courseCode;
-                    prerequisite["groupId"] = [groups[g].groupId];
+                    prerequisite["groupId"] = groups[g].groupId;
                     prerequisite["programmeId"] = programmeId;
                     prerequisites.push(prerequisite);
                   }
@@ -474,20 +487,43 @@ async function parsePrerequisites(data) {
               for (let i = 0; i < prereqs.length; i++) {
                 for (let group of groups) {
                   if (group.courseCode.includes(prereqs[i]) && group.courseCode.length == 1) {
+
+                    // console.log("courseCode!!!!! ", courseCode);
+                    // console.log("programmeId!!!! ", programmeId);
+                    // console.log("groupId!!!!", group.groupId);
+
+                    // prerequisite["courseCode"] = courseCode;
+                    // prerequisite["groupId"] = group.groupId;
+                    // prerequisite["programmeId"] = programmeId;
+                    // prerequisites.push(prerequisite);
+
                     groupsArray.push(group.groupId);
                     // console.log("INSIDE THE OR CONDITION!!!+++++++++++++++++++++!!!!!!!!!!!!!!!!!!+");
                     // break; // Exit loop once found
                   }
                 }
               }
+
+              for (let i = 0; i < groupsArray.length; i++) {
+                prerequisite={};
+                // console.log("groupsArray[i]  :  ", groupsArray[i]);
+                // console.log("courseCode!!!!! ", courseCode);
+                // console.log("programmeId!!!! ", programmeId);
+                // console.log("groupId!!!!", groupsArray[i]);
+                prerequisite["courseCode"] = courseCode;
+                prerequisite["groupId"] = groupsArray[i];
+                prerequisite["programmeId"] = programmeId;
+                prerequisites.push(prerequisite);
+              }
+
               // console.log("courseCode!!!!! ", courseCode);
               // console.log("programmeId!!!! ", programmeId);
               // console.log("groupId!!!!", groupsArray);
-
-              prerequisite["courseCode"] = courseCode;
-              prerequisite["groupId"] = groupsArray;
-              prerequisite["programmeId"] = programmeId;
-              prerequisites.push(prerequisite);
+              // q
+              // // prerequisite["courseCode"] = courseCode;
+              // // prerequisite["groupId"] = groupsArray;
+              // // prerequisite["programmeId"] = programmeId;
+              // // prerequisites.push(prerequisite);
 
             }
 
@@ -512,7 +548,7 @@ async function parsePrerequisites(data) {
       }
     }
   }
-  // console.log("prerequisites:  ", prerequisites);
+  console.log("prerequisites:  ", prerequisites);
   return prerequisites;
 }
 
@@ -595,7 +631,7 @@ function parse_xlsx(xlsxData) {
       const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
       let groups = parseGroups(data, groupId)
-      let prerequisites = parsePrerequisites(data);
+      let prerequisites = parsePrerequisites(data, groups);
       sheetdata1 = {
         courses: parseCourses(data),
         programmes: parseProgrammes(data),
