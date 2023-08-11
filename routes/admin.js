@@ -325,111 +325,111 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
         const xlsxData = req.file.buffer; // XLSX file buffer
         const [sheetdata1, sheetdata2] = parse_xlsx(xlsxData);
 
-        const { courses, programmes, programmeCourses, groups, prerequisites } = sheetdata1;
+        const { courses, programmes, programmeCourses, groups, prerequisites, antirequisites } = sheetdata1;
         const { types, electiveRequirements } = sheetdata2;
 
         // ==========--------put courses in database
         /**/
-        for (let i = 0; i < courses.length; i++) {
-            // console.log("courseCode::> ",courses[i].courseCode);
-            try {
+        // for (let i = 0; i < courses.length; i++) {
+        //     // console.log("courseCode::> ",courses[i].courseCode);
+        //     try {
 
-                // check if courses is already added
-                const course = await Course.findOne({ where: { courseCode: courses[i].courseCode } });
+        //         // check if courses is already added
+        //         const course = await Course.findOne({ where: { courseCode: courses[i].courseCode } });
 
-                if (course) {
-                    console.log("course exist");
+        //         if (course) {
+        //             console.log("course exist");
 
-                }
-                else {//if course is not added
-                    await Course.create({
-                        courseCode: courses[i].courseCode,
-                        courseTitle: courses[i].courseTitle,
-                        credits: courses[i].credits,
-                        level: courses[i].level,
-                        semester: courses[i].semester,
-                        department: courses[i].department,
-                        description: courses[i].description,
-                    })
-                    console.log("create course");
-                }
-            } catch (err) {
-                console.log("Error: ", err.message);
-                res.status(500).send("Server Error");
-            }
+        //         }
+        //         else {//if course is not added
+        //             await Course.create({
+        //                 courseCode: courses[i].courseCode,
+        //                 courseTitle: courses[i].courseTitle,
+        //                 credits: courses[i].credits,
+        //                 level: courses[i].level,
+        //                 semester: courses[i].semester,
+        //                 department: courses[i].department,
+        //                 description: courses[i].description,
+        //             })
+        //             console.log("create course");
+        //         }
+        //     } catch (err) {
+        //         console.log("Error: ", err.message);
+        //         res.status(500).send("Server Error");
+        //     }
 
-        }
+        // }
         
 
         // ==========--------put programmes in database
         /**/
-        for( let i = 0; i < programmes.length; i++ ){
-            try {
+        // for( let i = 0; i < programmes.length; i++ ){
+        //     try {
 
-                // check if programme is already added
-                const programme = await Programme.findOne({ where: { id: programmes[i].programmeID } });
-                // console.log("programme::> ",programme);
-                if (programme) {
-                    console.log("programme exist");
+        //         // check if programme is already added
+        //         const programme = await Programme.findOne({ where: { id: programmes[i].programmeID } });
+        //         // console.log("programme::> ",programme);
+        //         if (programme) {
+        //             console.log("programme exist");
 
-                }
-                else {//if programme is not added
-                    await Programme.create({
-                         id: programmes[i].programmeId,
-                        name: programmes[i].name,
-                        faculty: programmes[i].faculty,
-                        department: programmes[i].department,
-                    })
-                    console.log("programme created");
-                }
-            } catch (err) {
-                console.log("Error: ", err.message);
-                res.status(500).send("Server Error");
-            }
-        }
+        //         }
+        //         else {//if programme is not added
+        //             await Programme.create({
+        //                  id: programmes[i].programmeId,
+        //                 name: programmes[i].name,
+        //                 faculty: programmes[i].faculty,
+        //                 department: programmes[i].department,
+        //             })
+        //             console.log("programme created");
+        //         }
+        //     } catch (err) {
+        //         console.log("Error: ", err.message);
+        //         res.status(500).send("Server Error");
+        //     }
+        // }
         
 
         // ==========--------put programmeCourses in database
         /*  */
-        for (let i = 0; i < programmeCourses.length; i++) {
-            try {
-                // check if programmeCourse is already added
-                const programmeCourse = await ProgrammeCourse.findOne({ where: { programmeId: programmeCourses[i].programmeId, courseCode: programmeCourses[i].courseCode } });
-                // console.log("programmeCourse::> ",programmeCourse);
-                if (programmeCourse) {
-                    console.log("programme course exist");
+        // for (let i = 0; i < programmeCourses.length; i++) {
+        //     try {
+        //         // check if programmeCourse is already added
+        //         const programmeCourse = await ProgrammeCourse.findOne({ where: { programmeId: programmeCourses[i].programmeId, courseCode: programmeCourses[i].courseCode } });
+        //         // console.log("programmeCourse::> ",programmeCourse);
+        //         if (programmeCourse) {
+        //             console.log("programme course exist");
 
-                }
-                else {//if programme course is not added
-                    await ProgrammeCourse.create({
-                        programmeId: programmeCourses[i].programmeId,
-                        courseCode: programmeCourses[i].courseCode,
-                        typeId: programmeCourses[i].typeId,
-                    })
-                    console.log("programme course created");
-                }
-            } catch (err) {
-                console.log("Error: ", err.message);
-                res.status(500).send("Server Error");
-            }
-        }
+        //         }
+        //         else {//if programme course is not added
+        //             await ProgrammeCourse.create({
+        //                 programmeId: programmeCourses[i].programmeId,
+        //                 courseCode: programmeCourses[i].courseCode,
+        //                 typeId: programmeCourses[i].typeId,
+        //             })
+        //             console.log("programme course created");
+        //         }
+        //     } catch (err) {
+        //         console.log("Error: ", err.message);
+        //         res.status(500).send("Server Error");
+        //     }
+        // }
         
 
 
         // ==========--------put coursegroups into database
         /* */
-        for (let i = 0; i < groups.length; i++) {
+        // for (let i = 0; i < groups.length; i++) {
 
-            let group = await Group.create();
+        //     let group = await Group.create();
 
-            for (let j = 0; j < groups[i].courseCode.length; j++) {
-                let courseCode = groups[i].courseCode[j];
-                await CourseGroup.create({
-                    groupId: group.id,
-                    courseCode: courseCode
-                });
-            }
-        }
+        //     for (let j = 0; j < groups[i].courseCode.length; j++) {
+        //         let courseCode = groups[i].courseCode[j];
+        //         await CourseGroup.create({
+        //             groupId: group.id,
+        //             courseCode: courseCode
+        //         });
+        //     }
+        // }
         
 
         // ==========--------put prerequisites into the database
@@ -437,9 +437,9 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
         // console.log("!!!!!", prerequisites);
         for (let i = 0; i < prerequisites.length; i++) {
             
-            // console.log("Prerequisite:::> ", prerequisites[i]);
+            console.log("Prerequisite:::> ", prerequisites[i]);
 
-            const prerequisite = await Prerequisite.findOne({ where: { courseCode: prerequisites[i].courseCode, programmeId: prerequisites[i].programmeId },groupId: prerequisites[i].groupId })
+            const prerequisite = await Prerequisite.findOne({ where: { courseCode: prerequisites[i].courseCode, programmeId: prerequisites[i].programmeId,groupId: prerequisites[i].groupId } })
 
             if (!prerequisite) {
                 console.log("create prereq");
@@ -452,37 +452,59 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
 
 
         }
+
+        // ==========--------put antirequisites into the database
+        /**/
+        // console.log("!!!!!", antirequisites);
+        // for (let i = 0; i < antirequisites.length; i++) {
+            
+        //     // console.log("Antirequisite:::> ", antirequisites[i]);
+
+        //     const antirequisite = await Antirequisite.findOne({ where: { courseCode: antirequisites[i].courseCode , antirequisiteCourseCode: antirequisites[i].antirequisiteCourseCode} })
+
+        //     if (!antirequisite) {
+        //         // console.log("create prereq");
+        //         await Antirequisite.create({
+        //             courseCode: antirequisites[i].courseCode,
+        //             antirequisiteCourseCode: antirequisites[i].antirequisiteCourseCode,
+        //         });
+        //     }
+
+
+        // }
         
 
         // ==========--------put types into the database
         // console.log(types);
         /**/
-        for (let i = 0; i < types.length; i++){
-            const type = await Type.findOne({where: {type: types[i].type}});
-            if(!type){
-                await Type.create({
-                    type: types[i].type
-                });
-            }
-        }
+        // for (let i = 0; i < types.length; i++){
+        //     const type = await Type.findOne({where: {type: types[i].type}});
+        //     if(!type){
+        //         await Type.create({
+        //             type: types[i].type
+        //         });
+        //     }
+        // }
         
 
         // ==========--------put electiveRequirements into the database
-        console.log(electiveRequirements);
-        for (let i = 0; i < electiveRequirements.length; i++){
-            const electiveRequirement = await ElectiveRequirement.findOne({where: {typeId: electiveRequirements[i].typeId, programmeId: electiveRequirements[i].programmeId }});
-            if(!electiveRequirement){
-                await ElectiveRequirement.create({
-                    typeId: electiveRequirements[i].typeId,
-                    programmeId: electiveRequirements[i].programmeId,
-                    amount: electiveRequirements[i].amount
-                });
-            }
-        }
+        // console.log(electiveRequirements);
+        // for (let i = 0; i < electiveRequirements.length; i++){
+        //     const electiveRequirement = await ElectiveRequirement.findOne({where: {typeId: electiveRequirements[i].typeId, programmeId: electiveRequirements[i].programmeId }});
+        //     if(!electiveRequirement){
+        //         await ElectiveRequirement.create({
+        //             typeId: electiveRequirements[i].typeId,
+        //             programmeId: electiveRequirements[i].programmeId,
+        //             amount: electiveRequirements[i].amount
+        //         });
+        //     }
+        // }
 
 
 
         // console.log("Prerequisites: ", prerequisites);
+        // console.log("Antirequisites: ", antirequisites);
+        
         console.log("XLSX parsed and data processed successfully.");
         return res.status(200).json({
             message: "XLSX parsed and data processed successfully.",

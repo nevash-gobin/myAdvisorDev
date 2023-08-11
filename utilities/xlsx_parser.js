@@ -552,6 +552,23 @@ function parsePrerequisites(data, grps) {
   return prerequisites;
 }
 
+function parseAntirequisites(data) {
+  const antirequisites = [];
+
+  for (let j = 4; j < data.length; j++) {
+    let antireq = {};
+    antireq["courseCode"]= data[j][0];
+    antireq["antirequisiteCourseCode"]= data[j][7];
+    if(antireq.antirequisiteCourseCode!==undefined){
+      antirequisites.push(antireq);
+    }
+    
+  }
+  // console.log("Antirequisites: ", antirequisites);
+  
+  return antirequisites;
+}
+
 function parseTypes(data) {
   const types = [];
 
@@ -632,12 +649,14 @@ function parse_xlsx(xlsxData) {
 
       let groups = parseGroups(data, groupId)
       let prerequisites = parsePrerequisites(data, groups);
+      
       sheetdata1 = {
         courses: parseCourses(data),
         programmes: parseProgrammes(data),
         programmeCourses: parseProgrammeCourses(data),
         groups: groups,
         prerequisites: prerequisites,
+        antirequisites: parseAntirequisites(data),
       };
 
     }
