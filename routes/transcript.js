@@ -400,7 +400,8 @@ router.get("/course/options", studentAccountVerification, async(req, res)=>{
 
     // Get student's transcript
     const student = await Transcript.findOne({ where: { studentID: studentId } });
-
+    console.log("Programme: ", student.major);
+    
     // Get all the student's courses
     const studentCourses = await StudentCourses.findAll({ where: { studentId: studentId } });
 
