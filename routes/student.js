@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const studentAccountVerification = require("../middleware/studentAccountVerification");
 const { getEligibleCourses } = require("../controllers/getEligibleCourses");
+const { getDegreeProgress } = require("../controllers/getDegreeProgress");
 const { Sequelize } = require('sequelize');
 
 // import models
@@ -79,6 +80,9 @@ const SemesterCourses = require("../models/semesterCourse");
 const Prerequisite = require("../models/Prerequisite");
 const Antirequisite = require("../models/Antirequisite");
 const CourseGroup = require("../models/CourseGroup");
+const Course = require("../models/Course");
+const PCR = require("../models/ElectiveRequirement");
+const Type = require("../models/Type");
 
 
 router.get("/eligilbeCourses/:semesterId", studentAccountVerification, async (req, res) => {
@@ -91,6 +95,7 @@ router.get("/eligilbeCourses/:semesterId", studentAccountVerification, async (re
 
     // get all the data for the function
 
+    //#region 
 
     // get course codes of courses completed by student
     const studentCourses = await StudentCourse.findAll({ where: { studentId: studentId } });
@@ -111,12 +116,12 @@ router.get("/eligilbeCourses/:semesterId", studentAccountVerification, async (re
     // console.log("Programme Id: ",programmeId);
 
     //  get programme courses for programmeId
-    const programmeCourses = await ProgrammeCourse.findAll({ where: { programmeId } });
-    let programmeCoursess = [];
-    for (i = 0; i < programmeCourses.length; i++) {
-        programmeCoursess.push(programmeCourses[i].dataValues);
+    const programmeCourse = await ProgrammeCourse.findAll({ where: { programmeId } });
+    let programmeCourses = [];
+    for (i = 0; i < programmeCourse.length; i++) {
+        programmeCourses.push(programmeCourse[i].dataValues);
     }
-    // console.log("programmeCourses: ", programmeCoursess);
+    // console.log("programmeCourse: ", programmeCoursess);
 
 
     // get semesterCourses
@@ -155,13 +160,13 @@ router.get("/eligilbeCourses/:semesterId", studentAccountVerification, async (re
     }
     // console.log("courseGroups:  ", coursegroups);
 
-
+    //#endregion
 
 
     // call the function
 
 
-    eligibleCourses = getEligibleCourses(programmeId, studentCourseCodes, programmeCoursess, semCourses, prereqs, antireqs, coursegroups);
+    eligibleCourses = getEligibleCourses(programmeId, studentCourseCodes, programmeCourses, semCourses, prereqs, antireqs, coursegroups);
     // console.log("eligibleCourses:  ", eligibleCourses);
     res.json({
         "eligibleCourses": eligibleCourses
@@ -175,7 +180,65 @@ router.get("/degreeProgress", studentAccountVerification, async (req, res) => {
     // get logged in studentId
     const studentId = req.user;
 
+    // get all the data for the function
 
+
+    // get course codes of courses completed by student
+    const studentCourses = await StudentCourse.findAll({ where: { studentId: studentId } });
+    let studentCourseCodes = [];
+    for (i = 0; i < studentCourses.length; i++) {
+        studentCourseCodes.push(studentCourses[i].dataValues.courseCode);
+    }
+    // console.log("student courses: ", studentCourseCodes);
+
+    // Get student's transcript
+    const transcript = await Transcript.findOne({ where: { studentID: studentId }, });
+    switch (transcript.major) {
+        case "Computer Science (Special)":
+            programme = await Programme.findOne({ where: { name: "BSc " + transcript.major } })
+            break;
+    };
+    let programmeId = programme.dataValues.id
+    // console.log("Programme Id: ",programmeId);
+
+    //  get programme courses for programmeId
+    const programmeCourse = await ProgrammeCourse.findAll({ where: { programmeId } });
+    let programmeCourses = [];
+    for (i = 0; i < programmeCourse.length; i++) {
+        programmeCourses.push(programmeCourse[i].dataValues);
+    }
+    // console.log("programmeCourse: ", programmeCoursess);
+
+    //  get courses
+    let course = await Course.findAll();
+    let courses = [];
+    for (i = 0; i < course.length; i++) {
+        courses.push(course[i].dataValues);
+    }
+    //  console.log("courses: ", courses);
+
+    // get programmeCreditRequirements
+    let pcrs = await PCR.findAll({where: { programmeId }});
+    let programmeCreditRequirements = [];
+    for (i = 0; i < pcrs.length; i++) {
+        programmeCreditRequirements.push(pcrs[i].dataValues);
+    }
+    // console.log("PCR: ", programmeCreditRequirements);
+
+    // get types
+    let type = await Type.findAll();
+    let types = [];
+    for (i = 0; i < type.length; i++) {
+        types.push(type[i].dataValues);
+    }
+    // console.log("types: ", types);
+
+
+    let degreeProgress = getDegreeProgress(programmeId, studentCourseCodes, programmeCourses, courses, programmeCreditRequirements, types);
+    console.log("Degree Progrress: ", degreeProgress);
+    res.json({
+        "DegreeProgress: ": degreeProgress
+    });
 
 })
 
@@ -252,24 +315,49 @@ router.get("/course-plan/:semesterId", studentAccountVerification, async (req, r
     }
     // console.log("courseGroups:  ", coursegroups);
 
+    //  get courses
+    let course = await Course.findAll();
+    let courses = [];
+    for (i = 0; i < course.length; i++) {
+        courses.push(course[i].dataValues);
+    }
+    //  console.log("courses: ", courses);
+
+    // get programmeCreditRequirements
+    let pcrs = await PCR.findAll({where: { programmeId }});
+    let programmeCreditRequirements = [];
+    for (i = 0; i < pcrs.length; i++) {
+        programmeCreditRequirements.push(pcrs[i].dataValues);
+    }
+    // console.log("PCR: ", programmeCreditRequirements);
+
+    // get types
+    let type = await Type.findAll();
+    let types = [];
+    for (i = 0; i < type.length; i++) {
+        types.push(type[i].dataValues);
+    }
+    // console.log("types: ", types);
+
     //#endregion
 
 
     // -----------------CALL THE FUNCTIONS-------------------------
 
 
-    eligibleCourses = getEligibleCourses(programmeId, studentCourseCodes, programmeCoursess, semCourses, prereqs, antireqs, coursegroups);
-    // console.log("eligibleCourses:  ", eligibleCourses);
+    eligibleCourses = getEligibleCourses(programmeId, studentCourseCodes, programmeCourses, semCourses, prereqs, antireqs, coursegroups);
+    console.log("eligibleCourses:  ", eligibleCourses);
 
-    // degreeProgress = getDegreeProgress();
-
+    degreeProgress = getDegreeProgress(programmeId, studentCourseCodes, programmeCourses, courses, programmeCreditRequirements, types);
+    console.log("Degree Progress: ", degreeProgress);
 
 
 
 
 
     res.json({
-        "eligibleCourses": eligibleCourses
+        "Eligible Courses:": eligibleCourses,
+        "Degree Progress:": degreeProgress
     });
 
 });
