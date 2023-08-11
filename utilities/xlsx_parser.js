@@ -407,7 +407,7 @@ function parsePrerequisites(data, grps) {
     groups.push(group);
     num++;
   }
-  console.log("!!!@@GROUPS@@!!: ", groups);
+  // console.log("!!!@@GROUPS@@!!: ", groups);
 
   for (let column = 9; column < data[0].length; column++) {
     let programmeId = data[0][column];
@@ -548,7 +548,7 @@ function parsePrerequisites(data, grps) {
       }
     }
   }
-  console.log("prerequisites:  ", prerequisites);
+  // console.log("prerequisites:  ", prerequisites);
   return prerequisites;
 }
 

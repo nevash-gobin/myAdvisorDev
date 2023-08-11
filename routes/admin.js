@@ -324,7 +324,7 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
         const [sheetdata1, sheetdata2] = parse_xlsx(xlsxData);
 
         const { courses, programmes, programmeCourses, groups, prerequisites } = sheetdata1;
-
+        
         // // put courses in database
         // for (let i = 0; i < courses.length; i++) {
         //     // console.log("courseCode::> ",courses[i].courseCode);
@@ -407,7 +407,7 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
         // }
 
 
-        // // put coursegroups into database
+        // // // put coursegroups into database
         // for (let i = 0; i < groups.length; i++) {
 
         //     let group = await Group.create();
@@ -422,26 +422,25 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
         // }
 
         // put prerequisites into the database
-        // 
 
         // console.log("!!!!!", prerequisites);
-        // for (let i = 0; i < prerequisites.length; i++) {
+        for (let i = 0; i < prerequisites.length; i++) {
             
-        //     // console.log("Prerequisite:::> ", prerequisites[i]);
+            // console.log("Prerequisite:::> ", prerequisites[i]);
 
-        //     const prerequisite = await Prerequisite.findOne({ where: { courseCode: prerequisites[i].courseCode, programmeId: prerequisites[i].programmeId } })
+            const prerequisite = await Prerequisite.findOne({ where: { courseCode: prerequisites[i].courseCode, programmeId: prerequisites[i].programmeId },groupId: prerequisites[i].groupId })
 
-        //     if (!prerequisite) {
-        //         console.log("create prereq");
-        //         await Prerequisite.create({
-        //             courseCode: prerequisites[i].courseCode,
-        //             groupId: prerequisites[i].groupId,
-        //             programmeId: prerequisites[i].programmeId,
-        //         });
-        //     }
+            if (!prerequisite) {
+                console.log("create prereq");
+                await Prerequisite.create({
+                    courseCode: prerequisites[i].courseCode,
+                    groupId: prerequisites[i].groupId,
+                    programmeId: prerequisites[i].programmeId,
+                });
+            }
 
 
-        // }
+        }
 
 
 
