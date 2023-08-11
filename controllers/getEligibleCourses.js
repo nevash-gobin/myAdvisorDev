@@ -2,7 +2,7 @@
 let prereqs =[];
 let antireqs =[];
 let courseGroups =[];
-let studentCourseCodes=[];
+let studentCodes=[];
 
 function cleanObject(obj) {
     for (const key in obj) {
@@ -19,10 +19,12 @@ function groupSatisfied(groupId) {
     // console.log("courseGroups Length: ", courseGroups.length);
     for (let i = 0; i < courseGroups.length; i++) {
         if (courseGroups[i].groupId === groupId) {
-            // console.log("courseggroups. coursecode:",courseGroups[i].courseCode);
+            console.log("prereq courseCode:",courseGroups[i].courseCode);
+            // console.log("student courses",studentCodes);
 
             // if the student does not satisfy the course
-            if (!studentCourseCodes.includes(courseGroups[i].courseCode)) {
+            if (!studentCodes.includes(courseGroups[i].courseCode)) {
+                
 
                 // since the student must satisfy all the courses in th group return false
                 return false;
@@ -37,7 +39,7 @@ function groupSatisfied(groupId) {
 function atLeastOneGroupSatisfied(groupIds) {
     for (const groupId of groupIds) {
         if (groupSatisfied(groupId)) {
-        // console.log("@#$@#$@#$@#$@#$",groupId);
+        console.log("group satisfied");
             return true;
         }
     }
@@ -57,7 +59,7 @@ function arePrerequisitesSatisfied(courseCode, programmeId) {
             groupIds.push(prereqs[j].groupId);
             // console.log("courseCode", courseCode);
             // console.log("programmeId", programmeId);
-            // console.log("groupIds", groupIds);
+            console.log("\ngroupIds", groupIds);
             
         }
     }
@@ -86,13 +88,13 @@ function completedAntirequisites(courseCode) {
 
 // returns a list of courses the student can register for in the next semester
 function getEligibleCourses(programmeId, studentCourseCodes, programmeCourses, semesterCourses, prerequisites, antirequisites, coursegroups) {
-
     let registerableCourses = [];
     prereqs=prerequisites;
     antireqs=antirequisites;
     courseGroups=coursegroups;
-    studentCourseCodes=studentCourseCodes;
-
+    studentCodes=studentCourseCodes;
+    console.log("student course codes:<><><>:::::: ", studentCodes);
+    
     // if(degreeProgress.remainingCredits === 0){
     //     return registerableCourses;
     // } 
@@ -117,7 +119,9 @@ function getEligibleCourses(programmeId, studentCourseCodes, programmeCourses, s
             
             // check if the student has satisfied the prereqs
             prereqSatisfied = arePrerequisitesSatisfied(programmeCourses[i].courseCode, programmeId);
-            // console.log("prereqSatisfied::> ",prereqSatisfied);
+            console.log("prereqSatisfied::> ",prereqSatisfied);
+        console.log("Course::> ",programmeCourses[i].courseCode);
+
 
             // check if the student has done any anti-requisites
             completedAntireq = completedAntirequisites(programmeCourses[i].courseCode);
