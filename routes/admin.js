@@ -329,7 +329,7 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
         const { types, electiveRequirements } = sheetdata2;
 
         // ==========--------put courses in database
-        /*
+        /**/
         for (let i = 0; i < courses.length; i++) {
             // console.log("courseCode::> ",courses[i].courseCode);
             try {
@@ -359,10 +359,10 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
             }
 
         }
-        */
+        
 
         // ==========--------put programmes in database
-        /*
+        /**/
         for( let i = 0; i < programmes.length; i++ ){
             try {
 
@@ -387,10 +387,10 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
                 res.status(500).send("Server Error");
             }
         }
-        */
+        
 
         // ==========--------put programmeCourses in database
-        /*  
+        /*  */
         for (let i = 0; i < programmeCourses.length; i++) {
             try {
                 // check if programmeCourse is already added
@@ -413,11 +413,11 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
                 res.status(500).send("Server Error");
             }
         }
-        */
+        
 
 
         // ==========--------put coursegroups into database
-        /* 
+        /* */
         for (let i = 0; i < groups.length; i++) {
 
             let group = await Group.create();
@@ -430,10 +430,10 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
                 });
             }
         }
-        */
+        
 
         // ==========--------put prerequisites into the database
-        /*
+        /**/
         // console.log("!!!!!", prerequisites);
         for (let i = 0; i < prerequisites.length; i++) {
             
@@ -452,11 +452,11 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
 
 
         }
-        */
+        
 
         // ==========--------put types into the database
         // console.log(types);
-        /*
+        /**/
         for (let i = 0; i < types.length; i++){
             const type = await Type.findOne({where: {type: types[i].type}});
             if(!type){
@@ -465,7 +465,7 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
                 });
             }
         }
-        */
+        
 
         // ==========--------put electiveRequirements into the database
         console.log(electiveRequirements);
