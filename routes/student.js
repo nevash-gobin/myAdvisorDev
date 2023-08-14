@@ -8,9 +8,12 @@ const db = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const studentAccountVerification = require("../middleware/studentAccountVerification");
+
 const { getEligibleCourses } = require("../controllers/getEligibleCourses");
 const { getDegreeProgress } = require("../controllers/getDegreeProgress");
 const { getPlannedCourses } = require("../controllers/getPlannedCourses");
+const { getCoursePlan } = require("../controllers/getCoursePlan");
+
 const { Sequelize } = require('sequelize');
 
 // import models
@@ -191,16 +194,13 @@ router.get("/degreeProgress", studentAccountVerification, async (req, res) => {
         studentCourseCodes.push(studentCourses[i].dataValues.courseCode);
     }
     // console.log("student courses: ", studentCourseCodes);
-
-    // Get student's transcript
-    const transcript = await Transcript.findOne({ where: { studentID: studentId }, });
-    switch (transcript.major) {
-        case "Computer Science (Special)":
-            programme = await Programme.findOne({ where: { name: "BSc " + transcript.major } })
-            break;
-    };
-    let programmeId = programme.dataValues.id
-    // console.log("Programme Id: ",programmeId);
+    // Get programme id from student model
+    const student = await Student.findOne({where: {studentID: studentId}});
+    if(student){
+        programmeId = student.dataValues.programmeId;
+     
+        // console.log("student: ", student.dataValues.programmeId);
+    }
 
     //  get programme courses for programmeId
     const programmeCourse = await ProgrammeCourse.findAll({ where: { programmeId } });
@@ -248,6 +248,7 @@ router.get("/course-plan/:semesterId", studentAccountVerification, async (req, r
 
     let semesterId = req.params.semesterId;
     const studentId = req.user;
+    // const studentId = "816021684";
     let programme;
 
     // -----------------GET DATA FROM DATABASE-------------------------
@@ -262,14 +263,21 @@ router.get("/course-plan/:semesterId", studentAccountVerification, async (req, r
     }
     // console.log("student courses: ", studentCourseCodes);
 
-    // Get student's transcript
-    const transcript = await Transcript.findOne({ where: { studentID: studentId }, });
-    switch (transcript.major) {
-        case "Computer Science (Special)":
-            programme = await Programme.findOne({ where: { name: "BSc " + transcript.major } })
-            break;
-    };
-    let programmeId = programme.dataValues.id
+    // Get programme id from student model
+    const student = await Student.findOne({where: {studentID: studentId}});
+    if(student){
+        programmeId = student.dataValues.programmeId;
+        // console.log("student: ", student.dataValues.programmeId);
+    }
+
+    // // Get student's transcript
+    // const transcript = await Transcript.findOne({ where: { studentID: studentId }, });
+    // switch (transcript.major) {
+    //     case "Computer Science (Special)":
+    //         programme = await Programme.findOne({ where: { name: "BSc " + transcript.major } })
+    //         break;
+    // };
+    // let programmeId = programme.dataValues.id
     // console.log("Programme Id: ",programmeId);
 
     //  get programme courses for programmeId
@@ -343,74 +351,16 @@ router.get("/course-plan/:semesterId", studentAccountVerification, async (req, r
     //#endregion
 
 
-    // -----------------CALL THE FUNCTIONS-------------------------
+    // -----------------CALL THE FUNCTION-------------------------
 
-
-    eligibleCourses = getEligibleCourses(programmeId, studentCourseCodes, programmeCourses, semCourses, prereqs, antireqs, coursegroups);
-    // console.log("eligibleCourses:  ", eligibleCourses);
-
-    degreeProgress = getDegreeProgress(programmeId, studentCourseCodes, programmeCourses, courses, programmeCreditRequirements, types);
-    // console.log("Degree Progress: ", degreeProgress);
-
-    plannedCourses = await getPlannedCourses(studentId, semesterId);
-    // console.log("Planned Courses: ", plannedCourses);
-
-    // -----------------FORMAT OUTPUT-------------------------
+    let coursePlan =  await getCoursePlan(programmeId, studentCourseCodes, programmeCourses, semCourses, prereqs, antireqs, coursegroups, courses, programmeCreditRequirements, types, studentId, semesterId);
 
 
 
-    let plannedCoursesObjs = [];
-    let coursePlan = [];
 
-    for (let course of plannedCourses) {
-        const progCourse = programmeCourses.find(progCourse => progCourse.courseCode === course && progCourse.programmeId === programmeId);
-        let typeId = progCourse ? progCourse.typeId : null;
-        const typeObj = types.find(type => type.id === typeId);
-        let typeName = typeObj ? typeObj.type : null;
-        // console.log("typeName: ",typeName);
-        const courseObj = courses.find(c => c.courseCode === course);
-        let courseName = courseObj ? courseObj.courseTitle : null;
-        let credits = courseObj ? courseObj.credits : null;
-        console.log("credits:: ", credits);
-
-        plannedCoursesObjs.push({
-            "courseCode": progCourse.courseCode,
-            "courseTitle": courseName,
-            "type": typeName,
-            "credits": credits
-        })
-
-    }
-
-    for (type in degreeProgress.remainingRequirements) {
-        let planData = {};
-        let plancourses =[];
-        planData["creditType"] = type;
-        // planData["creditsRemaining"] = degreeProgress.remainingRequirements[type];
-        // console.log(type);
-        // console.log(degreeProgress.remainingRequirements[type]);
-        for (let plannedCoursesObj of plannedCoursesObjs) {
-            if (plannedCoursesObj.type === type) {
-                // console.log(plannedCoursesObj);
-                planData["creditsRemaining"] = degreeProgress.remainingRequirements[type] - plannedCoursesObj.credits;
-                plancourses.push(plannedCoursesObj);
-            } else {
-                planData["creditsRemaining"] = degreeProgress.remainingRequirements[type];
-                // planData["selectedCourses"] = plancourses;
-            }
-        }
-        planData["selectedCourses"] = plancourses;
-        coursePlan.push(planData);
-
-    }
-    console.log(coursePlan);
-
-
-
+    // console.log("COURSEPLAN:::> ",coursePlan);
     res.json({
-        "Course Plan: ":coursePlan,
-        // "Eligible Courses:": eligibleCourses,
-        // "Degree Progress:": degreeProgress
+        "Course Plan: ":coursePlan
     });
 
 });

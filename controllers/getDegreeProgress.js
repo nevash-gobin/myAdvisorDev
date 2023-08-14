@@ -15,13 +15,13 @@ function getDegreeProgress(programmeId, studentCourseCodes, programmeCourses, co
     for (let ct of programmeCreditRequirements) {
         const creditType = types.find(type => type.id === ct.typeId);
         if (creditType) {
-            creditRequirements[creditType.type] = ct.amount;
+            creditRequirements[creditType.type] = [ct.amount, ct.amount];
         }
     }
     // console.log("creditRequirements: ", creditRequirements);
 
     for (let creditType in creditRequirements) {
-        degreeCredits+=creditRequirements[creditType];
+        degreeCredits+=creditRequirements[creditType][0];
         for (let i = 0; i < studentCourseCodes.length; i++) {
             let course = courses.find((c) => c.courseCode === studentCourseCodes[i]);
             // console.log("COURSE<<<<<>>>>>>: ",course);
@@ -35,14 +35,14 @@ function getDegreeProgress(programmeId, studentCourseCodes, programmeCourses, co
             // console.log("PROGRAMMECOURSE<<<<<>>>>>>: ", programmeCourse);
 
 
-            if (creditRequirements[creditType] <= 0) {
+            if (creditRequirements[creditType][0] <= 0) {
                 break;
             }
 
             if (programmeCourse && !completedCourses.includes(programmeCourse.courseCode)) {
                 let credits = parseInt(course.credits);     // get course credits
                 completedCourses.push(course.courseCode);   // add course to completed courses
-                creditRequirements[creditType] -= credits;  // reduce credit requirementss
+                creditRequirements[creditType][0] -= credits;  // reduce credit requirementss
                 totalCredits = totalCredits + credits;
             }
         }
@@ -56,9 +56,9 @@ function getDegreeProgress(programmeId, studentCourseCodes, programmeCourses, co
     //     remainingRequirements.push({ type, remainingCredits: creditRequirements[type] });
     // }
     let degreeProgress = {
-        remainingRequirements: creditRequirements, //remainingRequirements,
-        completedCourses: completedCourses,
-        totalCompletedCredits: totalCredits,
+        Requirements: creditRequirements, //remainingRequirements,
+        //completedCourses: completedCourses,
+        totalCompletedCredits: [totalCredits,degreeCredits],
         remainingCredits: degreeCredits-totalCredits
     };
     // console.log("degree progress: ",degreeProgress);
