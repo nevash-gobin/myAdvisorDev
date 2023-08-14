@@ -62,7 +62,7 @@ async function getCoursePlan(programmeId, studentCourseCodes, programmeCourses, 
                 // console.log(plannedCoursesObj);
 
                 planData["creditsRemaining"] -= plannedCoursesObj.credits;
-                console.log("planData.creditsRemaining",planData.creditsRemaining);
+                // console.log("planData.creditsRemaining",planData.creditsRemaining);
                 // console.log("remaining credits",planData["creditsRemaining"]);
                 plancourses.push(plannedCoursesObj);
             }
