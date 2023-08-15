@@ -51,6 +51,18 @@ AwaredDegree.belongsTo(Student, {
 })
 
 
+Student.belongsTo(Programme, {
+    foreignKey: 'programmeId',
+    allowNull: true, // Change to false if each student must have a programme
+});
+
+// A Programme can have many Students
+Programme.hasMany(Student, {
+    foreignKey: 'programmeId',
+});
+
+
+
 // Student<--->StudentCourse
 
 // A Student has many StudentCourse
