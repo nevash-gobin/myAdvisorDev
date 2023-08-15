@@ -24,9 +24,9 @@ const ElectiveRequirement = require("../models/ElectiveRequirement");
 const StudentCourse = require("../models/StudentCourse");
 const Transcript = require("../models/Transcript");
 const SemesterCourses = require("../models/semesterCourse");
-const CourseGroup = require("../models/CourseGroup");
+// const CourseGroup = require("../models/CourseGroup");
 const PCR = require("../models/ElectiveRequirement");
-const Type = require("../models/Type");
+// const Type = require("../models/Type");
 
 // ---Routes---
 
@@ -116,29 +116,25 @@ router.get("/student/advising-sessions", async (req, res) => {
     }
 });
 
-// <<<<<<< wingson---getEligibleCourses
-// // get course plan for a student
-// router.get("/course-plan/:semesterId/:studentId", staffAccountVerification, async (req, res) => {
+//Get All Advised Courses
+router.get("/student/advised-courses", async (req, res) => {
+    try{
+        const advisedCourses = await AdvisedCourse.findAll();
+        res.status(200).json(advisedCourses);
+    }
+    catch(err){
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
 
-//     let semesterId = req.params.semesterId;
-//     let studentId = req.params.studentId;
-//     // const studentId = req.user;
-//     let programme;
-// =======
-// //Get All Advised Courses
-// router.get("/student/advised-courses", async (req, res) => {
-//     try{
-//         const advisedCourses = await AdvisedCourse.findAll();
-//         res.status(200).json(advisedCourses);
-//     }
-//     catch(err){
-//         console.log("Error: ", err.message);
-//         res.status(500).send("Server Error");
-//     }
-// });
+// get course plan for a student
+router.get("/course-plan/:semesterId/:studentId", staffAccountVerification, async (req, res) => {
 
-// >>>>>>> main
-
+    let semesterId = req.params.semesterId;
+    let studentId = req.params.studentId;
+    // const studentId = req.user;
+    let programme;
     // -----------------GET DATA FROM DATABASE-------------------------
 
     //#region 
