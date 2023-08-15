@@ -109,15 +109,13 @@ router.get("/eligilbeCourses/:semesterId", studentAccountVerification, async (re
     }
     // console.log("student courses: ", studentCourseCodes);
 
-    // Get student's transcript
-    const transcript = await Transcript.findOne({ where: { studentID: studentId }, });
-    switch (transcript.major) {
-        case "Computer Science (Special)":
-            programme = await Programme.findOne({ where: { name: "BSc " + transcript.major } })
-            break;
-    };
-    let programmeId = programme.dataValues.id
-    // console.log("Programme Id: ",programmeId);
+    // Get programme id from student model
+    const student = await Student.findOne({where: {studentID: studentId}});
+    if(student){
+        programmeId = student.dataValues.programmeId;
+     
+        // console.log("student: ", student.dataValues.programmeId);
+    }
 
     //  get programme courses for programmeId
     const programmeCourse = await ProgrammeCourse.findAll({ where: { programmeId } });
@@ -194,6 +192,8 @@ router.get("/degreeProgress", studentAccountVerification, async (req, res) => {
         studentCourseCodes.push(studentCourses[i].dataValues.courseCode);
     }
     // console.log("student courses: ", studentCourseCodes);
+
+
     // Get programme id from student model
     const student = await Student.findOne({where: {studentID: studentId}});
     if(student){

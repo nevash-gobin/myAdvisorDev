@@ -67,7 +67,7 @@ router.post("/create/student", async (req, res) => {
     try {
         // destructure data entered
         const { studentID, firstName, lastName, email, programmeId, password } = req.body
- 
+
         // check if student exists since duplicate usernames aren't allowed
         const student = await Student.findOne({ where: { "studentID": studentID } });
         if (student) {
@@ -132,15 +132,12 @@ router.get("/course-plan/:semesterId/:studentId", staffAccountVerification, asyn
     }
     // console.log("student courses: ", studentCourseCodes);
 
-    // Get student's transcript
-    const transcript = await Transcript.findOne({ where: { studentID: studentId }, });
-    switch (transcript.major) {
-        case "Computer Science (Special)":
-            programme = await Programme.findOne({ where: { name: "BSc " + transcript.major } })
-            break;
-    };
-    let programmeId = programme.dataValues.id
-    // console.log("Programme Id: ",programmeId);
+    // Get programme id from student model
+    const student = await Student.findOne({where: {studentID: studentId}});
+    if(student){
+        programmeId = student.dataValues.programmeId;
+        // console.log("student: ", student.dataValues.programmeId);
+    }
 
     //  get programme courses for programmeId
     const programmeCourse = await ProgrammeCourse.findAll({ where: { programmeId } });
@@ -234,126 +231,54 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
     // const studentId = req.user;
     let studentId;
     let programme;
+    let courses = [];
     let courseplan = {};
-
-
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // Problem is if student has no transcript cant get programmeId
-
-
+    let coursePlans =[];
 
     // -----------------CALL THE FUNCTION-------------------------
 
 
     const students = await Student.findAll();
+    // console.log("students::", students);
+
 
     if (students) {
-        for (const student of students) {
-            studentId = student.dataValues.studentID;
-            console.log("student", student.dataValues);
-            // console.log("studentId: ", studentId);
+        for (const s of students) {
+            courseplan = {};
+            courses = [];
 
-            // -----------------GET DATA FROM DATABASE-------------------------
+            studentId = s.dataValues.studentID;
+            courseplan["studentId"] = studentId;
+            studentName = s.dataValues.firstName + " " + s.dataValues.lastName;
+            courseplan["studentName"] = studentName;
 
-            //#region 
+            programmeId = s.dataValues.programmeId;
+            const programme = await Programme.findOne({ where: { id: programmeId } });
+            programmeName = programme.name;
+            courseplan["programmeName"]= programmeName;
 
-            // get course codes of courses completed by student
-            const studentCourses = await StudentCourse.findAll({ where: { studentId: studentId } });
-            let studentCourseCodes = [];
-            for (i = 0; i < studentCourses.length; i++) {
-                studentCourseCodes.push(studentCourses[i].dataValues.courseCode);
+            const advisingSession = await AdvisingSession.findOne({ where: { studentId, semesterId } });
+            // console.log("advising session: ", advisingSession);
+            if (advisingSession) {
+                let sessionId = advisingSession.dataValues.id;
+                const advisedCourses = await AdvisedCourse.findAll({ where: { advisingSessionId: sessionId } })
+                // console.log("advisesCourses: ", advisedCourses);
+
+                for (let ac of advisedCourses) {
+                    courses.push(ac.courseCode);
+                    // console.log("courses: ", ac.courseCode);
+
+                }
+                courseplan["courses"] = courses;
+
+            }else{
+                courseplan["courses"] = [];
             }
-            // console.log("student courses: ", studentCourseCodes);
-
-            // Get student's transcript
-            const transcript = await Transcript.findOne({ where: { studentID: studentId }, });
-            if (!transcript) {
-                console.log("no transcript! ");
-            } else {
-                switch (transcript.major) {
-                    case "Computer Science (Special)":
-                        programme = await Programme.findOne({ where: { name: "BSc " + transcript.major } })
-                        break;
-                };
-                let programmeId = programme.dataValues.id
-            }
-
-            // console.log("Programme Id: ",programmeId);
 
 
 
 
-            //  get programme courses for programmeId
-            const programmeCourse = await ProgrammeCourse.findAll({ where: { programmeId } });
-            let programmeCourses = [];
-            for (i = 0; i < programmeCourse.length; i++) {
-                programmeCourses.push(programmeCourse[i].dataValues);
-            }
-            // console.log("programmeCourses: ", programmeCourses);
-
-
-            // get semesterCourses
-            const semesterCourses = await SemesterCourses.findAll({ where: { semesterId: semesterId } })
-            let semCourses = [];
-            for (i = 0; i < semesterCourses.length; i++) {
-                semCourses.push(semesterCourses[i].dataValues.courseCode);
-            }
-            // console.log("Semester Courses :  ", semCourses);
-
-
-            // get prerequisites
-            const prerequisites = await Prerequisite.findAll();
-            let prereqs = [];
-            for (let prereq in prerequisites) {
-                prereqs.push(prerequisites[prereq].dataValues);
-                // console.log("prerequisites: ", prerequisites[prereq]. dataValues);
-            }
-            // console.log("prerequisites: ", prereqs);
-
-            // get antirequisites
-            const antirequisites = await Antirequisite.findAll();
-            let antireqs = [];
-            for (let antireq in antirequisites) {
-                antireqs.push(antirequisites[antireq].dataValues);
-            }
-            // console.log("antireqs: ", antireqs);
-
-            // get courseGroups
-            const courseGroups = await CourseGroup.findAll();
-            let coursegroups = [];
-            for (let cg in courseGroups) {
-                coursegroups.push(courseGroups[cg].dataValues);
-                // console.log("prerequisites: ", prerequisites[prereq]. dataValues);
-            }
-            // console.log("courseGroups:  ", coursegroups);
-
-            //  get courses
-            let course = await Course.findAll();
-            let courses = [];
-            for (i = 0; i < course.length; i++) {
-                courses.push(course[i].dataValues);
-            }
-            //  console.log("courses: ", courses);
-
-            // get programmeCreditRequirements
-            let pcrs = await PCR.findAll({ where: { programmeId } });
-            let programmeCreditRequirements = [];
-            for (i = 0; i < pcrs.length; i++) {
-                programmeCreditRequirements.push(pcrs[i].dataValues);
-            }
-            // console.log("PCR: ", programmeCreditRequirements);
-
-            // get types
-            let type = await Type.findAll();
-            let types = [];
-            for (i = 0; i < type.length; i++) {
-                types.push(type[i].dataValues);
-            }
-            // console.log("types: ", types);
-
-            //#endregion
-
-            coursePlan = await getCoursePlan(programmeId, studentCourseCodes, programmeCourses, semCourses, prereqs, antireqs, coursegroups, courses, programmeCreditRequirements, types, studentId, semesterId);
+            coursePlans.push(courseplan);
 
 
         }
@@ -363,9 +288,9 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
 
 
 
-    // console.log("COURSEPLAN:::> ",coursePlan);
+    // console.log("COURSEPLAN:::> ",coursePlans);
     res.json({
-        "Course Plan: ": coursePlan
+        "Course Plans: ": coursePlans
     });
 
 });
@@ -377,6 +302,7 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
 const { parseCSVData } = require('../utilities/csvParser');
 const multer = require('multer');
 const { or } = require("sequelize");
+const AdvisedCourse = require("../models/AdvisedCourse");
 
 const upload = multer({ storage: multer.memoryStorage() })
 

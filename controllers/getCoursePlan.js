@@ -25,7 +25,9 @@ async function getCoursePlan(programmeId, studentCourseCodes, programmeCourses, 
 
     // -----------------FORMAT OUTPUT-------------------------
 
+    if(plannedCourses){
 
+    
 
     // get planned courses
     for (let course of plannedCourses) {
@@ -73,7 +75,21 @@ async function getCoursePlan(programmeId, studentCourseCodes, programmeCourses, 
 
     }
 
+    }else{
+        for (type in degreeProgress.Requirements) {
+            let planData = {};
+            let plancourses =[];
+            planData["creditType"] = type;
+            planData["creditsRemaining"] = degreeProgress.Requirements[type][0];
+            // console.log(type);
+            // console.log(degreeProgress.Requirements[type][0]);
+            
+            planData["creditsRemaining"] = [degreeProgress.Requirements[type][0], degreeProgress.Requirements[type][1]];
+            planData["selectedCourses"] = [];
+            coursePlan.push(planData);
     
+        }
+    }
 
     // console.log("COURSEPLAN:::> ",coursePlan);
 
