@@ -116,29 +116,28 @@ router.get("/student/advising-sessions", async (req, res) => {
     }
 });
 
-// <<<<<<< wingson---getEligibleCourses
-// // get course plan for a student
-// router.get("/course-plan/:semesterId/:studentId", staffAccountVerification, async (req, res) => {
 
-//     let semesterId = req.params.semesterId;
-//     let studentId = req.params.studentId;
-//     // const studentId = req.user;
-//     let programme;
-// =======
-// //Get All Advised Courses
-// router.get("/student/advised-courses", async (req, res) => {
-//     try{
-//         const advisedCourses = await AdvisedCourse.findAll();
-//         res.status(200).json(advisedCourses);
-//     }
-//     catch(err){
-//         console.log("Error: ", err.message);
-//         res.status(500).send("Server Error");
-//     }
-// });
+// Get All Advising Sessions
+router.get("/student/advising-sessions", async (req, res) => {
+    try {
+        const sessions = await AdvisingSession.findAll();
+        res.status(200).json(sessions);
+    }
+    catch (err) {
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
 
-// >>>>>>> main
 
+
+// get course plan for a student
+router.get("/course-plan/:semesterId/:studentId", staffAccountVerification, async (req, res) => {
+
+    let semesterId = req.params.semesterId;
+    let studentId = req.params.studentId;
+    // const studentId = req.user;
+    let programme;
     // -----------------GET DATA FROM DATABASE-------------------------
 
     //#region 
