@@ -89,10 +89,10 @@ async function initializeDatabase() {
         await AwardedDegree.sync();
         await CareerCourse.sync();
         await ElectiveRequirement.sync();
-        await Prerequisite.sync();
         await ProgrammeCourse.sync();
         await Group.sync();
         await CourseGroup.sync();
+        await Prerequisite.sync();
         await SemesterCourse.sync();
         
         // Creates Admin Account
