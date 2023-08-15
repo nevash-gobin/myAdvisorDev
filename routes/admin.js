@@ -101,6 +101,18 @@ router.get("/student/advising-sessions", async (req, res) => {
     }
 });
 
+//Get All Advised Courses
+router.get("/student/advised-courses", async (req, res) => {
+    try{
+        const advisedCourses = await AdvisedCourse.findAll();
+        res.status(200).json(advisedCourses);
+    }
+    catch(err){
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 
 
@@ -110,6 +122,7 @@ router.get("/student/advising-sessions", async (req, res) => {
 const { parseCSVData } = require('../utilities/csvParser');
 const multer = require('multer');
 const { or } = require("sequelize");
+const AdvisedCourse = require("../models/AdvisedCourse");
 
 const upload = multer({ storage: multer.memoryStorage() })
 
