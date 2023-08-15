@@ -24,9 +24,9 @@ const ElectiveRequirement = require("../models/ElectiveRequirement");
 const StudentCourse = require("../models/StudentCourse");
 const Transcript = require("../models/Transcript");
 const SemesterCourses = require("../models/semesterCourse");
-const CourseGroup = require("../models/CourseGroup");
+// const CourseGroup = require("../models/CourseGroup");
 const PCR = require("../models/ElectiveRequirement");
-const Type = require("../models/Type");
+// const Type = require("../models/Type");
 
 // ---Routes---
 
