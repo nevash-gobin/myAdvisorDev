@@ -174,61 +174,109 @@ router.get("/courses/:semesterId", async (req, res) => {
 
 const studentAccountVerification = require("../middleware/studentAccountVerification");
 
+// router.post("/plan", studentAccountVerification, async (req, res) => {
+//     try {
+//         const { semesterId, courses } = req.body;
+//         const semester = await Semester.findOne({ where: { id: semesterId } });
+
+//         if (semester) {
+//             const studentId = req.user;
+
+//             const advisingSession = await AdvisingSession.findOne({
+//                 where: {
+//                     studentId: studentId,
+//                     semesterId: semesterId,
+//                 },
+//             });
+
+//             if (!advisingSession) {
+//                 await AdvisingSession.create({
+//                     studentId: studentId,
+//                     semesterId: semesterId,
+//                 });
+//             }
+
+
+
+
+//             if (advisingSession) {
+//                 let isError = false;
+
+//                 for (let i = 0; i < courses.length; i++) {
+//                     // console.log("course: ", courses[i]);
+//                     // console.log("sessionId: ", advisingSession.dataValues.id);
+
+//                     try {
+//                         await AdvisedCourse.create({
+//                             advisingSessionId: advisingSession.dataValues.id,
+//                             courseCode: courses[i],
+//                         });
+//                     } catch (err) {
+//                         console.log("Error: ", err.message);
+//                         isError = true;
+//                     }
+//                 }
+
+//                 if (isError) {
+//                     res.status(500).send("Error occurred while adding advised courses");
+//                 } else {
+//                     res.status(200).send("Semester Planned!");
+//                 }
+//             }
+//         }
+//     } catch (err) {
+//         console.log("Error: ", err.message);
+//         res.status(500).send("Server Error");
+//     }
+// });
+
+
 router.post("/plan", studentAccountVerification, async (req, res) => {
+    const { semesterId, courses } = req.body;
+    const studentId = req.user;
+
     try {
-        const { semesterId, courses } = req.body;
-        const semester = await Semester.findOne({ where: { id: semesterId } });
+        // Find and delete existing advising session along with advised courses
+        await AdvisingSession.destroy({
+            where: {
+                studentId: studentId,
+                semesterId: semesterId,
+            },
+            cascade: true, // Delete associated advised courses
+        });
 
-        if (semester) {
-            const studentId = req.user;
+        // Create a new advising session
+        const newAdvisingSession = await AdvisingSession.create({
+            studentId: studentId,
+            semesterId: semesterId,
+        });
 
-            const advisingSession = await AdvisingSession.findOne({
-                where: {
-                    studentId: studentId,
-                    semesterId: semesterId,
-                },
-            });
+        let isError = false;
 
-            if (!advisingSession) {
-                await AdvisingSession.create({
-                    studentId: studentId,
-                    semesterId: semesterId,
+        // Add new advised courses
+        for (let i = 0; i < courses.length; i++) {
+            try {
+                await AdvisedCourse.create({
+                    advisingSessionId: newAdvisingSession.id,
+                    courseCode: courses[i],
                 });
+            } catch (err) {
+                console.log("Error: ", err.message);
+                isError = true;
             }
+        }
 
-
-
-
-            if (advisingSession) {
-                let isError = false;
-
-                for (let i = 0; i < courses.length; i++) {
-                    // console.log("course: ", courses[i]);
-                    // console.log("sessionId: ", advisingSession.dataValues.id);
-
-                    try {
-                        await AdvisedCourse.create({
-                            advisingSessionId: advisingSession.dataValues.id,
-                            courseCode: courses[i],
-                        });
-                    } catch (err) {
-                        console.log("Error: ", err.message);
-                        isError = true;
-                    }
-                }
-
-                if (isError) {
-                    res.status(500).send("Error occurred while adding advised courses");
-                } else {
-                    res.status(200).send("Semester Planned!");
-                }
-            }
+        if (isError) {
+            res.status(500).send("Error occurred while adding advised courses");
+        } else {
+            res.status(200).send("Semester Planned!");
         }
     } catch (err) {
         console.log("Error: ", err.message);
         res.status(500).send("Server Error");
     }
 });
+
 
 router.get("/courses/:department/:semesterId", async (req, res) => {
 
@@ -248,6 +296,13 @@ router.get("/courses/:department/:semesterId", async (req, res) => {
     res.json(semesterCoursesInDepartment);
 
     // console.log("courses: ", courses);
+
+});
+
+
+router.get("/flags/:semesterId", async (req, res) => {
+
+    
 
 });
 
