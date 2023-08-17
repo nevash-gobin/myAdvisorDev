@@ -132,11 +132,11 @@ router.get("/all", async (req, res) => {
 
 //Get Semester by Id
 router.get("/:semesterId", async (req, res) => {
-    try{
-        const semester = await Semester.findOne( {where: {id: req.params.semesterId} } );
+    try {
+        const semester = await Semester.findOne({ where: { id: req.params.semesterId } });
         res.status(200).json(semester);
     }
-    catch(err){
+    catch (err) {
         console.log("Error: ", err.message);
         res.status(500).send("Server Error");
     }
@@ -148,19 +148,19 @@ router.get("/courses/:semesterId", async (req, res) => {
         const semesterCourses = await SemesterCourse.findAll({ where: { semesterId: req.params.semesterId } });
         let semCourses = [];
 
-        if(!semesterCourses){
+        if (!semesterCourses) {
 
         }
-        else{
+        else {
             var i;
             let courseCodes = [];
 
-            for(i=0; i<semesterCourses.length; i++){
+            for (i = 0; i < semesterCourses.length; i++) {
                 courseCodes.push(semesterCourses[i].dataValues.courseCode)
             }
 
-            for(i=0; i<courseCodes.length; i++){
-                const course = await Course.findOne( {where: { courseCode: courseCodes[i] } });
+            for (i = 0; i < courseCodes.length; i++) {
+                const course = await Course.findOne({ where: { courseCode: courseCodes[i] } });
                 semCourses.push(course);
             }
         }
@@ -176,112 +176,80 @@ const studentAccountVerification = require("../middleware/studentAccountVerifica
 
 router.post("/plan", studentAccountVerification, async (req, res) => {
     try {
-      const { semesterId, courses } = req.body;
-      const semester = await Semester.findOne({ where: { id: semesterId } });
-  
-      if (semester) {
-        const studentId = req.user;
-        await AdvisingSession.create({
-          studentId: studentId,
-          semesterId: semesterId,
-        });
-  
-        const advisingSession = await AdvisingSession.findOne({
-          where: {
-            studentId: studentId,
-            semesterId: semesterId,
-          },
-        });
-  
-        if (advisingSession) {
-          let isError = false;
-  
-          for (let i = 0; i < courses.length; i++) {
-            // console.log("course: ", courses[i]);
-            // console.log("sessionId: ", advisingSession.dataValues.id);
-  
-            try {
-              await AdvisedCourse.create({
-                advisingSessionId: advisingSession.dataValues.id,
-                courseCode: courses[i],
-              });
-            } catch (err) {
-              console.log("Error: ", err.message);
-              isError = true;
+        const { semesterId, courses } = req.body;
+        const semester = await Semester.findOne({ where: { id: semesterId } });
+
+        if (semester) {
+            const studentId = req.user;
+
+            const advisingSession = await AdvisingSession.findOne({
+                where: {
+                    studentId: studentId,
+                    semesterId: semesterId,
+                },
+            });
+
+            if (!advisingSession) {
+                await AdvisingSession.create({
+                    studentId: studentId,
+                    semesterId: semesterId,
+                });
             }
-          }
-  
-          if (isError) {
-            res.status(500).send("Error occurred while adding advised courses");
-          } else {
-            res.status(200).send("Semester Planned!");
-          }
+
+
+
+
+            if (advisingSession) {
+                let isError = false;
+
+                for (let i = 0; i < courses.length; i++) {
+                    // console.log("course: ", courses[i]);
+                    // console.log("sessionId: ", advisingSession.dataValues.id);
+
+                    try {
+                        await AdvisedCourse.create({
+                            advisingSessionId: advisingSession.dataValues.id,
+                            courseCode: courses[i],
+                        });
+                    } catch (err) {
+                        console.log("Error: ", err.message);
+                        isError = true;
+                    }
+                }
+
+                if (isError) {
+                    res.status(500).send("Error occurred while adding advised courses");
+                } else {
+                    res.status(200).send("Semester Planned!");
+                }
+            }
         }
-      }
     } catch (err) {
-      console.log("Error: ", err.message);
-      res.status(500).send("Server Error");
+        console.log("Error: ", err.message);
+        res.status(500).send("Server Error");
     }
-  });
-  
+});
 
+router.get("/courses/:department/:semesterId", async (req, res) => {
 
-// // Plan Courses- creates an advising session and adds advised courses
-// router.post("/plan", studentAccountVerification, async (req, res) => {
-//     try {
-//         // destructure data entered
-//         const { semesterId, courses } = req.body;
+    let department = req.params.department;
+    let semesterId = req.params.semesterId;
 
-//         // check if semester exist
-//         const semester = await Semester.findOne({ where: { id: semesterId } });
-//         if (semester) {
+    let courses = await Course.findAll({ where: { department } })
 
-//             const studentId = req.user;
+    let semesterCourses = await SemesterCourse.findAll({ where: { semesterId } })
 
-//             await AdvisingSession.create({
-//                 studentId: studentId,
-//                 semesterId: semesterId,
-//             })
-//             .then(() => {
-//                 return res.status(200).send("Advising Session added!");
-//             })
-//             .catch(err => {
-//                 console.log("Error: ", err.message);
-//             });
+    let semesterCoursesInDepartment = semesterCourses.filter(semesterCourse => {
+        // Assuming the course code is stored in the 'courseCode' field of 'semesterCourse'
+        return courses.some(course => course.courseCode === semesterCourse.courseCode);
+    });
 
-//             const advisingSession = await AdvisingSession.findOne({where: {
-//                 studentId: studentId,
-//                 semesterId: semesterId
-//             }})
-//             if (advisingSession) {
-//                 for (let i = 0; i < courses.length; i++) {
-//                     console.log("course: ", courses[i]);
-//                     console.log("sessionId: ", advisingSession.dataValues.id);
-//                     await AdvisedCourse.create({
-//                         advisingSessionId: advisingSession.dataValues.id,
-//                         courseCode: courses[i],
-//                     })
-//                     .then(() => {
-//                         return res.status(200).send("Advised Course added!");
-//                     })
-//                     .catch(err => {
-//                         console.log("Error: ", err.message);
-//                     });
-//                 }
+    // console.log("semesterCourses in department: ", semesterCoursesInDepartment);
+    res.json(semesterCoursesInDepartment);
 
+    // console.log("courses: ", courses);
 
-//             }
+});
 
-//         }
-
-
-
-
-//     }
-//     catch (err) {
-//         console.log("Error: ", err.message);
-//         res.status(500).send("Server Error");
-//     }
-// });
 
 module.exports = router;
