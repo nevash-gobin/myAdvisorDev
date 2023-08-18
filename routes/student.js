@@ -20,6 +20,19 @@ const { Sequelize } = require('sequelize');
 const Student = require("../models/Student");
 const AdvisingSession = require("../models/AdvisingSession");
 const AdvisingWindow = require('../models/AdvisingWindow')
+const StudentCourse = require("../models/StudentCourse");
+const Transcript = require("../models/Transcript");
+const Programme = require("../models/Programme");
+const ProgrammeCourse = require("../models/ProgrammeCourse");
+const Semester = require("../models/Semester");
+const SemesterCourses = require("../models/semesterCourse");
+const Prerequisite = require("../models/Prerequisite");
+const Antirequisite = require("../models/Antirequisite");
+const CourseGroup = require("../models/CourseGroup");
+const Course = require("../models/Course");
+const PCR = require("../models/ElectiveRequirement");
+const Type = require("../models/Type");
+
 
 // save advising session
 router.post("/academic-advising/session/:studentId", studentAccountVerification, async (req, res) => {
@@ -75,18 +88,6 @@ router.post("/academic-advising/session/:studentId", studentAccountVerification,
     }
 });
 
-const StudentCourse = require("../models/StudentCourse");
-const Transcript = require("../models/Transcript");
-const Programme = require("../models/Programme");
-const ProgrammeCourse = require("../models/ProgrammeCourse");
-const Semester = require("../models/Semester");
-const SemesterCourses = require("../models/semesterCourse");
-const Prerequisite = require("../models/Prerequisite");
-const Antirequisite = require("../models/Antirequisite");
-const CourseGroup = require("../models/CourseGroup");
-const Course = require("../models/Course");
-const PCR = require("../models/ElectiveRequirement");
-const Type = require("../models/Type");
 
 
 router.get("/eligilbeCourses/:semesterId", studentAccountVerification, async (req, res) => {
@@ -170,6 +171,7 @@ router.get("/eligilbeCourses/:semesterId", studentAccountVerification, async (re
 
     eligibleCourses = getEligibleCourses(programmeId, studentCourseCodes, programmeCourses, semCourses, prereqs, antireqs, coursegroups);
     // console.log("eligibleCourses:  ", eligibleCourses);
+
     res.json({
         "eligibleCourses": eligibleCourses
     });
