@@ -183,7 +183,7 @@ router.post('/parseForm', upload.single('file'), async (req, res) => {
         const student = await Transcript.findOne({ where: { studentID: studentId } });
 
         if (student) {
-            return res.status(401).send("Student already exists.");
+            // return res.status(401).send("Student already exists.");
         }
         else {
             await Transcript.create({
@@ -217,7 +217,7 @@ router.post('/parseForm', upload.single('file'), async (req, res) => {
                 const courses = await StudentCourses.findOne({ where: { studentId, courseCode } });
                 //console.log("+++++!+!++!", courses);
                 if (courses) {
-                    return res.status(401).send("Course for student already exists.");
+                    // return res.status(401).send("Course for student already exists.");
                 }
                 else {
                     await StudentCourses.create({
