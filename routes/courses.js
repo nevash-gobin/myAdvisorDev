@@ -442,15 +442,19 @@ router.get("/related-courses/:dept/:semNum", async (req, res) => {
         // console.log(course.dataValues.courseCode);
     }
 
-    let output= {
-        "semester1": semester1,
-        "semester2": semester2,
-        "semester3": semester3,
-    }
-    console.log(output);
+    // let output= {
+    //     "semester1": semester1,
+    //     "semester2": semester2,
+    //     "semester3": semester3,
+    // }
+    // console.log(output);
 
-
+    res.json({
+        "courses: ":output
+    });
 
 });
+
+
 
 module.exports = router;
