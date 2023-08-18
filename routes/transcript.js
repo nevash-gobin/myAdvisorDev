@@ -212,7 +212,7 @@ router.post('/parseForm', upload.single('file'), async (req, res) => {
             if (!(key === "studentId" || key === "gpa" || key === "name" || key === "progress" || key === "credits" || key === "degree" || key === "major" || key === "admitTerm" || key === "degreeAttemptHours" || key === "degreePassedHours" || key === "degreeEarnedHours" || key === "degreeGpaHours" || key === "degreeQualityPoints")) {//if not equal to these
                 var courseCode = key;
                 var courseTitle = data[key][0]
-                var grade = data[key][1];
+                var grade = data[key][1].trim();
 
                 const courses = await StudentCourses.findOne({ where: { studentId, courseCode } });
                 //console.log("+++++!+!++!", courses);
