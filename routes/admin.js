@@ -263,15 +263,17 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
 
             const advisingSession = await AdvisingSession.findOne({ where: { studentId, semesterId } });
             // console.log("advising session: ", advisingSession);
+            
             if (advisingSession) {
                 let sessionId = advisingSession.dataValues.id;
                 const advisedCourses = await AdvisedCourse.findAll({ where: { advisingSessionId: sessionId } })
                 // console.log("advisesCourses: ", advisedCourses);
 
                 for (let ac of advisedCourses) {
+                    const course = await Course.findOne({ where: {courseCode: ac.courseCode} });
                     courses.push({
                         courseCode: ac.courseCode,
-                        courseTitle: ac.courseTitle
+                        courseTitle: course.courseTitle
                     });
                     // console.log("courses: ", ac.courseCode);
 
