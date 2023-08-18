@@ -372,8 +372,8 @@ router.get("/related-courses/:dept/:semNum", async (req, res) => {
 
     let dept = req.params.dept;
     let semNum = req.params.semNum;
-    console.log("Department: ", dept);
-    console.log("Semester Number: ", semNum);
+    // console.log("Department: ", dept);
+    // console.log("Semester Number: ", semNum);
 
     // get all programmes in a department
     const programmes = await Programme.findAll({ where: { department: dept } });
@@ -442,11 +442,11 @@ router.get("/related-courses/:dept/:semNum", async (req, res) => {
         // console.log(course.dataValues.courseCode);
     }
 
-    // let output= {
-    //     "semester1": semester1,
-    //     "semester2": semester2,
-    //     "semester3": semester3,
-    // }
+    let output= {
+        "semester1": semester1,
+        "semester2": semester2,
+        "semester3": semester3,
+    }
     // console.log(output);
 
     res.json({
