@@ -117,18 +117,6 @@ router.get("/student/advising-sessions", async (req, res) => {
     }
 });
 
-//Get All Advised Courses
-router.get("/student/advised-courses", async (req, res) => {
-    try {
-        const advisedCourses = await AdvisedCourse.findAll();
-        res.status(200).json(advisedCourses);
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
-
 // get course plan for a student
 router.get("/course-plan/:semesterId/:studentId", staffAccountVerification, async (req, res) => {
 

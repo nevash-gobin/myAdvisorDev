@@ -40,6 +40,7 @@ router.post("/add", async (req, res) => {
             const semesterCourse = await SemesterCourse.findOne({
                 where: {
                     courseCode: courses[i],
+                    semesterId: semester.id,
                 }
             })
             if (!semesterCourse) {
