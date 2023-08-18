@@ -4,6 +4,7 @@ const staffAccountVerification = require("../middleware/staffAccountVerification
 const { getEligibleCourses } = require("../controllers/getEligibleCourses");
 const { getDegreeProgress } = require("../controllers/getDegreeProgress");
 const { getPlannedCourses } = require("../controllers/getPlannedCourses");
+const { getStudentYear } = require("../controllers/getStudentYear");
 const { getCoursePlan } = require("../controllers/getCoursePlan");
 
 // import models
@@ -116,21 +117,6 @@ router.get("/student/advising-sessions", async (req, res) => {
     }
 });
 
-
-// Get All Advising Sessions
-router.get("/student/advising-sessions", async (req, res) => {
-    try {
-        const sessions = await AdvisingSession.findAll();
-        res.status(200).json(sessions);
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
-
-
-
 // get course plan for a student
 router.get("/course-plan/:semesterId/:studentId", staffAccountVerification, async (req, res) => {
 
@@ -151,8 +137,8 @@ router.get("/course-plan/:semesterId/:studentId", staffAccountVerification, asyn
     // console.log("student courses: ", studentCourseCodes);
 
     // Get programme id from student model
-    const student = await Student.findOne({where: {studentID: studentId}});
-    if(student){
+    const student = await Student.findOne({ where: { studentID: studentId } });
+    if (student) {
         programmeId = student.dataValues.programmeId;
         // console.log("student: ", student.dataValues.programmeId);
     }
@@ -251,7 +237,7 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
     let programme;
     let courses = [];
     let courseplan = {};
-    let coursePlans =[];
+    let coursePlans = [];
 
     // -----------------CALL THE FUNCTION-------------------------
 
@@ -273,7 +259,7 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
             programmeId = s.dataValues.programmeId;
             const programme = await Programme.findOne({ where: { id: programmeId } });
             programmeName = programme.name;
-            courseplan["programmeName"]= programmeName;
+            courseplan["programmeName"] = programmeName;
 
             const advisingSession = await AdvisingSession.findOne({ where: { studentId, semesterId } });
             // console.log("advising session: ", advisingSession);
@@ -289,7 +275,7 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
                 }
                 courseplan["courses"] = courses;
 
-            }else{
+            } else {
                 courseplan["courses"] = [];
             }
 
@@ -553,11 +539,11 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
             }
 
         }
-        
+
 
         // ==========--------put programmes in database
         /**/
-        for( let i = 0; i < programmes.length; i++ ){
+        for (let i = 0; i < programmes.length; i++) {
             try {
 
                 // check if programme is already added
@@ -569,7 +555,7 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
                 }
                 else {//if programme is not added
                     await Programme.create({
-                         id: programmes[i].programmeId,
+                        id: programmes[i].programmeId,
                         name: programmes[i].name,
                         faculty: programmes[i].faculty,
                         department: programmes[i].department,
@@ -581,7 +567,7 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
                 res.status(500).send("Server Error");
             }
         }
-        
+
 
         // ==========--------put programmeCourses in database
         /*  */
@@ -607,7 +593,7 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
                 res.status(500).send("Server Error");
             }
         }
-        
+
 
 
         // ==========--------put coursegroups into database
@@ -624,16 +610,16 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
                 });
             }
         }
-        
+
 
         // ==========--------put prerequisites into the database
         /**/
         // console.log("!!!!!", prerequisites);
         for (let i = 0; i < prerequisites.length; i++) {
-            
+
             console.log("Prerequisite:::> ", prerequisites[i]);
 
-            const prerequisite = await Prerequisite.findOne({ where: { courseCode: prerequisites[i].courseCode, programmeId: prerequisites[i].programmeId,groupId: prerequisites[i].groupId } })
+            const prerequisite = await Prerequisite.findOne({ where: { courseCode: prerequisites[i].courseCode, programmeId: prerequisites[i].programmeId, groupId: prerequisites[i].groupId } })
 
             if (!prerequisite) {
                 console.log("create prereq");
@@ -651,10 +637,10 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
         /**/
         // console.log("!!!!!", antirequisites);
         for (let i = 0; i < antirequisites.length; i++) {
-            
+
             // console.log("Antirequisite:::> ", antirequisites[i]);
 
-            const antirequisite = await Antirequisite.findOne({ where: { courseCode: antirequisites[i].courseCode , antirequisiteCourseCode: antirequisites[i].antirequisiteCourseCode} })
+            const antirequisite = await Antirequisite.findOne({ where: { courseCode: antirequisites[i].courseCode, antirequisiteCourseCode: antirequisites[i].antirequisiteCourseCode } })
 
             if (!antirequisite) {
                 // console.log("create prereq");
@@ -666,26 +652,26 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
 
 
         }
-        
+
 
         // ==========--------put types into the database
         // console.log(types);
         /**/
-        for (let i = 0; i < types.length; i++){
-            const type = await Type.findOne({where: {type: types[i].type}});
-            if(!type){
+        for (let i = 0; i < types.length; i++) {
+            const type = await Type.findOne({ where: { type: types[i].type } });
+            if (!type) {
                 await Type.create({
                     type: types[i].type
                 });
             }
         }
-        
+
 
         // ==========--------put electiveRequirements into the database
         // console.log(electiveRequirements);
-        for (let i = 0; i < electiveRequirements.length; i++){
-            const electiveRequirement = await ElectiveRequirement.findOne({where: {typeId: electiveRequirements[i].typeId, programmeId: electiveRequirements[i].programmeId }});
-            if(!electiveRequirement){
+        for (let i = 0; i < electiveRequirements.length; i++) {
+            const electiveRequirement = await ElectiveRequirement.findOne({ where: { typeId: electiveRequirements[i].typeId, programmeId: electiveRequirements[i].programmeId } });
+            if (!electiveRequirement) {
                 await ElectiveRequirement.create({
                     typeId: electiveRequirements[i].typeId,
                     programmeId: electiveRequirements[i].programmeId,
@@ -698,7 +684,7 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
 
         // console.log("Prerequisites: ", prerequisites);
         // console.log("Antirequisites: ", antirequisites);
-        
+
         console.log("XLSX parsed and data processed successfully.");
         return res.status(200).json({
             message: "XLSX parsed and data processed successfully.",
@@ -716,7 +702,213 @@ router.post('/parse/programmeCourseXLSX', upload.single('file'), async (req, res
 
 
 
+router.get("/degreeProgress/all", staffAccountVerification, async (req, res) => {
 
+    let studentId;
+    const students = await Student.findAll();
+    let studentsProgress = [];
+    let gpa;
+
+    for (let s of students) {
+        studentId = s.dataValues.studentID;
+        let studentName = s.dataValues.firstName + " " + s.dataValues.lastName;
+        let programmeId = s.dataValues.programmeId;
+
+        let programme = await Programme.findOne({ where: { id: programmeId } });
+        let programmeName = programme.name;
+
+        const transcript = await Transcript.findOne({ where: { studentID: studentId } });
+        if (transcript) {
+            gpa = transcript.dataValues.gpa
+        } else {
+            gpa = "unknown";
+        }
+
+        // console.log("programme Name: ", programmeName);
+
+        // console.log("studetId: ", studentId);
+        // console.log("student name: ", studentName);
+        // console.log("Programme ID: ", programmeId);
+
+        //#region 
+        // get all the data for the function
+
+
+        // get course codes of courses completed by student
+        const studentCourses = await StudentCourse.findAll({ where: { studentId: studentId } });
+        let studentCourseCodes = [];
+        for (i = 0; i < studentCourses.length; i++) {
+            studentCourseCodes.push(studentCourses[i].dataValues.courseCode);
+        }
+        // console.log("student courses: ", studentCourseCodes);
+
+
+        // Get programme id from student model
+        const student = await Student.findOne({ where: { studentID: studentId } });
+        if (student) {
+            programmeId = student.dataValues.programmeId;
+
+            // console.log("student: ", student.dataValues.programmeId);
+        }
+
+        //  get programme courses for programmeId
+        const programmeCourse = await ProgrammeCourse.findAll({ where: { programmeId } });
+        let programmeCourses = [];
+        for (i = 0; i < programmeCourse.length; i++) {
+            programmeCourses.push(programmeCourse[i].dataValues);
+        }
+        // console.log("programmeCourse: ", programmeCoursess);
+
+        //  get courses
+        let course = await Course.findAll();
+        let courses = [];
+        for (i = 0; i < course.length; i++) {
+            courses.push(course[i].dataValues);
+        }
+        //  console.log("courses: ", courses);
+
+        // get programmeCreditRequirements
+        let pcrs = await PCR.findAll({ where: { programmeId } });
+        let programmeCreditRequirements = [];
+        for (i = 0; i < pcrs.length; i++) {
+            programmeCreditRequirements.push(pcrs[i].dataValues);
+        }
+        // console.log("PCR: ", programmeCreditRequirements);
+
+        // get types
+        let type = await Type.findAll();
+        let types = [];
+        for (i = 0; i < type.length; i++) {
+            types.push(type[i].dataValues);
+        }
+        // console.log("types: ", types);
+        //#endregion
+
+
+        let degreeProgress = getDegreeProgress(programmeId, studentCourseCodes, programmeCourses, courses, programmeCreditRequirements, types);
+        // console.log(degreeProgress.totalCompletedCredits);
+        let studentProgress = {
+            "studentId": studentId,
+            "studentName": studentName,
+            "programmeName": programmeName,
+            "GPA": gpa,
+            "credits": degreeProgress.totalCompletedCredits,
+        }
+
+        studentsProgress.push(studentProgress);
+
+    }
+
+    // console.log("Degree Progrress: ", degreeProgress);
+    res.json({
+        "Student Progress: ": studentsProgress
+    });
+
+})
+
+router.get("/studentsSummary", staffAccountVerification, async (req, res) => {
+
+    let studentID;
+    let summary = {};
+    let year1 = 0;
+    let year2 = 0;
+    let year3 = 0;
+    let year4 = 0;
+    let graduating =0;
+
+    const students = await Student.findAll();
+
+    for (let s of students) {
+        if (s) {
+            studentID = s.dataValues.studentID;
+            let programmeId = s.dataValues.programmeId;
+
+            //console.log("studentId: ", studentID);
+
+            let transcript = await Transcript.findOne({ where: { studentID } });
+            // console.log(transcript.admitTerm);
+            if (transcript) {
+
+                //#region 
+
+                // get course codes of courses completed by student
+                const studentCourses = await StudentCourse.findAll({ where: { studentId: studentID } });
+                let studentCourseCodes = [];
+                for (i = 0; i < studentCourses.length; i++) {
+                    studentCourseCodes.push(studentCourses[i].dataValues.courseCode);
+                }
+                // console.log("student courses: ", studentCourseCodes);
+
+                //  get programme courses for programmeId
+                const programmeCourse = await ProgrammeCourse.findAll({ where: { programmeId } });
+                let programmeCourses = [];
+                for (i = 0; i < programmeCourse.length; i++) {
+                    programmeCourses.push(programmeCourse[i].dataValues);
+                }
+                // console.log("programmeCourse: ", programmeCoursess);
+
+                //  get courses
+                let course = await Course.findAll();
+                let courses = [];
+                for (i = 0; i < course.length; i++) {
+                    courses.push(course[i].dataValues);
+                }
+                //  console.log("courses: ", courses);
+
+                // get programmeCreditRequirements
+                let pcrs = await PCR.findAll({ where: { programmeId } });
+                let programmeCreditRequirements = [];
+                for (i = 0; i < pcrs.length; i++) {
+                    programmeCreditRequirements.push(pcrs[i].dataValues);
+                }
+                // console.log("PCR: ", programmeCreditRequirements);
+
+                // get types
+                let type = await Type.findAll();
+                let types = [];
+                for (i = 0; i < type.length; i++) {
+                    types.push(type[i].dataValues);
+                }
+
+                //#endregion
+
+                let yearsPassed = getStudentYear(transcript);
+                let progress = getDegreeProgress( programmeId, studentCourseCodes, programmeCourses, courses, programmeCreditRequirements, types );
+                if (progress.remainingCredits === 0){
+                    graduating++;
+                }
+                // console.log("progress: ", progress);
+
+                if (yearsPassed === 1) {
+                    year1++;
+                } else if (yearsPassed === 2) {
+                    year2++;
+                } else if (yearsPassed === 3) {
+                    year3++;
+                } else if (yearsPassed > 3) {
+                    year4++;
+                }
+            }
+
+        }
+
+
+    }
+
+    summary = {
+        "graduating": graduating,
+        "year1": year1,
+        "year2": year2,
+        "year3": year3,
+        ">3years": year4,
+    }
+
+    res.json({
+        "Student Summary: ": summary
+    });
+    // console.log("summary: ", summary);
+
+})
 
 
 module.exports = router;
