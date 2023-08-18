@@ -283,7 +283,10 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
                 // console.log("advisesCourses: ", advisedCourses);
 
                 for (let ac of advisedCourses) {
-                    courses.push(ac.courseCode);
+                    courses.push({
+                        courseCode: ac.courseCode,
+                        courseTitle: ac.courseTitle
+                    });
                     // console.log("courses: ", ac.courseCode);
 
                 }
