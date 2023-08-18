@@ -270,13 +270,8 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
                 // console.log("advisesCourses: ", advisedCourses);
 
                 for (let ac of advisedCourses) {
-                    const course = await Course.findOne({ where: {courseCode: ac.courseCode} });
-                    courses.push({
-                        courseCode: ac.courseCode,
-                        courseTitle: course.courseTitle
-                    });
+                    courses.push(ac.courseCode);
                     // console.log("courses: ", ac.courseCode);
-
                 }
                 courseplan["courses"] = courses;
 
