@@ -438,7 +438,7 @@ router.get("/related-courses/:dept/:semNum", async (req, res) => {
         }
 
 
-        console.log(courseObj);
+        // console.log(courseObj);
         // console.log(course.dataValues.courseCode);
     }
 
