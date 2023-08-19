@@ -85,13 +85,16 @@ router.get("/courses/viewAll/:studentId", async (req, res) => {
     try {
         const student = await StudentCourses.findAll({ where: { studentId: req.params.studentId } });
 
-        if (student.length == 0) {
+        res.status(202).json(student);
+        /*
+        if (student.length === 0) {
             //return res.status(404).send("Student not found.");
             return res.status(404).json({ error: 'Student not found.' });
         }
         else {
             res.status(202).json(student);
         }
+        */
     }
     catch (err) {
         console.log("Error: ", err.message);
