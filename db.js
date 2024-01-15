@@ -1,27 +1,27 @@
 // imports sequelize module
 const Sequelize = require("sequelize");
 
-const url = 'postgres://myadvisor_database_user:YuKpP0lz6KhxNnsRLExqDQrl64bJj6OS@dpg-ci1kmm0rddl1m6hknfbg-a.oregon-postgres.render.com/myadvisor_database';
+// const url = 'postgres://myadvisor_database_user:YuKpP0lz6KhxNnsRLExqDQrl64bJj6OS@dpg-ci1kmm0rddl1m6hknfbg-a.oregon-postgres.render.com/myadvisor_database';
 
-// Extracting database connection information from the URL
-const [, dialect, username, password, host, database] = url.match(/^(postgres):\/\/([^:]+):([^@]+)@([^/]+)\/(.+)$/);
-
-
-// //SQLITE DATABASE
-// const db = new Sequelize({
-//   dialect: 'sqlite',
-//   storage: 'path/to/database.sqlite', // Replace with the path to your SQLite database file
-// });
+// // Extracting database connection information from the URL
+// const [, dialect, username, password, host, database] = url.match(/^(postgres):\/\/([^:]+):([^@]+)@([^/]+)\/(.+)$/);
 
 
-//CONNECTS TO THE RENDER POSTGRES DATABASE
-const db = new Sequelize(database, username, password, {
-  host,
-  dialect,
-  dialectOptions: {
-    ssl: true,
-  }
+//SQLITE DATABASE
+const db = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'database.sqlite', // Replace with the path to your SQLite database file
 });
+
+
+// //CONNECTS TO THE RENDER POSTGRES DATABASE
+// const db = new Sequelize(database, username, password, {
+//   host,
+//   dialect,
+//   dialectOptions: {
+//     ssl: true,
+//   }
+// });
 
 
 // const db = new Sequelize({

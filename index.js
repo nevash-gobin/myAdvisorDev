@@ -12,7 +12,7 @@ const upload = multer({ storage: multer.memoryStorage() })
 const { parse } = require('./utilities/parser');
 const bcrypt = require("bcrypt");
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 // app connection and resources
 app.use(cors());
