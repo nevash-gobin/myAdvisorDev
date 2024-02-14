@@ -12,13 +12,13 @@ The project was originally worked on by:
 - Akeel Henry
 
 The following members worked on the previous version project:
-Alexis Pitypaul
-Shalana Seuraj
+- Alexis Pitypaul
+- Shalana Seuraj
 
 The following members are part of the current development team:
-Quinn Mohammed
-Faith Shim
-Jarrod Moore
+- Quinn Mohammed
+- Faith Shim
+- Jarrod Moore
 
 The system would be designed using a PERN Stack architecture
 PostgreSQL
