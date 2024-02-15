@@ -13,7 +13,7 @@ const Semester = require("./Semester");
 const CareerCourse = require("./CareerCourse");
 const Career = require("./Career");
 const Course = require("./Course");
-const AdvisedCourse = require("./AdvisedCourse");
+const SelectedCourse = require("./SelectedCourse");
 const Antirequisite = require("./Antirequisite");
 const Prerequisite = require("./Prerequisite");
 const CourseGroup = require("./CourseGroup");
@@ -226,20 +226,18 @@ AdvisingSession.belongsTo(Semester, {
     allowNull: false
 })
 
-
-
 // ----------Advising Session----------
 
 
-// AdvisingSession<--->AdvisedCourse
+// AdvisingSession<--->SelectedCourse
 
 // An Advising Session has many Advised Courses
-AdvisingSession.hasMany(AdvisedCourse, {
+AdvisingSession.hasMany(SelectedCourse, {
     foreignKey: 'advisingSessionId',
     allowNull: false
 })
 // An Advised Course belongs to one Advising Session
-AdvisedCourse.belongsTo(AdvisingSession, {
+SelectedCourse.belongsTo(AdvisingSession, {
     foreignKey: 'advisingSessionId',
     allowNull: false
 })
@@ -258,6 +256,7 @@ SemesterCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })
+Selected
 
 
 // Course<--->StudentCourse
@@ -288,16 +287,16 @@ ProgrammeCourse.belongsTo(Course, {
 })
 
 
-// Course<--->AdvisedCourse
+// Course<--->SelectedCourse
 
 // A Course has many Advised Courses
-Course.hasMany(AdvisedCourse, {
+Course.hasMany(SelectedCourse, {
     foreignKey: 'courseCode',
     allowNull: false
 
 })
 // An Advised Course belongs to one Course
-AdvisedCourse.belongsTo(Course, {
+SelectedCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })

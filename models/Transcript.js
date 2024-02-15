@@ -2,6 +2,11 @@ const { Sequelize } = require("sequelize");
 const db = require("../db");
 
 const Transcript = db.define("transcript", {
+    // id: {
+    //     allowNull: false,
+    //     primaryKey: true,
+    //     type: Sequelize.INTEGER,
+    // },
     gpa: {
         allowNull: false,
         type: Sequelize.DECIMAL(5, 2),
@@ -10,10 +15,10 @@ const Transcript = db.define("transcript", {
         allowNull: false,
         type: Sequelize.STRING,
     },
-    credits: {
-        allowNull: false,
-        type: Sequelize.DECIMAL(5, 2),
-    },
+    // credits: {
+    //     allowNull: false,
+    //     type: Sequelize.DECIMAL(5, 2),
+    // },
     degree: {
         allowNull: false,
         type: Sequelize.STRING,
@@ -45,6 +50,14 @@ const Transcript = db.define("transcript", {
     degreeQualityPoints: {
         allowNull: false,
         type: Sequelize.DECIMAL(5, 2),
+    },
+    createdAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
+    },
+    updatedAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
     }
 }, { timestamps: true });
 
