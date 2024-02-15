@@ -6,19 +6,18 @@ const AwaredDegree = require("./AwardedDegree");
 const StudentCourse = require("./StudentCourse");
 const AdvisingSession = require("./AdvisingSession");
 const Programme = require("./Programme");
-const ElectiveRequirment = require("./ElectiveRequirement");
+const ElectiveRequirement = require("./ElectiveRequirement");
 const ProgrammeCourse = require("./ProgrammeCourse");
 const Type = require("./Type");
 const Semester = require("./Semester");
 const CareerCourse = require("./CareerCourse");
-const Career = require("./Career");
 const Course = require("./Course");
 const SelectedCourse = require("./SelectedCourse");
 const Antirequisite = require("./Antirequisite");
 const Prerequisite = require("./Prerequisite");
 const CourseGroup = require("./CourseGroup");
 const Group = require("./Group");
-const SemesterCourse = require("./semesterCourse");
+const SemesterCourse = require("./SemesterCourse");
 
 // ----------STUDENT----------
 
@@ -123,15 +122,15 @@ AwaredDegree.belongsTo(Programme, {
 })
 
 
-// Programme<--->ElectiveRequirment
+// Programme<--->ElectiveRequirement
 
-// A Programme has many ElectiveRequirment
-Programme.hasMany(ElectiveRequirment, {
+// A Programme has many ElectiveRequirement
+Programme.hasMany(ElectiveRequirement, {
     foreignKey: 'programmeId',
     allowNull: false
 })
 // An Elective Requirement belongs to one Programme
-ElectiveRequirment.belongsTo(Programme, {
+ElectiveRequirement.belongsTo(Programme, {
     foreignKey: 'programmeId',
     allowNull: false
 })
@@ -171,12 +170,12 @@ ProgrammeCourse.belongsTo(Type, {
 // Type<--->Elective Requirement
 
 // A Type has many Elective Requirements
-Type.hasMany(ElectiveRequirment, {
+Type.hasMany(ElectiveRequirement, {
     foreignKey: 'typeId',
     allowNull: false
 })
 // An Elective Requirement belongs to Type
-ElectiveRequirment.belongsTo(Type, {
+ElectiveRequirement.belongsTo(Type, {
     foreignKey: 'typeId',
     allowNull: false
 })
@@ -371,29 +370,6 @@ CourseGroup.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })
-
-
-
-// Career<--->CareerCourse
-
-// A Career has manny Career Courses
-Career.hasMany(CareerCourse, {
-    foreignKey: 'careerId',
-    allowNull: false
-})
-
-// A Career Course belongs to one Career
-CareerCourse.belongsTo(Career, {
-    foreignKey: 'careerId',
-    allowNull: false
-})
-
-
-
-
-
-
-
 
 
 // ----------Group----------
