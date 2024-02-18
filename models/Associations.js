@@ -255,7 +255,7 @@ SemesterCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })
-Selected
+// Selected
 
 
 // Course<--->StudentCourse

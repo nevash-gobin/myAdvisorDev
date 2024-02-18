@@ -19,13 +19,13 @@ const { Sequelize } = require('sequelize');
 // import models
 const Student = require("../models/Student");
 const AdvisingSession = require("../models/AdvisingSession");
-const AdvisingWindow = require('../models/AdvisingWindow')
+// const AdvisingWindow = require('../models/AdvisingWindow')
 const StudentCourse = require("../models/StudentCourse");
 const Transcript = require("../models/Transcript");
 const Programme = require("../models/Programme");
 const ProgrammeCourse = require("../models/ProgrammeCourse");
 const Semester = require("../models/Semester");
-const SemesterCourses = require("../models/semesterCourse");
+const SemesterCourses = require("../models/SemesterCourse");
 const Prerequisite = require("../models/Prerequisite");
 const Antirequisite = require("../models/Antirequisite");
 const CourseGroup = require("../models/CourseGroup");

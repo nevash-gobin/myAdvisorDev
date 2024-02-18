@@ -20,7 +20,7 @@ app.use(express.json());
 
 // models
 const Admin = require("./models/Admin");
-const AdvisedCourse = require("./models/AdvisedCourse");
+const SelectedCourse = require("./models/SelectedCourse");
 const AdvisingSesssion = require("./models/AdvisingSession")
 //const AdvisingWindow = require("./models/AdvisingWindow");
 const Antirequisite = require("./models/Antirequisite");
@@ -40,7 +40,7 @@ const Transcript = require("./models/Transcript");
 const Type = require("./models/Type");
 const Group = require("./models/Group");
 const CourseGroup = require("./models/CourseGroup");
-const SemesterCourse = require("./models/semesterCourse");
+const SemesterCourse = require("./models/SemesterCourse");
 
 //import associations
 require("./models/Associations");
@@ -84,7 +84,7 @@ async function newinitializeDatabase() {
         // await StudentCourse.sync();
         // await AdvisingSesssion.sync();
         // await Antirequisite.sync();
-        // await AdvisedCourse.sync();
+        // await SelectedCourse.sync();
         // await AwardedDegree.sync();
         // await CareerCourse.sync();
         // await ElectiveRequirement.sync();
@@ -151,7 +151,7 @@ async function newinitializeDatabase() {
 //         await StudentCourse.sync();
 //         await AdvisingSesssion.sync();
 //         await Antirequisite.sync();
-//         await AdvisedCourse.sync();
+//         await SelectedCourse.sync();
 //         await AwardedDegree.sync();
 //         await CareerCourse.sync();
 //         await ElectiveRequirement.sync();
