@@ -10,7 +10,7 @@ const ElectiveRequirement = require("./ElectiveRequirement");
 const ProgrammeCourse = require("./ProgrammeCourse");
 const Type = require("./Type");
 const Semester = require("./Semester");
-const CareerCourse = require("./CareerCourse");
+//const CareerCourse = require("./CareerCourse");
 const Course = require("./Course");
 const SelectedCourse = require("./SelectedCourse");
 const Antirequisite = require("./Antirequisite");
@@ -302,7 +302,8 @@ SelectedCourse.belongsTo(Course, {
 
 
 // Course<--->CareerCourse
-
+//=============Faith Comment out===================================
+/*
 // A Course has many Career Courses
 Course.hasMany(CareerCourse, {
     foreignKey: 'courseCode',
@@ -313,7 +314,7 @@ CareerCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
 })
-
+*/
 
 
 //Prerequisite<--->Course
