@@ -266,10 +266,10 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
             
             if (advisingSession) {
                 let sessionId = advisingSession.dataValues.id;
-                const advisedCourses = await AdvisedCourse.findAll({ where: { advisingSessionId: sessionId } })
-                // console.log("advisesCourses: ", advisedCourses);
+                const SelectedCourses = await SelectedCourse.findAll({ where: { advisingSessionId: sessionId } })
+                // console.log("advisesCourses: ", SelectedCourses);
 
-                for (let ac of advisedCourses) {
+                for (let ac of SelectedCourses) {
                     courses.push(ac.courseCode);
                     // console.log("courses: ", ac.courseCode);
                 }
@@ -306,7 +306,7 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
 const { parseCSVData } = require('../utilities/csvParser');
 const multer = require('multer');
 const { or } = require("sequelize");
-const AdvisedCourse = require("../models/AdvisedCourse");
+const SelectedCourse = require("../models/SelectedCourse");
 
 const upload = multer({ storage: multer.memoryStorage() })
 

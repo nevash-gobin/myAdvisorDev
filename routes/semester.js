@@ -4,7 +4,7 @@ const router = require("express").Router();
 const Semester = require("../models/Semester");
 const SemesterCourse = require("../models/semesterCourse");
 const AdvisingSession = require("../models/AdvisingSession");
-const AdvisedCourse = require("../models/AdvisedCourse");
+const SelectedCourse = require("../models/SelectedCourse");
 const Course = require("../models/Course");
 
 const { Op } = require("sequelize");
@@ -208,7 +208,7 @@ const studentAccountVerification = require("../middleware/studentAccountVerifica
 //                     // console.log("sessionId: ", advisingSession.dataValues.id);
 
 //                     try {
-//                         await AdvisedCourse.create({
+//                         await SelectedCourse.create({
 //                             advisingSessionId: advisingSession.dataValues.id,
 //                             courseCode: courses[i],
 //                         });
@@ -257,7 +257,7 @@ router.post("/plan", studentAccountVerification, async (req, res) => {
         // Add new advised courses
         for (let i = 0; i < courses.length; i++) {
             try {
-                await AdvisedCourse.create({
+                await SelectedCourse.create({
                     advisingSessionId: newAdvisingSession.id,
                     courseCode: courses[i],
                 });

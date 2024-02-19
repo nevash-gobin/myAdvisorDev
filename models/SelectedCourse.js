@@ -1,8 +1,8 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-const AdvisedCourse = db.define("advisedCourse", {
+const SelectedCourse = db.define("SelectedCourse", {
   // has a default primary key id
 });
 
-module.exports = AdvisedCourse;
+module.exports = SelectedCourse;

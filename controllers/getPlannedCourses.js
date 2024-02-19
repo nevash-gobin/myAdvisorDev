@@ -1,5 +1,5 @@
 
-const AdvisedCourse = require('../models/AdvisedCourse');
+const SelectedCourse = require('../models/SelectedCourse');
 const AdvisingSession = require('../models/AdvisingSession');
 // const programmeCourse = require('../models/AdvisingSession');
 
@@ -11,15 +11,15 @@ async function getPlannedCourses(studentId, semesterId){
     if(advisingSession){
         let advisingSessionId = advisingSession.dataValues.id;
         // console.log("advisingSessionId: ", advisingSessionId);
-        let advisedCourses = await AdvisedCourse.findAll({where: {advisingSessionId}});
-        // console.log(advisedCourses);
-        let advisedCourseCodes = [];
-        for( let advisedCourse of advisedCourses){
-            // console.log(advisedCourse);
-            advisedCourseCodes.push(advisedCourse.dataValues.courseCode);
+        let SelectedCourses = await SelectedCourse.findAll({where: {advisingSessionId}});
+        // console.log(SelectedCourses);
+        let SelectedCourseCodes = [];
+        for( let SelectedCourse of SelectedCourses){
+            // console.log(SelectedCourse);
+            SelectedCourseCodes.push(SelectedCourse.dataValues.courseCode);
         }
-        // console.log("advisedCourseCodes: ", advisedCourseCodes);
-        return advisedCourseCodes;
+        // console.log("SelectedCourseCodes: ", SelectedCourseCodes);
+        return SelectedCourseCodes;
     }
 
 
