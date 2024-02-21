@@ -6,9 +6,9 @@ const db = require("../db");
 
 // import models
 const Course = require("../models/Course");
-const Career = require("../models/Career");
+// const Career = require("../models/Career");
 const Prerequisites = require("../models/Prerequisite");
-const CareerCourse = require("../models/CareerCourse");
+// const CareerCourse = require("../models/CareerCourse");
 const Programme = require("../models/Programme");
 const ProgrammeCourse = require("../models/ProgrammeCourse");
 
@@ -51,7 +51,7 @@ router.get("/view/:code", async (req, res) => {
 router.post("/add", async (req, res) => {
     try {
         // destructure data entered
-        const { courseCode, courseTitle, credits, level, semester, department, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp } = req.body;
+        const { courseCode, courseTitle, credits, level, semester, department, prerequisites, description, coursework, finalExam, groupProject, individualWork, practicalCoursework, courseworkExam, projectPres, project, presentation, assignment, labAssessment, midSemesterMcq, projectReport, projectReportPres, projectAndPres, performanceReports, projectSoftwareApp, faculty } = req.body;
 
         // check if courses is already added
         const course = await Course.findOne({ where: { courseCode } });
@@ -84,7 +84,8 @@ router.post("/add", async (req, res) => {
                 projectReportPres,
                 projectAndPres,
                 performanceReports,
-                projectSoftwareApp
+                projectSoftwareApp,
+                faculty
             })
                 .then(() => {
                     return res.status(200).send("Course added!");
@@ -253,6 +254,13 @@ router.put("/edit/:code", async (req, res) => {
                 course.projectSoftwareApp = projectSoftwareApp;//set to null
             }
 
+            if (faculty) {
+                course.faculty = faculty;
+            }
+            else {//if null
+                course.faculty = faculty;//set to null
+            }
+
             await course.save();
             res.status(200).send("Course Updated");
         }
@@ -281,43 +289,43 @@ router.delete("/delete/:code", async (req, res) => {
     }
 });
 
-// get all career tags for a course
-router.get("/careers/:courseCode", async (req, res) => {
-    try {
-        const courseCode = req.params.courseCode;
-        console.log("LOG::> courseCode: ", courseCode);
+// // get all career tags for a course
+// router.get("/careers/:courseCode", async (req, res) => {
+//     try {
+//         const courseCode = req.params.courseCode;
+//         console.log("LOG::> courseCode: ", courseCode);
 
-        const courseCareers = await CareerCourse.findAll({ where: { courseCode: courseCode } });
-        console.log("LOG::> courseCarrers: ", courseCareers);
+//         const courseCareers = await CareerCourse.findAll({ where: { courseCode: courseCode } });
+//         console.log("LOG::> courseCarrers: ", courseCareers);
 
-        if (!courseCareers) {
-            return res.status(404).send("Course doesn't exist");
-        }
-        else {
-            var i;
-            let careerIDs = [];
+//         if (!courseCareers) {
+//             return res.status(404).send("Course doesn't exist");
+//         }
+//         else {
+//             var i;
+//             let careerIDs = [];
 
-            for (i = 0; i < courseCareers.length; i++) {
-                careerIDs.push(courseCareers[i].dataValues.careerId)
-                console.log("LOG::> CareerIds: ", careerIDs);
-            }
+//             for (i = 0; i < courseCareers.length; i++) {
+//                 careerIDs.push(courseCareers[i].dataValues.careerId)
+//                 console.log("LOG::> CareerIds: ", careerIDs);
+//             }
 
 
-            let careerNames = [];
-            for (i = 0; i < courseCareers.length; i++) {
-                const career = await Career.findOne({ where: { id: careerIDs[i] } });
-                console.log("LOG::> career: ", career);
-                careerNames.push(career.dataValues.careerName);
-            }
+//             let careerNames = [];
+//             for (i = 0; i < courseCareers.length; i++) {
+//                 const career = await Career.findOne({ where: { id: careerIDs[i] } });
+//                 console.log("LOG::> career: ", career);
+//                 careerNames.push(career.dataValues.careerName);
+//             }
 
-            res.status(202).json(careerNames);
-        }
-    }
-    catch (err) {
-        console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
-    }
-});
+//             res.status(202).json(careerNames);
+//         }
+//     }
+//     catch (err) {
+//         console.log("Error: ", err.message);
+//         res.status(500).send("Server Error");
+//     }
+// });
 
 
 
@@ -442,7 +450,7 @@ router.get("/related-courses/:dept/:semNum", async (req, res) => {
         // console.log(course.dataValues.courseCode);
     }
 
-    let output= {
+    let output = {
         "semester1": semester1,
         "semester2": semester2,
         "semester3": semester3,
@@ -450,7 +458,7 @@ router.get("/related-courses/:dept/:semNum", async (req, res) => {
     // console.log(output);
 
     res.json({
-        "courses: ":output
+        "courses: ": output
     });
 
 });

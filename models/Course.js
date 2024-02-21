@@ -11,6 +11,10 @@ const Course = db.define("course", {
         allowNull: false,
         type: Sequelize.STRING,
     },
+    faculty: {
+        allowNull: false,
+        type: Sequelize.STRING, // Adjust the data type based on your Faculty model
+    },
     credits: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -22,16 +26,18 @@ const Course = db.define("course", {
     semester: {
         allowNull: false,
         type: Sequelize.ENUM,
-        values:['I','II','III']
+        values: ['I', 'II', 'III'],
     },
-    // department: {
-    //     allowNull: false,
-    //     type: Sequelize.STRING,
-    // },
+    department: {
+        allowNull: false,
+        type: Sequelize.STRING,
+    },
     description: {
         allowNull: false,
         type: Sequelize.TEXT,//Datatype = TEXT to allow for descriptions longer than 255
     },
+
+
     // coursework: {
     //     allowNull: true,
     //     type: Sequelize.STRING,
@@ -100,7 +106,7 @@ const Course = db.define("course", {
     //     allowNull: true,
     //     type: Sequelize.STRING,
     // }
-    
+
 });
 
 module.exports = Course;
