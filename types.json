@@ -1,0 +1,26 @@
+[
+    {
+        "type": "L1CORE"
+    },
+    {
+        "type": "L2CORE"
+    },
+    {
+        "type": "L3CORE"
+    },
+    {
+        "type": "ADVELECTIVE"
+    },
+    {
+        "type": "CIELECTIVE"
+    },
+    {
+        "type": "CIMEMELECTIVE"
+    },
+    {
+        "type": "CIMELECTIVE"
+    },
+    {
+        "type": "FOUN"
+    }
+]
