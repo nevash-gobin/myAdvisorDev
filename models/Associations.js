@@ -137,19 +137,6 @@ ElectiveRequirement.belongsTo(Programme, {
 })
 
 
-// Programme<--->ProgrammeCourse
-
-// A Programme has many Programme Courses
-Programme.hasMany(ProgrammeCourse, {
-    foreignKey: 'programmeId',
-    allowNull: false
-})
-// A Programme Course belongs to one Programme
-ProgrammeCourse.belongsTo(Programme, {
-    foreignKey: 'programmeId',
-    allowNull: false
-})
-
 
 
 //----------TYPE----------****

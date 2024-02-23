@@ -1,13 +1,15 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
+const ProgrammeCourse = require("./ProgrammeCourse");
+const Programme = require("./Programme");
 
 const Course = db.define("course", {
-    courseCode: {
+    code: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.STRING,
     },
-    courseTitle: {
+    title: {
         allowNull: false,
         type: Sequelize.STRING,
     },
@@ -37,76 +39,8 @@ const Course = db.define("course", {
         type: Sequelize.TEXT,//Datatype = TEXT to allow for descriptions longer than 255
     },
 
-
-    // coursework: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // finalExam: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // groupProject: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // individualWork: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // practicalCoursework: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // courseworkExam: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // projectPres: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // project: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // presentation: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // assignment: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // labAssessment: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // midSemesterMcq: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // projectReport: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // projectReportPres: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // projectAndPres: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // performanceReports: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // },
-    // projectSoftwareApp: {
-    //     allowNull: true,
-    //     type: Sequelize.STRING,
-    // }
-
 });
+
+Course.belongsToMany(Programme, { through: ProgrammeCourse });
 
 module.exports = Course;
