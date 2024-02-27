@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
-const ProgrammeCourse = require("./ProgrammeCourse");
+// const ProgrammeCourse = require("./ProgrammeCourse");
 
 const Type = db.define("type", {
   type: {
@@ -8,12 +8,12 @@ const Type = db.define("type", {
     allowNull: false,
     type: Sequelize.STRING,
   },
-  description:{
+  description: {
     allowNull: false,
     type: Sequelize.STRING
   }
 });
 
-Type.hasMany(ProgrammeCourse, { foreignKey: 'typeId' });
+// Type.hasMany(ProgrammeCourse, { foreignKey: 'typeId' });
 
 module.exports = Type;

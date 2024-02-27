@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
-const ProgrammeCourse = require("./ProgrammeCourse");
-const Programme = require("./Programme");
+// const ProgrammeCourse = require("./ProgrammeCourse");
+// const Programme = require("./Programme");
 
 const Course = db.define("course", {
     code: {
@@ -41,6 +41,6 @@ const Course = db.define("course", {
 
 });
 
-Course.belongsToMany(Programme, { through: ProgrammeCourse });
+// Course.belongsToMany(Programme, { through: ProgrammeCourse });
 
 module.exports = Course;
