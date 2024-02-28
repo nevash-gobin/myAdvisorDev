@@ -82,8 +82,7 @@ async function loadProgrammeCourses(programmesJSON) {
         const coursePromises = courseIdArray.map(async (courseCode) => {
             const course = await Course.findOne({ where: { code: courseCode } });
             const typeId = await Type.findOne({ where: { type: programmeData.courses[courseCode] } });
-            // console.log(typeId.type);
-            return createProgrammeCourse(programme.name, course.code, typeId.type);
+            return createProgrammeCourse(programme.id, course.id, typeId.id);
         });
 
         return Promise.all(coursePromises);

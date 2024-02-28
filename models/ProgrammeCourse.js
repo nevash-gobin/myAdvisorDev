@@ -5,27 +5,27 @@ const Course = require("./Course");
 const Type = require("./Type");
 
 const ProgrammeCourse = db.define('ProgrammeCourse', {
-  // programmeId: {
-  //   type: Sequelize.STRING,
-  //   references: {
-  //     model: Programme,
-  //     key: 'name'
-  //   }
-  // },
-  // courseCode: {
-  //   type: Sequelize.STRING,
-  //   references: {
-  //     model: Course,
-  //     key: 'code'
-  //   }
-  // },
-  // typeId: {
-  //   type: Sequelize.STRING,
-  //   references: {
-  //     model: Type,
-  //     key: 'type'
-  //   }
-  // }
+  programmeId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Programme,
+      key: 'id'
+    }
+  },
+  courseId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Course,
+      key: 'id'
+    }
+  },
+  typeId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Type,
+      key: 'id'
+    }
+  }
   // You can add other fields here
 });
 

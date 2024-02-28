@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-const AwaredDegree = db.define("awardedDegree", {
+const awardedDegree = db.define("awardedDegree", {
   // id: {
   //     allowNull: false,
   //     primaryKey: true,
@@ -13,4 +13,4 @@ const AwaredDegree = db.define("awardedDegree", {
   },
 });
 
-module.exports = AwaredDegree;
+module.exports = awardedDegree;

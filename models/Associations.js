@@ -22,7 +22,6 @@ const SemesterCourse = require("./SemesterCourse");
 
 // ----------STUDENT----------
 
-
 // Student<--->Transcript
 
 // A Student has one Transcript
@@ -34,7 +33,7 @@ Student.hasOne(Transcript, {
 Transcript.belongsTo(Student, {
     foreignKey: 'studentID',
     allowNull: false
-})
+});
 
 
 // Student<--->AwardedDegree
@@ -43,12 +42,12 @@ Transcript.belongsTo(Student, {
 Student.hasMany(AwaredDegree, {
     foreignKey: 'studentId',
     allowNull: false
-})
+});
 // An Awarded Degree belongs to one Student
 AwaredDegree.belongsTo(Student, {
     foreignKey: 'studentId',
     allowNull: false
-})
+});
 
 
 Student.belongsTo(Programme, {
