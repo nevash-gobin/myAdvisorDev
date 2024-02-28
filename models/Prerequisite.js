@@ -1,5 +1,7 @@
 const { Sequelize} = require("sequelize");
 const db = require("../db");
+
+const Programme = require("./Programme");
 const Course = require("./Course");
 const Group = require("./Group");
 
@@ -35,6 +37,10 @@ Prerequisite.belongsTo(Group, {
   foreignKey: {
       name: 'groupId',
   },
+
+
+Prerequisite.belongsTo(Programme, {
+  foreignKey: 'programmeId',
   allowNull: false
 });
   module.exports = Prerequisite;

@@ -17,4 +17,15 @@ ProgrammeCourse.belongsTo(Course, {
   allowNull: false
 });
 
+ProgrammeCourse.belongsTo(Programme, {
+  foreignKey: 'programmeId',
+  allowNull: false
+});
+ProgrammeCourse.belongsTo(Type, {
+  foreignKey: 'typeId',
+  allowNull: false
+});
+// ProgrammeCourse.belongsTo(Type, { foreignKey: 'typeId' });
+
+
 module.exports = ProgrammeCourse;
