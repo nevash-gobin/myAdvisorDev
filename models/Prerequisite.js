@@ -37,6 +37,7 @@ Prerequisite.belongsTo(Group, {
   foreignKey: {
       name: 'groupId',
   },
+});
 
 
 Prerequisite.belongsTo(Programme, {
