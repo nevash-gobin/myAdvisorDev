@@ -34,7 +34,7 @@ const SemesterCourse = require("./SemesterCourse");
 // Transcript.belongsTo(Student, {
 //     foreignKey: 'studentID',
 //     allowNull: false
-// })
+// });
 
 
 // Student<--->AwardedDegree
@@ -43,12 +43,12 @@ const SemesterCourse = require("./SemesterCourse");
 // Student.hasMany(AwardedDegree, {
 //     foreignKey: 'studentId',
 //     allowNull: false
-// })
+// });
 // // An Awarded Degree belongs to one Student
 // AwardedDegree.belongsTo(Student, {
 //     foreignKey: 'studentId',
 //     allowNull: false
-// })
+// });
 
 
 // Student.belongsTo(Programme, {
@@ -83,12 +83,12 @@ const SemesterCourse = require("./SemesterCourse");
 // Student.hasMany(AdvisingSession, {
 //     foreignKey: 'studentId',
 //     allowNull: false
-// })
+// });
 // An Advising Session belong to one Student
 // AdvisingSession.belongsTo(Student, {
 //     foreignKey: 'studentId',
 //     allowNull: false
-// })
+// });
 
 
 
@@ -101,12 +101,12 @@ const SemesterCourse = require("./SemesterCourse");
 // Programme.hasMany(Prerequisite, {
 //     foreignKey: 'programmeId',
 //     allowNull: false
-// })
+// });
 // A prerequisite belongs to Programme
 // Prerequisite.belongsTo(Programme, {
 //     foreignKey: 'programmeId',
 //     allowNull: false
-// })
+// });
 
 
 // Programme<--->AwardedDegree
@@ -235,7 +235,7 @@ const SemesterCourse = require("./SemesterCourse");
 // AdvisingSession.hasMany(SelectedCourse, {
 //     foreignKey: 'advisingSessionId',
 //     allowNull: false
-// })
+// });
 // An Advised Course belongs to one Advising Session
 // SelectedCourse.belongsTo(AdvisingSession, {
 //     foreignKey: 'advisingSessionId',
@@ -251,11 +251,11 @@ const SemesterCourse = require("./SemesterCourse");
 Course.hasMany(SemesterCourse, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 SemesterCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 // Selected
 
 
@@ -265,12 +265,12 @@ SemesterCourse.belongsTo(Course, {
 Course.hasMany(StudentCourse, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 // A Student Course belongs to one Course
 StudentCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 
 
 // Course<--->ProgrammeCourse
@@ -279,12 +279,12 @@ StudentCourse.belongsTo(Course, {
 Course.hasMany(ProgrammeCourse, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 // A Programme Course belongs to one Course
 ProgrammeCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 
 
 // Course<--->SelectedCourse
@@ -294,12 +294,12 @@ Course.hasMany(SelectedCourse, {
     foreignKey: 'courseCode',
     allowNull: false
 
-})
+});
 // An Advised Course belongs to one Course
 SelectedCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 
 
 // Course<--->CareerCourse
@@ -309,12 +309,12 @@ SelectedCourse.belongsTo(Course, {
 Course.hasMany(CareerCourse, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 // A Career Course belongs to one Course
 CareerCourse.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 */
 
 
@@ -326,7 +326,7 @@ Course.hasMany(Prerequisite, {
         type: Sequelize.STRING
     },
     allowNull: false
-})
+});
 // An Prerequisite belongs to one Course
 Prerequisite.belongsTo(Course, {
     foreignKey: {
@@ -334,7 +334,7 @@ Prerequisite.belongsTo(Course, {
         type: Sequelize.STRING
     },
     allowNull: false
-})
+});
 
 
 // Anti-Requisite<--->Course **
@@ -343,35 +343,35 @@ Prerequisite.belongsTo(Course, {
 Course.hasMany(Antirequisite, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 // An Anit-Requisite belongs to one Course
 Antirequisite.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 
 // A Course has many Anti-Requisites
 Course.hasMany(Antirequisite, {
     foreignKey: 'antirequisiteCourseCode',
     allowNull: false
-})
+});
 // An Anit-Requisite belongs to one Course
 Antirequisite.belongsTo(Course, {
     foreignKey: 'antirequisiteCourseCode',
     allowNull: false
-})
+});
 
 // course<-->CourseGroup
 // a course has many courseGroup
 Course.hasMany(CourseGroup, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 // a coursegroup belongs to course
 CourseGroup.belongsTo(Course, {
     foreignKey: 'courseCode',
     allowNull: false
-})
+});
 
 
 // ----------Group----------
@@ -382,14 +382,14 @@ Group.hasMany(Prerequisite, {
         name: 'groupId',
     },
     allowNull: false
-})
+});
 // An Prerequisite belongs to one Group
 Prerequisite.belongsTo(Group, {
     foreignKey: {
         name: 'groupId',
     },
     allowNull: false
-})
+});
 
 
 // A Group has many CourseGroup
@@ -398,15 +398,14 @@ Group.hasMany(CourseGroup, {
         name: 'groupId',
     },
     allowNull: false
-})
+});
 // An CourseGroup belongs to one Group
 CourseGroup.belongsTo(Group, {
     foreignKey: {
         name: 'groupId',
     },
     allowNull: false
-})
-
+});
 // ----------Faculty----------
 
 // Faculty<--->Course
