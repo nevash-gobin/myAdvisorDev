@@ -1,16 +1,22 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
+const Student = require("./Student");
+const Programme = require("./Programme");
 
-const awardedDegree = db.define("awardedDegree", {
-  // id: {
-  //     allowNull: false,
-  //     primaryKey: true,
-  //     type: Sequelize.INTEGER,
-  // },
+const AwardedDegree = db.define("awardedDegree", {
   dateawarded: {
     allowNull: false,
     type: Sequelize.DATE,
-  },
+  }
+
+});
+AwardedDegree.belongsTo(Student, {
+  foreignKey: 'studentId',
+  allowNull: false
+});
+AwardedDegree.belongsTo(Programme, {
+  foreignKey: 'programmeId',
+  allowNull: false
 });
 
-module.exports = awardedDegree;
+module.exports = AwardedDegree;
