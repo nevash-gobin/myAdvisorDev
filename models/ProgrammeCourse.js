@@ -1,34 +1,20 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
-const Programme = require("./Programme");
 const Course = require("./Course");
-const Type = require("./Type");
 
-const ProgrammeCourse = db.define('ProgrammeCourse', {
-  // programmeId: {
-  //   type: Sequelize.STRING,
-  //   references: {
-  //     model: Programme,
-  //     key: 'name'
-  //   }
-  // },
-  // courseCode: {
-  //   type: Sequelize.STRING,
-  //   references: {
-  //     model: Course,
-  //     key: 'code'
-  //   }
-  // },
-  // typeId: {
-  //   type: Sequelize.STRING,
-  //   references: {
-  //     model: Type,
-  //     key: 'type'
-  //   }
-  // }
-  // You can add other fields here
+const ProgrammeCourse = db.define("programmeCourse", {
+  // has a default primary key id
 });
 
-// ProgrammeCourse.belongsTo(Type, { foreignKey: 'typeId' });
+// A Course has many Programme Courses
+Course.hasMany(ProgrammeCourse, {
+  foreignKey: 'courseCode',
+  allowNull: false
+});
+// A Programme Course belongs to one Course
+ProgrammeCourse.belongsTo(Course, {
+  foreignKey: 'courseCode',
+  allowNull: false
+});
 
 module.exports = ProgrammeCourse;
