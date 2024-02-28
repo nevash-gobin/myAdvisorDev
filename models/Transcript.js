@@ -6,7 +6,7 @@ const Transcript = db.define("transcript", {
         // allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
-        autoIncrement: t
+        
     },
     gpa: {
         allowNull: false,
@@ -61,6 +61,7 @@ const Transcript = db.define("transcript", {
         allowNull: false
     }
 }, { timestamps: true });
+
 Transcript.belongsTo(Student, {
     foreignKey: 'studentID',
     allowNull: false
