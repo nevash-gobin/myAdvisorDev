@@ -18,6 +18,7 @@ const Prerequisite = require("./Prerequisite");
 const CourseGroup = require("./CourseGroup");
 const Group = require("./Group");
 const SemesterCourse = require("./SemesterCourse");
+// const Faculty = require("./Faculty");
 
 // ----------STUDENT----------
 
@@ -405,3 +406,18 @@ CourseGroup.belongsTo(Group, {
     },
     allowNull: false
 })
+
+// ----------Faculty----------
+
+// Faculty<--->Course
+
+// // A Faculty can have many Courses
+// Faculty.hasMany(Course, {
+//     foreignKey: 'facultyId', // Add the correct foreign key based on your Faculty model
+//     allowNull: false
+// });
+// // A Course belongs to one Faculty
+// Course.belongsTo(Faculty, {
+//     foreignKey: 'faculty', // Add the correct foreign key based on your Faculty model
+//     allowNull: false
+// });

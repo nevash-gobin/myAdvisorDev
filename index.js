@@ -25,8 +25,6 @@ const AdvisingSesssion = require("./models/AdvisingSession")
 //const AdvisingWindow = require("./models/AdvisingWindow");
 const Antirequisite = require("./models/Antirequisite");
 const AwardedDegree = require("./models/AwardedDegree");
-const Career = require("./models/Career");
-const CareerCourse = require("./models/CareerCourse");
 const Course = require("./models/Course");
 const ElectiveRequirement = require("./models/ElectiveRequirement");
 //const PotentialGraduate = require("./models/PotentialGraduate");
@@ -41,6 +39,7 @@ const Type = require("./models/Type");
 const Group = require("./models/Group");
 const CourseGroup = require("./models/CourseGroup");
 const SemesterCourse = require("./models/SemesterCourse");
+// const Faculty = require("./models/Faculty");
 
 //import associations
 require("./models/Associations");
@@ -93,10 +92,10 @@ async function newinitializeDatabase() {
         // await CourseGroup.sync();
         // await Prerequisite.sync();
         // await SemesterCourse.sync();
-       
+
         // Creates Admin Account
         const adminID = "816020000";
-        const user = await Admin.findOne({ where: { adminID : 816020000} });//this is essentially return 1st admin object where adminID exists
+        const user = await Admin.findOne({ where: { adminID: 816020000 } });//this is essentially return 1st admin object where adminID exists
         if (!user) {
           const saltRounds = 10;
           const salt = await bcrypt.genSalt(saltRounds);
@@ -110,10 +109,10 @@ async function newinitializeDatabase() {
             password: passEncrypt,
           });
           console.log('Admin account created.');
-        }else{
-          if(user){
+        } else {
+          if (user) {
             console.log("Admin Already Exist.");
-          }else{
+          } else {
             console.log("Error");
           }
         }
@@ -160,7 +159,7 @@ async function newinitializeDatabase() {
 //         await CourseGroup.sync();
 //         await Prerequisite.sync();
 //         await SemesterCourse.sync();
-        
+
 //         // Creates Admin Account
 //         const adminID = "816020000";
 //         const user = await Admin.findOne({ where: { adminID } });

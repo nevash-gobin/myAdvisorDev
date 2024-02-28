@@ -10,6 +10,7 @@ const Sequelize = require("sequelize");
 //SQLITE DATABASE
 const db = new Sequelize({
   dialect: 'sqlite',
+  logging: false,
   storage: 'database.sqlite', // Replace with the path to your SQLite database file
 });
 
@@ -38,10 +39,10 @@ const db = new Sequelize({
 //   },
 // });
 
-// tests database connection on server startup to see if the connection is OK.
-db.authenticate()
-  .then(() => console.log("Database Connected"))
-  .catch((err) => console.log("Error: " + err));
+// // tests database connection on server startup to see if the connection is OK.
+// db.authenticate()
+//   .then(() => console.log("Database Connected"))
+//   .catch((err) => console.log("Error: " + err));
 
 module.exports = db;
 

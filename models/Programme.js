@@ -1,12 +1,10 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
+// const ProgrammeCourse = require("./ProgrammeCourse");
+// const Course = require("./Course");
+
 
 const Programme = db.define("programme", {
-    id:{
-        allowNull: false,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-    },
     name: {
         allowNull: false,
         type: Sequelize.STRING,
@@ -19,6 +17,14 @@ const Programme = db.define("programme", {
         allowNull: false,
         type: Sequelize.STRING,
     },
+    version: {
+        allowNull: false,
+        type: Sequelize.STRING,
+    }
 });
+
+// Programme.belongsToMany(Course, { through: ProgrammeCourse });
+
+//circular dependency?
 
 module.exports = Programme;

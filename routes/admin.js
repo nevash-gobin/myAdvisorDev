@@ -24,7 +24,7 @@ const ElectiveRequirement = require("../models/ElectiveRequirement");
 
 const StudentCourse = require("../models/StudentCourse");
 const Transcript = require("../models/Transcript");
-const SemesterCourses = require("../models/semesterCourse");
+const SemesterCourses = require("../models/SemesterCourse");
 // const CourseGroup = require("../models/CourseGroup");
 const PCR = require("../models/ElectiveRequirement");
 // const Type = require("../models/Type");
@@ -263,7 +263,7 @@ router.get("/course-plan/:semesterId", staffAccountVerification, async (req, res
 
             const advisingSession = await AdvisingSession.findOne({ where: { studentId, semesterId } });
             // console.log("advising session: ", advisingSession);
-            
+
             if (advisingSession) {
                 let sessionId = advisingSession.dataValues.id;
                 const SelectedCourses = await SelectedCourse.findAll({ where: { advisingSessionId: sessionId } })
@@ -814,7 +814,7 @@ router.get("/studentsSummary", staffAccountVerification, async (req, res) => {
     let year2 = 0;
     let year3 = 0;
     let year4 = 0;
-    let graduating =0;
+    let graduating = 0;
 
     const students = await Student.findAll();
 
@@ -873,8 +873,8 @@ router.get("/studentsSummary", staffAccountVerification, async (req, res) => {
                 //#endregion
 
                 let yearsPassed = getStudentYear(transcript);
-                let progress = getDegreeProgress( programmeId, studentCourseCodes, programmeCourses, courses, programmeCreditRequirements, types );
-                if (progress.remainingCredits === 0){
+                let progress = getDegreeProgress(programmeId, studentCourseCodes, programmeCourses, courses, programmeCreditRequirements, types);
+                if (progress.remainingCredits === 0) {
                     graduating++;
                 }
                 // console.log("progress: ", progress);
