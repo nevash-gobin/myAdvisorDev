@@ -22,7 +22,6 @@ const SemesterCourse = require("./SemesterCourse");
 
 // ----------STUDENT----------
 
-
 // Student<--->Transcript
 
 // A Student has one Transcript
