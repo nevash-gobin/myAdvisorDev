@@ -1,12 +1,11 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
-const Student = require("./Student");
+// const Student = require("./Student");
 const Transcript = db.define("transcript", {
     id: {
         // allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
-        
+        type: Sequelize.INTEGER
     },
     gpa: {
         allowNull: false,
@@ -61,9 +60,4 @@ const Transcript = db.define("transcript", {
         allowNull: false
     }
 }, { timestamps: true });
-
-Transcript.belongsTo(Student, {
-    foreignKey: 'studentID',
-    allowNull: false
-});
 module.exports = Transcript;
