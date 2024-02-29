@@ -10,49 +10,64 @@ const jwt = require("jsonwebtoken");
 
 // import models
 const Student = require("../models/Student");
-const Staff = require("../models/Staff");
+const Admin = require("../models/Admin");
 const jwtGeneratorStudent = require("../utilities/jwtStudent");
 const jwtGeneratorStaff = require("../utilities/jwtStaff");
+
+// ---Routes---
 
 // login to student or staff account
 router.post("/login", async (req, res) => {
     try {
-        const {username, password} = req.body
+        const { username, password } = req.body;
+        console.log("LOG::> Username: ", username);
+        console.log("LOG::> Passowrd: ", password);
 
-        const admin = await Staff.findOne({where: { username }});
-        const student = await Student.findOne({where: {username }});
+        const admin = await Admin.findOne({ where: { "adminID": username } });
+        const student = await Student.findOne({ where: { "studentID": username } });
 
-        if(!admin && !student) {
+        if (!admin && !student) {
             return res.status(401).send("This account does not exist.");
         }
         else if (admin) {
+
             // compares entered password and account password for match
             const passCompare = await bcrypt.compare(password, admin.password);
 
             if (!passCompare) {
-                return res.status(401).send("Invalid Password");
+                return res.status(401).send("Invalid Password.");
             }
             else if (passCompare) {
                 // generates token for staff user
-                const token = jwtGeneratorStaff(admin.id);
-                res.json({ 
-                    "user": "admin",
-                    token
-                 });
+                const token = jwtGeneratorStaff(admin.adminID);
+                res.json({
+                    "accountType": "admin",
+                    "adminID": admin.adminID,
+                    "firstName": admin.firstName,
+                    "lastName": admin.lastName,
+                    "email": admin.email,
+                    "createdAt": admin.createdAt,
+                    "token": token
+                });
             }
         }
         else if (student) {
             const passCompare2 = await bcrypt.compare(password, student.password);
-            
+
             if (!passCompare2) {
                 return res.status(401).send("Invalid Password");
             }
             else if (passCompare2) {
                 // generates token for student user
-                const token = jwtGeneratorStudent(student.id);
-                res.json({ 
-                    "user": "student",
-                    token 
+                const token = jwtGeneratorStudent(student.studentID);
+                res.json({
+                    "accountType": "student",
+                    "studentID": student.studentID,
+                    "firstName": student.firstName,
+                    "lastName": student.lastName,
+                    "email": student.email,
+                    "createdAt": student.createdAt,
+                    "token": token
                 });
             }
         }
@@ -62,7 +77,7 @@ router.post("/login", async (req, res) => {
     }
     catch (err) {
         console.log("Error: ", err.message);
-        res.status(500).send("Server Error");
+        res.status(500).send("Server Errorr");
     }
 });
 

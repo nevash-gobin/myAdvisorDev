@@ -1,0 +1,38 @@
+[
+  {
+    "type": "L1CORE",
+    "description": "Level 1 Core Course"
+  },
+  {
+    "type": "L2CORE",
+    "description": "Level 2 Core Course"
+  },
+  {
+    "type": "L3CORE",
+    "description": "Level 3 Core Course"
+  },
+  {
+    "type": "ADVCORE",
+    "description": "Advanced Core Course"
+  },
+  {
+    "type": "ADVELECTIVE",
+    "description": "Advanced Elective Course"
+  },
+  {
+    "type": "FOUN",
+    "description": "Foundation Course"
+  },
+  {
+    "type": "CIELECTIVE",
+    "description": "Advanced Elective COMP/INFO Course"
+  },
+  {
+    "type": "CIMEMELECTIVE",
+    "description": "Advanced Elective COMP/INFO/ECON/MATH/MGMT Course"
+  },
+  {
+    "type": "CIMELECTIVE",
+    "description": "Advanced Elective CS/IT/MATH Course"
+  }
+]
