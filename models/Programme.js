@@ -1,11 +1,11 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-const Student = require("./Student");
-const Prerequisite = require("./Prerequisite");
-const AwardedDegree = require('./AwardedDegree');
-const ElectiveRequirement = require("./ElectiveRequirement");
-const ProgrammeCourse = require("./ProgrammeCourse");
+// const Student = require("./Student");
+// const Prerequisite = require("./Prerequisite");
+// const AwardedDegree = require('./AwardedDegree');
+// const ElectiveRequirement = require("./ElectiveRequirement");
+// const ProgrammeCourse = require("./ProgrammeCourse");
 
 // const Course = require("./Course");
 
@@ -29,25 +29,13 @@ const Programme = db.define("programme", {
     }
 });
 
-Programme.hasMany(Student, {
-    foreignKey: 'programmeId',
-});
-Programme.hasMany(Prerequisite, {
-    foreignKey: 'programmeId',
-    allowNull: false
-});
-Programme.hasMany(AwardedDegree, {
-    foreignKey: 'programmeId',
-    allowNull: false
-});
-Programme.hasMany(ElectiveRequirement, {
-    foreignKey: 'programmeId',
-    allowNull: false
-});
-Programme.hasMany(ProgrammeCourse, {
-    foreignKey: 'programmeId',
-    allowNull: false
-});
+// Programme.hasMany(Student, {
+//     foreignKey: 'programmeId',
+// });
+// Programme.hasMany(Prerequisite, {
+//     foreignKey: 'programmeId',
+//     allowNull: false
+// });
 // Programme.hasMany(AwardedDegree, {
 //     foreignKey: 'programmeId',
 //     allowNull: false
@@ -60,7 +48,7 @@ Programme.hasMany(ProgrammeCourse, {
 //     foreignKey: 'programmeId',
 //     allowNull: false
 // });
-// Programme.belongsToMany(Course, { through: ProgrammeCourse });
+
 
 //circular dependency?
 
