@@ -26,18 +26,7 @@ const Prerequisite = db.define("prerequisite", {
 //   allowNull: false
 // });
 
-// Group.hasMany(Prerequisite, {
-//   foreignKey: {
-//       name: 'groupId',
-//   },
-//   allowNull: false
-// });
-// // An Prerequisite belongs to one Group
-// Prerequisite.belongsTo(Group, {
-//   foreignKey: {
-//       name: 'groupId',
-//   },
-// });
+
 
 
 // Prerequisite.belongsTo(Programme, {

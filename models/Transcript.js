@@ -60,8 +60,4 @@ const Transcript = db.define("transcript", {
         allowNull: false
     }
 }, { timestamps: true });
-// Transcript.belongsTo(Student, {
-//     foreignKey: 'studentId',
-//     allowNull: false
-// });
 module.exports = Transcript;
