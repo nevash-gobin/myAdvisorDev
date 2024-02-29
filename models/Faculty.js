@@ -13,3 +13,4 @@ const Faculty = db.define('Faculty', {
 });
 
 module.exports = Faculty;
+//slight change
