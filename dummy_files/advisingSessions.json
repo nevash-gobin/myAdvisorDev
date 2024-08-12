@@ -1,0 +1,52 @@
+[
+    {
+        "studentId": 816031565,
+        "semesterId": 8,
+        "planStatus" : "Pending"
+    },
+    {
+        "studentId": 816031566,
+        "semesterId": 1,
+        "planStatus" : "Pending"
+    },
+    {
+        "studentId": 816031567,
+        "semesterId": 1,
+        "planStatus" : "Confirmed"
+    },
+    {
+        "studentId": 816031568,
+        "semesterId": 2,
+        "planStatus" : "Confirmed"
+    },
+    {
+        "studentId": 816031569,
+        "semesterId": 2,
+        "planStatus" : "Pending"
+    },
+    {
+        "studentId": 816031570,
+        "semesterId": 2,
+        "planStatus" : "Confirmed"
+    },
+    {
+        "studentId": 816031571,
+        "semesterId": 2,
+        "planStatus" : "Confirmed"
+    },
+    {
+        "studentId": 816031572,
+        "semesterId": 2,
+        "planStatus" : "Pending"
+    },
+    {
+        "studentId": 816031573,
+        "semesterId": 3,
+        "planStatus" : "Pending"
+    },
+    {
+        "studentId": 816031574,
+        "semesterId": 3,
+        "planStatus" : "Confirmed"
+    }
+]

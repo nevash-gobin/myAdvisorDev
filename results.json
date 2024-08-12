@@ -1,0 +1,197 @@
+{
+  "studentId": "816028020",
+  "gpa": "3.29",
+  "name": "JARROD  MOORE",
+  "progress": "77.4",
+  "credits": 72,
+  "degree": "Comp Science (Special) BSC S",
+  "major": "Computer Science (Special)",
+  "admitTerm": "2021/2022 Semester I",
+  "degreeAttemptHours": "42.00",
+  "degreePassedHours": "39.00",
+  "degreeEarnedHours": "39.00",
+  "degreeGpaHours": "42.00",
+  "degreeQualityPoints": "138.00",
+  "studentCourses": [
+    {
+      "COMP1600": {
+        "title": "Introduction to Computing Concepts",
+        "grade": "A"
+      }
+    },
+    {
+      "COMP1601": {
+        "title": "Computer Programming I",
+        "grade": "A"
+      }
+    },
+    {
+      "FOUN1101": {
+        "title": "Caribbean Civilisation",
+        "grade": "A"
+      }
+    },
+    {
+      "INFO1600": {
+        "title": "Introduction to Information Technology ",
+        "grade": "B+"
+      }
+    },
+    {
+      "MATH1115": {
+        "title": "Fundamental Mathematics for the General ",
+        "grade": "A"
+      }
+    },
+    {
+      "COMP1602": {
+        "title": "Computer Programming II",
+        "grade": "B+"
+      }
+    },
+    {
+      "COMP1603": {
+        "title": "Computer Programming III",
+        "grade": "A+"
+      }
+    },
+    {
+      "COMP1604": {
+        "title": "Mathematics for Computing",
+        "grade": "B"
+      }
+    },
+    {
+      "FOUN1105": {
+        "title": "Scientific and Technical Writing",
+        "grade": "A"
+      }
+    },
+    {
+      "INFO1601": {
+        "title": "Introduction to WWW Programming",
+        "grade": "A+"
+      }
+    },
+    {
+      "COMP2601": {
+        "title": "Computer Architecture",
+        "grade": "B+"
+      }
+    },
+    {
+      "COMP2602": {
+        "title": "Computer Networks",
+        "grade": "A+"
+      }
+    },
+    {
+      "COMP2605": {
+        "title": "Enterprise Database Systems",
+        "grade": "B"
+      }
+    },
+    {
+      "COMP2611": {
+        "title": "Data Structures",
+        "grade": "A-"
+      }
+    },
+    {
+      "MATH2250": {
+        "title": "Industrial Statistics",
+        "grade": "B"
+      }
+    },
+    {
+      "COMP2603": {
+        "title": "Object-Oriented Programming I",
+        "grade": "A"
+      }
+    },
+    {
+      "COMP2604": {
+        "title": "Operating Systems",
+        "grade": "B"
+      }
+    },
+    {
+      "COMP2606": {
+        "title": "Software Engineering I",
+        "grade": "C+"
+      }
+    },
+    {
+      "FOUN1301": {
+        "title": "Law, Governance, Economy and Society",
+        "grade": "C+"
+      }
+    },
+    {
+      "INFO2604": {
+        "title": "Information Systems Security",
+        "grade": "A"
+      }
+    },
+    {
+      "COMP3602": {
+        "title": "Theory of Computing",
+        "grade": "F1"
+      }
+    },
+    {
+      "COMP3603": {
+        "title": "Human Computer Interaction",
+        "grade": "A-"
+      }
+    },
+    {
+      "COMP3605": {
+        "title": "Introduction to Data Analytics",
+        "grade": "A"
+      }
+    },
+    {
+      "COMP3613": {
+        "title": "Software Engineering II",
+        "grade": "B+"
+      }
+    },
+    {
+      "INFO3605": {
+        "title": "Fundamentals of LAN Technologies",
+        "grade": "B-"
+      }
+    },
+    {
+      "COMP3601": {
+        "title": "Design and Analysis of Algorithms",
+        "grade": "IP"
+      }
+    },
+    {
+      "COMP3608": {
+        "title": "Intelligent Systems",
+        "grade": "IP"
+      }
+    },
+    {
+      "COMP3610": {
+        "title": "Big Data Analytics",
+        "grade": "IP"
+      }
+    },
+    {
+      "INFO2602": {
+        "title": "Web Programming and Technologies I",
+        "grade": "IP"
+      }
+    },
+    {
+      "INFO3604": {
+        "title": "Project",
+        "grade": "IP"
+      }
+    }
+  ]
+}

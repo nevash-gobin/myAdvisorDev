@@ -10,6 +10,7 @@ function jwtGeneratorStaff(id) {
     const payload = {
         user: id
     };
+    
     return jwt.sign(payload, 
         process.env.staffSecret,
         { expiresIn: "24hr" })

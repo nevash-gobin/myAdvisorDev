@@ -1,17 +1,12 @@
-const { Sequelize, DataTypes } = require("sequelize");
+//Development State
+const { Sequelize } = require("sequelize");
 const db = require("../db");
+// const Programme = require("./Programme");
+// const Course = require("./Course");
+// const Type = require("./Type");
 
-// Bridge table for programme and courses belonging to it
-const ProgrammeCourse = db.define("programmecourse", {
-    programmeID: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
-    courseID: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    }
-  });
+const ProgrammeCourse = db.define("programmeCourse", {
+  // has a default primary key id
+});
 
-  module.exports = ProgrammeCourse;
-  
+module.exports = ProgrammeCourse;

@@ -1,0 +1,22 @@
+[
+    {
+        "advisingSessionId": 1,
+        "courseCode": "COMP1602"
+    },
+    {
+        "advisingSessionId": 1,
+        "courseCode": "COMP1603"
+    },
+    {
+        "advisingSessionId": 1,
+        "courseCode": "COMP1604"
+    },
+    {
+        "advisingSessionId": 1,
+        "courseCode": "FOUN1105"
+    },
+    {
+        "advisingSessionId": 1,
+        "courseCode": "INFO1601"
+    }
+]

@@ -1,0 +1,119 @@
+[
+    {
+        "studentId": 816031565,
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john@example.com",
+        "password": "password123",
+        "programmeId": 1,
+        "year": "2020"
+    },
+    {
+        "studentId": "816000001",
+        "firstName": "Bob",
+        "lastName": "Smith",
+        "email": "bob.smith@my.uwi.edu",
+        "password": "password123",
+        "programmeId": 1,
+        "year": "2020"
+    },
+    {
+        "studentId": 816031566,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane@example.com",
+        "password": "password456",
+        "programmeId": 2,
+        "year": "2021"
+    },
+    {
+        "studentId": 816031567,
+        "firstName": "Alice",
+        "lastName": "Johnson",
+        "email": "alice@example.com",
+        "password": "password789",
+        "programmeId": 1,
+        "year": "2022"
+    },
+    {
+        "studentId": 816031568,
+        "firstName": "Bob",
+        "lastName": "Williams",
+        "email": "bob@example.com",
+        "password": "passwordabc",
+        "programmeId": 2,
+        "year": "2020"
+    },
+    {
+        "studentId": 816031569,
+        "firstName": "Emily",
+        "lastName": "Brown",
+        "email": "emily@example.com",
+        "password": "passworddef",
+        "programmeId": 1,
+        "year": "2021"
+    },
+    {
+        "studentId": 816031570,
+        "firstName": "Michael",
+        "lastName": "Jones",
+        "email": "michael@example.com",
+        "password": "passwordghi",
+        "programmeId": 2,
+        "year": "2023"
+    },
+    {
+        "studentId": 816031571,
+        "firstName": "Sarah",
+        "lastName": "Taylor",
+        "email": "sarah@example.com",
+        "password": "passwordjkl",
+        "programmeId": 1,
+        "year": "2022"
+    },
+    {
+        "studentId": 816031572,
+        "firstName": "David",
+        "lastName": "Martinez",
+        "email": "david@example.com",
+        "password": "passwordmno",
+        "programmeId": 2,
+        "year": "2022"
+    },
+    {
+        "studentId": 816031573,
+        "firstName": "Emma",
+        "lastName": "Anderson",
+        "email": "emma@example.com",
+        "password": "passwordpqr",
+        "programmeId": 1,
+        "year": "2020"
+    },
+    {
+        "studentId": 816031574,
+        "firstName": "Daniel",
+        "lastName": "Hernandez",
+        "email": "daniel@example.com",
+        "password": "passwordstu",
+        "programmeId": 2,
+        "year": "2020"
+    },
+    {
+        "studentId": 816030787,
+        "firstName": "Faith",
+        "lastName": "Shim",
+        "email": "faith@example.com",
+        "password": "password",
+        "programmeId": 1,
+        "year": "2021"
+    },
+    {
+        "studentId": 816028020,
+        "firstName": "Jarrod",
+        "lastName": "Moore",
+        "email": "jmoore@example.com",
+        "password": "qwerty123",
+        "programmeId": 1,
+        "year": "2021"
+    }
+]

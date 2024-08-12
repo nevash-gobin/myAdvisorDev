@@ -1,15 +1,21 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
+// const ProgrammeCourse = require("./ProgrammeCourse");
+// const Programme = require("./Programme");
 
-// NOTE: Course model may require more fields
 const Course = db.define("course", {
-    courseCode: {
+    code: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.STRING,
+    },
+    title: {
         allowNull: false,
         type: Sequelize.STRING,
     },
-    courseTitle: {
+    faculty: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.STRING, // Adjust the data type based on your Faculty model
     },
     credits: {
         allowNull: false,
@@ -21,40 +27,20 @@ const Course = db.define("course", {
     },
     semester: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM,
+        values: ['I', 'II', 'III'],
     },
-    type: {
-        allowNull: false,
-        type: Sequelize.STRING,
-    },
-    prerequisites: {
+    department: {
         allowNull: false,
         type: Sequelize.STRING,
     },
     description: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,//Datatype = TEXT to allow for descriptions longer than 255
     },
-    coursework: {
-        allowNull: true,
-        type: Sequelize.STRING,
-    },
-    finalExam: {
-        allowNull: true,
-        type: Sequelize.STRING,
-    },
-    individualProjectPres: {
-        allowNull: true,
-        type: Sequelize.STRING,
-    },
-    groupProjectPres: {
-        allowNull: true,
-        type: Sequelize.STRING,
-    },
-    performanceReports: {
-        allowNull: true,
-        type: Sequelize.STRING,
-    }
+
 });
+
+// Course.belongsToMany(Programme, { through: ProgrammeCourse });
 
 module.exports = Course;

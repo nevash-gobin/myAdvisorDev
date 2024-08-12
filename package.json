@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd myadvisor && npm install && npm run build"
+    "transcript-parse": "node utilities/parseTranscript.js transcript.pdf",
+    "heroku-postbuild": "cd myadvisor && npm install && npm run build",
+    "dev": "node utilities/initialize.js",
+    "eli": "node controllers/getEligibleCourses.js",
+    "plan": "node controllers/getCoursePlan.js"
   },
   "repository": {
     "type": "git",
@@ -22,23 +26,29 @@
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "dotenv": "^8.6.0",
+    "express": "^4.19.2",
     "express-session": "^1.17.1",
+    "fs": "^0.0.1-security",
+    "html-pdf": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.13",
+    "mammoth": "^1.7.1",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2",
-    "node-modules": "^1.0.1",
+    "multer": "^1.4.4",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "pdf2json": "^1.2.0",
-    "pg": "^8.5.1",
+    "passport-jwt": "^4.0.1",
+    "path": "^0.12.7",
+    "pdf-parse": "^1.1.1",
+    "pdf2json": "^1.3.1",
+    "pg": "^8.11.0",
     "pg-hstore": "^2.3.3",
-    "react-toastify": "^7.0.3",
-    "sequelize": "^6.5.0"
+    "sequelize": "^6.32.0",
+    "sqlite3": "^5.1.6",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "jest": "^29.7.0",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.3.4"
   }
 }

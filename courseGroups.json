@@ -1,0 +1,150 @@
+[
+    {
+        "courseCode": "ACCT1002",
+        "groupId": 1
+    },
+    {
+        "courseCode": "ACCT1002",
+        "groupId": 2
+    },
+    {
+        "courseCode": "ACCT1003",
+        "groupId": 2
+    },
+    {
+        "courseCode": "ACCT1002",
+        "groupId": 3
+    },
+    {
+        "courseCode": "ECON1001",
+        "groupId": 3
+    },
+    {
+        "courseCode": "ACCT1003",
+        "groupId": 4
+    },
+    {
+        "courseCode": "ACCT2017",
+        "groupId": 5
+    },
+    {
+        "courseCode": "COMP1600",
+        "groupId": 6
+    },
+    {
+        "courseCode": "COMP1601",
+        "groupId": 7
+    },
+    {
+        "courseCode": "COMP1602",
+        "groupId": 8
+    },
+    {
+        "courseCode": "COMP1603",
+        "groupId": 9
+    },
+    {
+        "courseCode": "COMP2601",
+        "groupId": 10
+    },
+    {
+        "courseCode": "COMP2602",
+        "groupId": 11
+    },
+    {
+        "courseCode": "COMP2603",
+        "groupId": 12
+    },
+    {
+        "courseCode": "COMP2603",
+        "groupId": 13
+    },
+    {
+        "courseCode": "COMP2606",
+        "groupId": 13
+    },
+    {
+        "courseCode": "COMP2603",
+        "groupId": 14
+    },
+    {
+        "courseCode": "COMP2611",
+        "groupId": 14
+    },
+    {
+        "courseCode": "COMP2604",
+        "groupId": 15
+    },
+    {
+        "courseCode": "COMP2604",
+        "groupId": 16
+    },
+    {
+        "courseCode": "INFO2601",
+        "groupId": 16
+    },
+    {
+        "courseCode": "COMP2605",
+        "groupId": 17
+    },
+    {
+        "courseCode": "COMP2606",
+        "groupId": 18
+    },
+    {
+        "courseCode": "COMP2611",
+        "groupId": 19
+    },
+    {
+        "courseCode": "COMP2611",
+        "groupId": 20
+    },
+    {
+        "courseCode": "MATH2250",
+        "groupId": 20
+    },
+    {
+        "courseCode": "COMP3605",
+        "groupId": 21
+    },
+    {
+        "courseCode": "ECON1001",
+        "groupId": 22
+    },
+    {
+        "courseCode": "INFO1600",
+        "groupId": 23
+    },
+    {
+        "courseCode": "INFO1601",
+        "groupId": 24
+    },
+    {
+        "courseCode": "INFO2600",
+        "groupId": 25
+    },
+    {
+        "courseCode": "INFO2601",
+        "groupId": 26
+    },
+    {
+        "courseCode": "INFO2602",
+        "groupId": 27
+    },
+    {
+        "courseCode": "INFO2603",
+        "groupId": 28
+    },
+    {
+        "courseCode": "MATH1115",
+        "groupId": 29
+    },
+    {
+        "courseCode": "MATH2250",
+        "groupId": 30
+    },
+    {
+        "courseCode": "MKTG2001",
+        "groupId": 31
+    }
+]
